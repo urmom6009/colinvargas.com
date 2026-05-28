@@ -1,0 +1,139 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const projects = [
+  {
+    title: "adaptive cfd solver",
+    meta: "amrex / c++ / finite volume",
+    desc: "a modular solver path from scalar advection toward adaptive, higher-order flow capabilities.",
+    href: "/work/adaptive-cfd-solver"
+  },
+  {
+    title: "scramjet analysis tool",
+    meta: "python / propulsion / parametric analysis",
+    desc: "a computational tool for exploring propulsion trade spaces and visualizing performance trends.",
+    href: "/work/scramjet-analysis-tool"
+  },
+  {
+    title: "compressible flow project",
+    meta: "numerical methods / visualization / paraview",
+    desc: "finite-volume simulations and post-processing workflows for understanding flow behavior.",
+    href: "/work/compressible-flow-project"
+  }
+];
+
+const links = [
+  { label: "github", href: "https://github.com/colinvargas" },
+  { label: "linkedin", href: "https://www.linkedin.com/in/colinvargas" },
+  { label: "email", href: "mailto:hello@colinvargas.com" }
+];
+---
+
+<BaseLayout>
+  <div class="field" aria-hidden="true">
+    <span class="mach mach-one"></span>
+    <span class="mach mach-two"></span>
+    <span class="patch patch-one"></span>
+    <span class="patch patch-two"></span>
+  </div>
+
+  <header class="site-header">
+    <a class="brand" href="/" aria-label="colin vargas home">colin vargas</a>
+    <nav aria-label="Primary navigation">
+      <a href="#work">work</a>
+      <a href="#notes">notes</a>
+      <a href="#about">about</a>
+      <a href="#contact">contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-meta">
+        <span>computational aerospace engineering</span>
+        <span>phoenix / scottsdale</span>
+      </div>
+
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">numerical methods / propulsion / cfd</p>
+          <h1 id="hero-title">numerical tools for non-ideal flows.</h1>
+          <p class="intro">
+            I build computational systems for fluid dynamics, propulsion, and the
+            space where elegant equations meet physical reality.
+          </p>
+        </div>
+      </div>
+
+      <ul class="tags" aria-label="Technical focus areas">
+        <li>amrex</li>
+        <li>c++</li>
+        <li>finite volume</li>
+        <li>adaptive mesh refinement</li>
+        <li>verification</li>
+      </ul>
+    </section>
+
+    <section class="section" id="work" aria-labelledby="work-title">
+      <div class="section-heading">
+        <span id="work-title">selected work</span>
+        <span>01 / 03</span>
+      </div>
+
+      <div class="project-grid">
+        {
+          projects.map((project) => (
+            <a class="project-card" href={project.href}>
+              <span class="project-meta">{project.meta}</span>
+              <h2>{project.title}</h2>
+              <p>{project.desc}</p>
+              <span class="project-link">view work</span>
+            </a>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="focus" aria-labelledby="focus-title">
+      <div class="section-heading">
+        <span id="focus-title">current focus</span>
+        <span>thesis track</span>
+      </div>
+      <p>
+        Developing a modular AMReX-based solver path from scalar advection
+        toward adaptive, higher-order Navier-Stokes capabilities.
+      </p>
+    </section>
+
+    <section class="split" aria-label="Notes and profile">
+      <article id="notes">
+        <div class="section-heading">
+          <span>notes</span>
+          <span>future archive</span>
+        </div>
+        <p>
+          Short technical notes, solver logs, math reflections, and careful
+          public learning will live here as the project record matures.
+        </p>
+      </article>
+
+      <article id="about">
+        <div class="section-heading">
+          <span>about</span>
+          <span>systems reasoning</span>
+        </div>
+        <p>
+          Aerospace engineering, numerical methods, propulsion, and the habit of
+          turning complex physical behavior into inspectable computational tools.
+        </p>
+      </article>
+    </section>
+  </main>
+
+  <footer id="contact">
+    <span>america/phoenix</span>
+    <div class="footer-links">
+      {links.map((link) => <a href={link.href}>{link.label}</a>)}
+    </div>
+  </footer>
+</BaseLayout>
