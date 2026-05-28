@@ -1,0 +1,100 @@
+---
+const projects = [
+  {
+    title: "adaptive cfd solver",
+    meta: "amrex · c++ · finite volume",
+    desc: "a modular solver framework exploring amr, higher-order reconstruction, and verification workflows for non-ideal flow problems.",
+    href: "/work/amrex-solver"
+  },
+  {
+    title: "scramjet analysis tool",
+    meta: "python · propulsion · parametric analysis",
+    desc: "a computational tool for exploring ramjet/scramjet performance trends and visualizing propulsion-relevant trade spaces.",
+    href: "/work/scramjet-tool"
+  },
+  {
+    title: "compressible flow project",
+    meta: "numerical methods · visualization · paraview",
+    desc: "finite-volume simulations and post-processing workflows for understanding flow behavior through computational experiments.",
+    href: "/work/cfd-final-project"
+  }
+];
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>colin vargas — computational aerospace engineering</title>
+  </head>
+
+  <body>
+    <main class="site-shell">
+      <header class="nav">
+        <a class="brand" href="/">colin vargas</a>
+        <nav>
+          <a href="/work">work</a>
+          <a href="/notes">notes</a>
+          <a href="/about">about</a>
+          <a href="/contact">contact</a>
+        </nav>
+      </header>
+
+      <section class="hero">
+        <div class="hero-kicker">computational aerospace engineering</div>
+
+        <h1>
+          numerical tools<br />
+          for non-ideal flows.
+        </h1>
+
+        <p>
+          i build computational systems for fluid dynamics, propulsion, and the
+          uncomfortable region where elegant equations meet physical reality.
+        </p>
+
+        <div class="hero-tags">
+          <span>amrex</span>
+          <span>c++</span>
+          <span>cfd</span>
+          <span>propulsion</span>
+          <span>numerical methods</span>
+        </div>
+      </section>
+
+      <section class="selected-work">
+        <div class="section-heading">
+          <span>selected work</span>
+          <span>01 / 03</span>
+        </div>
+
+        <div class="project-grid">
+          {projects.map((project) => (
+            <a class="project-card" href={project.href}>
+              <div class="project-meta">{project.meta}</div>
+              <h2>{project.title}</h2>
+              <p>{project.desc}</p>
+            </a>
+          ))}
+        </div>
+      </section>
+
+      <section class="current">
+        <div class="section-heading">
+          <span>current focus</span>
+          <span>thesis track</span>
+        </div>
+
+        <p>
+          developing a modular amrex-based solver path from scalar advection
+          toward adaptive, higher-order navier-stokes capabilities.
+        </p>
+      </section>
+
+      <footer>
+        <span>phoenix / scottsdale</span>
+        <span>github · linkedin · email</span>
+      </footer>
+    </main>
+  </body>
+</html>
