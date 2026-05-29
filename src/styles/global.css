@@ -110,6 +110,14 @@ footer,
 
 .brand {
   font-weight: 500;
+  transition:
+    color 180ms ease,
+    transform 180ms ease;
+}
+
+.brand:hover {
+  color: var(--accent);
+  transform: translateX(3px);
 }
 
 nav,
@@ -117,18 +125,70 @@ nav,
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;
-  gap: 10px 22px;
+  gap: 10px 18px;
 }
 
 nav a,
 .footer-links a {
   color: var(--muted);
-  transition: color 180ms ease;
+  position: relative;
+  transition:
+    color 180ms ease,
+    transform 180ms ease;
 }
 
 nav a:hover,
+nav a[aria-current="page"],
 .footer-links a:hover {
   color: var(--ink);
+}
+
+nav a:hover {
+  transform: translateY(-2px);
+}
+
+nav a::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -9px;
+  width: 5px;
+  height: 5px;
+  border-radius: 999px;
+  background: var(--accent);
+  opacity: 0;
+  transform: translate(-50%, 4px) scale(0.5);
+  transition:
+    opacity 180ms ease,
+    transform 180ms ease;
+}
+
+nav a::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: -5px;
+  left: 0;
+  height: 1px;
+  background: currentColor;
+  opacity: 0;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition:
+    opacity 180ms ease,
+    transform 180ms ease;
+}
+
+nav a:hover::before,
+nav a[aria-current="page"]::before {
+  opacity: 1;
+  transform: translate(-50%, 0) scale(1);
+}
+
+nav a:hover::after,
+nav a[aria-current="page"]::after {
+  opacity: 0.45;
+  transform: scaleX(1);
 }
 
 .field {
@@ -211,18 +271,18 @@ nav a:hover,
 
 h1 {
   max-width: 1120px;
-  font-size: clamp(4.4rem, 9.5vw, 9.7rem);
+  font-size: clamp(4rem, 8.5vw, 8.9rem);
   font-weight: 400;
-  line-height: 0.86;
+  line-height: 0.88;
   letter-spacing: 0;
 }
 
 .intro {
-  max-width: 580px;
-  margin-top: 34px;
+  max-width: 520px;
+  margin-top: 28px;
   color: var(--muted);
-  font-size: clamp(1.05rem, 1.8vw, 1.42rem);
-  line-height: 1.3;
+  font-size: clamp(0.98rem, 1.35vw, 1.18rem);
+  line-height: 1.36;
 }
 
 .hero-panel {
@@ -496,6 +556,165 @@ code {
   border-bottom: 1px solid currentColor;
 }
 
+.resume-hero,
+.resume-section {
+  position: relative;
+  z-index: 1;
+}
+
+.resume-hero {
+  padding: clamp(64px, 10vh, 120px) 0 56px;
+}
+
+.resume-hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 390px);
+  gap: clamp(36px, 8vw, 128px);
+  align-items: end;
+}
+
+.resume-hero h1 {
+  font-size: clamp(4.2rem, 9vw, 9rem);
+}
+
+.resume-hero p {
+  max-width: 700px;
+  margin-top: 28px;
+  color: var(--muted);
+  font-size: clamp(1.05rem, 1.8vw, 1.32rem);
+  line-height: 1.34;
+}
+
+.resume-hero aside {
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  text-transform: lowercase;
+}
+
+.resume-hero aside strong {
+  display: block;
+  margin: 18px 0 12px;
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: clamp(1.4rem, 2.5vw, 2.1rem);
+  font-weight: 400;
+  line-height: 1;
+  text-transform: none;
+}
+
+.resume-hero aside p {
+  margin-top: 0;
+  color: var(--muted);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.35;
+  text-transform: none;
+}
+
+.resume-section {
+  padding: 48px 0 56px;
+}
+
+.resume-list {
+  border-top: 1px solid var(--line);
+}
+
+.resume-item {
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr) minmax(220px, 0.38fr);
+  gap: clamp(18px, 4vw, 56px);
+  align-items: baseline;
+  padding: 24px 0;
+  border-bottom: 1px solid var(--line);
+  transition:
+    color 180ms ease,
+    background-color 180ms ease,
+    padding-left 180ms ease;
+}
+
+.resume-item:hover {
+  color: var(--accent);
+  background: linear-gradient(to right, rgba(255, 255, 255, 0.42), transparent);
+  padding-left: 12px;
+}
+
+.resume-item > span,
+.resume-item strong {
+  color: var(--soft);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 400;
+  line-height: 1.4;
+  text-transform: lowercase;
+}
+
+.resume-item h2 {
+  color: var(--ink);
+  font-size: clamp(1.45rem, 2.5vw, 2.55rem);
+  font-weight: 400;
+  line-height: 1;
+}
+
+.resume-item p {
+  max-width: 720px;
+  margin-top: 10px;
+  color: var(--muted);
+  line-height: 1.35;
+}
+
+.capability-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border-top: 1px solid var(--line);
+  border-left: 1px solid var(--line);
+}
+
+.capability-grid li {
+  min-height: 92px;
+  padding: 18px;
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  text-transform: lowercase;
+}
+
+.resume-contact-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-top: 1px solid var(--line);
+  border-left: 1px solid var(--line);
+}
+
+.resume-contact-grid a {
+  min-height: 112px;
+  display: flex;
+  align-items: end;
+  padding: 18px;
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  text-transform: lowercase;
+  transition:
+    color 180ms ease,
+    background-color 180ms ease;
+}
+
+.resume-contact-grid a:hover {
+  color: var(--ink);
+  background: var(--surface);
+}
+
 @keyframes rise {
   from {
     transform: translateY(18px);
@@ -542,6 +761,7 @@ code {
 
   .hero-grid,
   .pending-grid,
+  .resume-hero-grid,
   .split,
   footer {
     grid-template-columns: 1fr;
@@ -549,7 +769,7 @@ code {
   }
 
   h1 {
-    font-size: 5.7rem;
+    font-size: 5.05rem;
   }
 
   .tags {
@@ -580,6 +800,16 @@ code {
     grid-template-columns: 1fr;
     gap: 12px;
   }
+
+  .resume-item,
+  .capability-grid,
+  .resume-contact-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .resume-item {
+    gap: 14px;
+  }
 }
 
 @media (max-width: 560px) {
@@ -600,18 +830,23 @@ code {
     justify-content: flex-start;
   }
 
+  nav a::before,
+  nav a::after {
+    display: none;
+  }
+
   .hero {
     gap: 42px;
   }
 
   h1 {
-    font-size: 3.18rem;
+    font-size: 2.95rem;
     line-height: 0.94;
     overflow-wrap: break-word;
   }
 
   .intro {
-    margin-top: 24px;
+    margin-top: 20px;
   }
 
   .section {
@@ -634,6 +869,10 @@ code {
 
   .pending-grid h1 {
     font-size: 3rem;
+  }
+
+  .resume-hero h1 {
+    font-size: 3.3rem;
   }
 
   .pending-actions {

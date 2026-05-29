@@ -7,6 +7,7 @@ Astro portfolio site for `colinvargas.com`.
 - `/` is the live editorial portfolio homepage.
 - `/work/adaptive-cfd-solver`, `/work/scramjet-analysis-tool`, and `/work/compressible-flow-project` are intentional pending project pages until the full case studies are ready.
 - `/notes` is an intentional pending notes index while public logs are being assembled.
+- `/resume` is a linkable resume-style work index summarizing projects, capabilities, and public contact links.
 - `/404` provides a styled fallback for unpublished or missing pages.
 
 ## Local Workflow
@@ -25,7 +26,7 @@ Before publishing a visual change, check at least:
 npm run build
 ```
 
-Then smoke test `/`, `/notes`, one `/work/...` page, and a missing route locally.
+Then smoke test `/`, `/resume`, `/notes`, one `/work/...` page, and a missing route locally.
 
 ## Notes and Logs
 

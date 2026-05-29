@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Added an interactive navigation treatment with hover motion, active-state markers, and a `resume` destination.
+- Refined the homepage hero line and tagline scale for a more compact first impression.
+- Added `/resume` as a linkable project/work index with capabilities and public contact links.
 - Refined the homepage design system with cleaner typography, calmer accents, stronger project status language, and a working-style section.
 - Added intentional pending pages for the three selected work routes.
 - Added a pending notes index and styled 404 page for unpublished pages.

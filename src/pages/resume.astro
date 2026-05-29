@@ -1,0 +1,136 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const work = [
+  {
+    title: "adaptive cfd solver",
+    meta: "thesis / amrex / c++ / finite volume",
+    detail:
+      "Modular solver path from scalar advection toward adaptive, higher-order flow capability.",
+    href: "/work/adaptive-cfd-solver"
+  },
+  {
+    title: "scramjet analysis tool",
+    meta: "python / propulsion / parametric analysis",
+    detail:
+      "Computational tool for propulsion trade-space exploration and performance trend visualization.",
+    href: "/work/scramjet-analysis-tool"
+  },
+  {
+    title: "compressible flow project",
+    meta: "numerical methods / visualization / paraview",
+    detail:
+      "Finite-volume simulations and post-processing workflows for compressible flow behavior.",
+    href: "/work/compressible-flow-project"
+  },
+  {
+    title: "repo-aware technical log workflow",
+    meta: "astro content / node script / documentation",
+    detail:
+      "Command-line workflow that creates dated Markdown notes and attachment folders from any local repository.",
+    href: "/notes"
+  },
+  {
+    title: "portfolio site and deployment pipeline",
+    meta: "astro / vercel / github / cloudflare",
+    detail:
+      "Static portfolio hosted on Vercel with custom-domain DNS, changelog discipline, and build verification.",
+    href: "/"
+  }
+];
+
+const capabilities = [
+  "finite-volume methods",
+  "adaptive mesh refinement",
+  "c++ solver development",
+  "python analysis tooling",
+  "propulsion trade studies",
+  "verification workflows",
+  "paraview post-processing",
+  "technical documentation"
+];
+---
+
+<BaseLayout title="resume - colin vargas">
+  <header class="site-header">
+    <a class="brand" href="/" aria-label="colin vargas home">colin vargas</a>
+    <nav aria-label="Primary navigation">
+      <a href="/#work">work</a>
+      <a href="/notes">notes</a>
+      <a href="/resume" aria-current="page">resume</a>
+      <a href="/#about">about</a>
+      <a href="/#contact">contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="resume-hero" aria-labelledby="resume-title">
+      <div class="section-heading">
+        <span>resume</span>
+        <span>computational aerospace engineering</span>
+      </div>
+
+      <div class="resume-hero-grid">
+        <div>
+          <h1 id="resume-title">colin vargas</h1>
+          <p>
+            Aerospace engineering, numerical methods, propulsion, and
+            computational tools for making complex physical behavior easier to inspect.
+          </p>
+        </div>
+
+        <aside>
+          <span>current focus</span>
+          <strong>AMReX-based solver development</strong>
+          <p>Scalar advection, verification, adaptive flow capability, and public project records.</p>
+        </aside>
+      </div>
+    </section>
+
+    <section class="resume-section" aria-labelledby="resume-work-title">
+      <div class="section-heading">
+        <span id="resume-work-title">work index</span>
+        <span>linked artifacts</span>
+      </div>
+
+      <div class="resume-list">
+        {
+          work.map((item, index) => (
+            <a class="resume-item" href={item.href}>
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              <div>
+                <h2>{item.title}</h2>
+                <p>{item.detail}</p>
+              </div>
+              <strong>{item.meta}</strong>
+            </a>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="resume-section" aria-labelledby="capabilities-title">
+      <div class="section-heading">
+        <span id="capabilities-title">capabilities</span>
+        <span>technical surface</span>
+      </div>
+
+      <ul class="capability-grid" aria-label="Capabilities">
+        {capabilities.map((capability) => <li>{capability}</li>)}
+      </ul>
+    </section>
+
+    <section class="resume-section resume-contact" aria-labelledby="resume-contact-title">
+      <div class="section-heading">
+        <span id="resume-contact-title">contact</span>
+        <span>public links</span>
+      </div>
+
+      <div class="resume-contact-grid">
+        <a href="https://github.com/colinvargas">github</a>
+        <a href="https://www.linkedin.com/in/colinvargas">linkedin</a>
+        <a href="mailto:hello@colinvargas.com">hello@colinvargas.com</a>
+      </div>
+    </section>
+  </main>
+</BaseLayout>
