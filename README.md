@@ -2,6 +2,13 @@
 
 Astro portfolio site for `colinvargas.com`.
 
+## Site Structure
+
+- `/` is the live editorial portfolio homepage.
+- `/work/adaptive-cfd-solver`, `/work/scramjet-analysis-tool`, and `/work/compressible-flow-project` are intentional pending project pages until the full case studies are ready.
+- `/notes` is an intentional pending notes index while public logs are being assembled.
+- `/404` provides a styled fallback for unpublished or missing pages.
+
 ## Local Workflow
 
 ```sh
@@ -11,6 +18,14 @@ npm run build
 ```
 
 The dev server defaults to `http://localhost:4321/`. The production build writes static output to `dist/`.
+
+Before publishing a visual change, check at least:
+
+```sh
+npm run build
+```
+
+Then smoke test `/`, `/notes`, one `/work/...` page, and a missing route locally.
 
 ## Notes and Logs
 
@@ -44,7 +59,8 @@ Current production deployment:
 
 - `https://colinvargas.com`
 - `https://www.colinvargas.com`
-- `https://colinvargas-8du3zcvk0-urmom6009s-projects.vercel.app`
+
+Vercel also creates a per-deployment preview URL for each production publish.
 
 Cloudflare DNS for the domain is configured with DNS-only `A` records:
 

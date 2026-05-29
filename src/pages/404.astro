@@ -1,0 +1,47 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="not ready yet - colin vargas">
+  <header class="site-header">
+    <a class="brand" href="/" aria-label="colin vargas home">colin vargas</a>
+    <nav aria-label="Primary navigation">
+      <a href="/#work">work</a>
+      <a href="/notes">notes</a>
+      <a href="/#about">about</a>
+      <a href="/#contact">contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="pending-page" aria-labelledby="not-found-title">
+      <div class="section-heading">
+        <span>404</span>
+        <span>not ready yet</span>
+      </div>
+
+      <div class="pending-grid">
+        <div>
+          <h1 id="not-found-title">this page is not published yet.</h1>
+          <p>
+            Some project pages and notes are still being turned from local work
+            into a useful public record.
+          </p>
+        </div>
+
+        <aside class="pending-note">
+          <span>current site status</span>
+          <p>
+            The homepage is live. Project writeups, notes, and deeper artifacts
+            are being added as they become worth publishing.
+          </p>
+        </aside>
+      </div>
+
+      <div class="pending-actions">
+        <a href="/">back home</a>
+        <a href="/#work">selected work</a>
+      </div>
+    </section>
+  </main>
+</BaseLayout>

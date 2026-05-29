@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Refined the homepage design system with cleaner typography, calmer accents, stronger project status language, and a working-style section.
+- Added intentional pending pages for the three selected work routes.
+- Added a pending notes index and styled 404 page for unpublished pages.
+- Documented the current site structure, stable production domains, and local visual smoke-test workflow in `README.md`.
 - Added a repo-aware log generator that creates prefilled Markdown notes and matching attachment folders.
 - Added an Astro content collection schema for future public log pages.
 - Deployed the Astro portfolio to Vercel production.

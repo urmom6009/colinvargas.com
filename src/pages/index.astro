@@ -4,20 +4,23 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 const projects = [
   {
     title: "adaptive cfd solver",
-    meta: "amrex / c++ / finite volume",
-    desc: "a modular solver path from scalar advection toward adaptive, higher-order flow capabilities.",
+    meta: "thesis / amrex / c++",
+    status: "active build log",
+    desc: "A modular solver path from scalar advection toward adaptive, higher-order flow capabilities.",
     href: "/work/adaptive-cfd-solver"
   },
   {
     title: "scramjet analysis tool",
     meta: "python / propulsion / parametric analysis",
-    desc: "a computational tool for exploring propulsion trade spaces and visualizing performance trends.",
+    status: "writeup pending",
+    desc: "A computational tool for exploring propulsion trade spaces and visualizing performance trends.",
     href: "/work/scramjet-analysis-tool"
   },
   {
     title: "compressible flow project",
     meta: "numerical methods / visualization / paraview",
-    desc: "finite-volume simulations and post-processing workflows for understanding flow behavior.",
+    status: "archive pending",
+    desc: "Finite-volume simulations and post-processing workflows for understanding flow behavior.",
     href: "/work/compressible-flow-project"
   }
 ];
@@ -41,7 +44,7 @@ const links = [
     <a class="brand" href="/" aria-label="colin vargas home">colin vargas</a>
     <nav aria-label="Primary navigation">
       <a href="#work">work</a>
-      <a href="#notes">notes</a>
+      <a href="/notes">notes</a>
       <a href="#about">about</a>
       <a href="#contact">contact</a>
     </nav>
@@ -49,20 +52,22 @@ const links = [
 
   <main>
     <section class="hero" aria-labelledby="hero-title">
-      <div class="hero-meta">
-        <span>computational aerospace engineering</span>
-        <span>phoenix / scottsdale</span>
-      </div>
-
       <div class="hero-grid">
         <div class="hero-copy">
-          <p class="eyebrow">numerical methods / propulsion / cfd</p>
-          <h1 id="hero-title">numerical tools for non-ideal flows.</h1>
+          <h1 id="hero-title">computational aerospace engineering.</h1>
           <p class="intro">
-            I build computational systems for fluid dynamics, propulsion, and the
-            space where elegant equations meet physical reality.
+            I build numerical tools for fluid dynamics, propulsion, and the
+            difficult middle ground between ideal equations and physical hardware.
           </p>
         </div>
+
+        <aside class="hero-panel" aria-label="Current status">
+          <span>current track</span>
+          <strong>AMReX solver development</strong>
+          <p>
+            Scalar advection now, adaptive higher-order flow capability next.
+          </p>
+        </aside>
       </div>
 
       <ul class="tags" aria-label="Technical focus areas">
@@ -87,7 +92,7 @@ const links = [
               <span class="project-meta">{project.meta}</span>
               <h2>{project.title}</h2>
               <p>{project.desc}</p>
-              <span class="project-link">view work</span>
+              <span class="project-status">{project.status}</span>
             </a>
           ))
         }
@@ -100,20 +105,44 @@ const links = [
         <span>thesis track</span>
       </div>
       <p>
-        Developing a modular AMReX-based solver path from scalar advection
-        toward adaptive, higher-order Navier-Stokes capabilities.
+        Developing a solver and project record that make the numerical choices,
+        verification path, and engineering tradeoffs inspectable.
       </p>
+    </section>
+
+    <section class="evidence" aria-labelledby="evidence-title">
+      <div class="section-heading">
+        <span id="evidence-title">working style</span>
+        <span>repeatable records</span>
+      </div>
+      <div class="evidence-list">
+        <article>
+          <span>01</span>
+          <h2>Build the calculation.</h2>
+          <p>Start with working local tools, small verification cases, and source history that can be replayed.</p>
+        </article>
+        <article>
+          <span>02</span>
+          <h2>Expose the assumptions.</h2>
+          <p>Document boundary conditions, discretization choices, solver limits, and what changed between runs.</p>
+        </article>
+        <article>
+          <span>03</span>
+          <h2>Publish the useful record.</h2>
+          <p>Turn notes, plots, and project logs into public pages only when they help someone inspect the work.</p>
+        </article>
+      </div>
     </section>
 
     <section class="split" aria-label="Notes and profile">
       <article id="notes">
         <div class="section-heading">
           <span>notes</span>
-          <span>future archive</span>
+          <span><a href="/notes">open log index</a></span>
         </div>
         <p>
-          Short technical notes, solver logs, math reflections, and careful
-          public learning will live here as the project record matures.
+          A repo-aware log workflow is in place. Public notes will appear as
+          project entries are cleaned up with enough context to be useful.
         </p>
       </article>
 
@@ -123,8 +152,8 @@ const links = [
           <span>systems reasoning</span>
         </div>
         <p>
-          Aerospace engineering, numerical methods, propulsion, and the habit of
-          turning complex physical behavior into inspectable computational tools.
+          Aerospace engineering, numerical methods, propulsion, and the habit of turning
+          complex physical behavior into inspectable computational tools.
         </p>
       </article>
     </section>

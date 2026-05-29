@@ -1,0 +1,81 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+export function getStaticPaths() {
+  return [
+    {
+      params: { slug: "adaptive-cfd-solver" },
+      props: {
+        title: "adaptive cfd solver",
+        meta: "amrex / c++ / finite volume",
+        status: "active build log",
+        summary:
+          "A thesis-track solver path from scalar advection toward adaptive, higher-order flow capabilities.",
+        next: "Add build notes, verification cases, plots, and solver architecture diagrams."
+      }
+    },
+    {
+      params: { slug: "scramjet-analysis-tool" },
+      props: {
+        title: "scramjet analysis tool",
+        meta: "python / propulsion / parametric analysis",
+        status: "writeup pending",
+        summary:
+          "A computational analysis tool for exploring propulsion trade spaces and performance trends.",
+        next: "Add methodology, sample sweeps, plots, and the clearest takeaways."
+      }
+    },
+    {
+      params: { slug: "compressible-flow-project" },
+      props: {
+        title: "compressible flow project",
+        meta: "numerical methods / visualization / paraview",
+        status: "archive pending",
+        summary:
+          "Finite-volume simulations and post-processing workflows for understanding compressible flow behavior.",
+        next: "Add simulation setup, visual outputs, and notes on numerical behavior."
+      }
+    }
+  ];
+}
+
+const project = Astro.props;
+---
+
+<BaseLayout title={`${project.title} - colin vargas`}>
+  <header class="site-header">
+    <a class="brand" href="/" aria-label="colin vargas home">colin vargas</a>
+    <nav aria-label="Primary navigation">
+      <a href="/#work">work</a>
+      <a href="/notes">notes</a>
+      <a href="/#about">about</a>
+      <a href="/#contact">contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="pending-page" aria-labelledby="pending-title">
+      <div class="section-heading">
+        <span>{project.meta}</span>
+        <span>{project.status}</span>
+      </div>
+
+      <div class="pending-grid">
+        <div>
+          <h1 id="pending-title">{project.title}</h1>
+          <p>{project.summary}</p>
+        </div>
+
+        <aside class="pending-note">
+          <span>not ready yet</span>
+          <p>{project.next}</p>
+        </aside>
+      </div>
+
+      <div class="pending-actions">
+        <a href="/#work">back to selected work</a>
+        <a href="/notes">view notes index</a>
+      </div>
+    </section>
+  </main>
+</BaseLayout>

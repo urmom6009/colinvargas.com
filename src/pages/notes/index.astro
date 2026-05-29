@@ -1,0 +1,47 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="notes - colin vargas">
+  <header class="site-header">
+    <a class="brand" href="/" aria-label="colin vargas home">colin vargas</a>
+    <nav aria-label="Primary navigation">
+      <a href="/#work">work</a>
+      <a href="/notes">notes</a>
+      <a href="/#about">about</a>
+      <a href="/#contact">contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="pending-page" aria-labelledby="notes-title">
+      <div class="section-heading">
+        <span>notes</span>
+        <span>log workflow active</span>
+      </div>
+
+      <div class="pending-grid">
+        <div>
+          <h1 id="notes-title">notes are being assembled.</h1>
+          <p>
+            The logging workflow is wired into the repo, but public entries are
+            still being cleaned up before they are published here.
+          </p>
+        </div>
+
+        <aside class="pending-note">
+          <span>how entries are made</span>
+          <p>
+            New notes are created from any local repository with
+            <code>portfolio-log "topic"</code>, then promoted when the record is useful.
+          </p>
+        </aside>
+      </div>
+
+      <div class="pending-actions">
+        <a href="/">back home</a>
+        <a href="/#work">selected work</a>
+      </div>
+    </section>
+  </main>
+</BaseLayout>
