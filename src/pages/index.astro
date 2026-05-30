@@ -6,21 +6,21 @@ const projects = [
     title: "adaptive cfd solver",
     meta: "thesis / amrex / c++",
     status: "active build log",
-    desc: "A modular solver path from scalar advection toward adaptive, higher-order flow capabilities.",
+    desc: "Scalar advection first, then AMR and higher-order pieces as they earn their place.",
     href: "/work/adaptive-cfd-solver"
   },
   {
     title: "scramjet analysis tool",
     meta: "python / propulsion / parametric analysis",
     status: "writeup pending",
-    desc: "A computational tool for exploring propulsion trade spaces and visualizing performance trends.",
+    desc: "A Python tool for sweeping assumptions and seeing which inputs actually move the result.",
     href: "/work/scramjet-analysis-tool"
   },
   {
     title: "compressible flow project",
     meta: "numerical methods / visualization / paraview",
     status: "archive pending",
-    desc: "Finite-volume simulations and post-processing workflows for understanding flow behavior.",
+    desc: "Simulation setup, plots, and numerical behavior kept together instead of scattered across files.",
     href: "/work/compressible-flow-project"
   }
 ];
@@ -50,9 +50,27 @@ const trajectory = [
 ];
 
 const signal = [
-  { label: "numerics", value: "stability first, then speed" },
-  { label: "propulsion", value: "trade space over guesswork" },
-  { label: "software", value: "readable systems that survive inspection" }
+  { label: "numerics", value: "make the simple case hard to fool" },
+  { label: "propulsion", value: "sweep assumptions before trusting a point design" },
+  { label: "software", value: "keep the run easy to rerun" }
+];
+
+const methods = [
+  {
+    label: "discretize",
+    meta: "start small",
+    detail: "The first case should be simple enough that a wrong answer has nowhere to hide."
+  },
+  {
+    label: "verify",
+    meta: "show the checks",
+    detail: "A plot is more useful when the setup, assumptions, and failure modes are beside it."
+  },
+  {
+    label: "publish",
+    meta: "write after the work",
+    detail: "Pages stay short until there is something concrete to explain."
+  }
 ];
 
 const links = [
@@ -73,11 +91,11 @@ const links = [
   <header class="site-header">
     <a class="brand" href="/" aria-label="colin vargas home">colin vargas</a>
     <nav aria-label="Primary navigation">
-      <a href="#work">work</a>
+      <a href="/work">work</a>
       <a href="/notes">notes</a>
       <a href="/resume">resume</a>
-      <a href="#about">about</a>
-      <a href="#contact">contact</a>
+      <a href="/about">about</a>
+      <a href="/contact">contact</a>
     </nav>
   </header>
 
@@ -87,8 +105,8 @@ const links = [
         <div class="hero-copy">
           <h1 id="hero-title">computational aerospace systems.</h1>
           <p class="intro">
-            Numerical methods, propulsion analysis, and careful software for
-            turning physical behavior into inspectable tools.
+            CFD, propulsion analysis, and the kind of code that makes a
+            calculation easier to rerun, question, and explain.
           </p>
         </div>
 
@@ -96,7 +114,8 @@ const links = [
           <span>current track</span>
           <strong>AMReX solver development</strong>
           <p>
-            Scalar advection now, adaptive higher-order flow capability next.
+            Scalar advection now. AMR and higher-order pieces next, once the
+            baseline is clean.
           </p>
 
           <div class="solver-readout" aria-label="Solver readout">
@@ -119,6 +138,32 @@ const links = [
         </aside>
       </div>
 
+      <div class="method-lab" data-method-lab aria-label="Working method selector">
+        <div class="method-copy">
+          <span>working method</span>
+          <strong data-method-title>{methods[0].meta}</strong>
+          <p data-method-detail>{methods[0].detail}</p>
+        </div>
+
+        <div class="method-controls" aria-label="Choose a working method">
+          {
+            methods.map((method, index) => (
+              <button
+                type="button"
+                class="method-control"
+                data-method-index={index}
+                data-method-meta={method.meta}
+                data-method-detail={method.detail}
+                aria-pressed={index === 0 ? "true" : "false"}
+              >
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <strong>{method.label}</strong>
+              </button>
+            ))
+          }
+        </div>
+      </div>
+
       <ul class="tags" aria-label="Technical focus areas">
         <li>amrex</li>
         <li>c++</li>
@@ -135,8 +180,8 @@ const links = [
           <span>engineering taste</span>
         </div>
         <p>
-          I like systems where the math, the code, and the physical intuition
-          all have to be right at the same time.
+          I like work where the math, the code, and the physical intuition are
+          close enough together to catch each other.
         </p>
       </div>
 
@@ -167,7 +212,7 @@ const links = [
     <section class="section" id="work" aria-labelledby="work-title">
       <div class="section-heading">
         <span id="work-title">selected work</span>
-        <span><a href="/resume">full index</a></span>
+        <span><a href="/work">full index</a></span>
       </div>
 
       <div class="project-grid">
@@ -190,8 +235,8 @@ const links = [
         <span>thesis track</span>
       </div>
       <p>
-        Developing a solver and project record that make the numerical choices,
-        verification path, and engineering tradeoffs inspectable.
+        Developing a solver and project record where the numerical choices,
+        checks, and tradeoffs are visible without overselling the result.
       </p>
     </section>
 
@@ -250,7 +295,7 @@ const links = [
     </section>
 
     <section class="split" aria-label="Notes and profile">
-      <article id="notes">
+      <article>
         <div class="section-heading">
           <span>notes</span>
           <span><a href="/notes">open log index</a></span>
@@ -261,7 +306,7 @@ const links = [
         </p>
       </article>
 
-      <article id="about">
+      <article>
         <div class="section-heading">
           <span>about</span>
           <span>systems reasoning</span>
@@ -274,10 +319,32 @@ const links = [
     </section>
   </main>
 
-  <footer id="contact">
+  <footer>
     <span>america/phoenix</span>
     <div class="footer-links">
       {links.map((link) => <a href={link.href}>{link.label}</a>)}
     </div>
   </footer>
+  <script>
+    const lab = document.querySelector<HTMLElement>("[data-method-lab]");
+    const title = lab?.querySelector<HTMLElement>("[data-method-title]");
+    const detail = lab?.querySelector<HTMLElement>("[data-method-detail]");
+    const controls = lab?.querySelectorAll<HTMLElement>("[data-method-index]");
+
+    controls?.forEach((control) => {
+      control.addEventListener("click", () => {
+        controls.forEach((item) => item.setAttribute("aria-pressed", "false"));
+        control.setAttribute("aria-pressed", "true");
+        lab?.style.setProperty("--method-index", control.dataset.methodIndex || "0");
+
+        if (title && control.dataset.methodMeta) {
+          title.textContent = control.dataset.methodMeta;
+        }
+
+        if (detail && control.dataset.methodDetail) {
+          detail.textContent = control.dataset.methodDetail;
+        }
+      });
+    });
+  </script>
 </BaseLayout>

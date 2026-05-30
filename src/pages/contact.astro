@@ -1,0 +1,65 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const contacts = [
+  { label: "github", href: "https://github.com/colinvargas", detail: "code and project history" },
+  { label: "linkedin", href: "https://www.linkedin.com/in/colinvargas", detail: "profile and background" },
+  { label: "email", href: "mailto:hello@colinvargas.com", detail: "hello@colinvargas.com" }
+];
+---
+
+<BaseLayout title="contact - colin vargas">
+  <header class="site-header">
+    <a class="brand" href="/" aria-label="colin vargas home">colin vargas</a>
+    <nav aria-label="Primary navigation">
+      <a href="/work">work</a>
+      <a href="/notes">notes</a>
+      <a href="/resume">resume</a>
+      <a href="/about">about</a>
+      <a href="/contact" aria-current="page">contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="resume-hero" aria-labelledby="contact-title">
+      <div class="section-heading">
+        <span>contact</span>
+        <span>public links</span>
+      </div>
+
+      <div class="resume-hero-grid">
+        <div>
+          <h1 id="contact-title">contact.</h1>
+          <p>
+            Email is best for anything direct. GitHub and LinkedIn are here for
+            context around the work and background.
+          </p>
+        </div>
+
+        <aside>
+          <span>timezone</span>
+          <strong>america/phoenix</strong>
+          <p>CFD, propulsion analysis, numerical methods, aerospace software, or related work are all fair reasons to reach out.</p>
+        </aside>
+      </div>
+    </section>
+
+    <section class="resume-section resume-contact" aria-labelledby="contact-links-title">
+      <div class="section-heading">
+        <span id="contact-links-title">links</span>
+        <span>open channels</span>
+      </div>
+
+      <div class="resume-contact-grid">
+        {
+          contacts.map((contact) => (
+            <a href={contact.href}>
+              <span>{contact.label}</span>
+              <strong>{contact.detail}</strong>
+            </a>
+          ))
+        }
+      </div>
+    </section>
+  </main>
+</BaseLayout>

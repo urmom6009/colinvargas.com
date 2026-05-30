@@ -1,0 +1,59 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const principles = [
+  "small verification cases before big simulations",
+  "interfaces that keep the math and the code readable",
+  "plots that come with the assumptions that made them"
+];
+---
+
+<BaseLayout title="about - colin vargas">
+  <header class="site-header">
+    <a class="brand" href="/" aria-label="colin vargas home">colin vargas</a>
+    <nav aria-label="Primary navigation">
+      <a href="/work">work</a>
+      <a href="/notes">notes</a>
+      <a href="/resume">resume</a>
+      <a href="/about" aria-current="page">about</a>
+      <a href="/contact">contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="resume-hero" aria-labelledby="about-title">
+      <div class="section-heading">
+        <span>about</span>
+        <span>systems reasoning</span>
+      </div>
+
+      <div class="resume-hero-grid">
+        <div>
+          <h1 id="about-title">aerospace engineering, numerical methods, and code I can defend.</h1>
+          <p>
+            I am interested in the parts of engineering where the calculation,
+            implementation, and physical explanation have to agree. This site is
+            where I am turning that work into a cleaner public record.
+          </p>
+        </div>
+
+        <aside>
+          <span>technical taste</span>
+          <strong>keep the work close to the assumptions</strong>
+          <p>I would rather show fewer things with context than more things that look finished but are hard to inspect.</p>
+        </aside>
+      </div>
+    </section>
+
+    <section class="resume-section" aria-labelledby="principles-title">
+      <div class="section-heading">
+        <span id="principles-title">principles</span>
+        <span>how I like to build</span>
+      </div>
+
+      <ul class="capability-grid" aria-label="Working principles">
+        {principles.map((principle) => <li>{principle}</li>)}
+      </ul>
+    </section>
+  </main>
+</BaseLayout>
