@@ -118,11 +118,11 @@ const links = [
   <header class="site-header">
     <a class="brand" href="/" aria-label="colin vargas home">colin vargas</a>
     <nav aria-label="Primary navigation">
-      <a href="#work">work</a>
+      <a href="/work">work</a>
       <a href="/notes">notes</a>
       <a href="/resume">resume</a>
-      <a href="#about">about</a>
-      <a href="#contact">contact</a>
+      <a href="/about">about</a>
+      <a href="/contact">contact</a>
     </nav>
   </header>
 
@@ -184,6 +184,31 @@ const links = [
         </aside>
       </div>
 
+      <div class="flow-lab" aria-label="Animated flow field preview">
+        <div class="flow-orbit" aria-hidden="true">
+          <span class="orbit-ring orbit-ring-one"></span>
+          <span class="orbit-ring orbit-ring-two"></span>
+          <span class="orbit-dot orbit-dot-one"></span>
+          <span class="orbit-dot orbit-dot-two"></span>
+          <span class="orbit-dot orbit-dot-three"></span>
+        </div>
+
+        <div class="flow-copy">
+          <span>live surface</span>
+          <strong>mesh, signal, trajectory</strong>
+          <p>Animated like a solver dashboard: calm by default, responsive when you explore.</p>
+        </div>
+
+        <div class="flow-tiles" aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+
       <ul class="tags" aria-label="Technical focus areas">
         <li>amrex</li>
         <li>c++</li>
@@ -232,7 +257,7 @@ const links = [
     <section class="section" id="work" aria-labelledby="work-title">
       <div class="section-heading">
         <span id="work-title">selected work</span>
-        <span><a href="/resume">full index</a></span>
+        <span><a href="/work">full index</a></span>
       </div>
 
       <div class="project-grid">
@@ -325,7 +350,7 @@ const links = [
     </section>
 
     <section class="split" aria-label="Notes and profile">
-      <article id="notes">
+      <article>
         <div class="section-heading">
           <span>notes</span>
           <span><a href="/notes">open log index</a></span>
@@ -336,7 +361,7 @@ const links = [
         </p>
       </article>
 
-      <article id="about">
+      <article>
         <div class="section-heading">
           <span>about</span>
           <span>systems reasoning</span>
@@ -349,7 +374,7 @@ const links = [
     </section>
   </main>
 
-  <footer id="contact">
+  <footer>
     <span>america/phoenix</span>
     <div class="footer-links">
       {links.map((link) => <a href={link.href}>{link.label}</a>)}

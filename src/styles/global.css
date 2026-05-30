@@ -1541,3 +1541,253 @@ code {
     transition-duration: 0.001ms !important;
   }
 }
+
+.flow-lab {
+  display: grid;
+  grid-template-columns: minmax(190px, 0.42fr) minmax(220px, 0.58fr) minmax(220px, 0.55fr);
+  gap: clamp(18px, 3vw, 34px);
+  align-items: stretch;
+  padding: clamp(18px, 2.4vw, 28px);
+  border: 1px solid var(--line);
+  background:
+    radial-gradient(circle at 12% 10%, color-mix(in srgb, var(--gold) 18%, transparent), transparent 28%),
+    linear-gradient(135deg, var(--frost-strong), var(--frost));
+  box-shadow: 0 28px 90px color-mix(in srgb, var(--shadow) 65%, transparent);
+  overflow: hidden;
+  position: relative;
+  backdrop-filter: blur(18px) saturate(1.18);
+  -webkit-backdrop-filter: blur(18px) saturate(1.18);
+  animation: fade-in 800ms 180ms ease both;
+}
+
+.flow-lab::before {
+  content: "";
+  position: absolute;
+  inset: -40% -15%;
+  background: linear-gradient(110deg, transparent 42%, color-mix(in srgb, var(--accent) 16%, transparent), transparent 58%);
+  transform: translateX(-36%);
+  animation: scanner 7s ease-in-out infinite;
+}
+
+.flow-orbit,
+.flow-copy,
+.flow-tiles {
+  position: relative;
+  z-index: 1;
+}
+
+.flow-orbit {
+  min-height: 190px;
+  display: grid;
+  place-items: center;
+  border: 1px solid color-mix(in srgb, var(--line) 72%, transparent);
+  background:
+    linear-gradient(to right, color-mix(in srgb, var(--ink) 5%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--ink) 4%, transparent) 1px, transparent 1px);
+  background-size: 34px 34px;
+}
+
+.orbit-ring,
+.orbit-dot {
+  position: absolute;
+  display: block;
+  border-radius: 999px;
+}
+
+.orbit-ring-one {
+  width: min(58%, 150px);
+  aspect-ratio: 1;
+  border: 1px solid color-mix(in srgb, var(--accent) 55%, transparent);
+  animation: spin 12s linear infinite;
+}
+
+.orbit-ring-two {
+  width: min(78%, 205px);
+  aspect-ratio: 1;
+  border: 1px dashed color-mix(in srgb, var(--signal) 45%, transparent);
+  animation: spin 18s linear reverse infinite;
+}
+
+.orbit-dot {
+  width: 11px;
+  height: 11px;
+  background: var(--accent);
+  box-shadow: 0 0 28px color-mix(in srgb, var(--accent) 52%, transparent);
+  animation: pulse 2.6s ease-in-out infinite;
+}
+
+.orbit-dot-one {
+  top: 18%;
+  left: 24%;
+}
+
+.orbit-dot-two {
+  right: 22%;
+  bottom: 24%;
+  background: var(--signal);
+  animation-delay: 700ms;
+}
+
+.orbit-dot-three {
+  top: 44%;
+  right: 38%;
+  background: var(--gold);
+  animation-delay: 1.2s;
+}
+
+.flow-copy {
+  display: grid;
+  align-content: center;
+  gap: 12px;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  text-transform: lowercase;
+}
+
+.flow-copy strong {
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: clamp(1.8rem, 3.3vw, 3.8rem);
+  font-weight: 400;
+  line-height: 0.94;
+  text-transform: none;
+}
+
+.flow-copy p {
+  max-width: 390px;
+  color: var(--muted);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.35;
+  text-transform: none;
+}
+
+.flow-tiles {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.flow-tiles span {
+  min-height: 78px;
+  border: 1px solid color-mix(in srgb, var(--line) 82%, transparent);
+  background: linear-gradient(to top, color-mix(in srgb, var(--accent) 10%, transparent), transparent);
+  transform: translateY(var(--tile-shift, 0));
+  animation: tile-drift 4.8s ease-in-out infinite;
+}
+
+.flow-tiles span:nth-child(2n) {
+  --tile-shift: 12px;
+  background: linear-gradient(to top, color-mix(in srgb, var(--gold) 13%, transparent), transparent);
+  animation-delay: 500ms;
+}
+
+.flow-tiles span:nth-child(3n) {
+  --tile-shift: -8px;
+  background: linear-gradient(to top, color-mix(in srgb, var(--signal) 11%, transparent), transparent);
+  animation-delay: 900ms;
+}
+
+.project-card::after {
+  content: "↗";
+  position: absolute;
+  right: 24px;
+  top: 22px;
+  color: var(--soft);
+  font-family: var(--font-mono);
+  opacity: 0;
+  transform: translate(-8px, 8px);
+  transition:
+    opacity 220ms ease,
+    transform 220ms ease,
+    color 220ms ease;
+}
+
+.project-card:hover::after {
+  color: var(--accent);
+  opacity: 1;
+  transform: translate(0, 0);
+}
+
+.resume-contact-grid a {
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.resume-contact-grid a strong {
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: clamp(1.05rem, 1.8vw, 1.55rem);
+  font-weight: 400;
+  line-height: 1.05;
+  text-transform: none;
+}
+
+@keyframes scanner {
+  0%, 100% {
+    transform: translateX(-38%);
+    opacity: 0.18;
+  }
+
+  50% {
+    transform: translateX(38%);
+    opacity: 0.46;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(0.82);
+    opacity: 0.62;
+  }
+
+  50% {
+    transform: scale(1.22);
+    opacity: 1;
+  }
+}
+
+@keyframes tile-drift {
+  0%, 100% {
+    transform: translateY(var(--tile-shift, 0));
+  }
+
+  50% {
+    transform: translateY(calc(var(--tile-shift, 0px) - 14px));
+  }
+}
+
+@media (max-width: 900px) {
+  .flow-lab {
+    grid-template-columns: 1fr;
+  }
+
+  .flow-tiles {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .flow-tiles {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flow-lab::before,
+  .orbit-ring,
+  .orbit-dot,
+  .flow-tiles span {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

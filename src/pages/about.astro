@@ -1,0 +1,59 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const principles = [
+  "small verification cases before big simulations",
+  "clear interfaces between math, mesh, state, and output",
+  "plots and notes that explain decisions, not just results"
+];
+---
+
+<BaseLayout title="about - colin vargas">
+  <header class="site-header">
+    <a class="brand" href="/" aria-label="colin vargas home">colin vargas</a>
+    <nav aria-label="Primary navigation">
+      <a href="/work">work</a>
+      <a href="/notes">notes</a>
+      <a href="/resume">resume</a>
+      <a href="/about" aria-current="page">about</a>
+      <a href="/contact">contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="resume-hero" aria-labelledby="about-title">
+      <div class="section-heading">
+        <span>about</span>
+        <span>systems reasoning</span>
+      </div>
+
+      <div class="resume-hero-grid">
+        <div>
+          <h1 id="about-title">aerospace engineering through inspectable software.</h1>
+          <p>
+            I work around numerical methods, propulsion, and computational tools
+            for translating complex physical behavior into systems that can be tested,
+            explained, and improved.
+          </p>
+        </div>
+
+        <aside>
+          <span>technical taste</span>
+          <strong>math, code, and intuition all in view</strong>
+          <p>The site is designed as a public record for projects once the underlying work has enough context to be useful.</p>
+        </aside>
+      </div>
+    </section>
+
+    <section class="resume-section" aria-labelledby="principles-title">
+      <div class="section-heading">
+        <span id="principles-title">principles</span>
+        <span>how I like to build</span>
+      </div>
+
+      <ul class="capability-grid" aria-label="Working principles">
+        {principles.map((principle) => <li>{principle}</li>)}
+      </ul>
+    </section>
+  </main>
+</BaseLayout>
