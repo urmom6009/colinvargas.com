@@ -1,0 +1,90 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const projects = [
+  {
+    title: "adaptive cfd solver",
+    meta: "thesis / amrex / c++ / finite volume",
+    status: "active build log",
+    detail:
+      "A modular solver path from scalar advection toward adaptive, higher-order flow capabilities.",
+    href: "/work/adaptive-cfd-solver"
+  },
+  {
+    title: "scramjet analysis tool",
+    meta: "python / propulsion / parametric analysis",
+    status: "writeup pending",
+    detail:
+      "A computational tool for exploring propulsion trade spaces and visualizing performance trends.",
+    href: "/work/scramjet-analysis-tool"
+  },
+  {
+    title: "compressible flow project",
+    meta: "numerical methods / visualization / paraview",
+    status: "archive pending",
+    detail:
+      "Finite-volume simulations and post-processing workflows for understanding flow behavior.",
+    href: "/work/compressible-flow-project"
+  }
+];
+---
+
+<BaseLayout title="work - colin vargas">
+  <header class="site-header">
+    <a class="brand" href="/" aria-label="colin vargas home">colin vargas</a>
+    <nav aria-label="Primary navigation">
+      <a href="/work" aria-current="page">work</a>
+      <a href="/notes">notes</a>
+      <a href="/resume">resume</a>
+      <a href="/about">about</a>
+      <a href="/contact">contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="resume-hero" aria-labelledby="work-title">
+      <div class="section-heading">
+        <span>work</span>
+        <span>selected artifacts</span>
+      </div>
+
+      <div class="resume-hero-grid">
+        <div>
+          <h1 id="work-title">projects with inspectable numerical choices.</h1>
+          <p>
+            A focused index for solver development, propulsion analysis, and
+            computational flow projects as their public records come online.
+          </p>
+        </div>
+
+        <aside>
+          <span>current priority</span>
+          <strong>make the solver trail readable</strong>
+          <p>Verification cases, architecture notes, and figures are added when they clarify the engineering decisions.</p>
+        </aside>
+      </div>
+    </section>
+
+    <section class="resume-section" aria-labelledby="project-index-title">
+      <div class="section-heading">
+        <span id="project-index-title">project index</span>
+        <span>open each page</span>
+      </div>
+
+      <div class="resume-list">
+        {
+          projects.map((project, index) => (
+            <a class="resume-item" href={project.href}>
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              <div>
+                <h2>{project.title}</h2>
+                <p>{project.detail}</p>
+              </div>
+              <strong>{project.meta} / {project.status}</strong>
+            </a>
+          ))
+        }
+      </div>
+    </section>
+  </main>
+</BaseLayout>
