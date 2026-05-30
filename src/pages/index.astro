@@ -31,6 +31,30 @@ const readout = [
   { label: "next", value: "amr verification" }
 ];
 
+const trackMetrics = [
+  {
+    label: "cfl",
+    value: "0.45 target",
+    detail: "conservative while the baseline cases are still being checked",
+    level: "42%",
+    tone: "accent"
+  },
+  {
+    label: "mass",
+    value: "watch drift",
+    detail: "a quick conservation check before trusting prettier plots",
+    level: "68%",
+    tone: "gold"
+  },
+  {
+    label: "error",
+    value: "compare order",
+    detail: "expected convergence is the next useful milestone",
+    level: "55%",
+    tone: "signal"
+  }
+];
+
 const trajectory = [
   {
     step: "01",
@@ -70,6 +94,24 @@ const methods = [
     label: "publish",
     meta: "write after the work",
     detail: "Pages stay short until there is something concrete to explain."
+  }
+];
+
+const scratchItems = [
+  {
+    label: "boundary",
+    title: "write the boundaries first",
+    detail: "Before changing the scheme, I want the boundary assumptions visible enough to argue with."
+  },
+  {
+    label: "run",
+    title: "keep the command nearby",
+    detail: "If a result cannot be rerun from the note, the note is not finished."
+  },
+  {
+    label: "plot",
+    title: "caption the failure mode",
+    detail: "The useful caption is usually what the plot does not prove yet."
   }
 ];
 
@@ -119,11 +161,29 @@ const links = [
           </p>
 
           <div class="solver-readout" aria-label="Solver readout">
-            <div class="readout-plot" aria-hidden="true">
-              <span></span>
-              <span></span>
-              <span></span>
+            <div class="readout-plot" aria-label="Track metric selector">
+              {
+                trackMetrics.map((metric, index) => (
+                  <button
+                    type="button"
+                    class="readout-metric"
+                    data-track-metric
+                    data-track-index={index}
+                    data-track-value={metric.value}
+                    data-track-detail={metric.detail}
+                    aria-pressed={index === 0 ? "true" : "false"}
+                    style={`--readout-height: ${metric.level}`}
+                  >
+                    <span class={`readout-bar readout-bar-${metric.tone}`}></span>
+                    <span>{metric.label}</span>
+                  </button>
+                ))
+              }
             </div>
+            <p class="readout-note">
+              <strong data-track-value>{trackMetrics[0].value}</strong>
+              <span data-track-detail>{trackMetrics[0].detail}</span>
+            </p>
             <dl>
               {
                 readout.map((item) => (
@@ -169,7 +229,7 @@ const links = [
         <li>c++</li>
         <li>finite volume</li>
         <li>adaptive mesh refinement</li>
-        <li>verification</li>
+        <li><button type="button" class="tag-button" data-tag-easter>verification</button></li>
       </ul>
     </section>
 
@@ -270,27 +330,39 @@ const links = [
       </div>
     </section>
 
-    <section class="evidence" aria-labelledby="evidence-title">
+    <section class="scratch" data-scratch aria-labelledby="scratch-title">
       <div class="section-heading">
-        <span id="evidence-title">working style</span>
-        <span>repeatable records</span>
+        <span id="scratch-title">scratch pad</span>
+        <span>click through the checks</span>
       </div>
-      <div class="evidence-list">
-        <article>
-          <span>01</span>
-          <h2>Build the calculation.</h2>
-          <p>Start with working local tools, small verification cases, and source history that can be replayed.</p>
-        </article>
-        <article>
-          <span>02</span>
-          <h2>Expose the assumptions.</h2>
-          <p>Document boundary conditions, discretization choices, solver limits, and what changed between runs.</p>
-        </article>
-        <article>
-          <span>03</span>
-          <h2>Publish the useful record.</h2>
-          <p>Turn notes, plots, and project logs into public pages only when they help someone inspect the work.</p>
-        </article>
+
+      <div class="scratch-grid">
+        <div class="scratch-copy">
+          <span data-scratch-label>{scratchItems[0].label}</span>
+          <h2 data-scratch-title>{scratchItems[0].title}</h2>
+          <p data-scratch-detail>{scratchItems[0].detail}</p>
+          <p class="scratch-egg" data-scratch-egg hidden>easter egg: no plot without setup.</p>
+          <p class="scratch-egg" data-tag-egg hidden>sanity check: if the simple case breaks, the big case is decoration.</p>
+        </div>
+
+        <div class="scratch-controls" aria-label="Scratch pad checks">
+          {
+            scratchItems.map((item, index) => (
+              <button
+                type="button"
+                data-scratch-control
+                data-scratch-index={index}
+                data-scratch-label={item.label}
+                data-scratch-title={item.title}
+                data-scratch-detail={item.detail}
+                aria-pressed={index === 0 ? "true" : "false"}
+              >
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <strong>{item.label}</strong>
+              </button>
+            ))
+          }
+        </div>
       </div>
     </section>
 
@@ -330,6 +402,7 @@ const links = [
     const title = lab?.querySelector<HTMLElement>("[data-method-title]");
     const detail = lab?.querySelector<HTMLElement>("[data-method-detail]");
     const controls = lab?.querySelectorAll<HTMLElement>("[data-method-index]");
+    const methodTrail: string[] = [];
 
     controls?.forEach((control) => {
       control.addEventListener("click", () => {
@@ -344,7 +417,66 @@ const links = [
         if (detail && control.dataset.methodDetail) {
           detail.textContent = control.dataset.methodDetail;
         }
+
+        methodTrail.push(control.dataset.methodIndex || "");
+        if (methodTrail.slice(-3).join("") === "012") {
+          document.querySelector<HTMLElement>("[data-scratch-egg]")?.removeAttribute("hidden");
+        }
       });
+    });
+
+    const trackValue = document.querySelector<HTMLElement>("[data-track-value]");
+    const trackDetail = document.querySelector<HTMLElement>("[data-track-detail]");
+    const trackControls = document.querySelectorAll<HTMLElement>("[data-track-metric]");
+
+    trackControls.forEach((control) => {
+      control.addEventListener("click", () => {
+        trackControls.forEach((item) => item.setAttribute("aria-pressed", "false"));
+        control.setAttribute("aria-pressed", "true");
+
+        if (trackValue && control.dataset.trackValue) {
+          trackValue.textContent = control.dataset.trackValue;
+        }
+
+        if (trackDetail && control.dataset.trackDetail) {
+          trackDetail.textContent = control.dataset.trackDetail;
+        }
+      });
+    });
+
+    const scratch = document.querySelector<HTMLElement>("[data-scratch]");
+    const scratchLabel = scratch?.querySelector<HTMLElement>("[data-scratch-label]");
+    const scratchTitle = scratch?.querySelector<HTMLElement>("[data-scratch-title]");
+    const scratchDetail = scratch?.querySelector<HTMLElement>("[data-scratch-detail]");
+    const scratchControls = scratch?.querySelectorAll<HTMLElement>("[data-scratch-control]");
+    const visitedScratch = new Set<string>();
+
+    scratchControls?.forEach((control) => {
+      control.addEventListener("click", () => {
+        scratchControls.forEach((item) => item.setAttribute("aria-pressed", "false"));
+        control.setAttribute("aria-pressed", "true");
+        visitedScratch.add(control.dataset.scratchIndex || "");
+
+        if (scratchLabel && control.dataset.scratchLabel) {
+          scratchLabel.textContent = control.dataset.scratchLabel;
+        }
+
+        if (scratchTitle && control.dataset.scratchTitle) {
+          scratchTitle.textContent = control.dataset.scratchTitle;
+        }
+
+        if (scratchDetail && control.dataset.scratchDetail) {
+          scratchDetail.textContent = control.dataset.scratchDetail;
+        }
+
+        if (visitedScratch.size === scratchControls.length) {
+          scratch?.querySelector<HTMLElement>("[data-scratch-egg]")?.removeAttribute("hidden");
+        }
+      });
+    });
+
+    document.querySelector<HTMLElement>("[data-tag-easter]")?.addEventListener("click", () => {
+      document.querySelector<HTMLElement>("[data-tag-egg]")?.removeAttribute("hidden");
     });
   </script>
 </BaseLayout>
