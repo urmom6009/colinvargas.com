@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Added intentional homepage interactions for the solver lab, project cards, and trajectory map.
 - Added persistent light/dark theme support, frosted surfaces, and a sharper homepage signal panel.
 - Added a solver readout and trajectory band to give the homepage a richer technical layer.
 - Added an interactive navigation treatment with hover motion, active-state markers, and a `resume` destination.

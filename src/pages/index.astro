@@ -7,6 +7,8 @@ const projects = [
     meta: "thesis / amrex / c++",
     status: "active build log",
     desc: "A modular solver path from scalar advection toward adaptive, higher-order flow capabilities.",
+    lens: "mesh/state/flux separation",
+    signal: "verification-first solver architecture",
     href: "/work/adaptive-cfd-solver"
   },
   {
@@ -14,6 +16,8 @@ const projects = [
     meta: "python / propulsion / parametric analysis",
     status: "writeup pending",
     desc: "A computational tool for exploring propulsion trade spaces and visualizing performance trends.",
+    lens: "parametric propulsion sweeps",
+    signal: "turning assumptions into visible trends",
     href: "/work/scramjet-analysis-tool"
   },
   {
@@ -21,31 +25,72 @@ const projects = [
     meta: "numerical methods / visualization / paraview",
     status: "archive pending",
     desc: "Finite-volume simulations and post-processing workflows for understanding flow behavior.",
+    lens: "finite-volume flow inspection",
+    signal: "simulation output with reproducible context",
     href: "/work/compressible-flow-project"
   }
 ];
 
+const solverCases = [
+  {
+    id: "baseline",
+    label: "baseline",
+    title: "AMReX solver development",
+    copy: "Scalar advection now, adaptive higher-order flow capability next.",
+    scheme: "fv / explicit",
+    case: "smooth pulse",
+    cfl: "0.42",
+    state: "stable margin",
+    bars: [42, 68, 55]
+  },
+  {
+    id: "refine",
+    label: "refine",
+    title: "mesh refinement pass",
+    copy: "Track how numerical choices change when the same case is tightened.",
+    scheme: "fv / limited",
+    case: "refined mesh",
+    cfl: "0.31",
+    state: "low dissipation",
+    bars: [58, 76, 63]
+  },
+  {
+    id: "stress",
+    label: "stress",
+    title: "stability inspection",
+    copy: "Push the step size until the readout makes the risk visible.",
+    scheme: "fv / explicit",
+    case: "steep front",
+    cfl: "0.88",
+    state: "watch boundary",
+    bars: [74, 46, 82]
+  }
+];
+
 const readout = [
-  { label: "scheme", value: "fv / explicit" },
-  { label: "case", value: "scalar advection" },
-  { label: "next", value: "amr verification" }
+  { label: "scheme", key: "scheme", value: solverCases[0].scheme },
+  { label: "case", key: "case", value: solverCases[0].case },
+  { label: "cfl", key: "cfl", value: solverCases[0].cfl }
 ];
 
 const trajectory = [
   {
     step: "01",
     title: "baseline physics",
-    detail: "Keep the first cases small enough to inspect every numerical choice."
+    detail: "Keep the first cases small enough to inspect every numerical choice.",
+    state: "case is intentionally small"
   },
   {
     step: "02",
     title: "solver architecture",
-    detail: "Separate mesh, state, flux, and update paths so the system can grow cleanly."
+    detail: "Separate mesh, state, flux, and update paths so the system can grow cleanly.",
+    state: "interfaces carry the complexity"
   },
   {
     step: "03",
     title: "public record",
-    detail: "Publish the plots, notes, and verification trail once they clarify the work."
+    detail: "Publish the plots, notes, and verification trail once they clarify the work.",
+    state: "publish only the useful evidence"
   }
 ];
 
@@ -92,25 +137,45 @@ const links = [
           </p>
         </div>
 
-        <aside class="hero-panel" aria-label="Current status">
-          <span>current track</span>
-          <strong>AMReX solver development</strong>
-          <p>
-            Scalar advection now, adaptive higher-order flow capability next.
-          </p>
+        <aside class="hero-panel" aria-label="Interactive solver status" data-solver-lab>
+          <div class="panel-kicker">
+            <span>solver lab</span>
+            <span data-solver-state>{solverCases[0].state}</span>
+          </div>
+          <div class="solver-tabs" aria-label="Solver case selector">
+            {
+              solverCases.map((item, index) => (
+                <button
+                  type="button"
+                  class:list={["solver-tab", { "is-active": index === 0 }]}
+                  aria-pressed={index === 0 ? "true" : "false"}
+                  data-solver-case={item.id}
+                  data-title={item.title}
+                  data-copy={item.copy}
+                  data-scheme={item.scheme}
+                  data-case={item.case}
+                  data-cfl={item.cfl}
+                  data-state={item.state}
+                  data-bars={item.bars.join(",")}
+                >
+                  {item.label}
+                </button>
+              ))
+            }
+          </div>
+          <strong data-solver-title>{solverCases[0].title}</strong>
+          <p data-solver-copy>{solverCases[0].copy}</p>
 
           <div class="solver-readout" aria-label="Solver readout">
             <div class="readout-plot" aria-hidden="true">
-              <span></span>
-              <span></span>
-              <span></span>
+              {solverCases[0].bars.map((height) => <span style={`--readout-height: ${height}%`}></span>)}
             </div>
             <dl>
               {
                 readout.map((item) => (
                   <div>
                     <dt>{item.label}</dt>
-                    <dd>{item.value}</dd>
+                    <dd data-solver-field={item.key}>{item.value}</dd>
                   </div>
                 ))
               }
@@ -173,10 +238,17 @@ const links = [
       <div class="project-grid">
         {
           projects.map((project) => (
-            <a class="project-card" href={project.href}>
+            <a
+              class="project-card"
+              href={project.href}
+              data-project-card
+              data-project-lens={project.lens}
+              data-project-signal={project.signal}
+            >
               <span class="project-meta">{project.meta}</span>
               <h2>{project.title}</h2>
               <p>{project.desc}</p>
+              <span class="project-lens">{project.lens}</span>
               <span class="project-status">{project.status}</span>
             </a>
           ))
@@ -201,23 +273,26 @@ const links = [
         <span>from case to record</span>
       </div>
 
-      <div class="trajectory-grid">
-        <div class="trajectory-map" aria-hidden="true">
+      <div class="trajectory-grid" data-trajectory>
+        <div class="trajectory-map" aria-hidden="true" data-trajectory-map>
           <span class="map-line"></span>
           <span class="map-node map-node-one"></span>
           <span class="map-node map-node-two"></span>
           <span class="map-node map-node-three"></span>
           <span class="map-sweep map-sweep-one"></span>
           <span class="map-sweep map-sweep-two"></span>
+          <span class="map-label" data-trajectory-state>{trajectory[0].state}</span>
         </div>
 
         <div class="trajectory-list">
           {
-            trajectory.map((item) => (
-              <article>
-                <span>{item.step}</span>
-                <h2>{item.title}</h2>
-                <p>{item.detail}</p>
+            trajectory.map((item, index) => (
+              <article class:list={[{ "is-active": index === 0 }]} data-trajectory-step>
+                <button type="button" data-state={item.state} aria-pressed={index === 0 ? "true" : "false"}>
+                  <span>{item.step}</span>
+                  <span class="trajectory-title">{item.title}</span>
+                  <span class="trajectory-detail">{item.detail}</span>
+                </button>
               </article>
             ))
           }
@@ -280,4 +355,73 @@ const links = [
       {links.map((link) => <a href={link.href}>{link.label}</a>)}
     </div>
   </footer>
+
+  <script is:inline>
+    (() => {
+      const solver = document.querySelector("[data-solver-lab]");
+      if (solver) {
+        const title = solver.querySelector("[data-solver-title]");
+        const copy = solver.querySelector("[data-solver-copy]");
+        const state = solver.querySelector("[data-solver-state]");
+        const bars = Array.from(solver.querySelectorAll(".readout-plot span"));
+        const fields = {
+          scheme: solver.querySelector('[data-solver-field="scheme"]'),
+          case: solver.querySelector('[data-solver-field="case"]'),
+          cfl: solver.querySelector('[data-solver-field="cfl"]')
+        };
+
+        const setCase = (button) => {
+          solver.querySelectorAll("[data-solver-case]").forEach((item) => {
+            const active = item === button;
+            item.classList.toggle("is-active", active);
+            item.setAttribute("aria-pressed", String(active));
+          });
+
+          title.textContent = button.dataset.title;
+          copy.textContent = button.dataset.copy;
+          state.textContent = button.dataset.state;
+          fields.scheme.textContent = button.dataset.scheme;
+          fields.case.textContent = button.dataset.case;
+          fields.cfl.textContent = button.dataset.cfl;
+
+          button.dataset.bars.split(",").forEach((height, index) => {
+            bars[index]?.style.setProperty("--readout-height", `${height}%`);
+          });
+        };
+
+        solver.addEventListener("click", (event) => {
+          const button = event.target.closest("[data-solver-case]");
+          if (button) {
+            setCase(button);
+          }
+        });
+      }
+
+      const trajectory = document.querySelector("[data-trajectory]");
+      if (trajectory) {
+        const steps = Array.from(trajectory.querySelectorAll("[data-trajectory-step]"));
+        const state = trajectory.querySelector("[data-trajectory-state]");
+        const map = trajectory.querySelector("[data-trajectory-map]");
+
+        const setStep = (article) => {
+          steps.forEach((step, index) => {
+            const active = step === article;
+            step.classList.toggle("is-active", active);
+            step.querySelector("button").setAttribute("aria-pressed", String(active));
+            if (active) {
+              map.dataset.activeStep = String(index + 1);
+              state.textContent = step.querySelector("button").dataset.state;
+            }
+          });
+        };
+
+        trajectory.addEventListener("click", (event) => {
+          const article = event.target.closest("[data-trajectory-step]");
+          if (article) {
+            setStep(article);
+          }
+        });
+      }
+    })();
+  </script>
 </BaseLayout>

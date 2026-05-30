@@ -405,6 +405,60 @@ h1 {
   -webkit-backdrop-filter: blur(18px) saturate(1.18);
 }
 
+.panel-kicker {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.panel-kicker span:last-child {
+  color: var(--accent);
+}
+
+.solver-tabs {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+  margin-top: 20px;
+}
+
+.solver-tab {
+  min-height: 34px;
+  display: inline-grid;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 0;
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  text-transform: lowercase;
+  cursor: pointer;
+  transition:
+    background-color 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease,
+    transform 180ms ease;
+}
+
+.solver-tab:hover,
+.solver-tab:focus-visible {
+  color: var(--ink);
+  border-color: color-mix(in srgb, var(--accent) 40%, var(--line));
+}
+
+.solver-tab:focus-visible {
+  outline: 1px solid var(--signal);
+  outline-offset: 3px;
+}
+
+.solver-tab.is-active {
+  background: color-mix(in srgb, var(--accent) 13%, transparent);
+  border-color: color-mix(in srgb, var(--accent) 52%, var(--line));
+  color: var(--ink);
+  transform: translateY(-1px);
+}
+
 .hero-panel strong {
   display: block;
   margin: 20px 0 12px;
@@ -450,6 +504,9 @@ h1 {
   height: var(--readout-height, 54%);
   border-top: 2px solid var(--accent);
   background: linear-gradient(to top, color-mix(in srgb, var(--accent) 20%, transparent), transparent);
+  transition:
+    height 260ms ease,
+    opacity 180ms ease;
 }
 
 .readout-plot span:nth-child(1) {
@@ -705,6 +762,25 @@ h1 {
   transition: transform 220ms ease;
 }
 
+.project-card::after {
+  content: attr(data-project-signal);
+  position: absolute;
+  right: 20px;
+  bottom: 18px;
+  max-width: 220px;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  line-height: 1.28;
+  text-align: right;
+  text-transform: lowercase;
+  opacity: 0;
+  transform: translateY(8px);
+  transition:
+    opacity 180ms ease,
+    transform 180ms ease;
+}
+
 .project-card:hover {
   background: var(--frost-strong);
   border-color: color-mix(in srgb, var(--accent) 42%, var(--line));
@@ -712,8 +788,19 @@ h1 {
   transform: translateY(-3px);
 }
 
+.project-card:focus-visible {
+  outline: 1px solid var(--signal);
+  outline-offset: 5px;
+}
+
 .project-card:hover::before {
   transform: scaleY(1);
+}
+
+.project-card:hover::after,
+.project-card:focus-visible::after {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .project-meta {
@@ -735,6 +822,27 @@ h1 {
   margin-top: 24px;
   color: var(--muted);
   line-height: 1.35;
+}
+
+.project-lens {
+  max-width: 240px;
+  margin-top: 24px;
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  line-height: 1.28;
+  text-transform: lowercase;
+  opacity: 0;
+  transform: translateY(8px);
+  transition:
+    opacity 180ms ease,
+    transform 180ms ease;
+}
+
+.project-card:hover .project-lens,
+.project-card:focus-visible .project-lens {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .project-status {
@@ -831,6 +939,15 @@ h1 {
   border-color: var(--signal);
 }
 
+.trajectory-map[data-active-step="1"] .map-node-one,
+.trajectory-map:not([data-active-step]) .map-node-one,
+.trajectory-map[data-active-step="2"] .map-node-two,
+.trajectory-map[data-active-step="3"] .map-node-three {
+  background: var(--accent);
+  border-color: var(--bg);
+  box-shadow: 0 0 0 7px color-mix(in srgb, var(--accent) 22%, transparent);
+}
+
 .map-sweep {
   width: 54%;
   height: 42%;
@@ -849,17 +966,57 @@ h1 {
   border-color: color-mix(in srgb, var(--signal) 26%, transparent);
 }
 
+.map-label {
+  position: absolute;
+  right: 18px;
+  bottom: 18px;
+  max-width: 190px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  line-height: 1.35;
+  text-align: right;
+  text-transform: lowercase;
+}
+
 .trajectory-list {
   border-top: 1px solid var(--line);
 }
 
 .trajectory-list article {
+  border-bottom: 1px solid var(--line);
+}
+
+.trajectory-list button {
+  width: 100%;
   display: grid;
   grid-template-columns: 64px minmax(160px, 0.44fr) minmax(0, 1fr);
   gap: clamp(18px, 3vw, 44px);
   align-items: baseline;
   padding: 26px 0;
-  border-bottom: 1px solid var(--line);
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    background-color 180ms ease,
+    padding-left 180ms ease;
+}
+
+.trajectory-list button:hover,
+.trajectory-list button:focus-visible,
+.trajectory-list article.is-active button {
+  background: linear-gradient(to right, var(--frost), transparent);
+  padding-left: 14px;
+}
+
+.trajectory-list button:focus-visible {
+  outline: 1px solid var(--signal);
+  outline-offset: 5px;
 }
 
 .trajectory-list span {
@@ -868,16 +1025,20 @@ h1 {
   font-size: 0.72rem;
 }
 
-.trajectory-list h2 {
+.trajectory-title {
   font-size: clamp(1.35rem, 2.1vw, 2.25rem);
   font-weight: 400;
   line-height: 1;
 }
 
-.trajectory-list p {
+.trajectory-detail {
   max-width: 520px;
   color: var(--muted);
   line-height: 1.35;
+}
+
+.trajectory-list article.is-active .trajectory-title {
+  color: var(--accent);
 }
 
 .evidence {
@@ -1264,7 +1425,7 @@ code {
     min-height: 260px;
   }
 
-  .trajectory-list article {
+  .trajectory-list button {
     grid-template-columns: 1fr;
     gap: 12px;
   }
