@@ -49,6 +49,12 @@ const trajectory = [
   }
 ];
 
+const signal = [
+  { label: "numerics", value: "stability first, then speed" },
+  { label: "propulsion", value: "trade space over guesswork" },
+  { label: "software", value: "readable systems that survive inspection" }
+];
+
 const links = [
   { label: "github", href: "https://github.com/colinvargas" },
   { label: "linkedin", href: "https://www.linkedin.com/in/colinvargas" },
@@ -120,6 +126,42 @@ const links = [
         <li>adaptive mesh refinement</li>
         <li>verification</li>
       </ul>
+    </section>
+
+    <section class="signature" aria-labelledby="signature-title">
+      <div class="signature-copy">
+        <div class="section-heading">
+          <span id="signature-title">signal</span>
+          <span>engineering taste</span>
+        </div>
+        <p>
+          I like systems where the math, the code, and the physical intuition
+          all have to be right at the same time.
+        </p>
+      </div>
+
+      <div class="signature-board" aria-label="Technical signal board">
+        <div class="signature-equation">
+          <span>u_t + div F(u) = 0</span>
+          <span>dt &lt;= cfl * dx / max(|lambda|)</span>
+        </div>
+        <div class="signature-wave" aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <dl>
+          {
+            signal.map((item) => (
+              <div>
+                <dt>{item.label}</dt>
+                <dd>{item.value}</dd>
+              </div>
+            ))
+          }
+        </dl>
+      </div>
     </section>
 
     <section class="section" id="work" aria-labelledby="work-title">

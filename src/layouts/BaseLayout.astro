@@ -14,9 +14,95 @@ const {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <meta name="theme-color" content="#f7f3ed" />
+    <script is:inline>
+      (() => {
+        const storageKey = "colinvargas-theme";
+        const lightColor = "#f6f2ea";
+        const darkColor = "#111515";
+        const media = window.matchMedia("(prefers-color-scheme: dark)");
+
+        const getStoredTheme = () => {
+          try {
+            return localStorage.getItem(storageKey);
+          } catch {
+            return null;
+          }
+        };
+
+        const setStoredTheme = (theme) => {
+          try {
+            localStorage.setItem(storageKey, theme);
+          } catch {
+            return;
+          }
+        };
+
+        const getPreferredTheme = () => {
+          const stored = getStoredTheme();
+          if (stored === "light" || stored === "dark") {
+            return stored;
+          }
+
+          return media.matches ? "dark" : "light";
+        };
+
+        const applyTheme = (theme) => {
+          document.documentElement.dataset.theme = theme;
+          document.documentElement.style.colorScheme = theme;
+          document
+            .querySelector('meta[name="theme-color"]')
+            ?.setAttribute("content", theme === "dark" ? darkColor : lightColor);
+        };
+
+        applyTheme(getPreferredTheme());
+        window.__setColinTheme = (theme) => {
+          setStoredTheme(theme);
+          applyTheme(theme);
+        };
+
+        media.addEventListener("change", () => {
+          const stored = getStoredTheme();
+          if (stored !== "light" && stored !== "dark") {
+            applyTheme(getPreferredTheme());
+          }
+        });
+      })();
+    </script>
     <title>{title}</title>
   </head>
   <body>
+    <button class="theme-toggle" type="button" aria-label="Switch color theme" aria-pressed="false">
+      <span class="theme-toggle-track" aria-hidden="true">
+        <span class="theme-toggle-sun"></span>
+        <span class="theme-toggle-moon"></span>
+      </span>
+      <span class="theme-toggle-label">mode</span>
+    </button>
     <slot />
+    <script is:inline>
+      (() => {
+        const button = document.querySelector(".theme-toggle");
+        if (!button) {
+          return;
+        }
+
+        const syncButton = () => {
+          const theme = document.documentElement.dataset.theme || "light";
+          button.setAttribute("aria-pressed", String(theme === "dark"));
+          button.setAttribute(
+            "aria-label",
+            theme === "dark" ? "Switch to light theme" : "Switch to dark theme"
+          );
+        };
+
+        button.addEventListener("click", () => {
+          const current = document.documentElement.dataset.theme || "light";
+          window.__setColinTheme?.(current === "dark" ? "light" : "dark");
+          syncButton();
+        });
+
+        syncButton();
+      })();
+    </script>
   </body>
 </html>

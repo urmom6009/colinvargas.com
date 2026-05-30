@@ -17,6 +17,8 @@
 :root {
   --bg: #f6f2ea;
   --surface: rgba(255, 255, 255, 0.42);
+  --frost: rgba(255, 255, 255, 0.38);
+  --frost-strong: rgba(255, 255, 255, 0.55);
   --ink: #151515;
   --muted: #6e6a64;
   --soft: #9d968c;
@@ -24,8 +26,28 @@
   --accent: #265f73;
   --signal: #b13d57;
   --gold: #b88a18;
+  --grid-line-x: rgba(21, 21, 21, 0.026);
+  --grid-line-y: rgba(21, 21, 21, 0.018);
+  --shadow: rgba(51, 42, 28, 0.09);
   --font-sans: "PP Neue Montreal", "General Sans", "Inter", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", "SF Mono", ui-monospace, monospace;
+}
+
+[data-theme="dark"] {
+  --bg: #111515;
+  --surface: rgba(246, 242, 234, 0.06);
+  --frost: rgba(246, 242, 234, 0.075);
+  --frost-strong: rgba(246, 242, 234, 0.12);
+  --ink: #efe8dc;
+  --muted: #aaa297;
+  --soft: #786f64;
+  --line: rgba(239, 232, 220, 0.16);
+  --accent: #79b7c2;
+  --signal: #e3748d;
+  --gold: #d3a944;
+  --grid-line-x: rgba(239, 232, 220, 0.045);
+  --grid-line-y: rgba(239, 232, 220, 0.032);
+  --shadow: rgba(0, 0, 0, 0.28);
 }
 
 * {
@@ -38,19 +60,25 @@ html {
   color: var(--ink);
   font-family: var(--font-sans);
   scroll-behavior: smooth;
+  transition:
+    background-color 220ms ease,
+    color 220ms ease;
 }
 
 body {
   margin: 0;
   min-height: 100vh;
   background:
-    linear-gradient(to right, rgba(21, 21, 21, 0.026) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(21, 21, 21, 0.018) 1px, transparent 1px),
+    linear-gradient(to right, var(--grid-line-x) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line-y) 1px, transparent 1px),
     var(--bg);
   background-size: 80px 80px;
   font-size: 16px;
   line-height: 1.5;
   overflow-x: hidden;
+  transition:
+    background-color 220ms ease,
+    color 220ms ease;
 }
 
 body::selection {
@@ -91,12 +119,93 @@ footer,
 .project-status,
 .hero-panel,
 .solver-readout,
+.signature-board,
 .pending-note,
 .pending-actions {
   font-family: var(--font-mono);
   font-size: 0.72rem;
   letter-spacing: 0;
   text-transform: lowercase;
+}
+
+.theme-toggle {
+  width: 82px;
+  height: 34px;
+  display: grid;
+  grid-template-columns: 34px 1fr;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 8px 5px 5px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--frost);
+  color: var(--muted);
+  font: 0.66rem/1 var(--font-mono);
+  text-transform: lowercase;
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 20;
+  cursor: pointer;
+  box-shadow: 0 16px 42px var(--shadow);
+  backdrop-filter: blur(18px) saturate(1.22);
+  -webkit-backdrop-filter: blur(18px) saturate(1.22);
+  transition:
+    background-color 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease,
+    transform 180ms ease;
+}
+
+.theme-toggle:hover {
+  color: var(--ink);
+  transform: translateY(-2px);
+}
+
+.theme-toggle-track {
+  width: 24px;
+  height: 24px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  position: relative;
+}
+
+.theme-toggle-sun,
+.theme-toggle-moon {
+  position: absolute;
+  display: block;
+  transition:
+    opacity 180ms ease,
+    transform 180ms ease;
+}
+
+.theme-toggle-sun {
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+  background: var(--gold);
+}
+
+.theme-toggle-moon {
+  width: 10px;
+  height: 10px;
+  border: 1px solid var(--accent);
+  border-left-color: transparent;
+  border-radius: 999px;
+  opacity: 0;
+  transform: rotate(-24deg) scale(0.7);
+}
+
+[data-theme="dark"] .theme-toggle-sun {
+  opacity: 0;
+  transform: scale(0.7);
+}
+
+[data-theme="dark"] .theme-toggle-moon {
+  opacity: 1;
+  transform: rotate(-24deg) scale(1);
 }
 
 .site-header {
@@ -229,7 +338,7 @@ nav a[aria-current="page"]::after {
 }
 
 .patch {
-  border: 1px solid rgba(38, 95, 115, 0.3);
+  border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
 }
 
 .patch-one {
@@ -244,7 +353,7 @@ nav a[aria-current="page"]::after {
   bottom: 19vh;
   width: 144px;
   height: 92px;
-  border-color: rgba(177, 61, 87, 0.24);
+  border-color: color-mix(in srgb, var(--signal) 24%, transparent);
 }
 
 .hero {
@@ -287,9 +396,13 @@ h1 {
 }
 
 .hero-panel {
-  padding: 18px 0 0;
-  border-top: 1px solid var(--line);
+  padding: 18px;
+  border: 1px solid var(--line);
+  background: var(--frost);
   color: var(--muted);
+  box-shadow: 0 24px 70px var(--shadow);
+  backdrop-filter: blur(18px) saturate(1.18);
+  -webkit-backdrop-filter: blur(18px) saturate(1.18);
 }
 
 .hero-panel strong {
@@ -314,7 +427,7 @@ h1 {
 .solver-readout {
   margin-top: 34px;
   padding-top: 18px;
-  border-top: 1px solid rgba(217, 208, 197, 0.78);
+  border-top: 1px solid var(--line);
   color: var(--muted);
 }
 
@@ -327,8 +440,8 @@ h1 {
   gap: 14px;
   border-bottom: 1px solid var(--line);
   background:
-    linear-gradient(to right, rgba(38, 95, 115, 0.12) 1px, transparent 1px),
-    linear-gradient(to top, rgba(21, 21, 21, 0.045) 1px, transparent 1px);
+    linear-gradient(to right, color-mix(in srgb, var(--accent) 16%, transparent) 1px, transparent 1px),
+    linear-gradient(to top, color-mix(in srgb, var(--ink) 7%, transparent) 1px, transparent 1px);
   background-size: 33.333% 100%, 100% 24px;
 }
 
@@ -336,7 +449,7 @@ h1 {
   display: block;
   height: var(--readout-height, 54%);
   border-top: 2px solid var(--accent);
-  background: linear-gradient(to top, rgba(38, 95, 115, 0.16), transparent);
+  background: linear-gradient(to top, color-mix(in srgb, var(--accent) 20%, transparent), transparent);
 }
 
 .readout-plot span:nth-child(1) {
@@ -346,13 +459,13 @@ h1 {
 .readout-plot span:nth-child(2) {
   --readout-height: 68%;
   border-color: var(--gold);
-  background: linear-gradient(to top, rgba(184, 138, 24, 0.16), transparent);
+  background: linear-gradient(to top, color-mix(in srgb, var(--gold) 20%, transparent), transparent);
 }
 
 .readout-plot span:nth-child(3) {
   --readout-height: 55%;
   border-color: var(--signal);
-  background: linear-gradient(to top, rgba(177, 61, 87, 0.14), transparent);
+  background: linear-gradient(to top, color-mix(in srgb, var(--signal) 18%, transparent), transparent);
 }
 
 .solver-readout dl {
@@ -404,6 +517,146 @@ h1 {
   z-index: 1;
 }
 
+.signature {
+  display: grid;
+  grid-template-columns: minmax(0, 0.82fr) minmax(320px, 1.18fr);
+  gap: clamp(34px, 7vw, 112px);
+  align-items: stretch;
+  padding: 42px 0 80px;
+  position: relative;
+  z-index: 1;
+}
+
+.signature-copy {
+  display: grid;
+  align-content: end;
+}
+
+.signature-copy p {
+  max-width: 680px;
+  font-size: clamp(1.7rem, 3.3vw, 4rem);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+.signature-board {
+  min-height: 390px;
+  display: grid;
+  align-content: space-between;
+  gap: 30px;
+  padding: clamp(20px, 3vw, 34px);
+  border: 1px solid var(--line);
+  background:
+    linear-gradient(135deg, var(--frost-strong), var(--frost)),
+    linear-gradient(to right, color-mix(in srgb, var(--accent) 11%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--ink) 5%, transparent) 1px, transparent 1px);
+  background-size: auto, 46px 46px, 46px 46px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 28px 90px var(--shadow);
+  backdrop-filter: blur(20px) saturate(1.2);
+  -webkit-backdrop-filter: blur(20px) saturate(1.2);
+}
+
+.signature-board::before {
+  content: "";
+  position: absolute;
+  right: -16%;
+  bottom: 18%;
+  width: 62%;
+  height: 1px;
+  background: var(--signal);
+  transform: rotate(-27deg);
+  transform-origin: left center;
+}
+
+.signature-equation {
+  display: grid;
+  gap: 8px;
+  color: var(--ink);
+  position: relative;
+  z-index: 1;
+}
+
+.signature-equation span:first-child {
+  font-family: var(--font-sans);
+  font-size: clamp(2.15rem, 5vw, 5.2rem);
+  font-weight: 400;
+  line-height: 0.9;
+  text-transform: none;
+}
+
+.signature-equation span:last-child {
+  color: var(--muted);
+}
+
+.signature-wave {
+  height: 94px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  align-items: end;
+  gap: 10px;
+  position: relative;
+  z-index: 1;
+}
+
+.signature-wave span {
+  display: block;
+  height: var(--wave-height, 40%);
+  border-top: 1px solid var(--accent);
+  border-left: 1px solid color-mix(in srgb, var(--accent) 42%, transparent);
+  transform: skew(-12deg);
+}
+
+.signature-wave span:nth-child(1) {
+  --wave-height: 38%;
+}
+
+.signature-wave span:nth-child(2) {
+  --wave-height: 72%;
+  border-color: var(--gold);
+}
+
+.signature-wave span:nth-child(3) {
+  --wave-height: 54%;
+}
+
+.signature-wave span:nth-child(4) {
+  --wave-height: 82%;
+  border-color: var(--signal);
+}
+
+.signature-board dl {
+  display: grid;
+  gap: 0;
+  margin: 0;
+  border-top: 1px solid var(--line);
+  position: relative;
+  z-index: 1;
+}
+
+.signature-board dl div {
+  display: grid;
+  grid-template-columns: 110px minmax(0, 1fr);
+  gap: 18px;
+  padding: 13px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.signature-board dt,
+.signature-board dd {
+  margin: 0;
+}
+
+.signature-board dt {
+  color: var(--muted);
+}
+
+.signature-board dd {
+  color: var(--ink);
+}
+
 .section-heading {
   display: flex;
   justify-content: space-between;
@@ -428,10 +681,16 @@ h1 {
   padding: clamp(22px, 3vw, 38px);
   border-right: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
+  background: linear-gradient(135deg, var(--frost), transparent);
   position: relative;
   overflow: hidden;
+  box-shadow: 0 18px 60px color-mix(in srgb, var(--shadow) 42%, transparent);
+  backdrop-filter: blur(16px) saturate(1.14);
+  -webkit-backdrop-filter: blur(16px) saturate(1.14);
   transition:
     background-color 220ms ease,
+    border-color 220ms ease,
+    box-shadow 220ms ease,
     transform 220ms ease;
 }
 
@@ -447,7 +706,9 @@ h1 {
 }
 
 .project-card:hover {
-  background: var(--surface);
+  background: var(--frost-strong);
+  border-color: color-mix(in srgb, var(--accent) 42%, var(--line));
+  box-shadow: 0 24px 76px var(--shadow);
   transform: translateY(-3px);
 }
 
@@ -517,10 +778,14 @@ h1 {
   overflow: hidden;
   border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
+  box-shadow: 0 22px 76px color-mix(in srgb, var(--shadow) 50%, transparent);
+  backdrop-filter: blur(14px) saturate(1.12);
+  -webkit-backdrop-filter: blur(14px) saturate(1.12);
   background:
-    linear-gradient(to right, rgba(21, 21, 21, 0.035) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(21, 21, 21, 0.026) 1px, transparent 1px);
-  background-size: 44px 44px;
+    linear-gradient(135deg, var(--frost), transparent),
+    linear-gradient(to right, color-mix(in srgb, var(--ink) 5%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--ink) 4%, transparent) 1px, transparent 1px);
+  background-size: auto, 44px 44px, 44px 44px;
 }
 
 .map-line,
@@ -546,6 +811,7 @@ h1 {
   border: 2px solid var(--ink);
   border-radius: 999px;
   background: var(--bg);
+  box-shadow: 0 0 0 5px color-mix(in srgb, var(--bg) 62%, transparent);
 }
 
 .map-node-one {
@@ -568,7 +834,7 @@ h1 {
 .map-sweep {
   width: 54%;
   height: 42%;
-  border: 1px solid rgba(38, 95, 115, 0.34);
+  border: 1px solid color-mix(in srgb, var(--accent) 34%, transparent);
   transform: skew(-18deg);
 }
 
@@ -580,7 +846,7 @@ h1 {
 .map-sweep-two {
   top: 12%;
   right: 8%;
-  border-color: rgba(177, 61, 87, 0.26);
+  border-color: color-mix(in srgb, var(--signal) 26%, transparent);
 }
 
 .trajectory-list {
@@ -820,7 +1086,7 @@ code {
 
 .resume-item:hover {
   color: var(--accent);
-  background: linear-gradient(to right, rgba(255, 255, 255, 0.42), transparent);
+  background: linear-gradient(to right, var(--frost), transparent);
   padding-left: 12px;
 }
 
@@ -943,6 +1209,7 @@ code {
   }
 
   .hero-grid,
+  .signature,
   .trajectory-grid,
   .pending-grid,
   .resume-hero-grid,
@@ -958,6 +1225,14 @@ code {
 
   .tags {
     margin-top: 0;
+  }
+
+  .signature {
+    padding: 30px 0 66px;
+  }
+
+  .signature-board {
+    min-height: 340px;
   }
 
   .project-grid {
@@ -1054,6 +1329,28 @@ code {
 
   .project-card {
     padding: 24px;
+  }
+
+  .theme-toggle {
+    right: 12px;
+    bottom: 12px;
+  }
+
+  .signature-copy p {
+    font-size: 2.15rem;
+  }
+
+  .signature-board {
+    min-height: 310px;
+  }
+
+  .signature-equation span:first-child {
+    font-size: 2.35rem;
+  }
+
+  .signature-board dl div {
+    grid-template-columns: 1fr;
+    gap: 4px;
   }
 
   .focus p {

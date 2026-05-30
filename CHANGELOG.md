@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Added persistent light/dark theme support, frosted surfaces, and a sharper homepage signal panel.
 - Added a solver readout and trajectory band to give the homepage a richer technical layer.
 - Added an interactive navigation treatment with hover motion, active-state markers, and a `resume` destination.
 - Refined the homepage hero line and tagline scale for a more compact first impression.
