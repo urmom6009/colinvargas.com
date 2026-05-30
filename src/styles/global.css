@@ -90,6 +90,7 @@ footer,
 .project-meta,
 .project-status,
 .hero-panel,
+.solver-readout,
 .pending-note,
 .pending-actions {
   font-family: var(--font-mono);
@@ -310,6 +311,72 @@ h1 {
   text-transform: none;
 }
 
+.solver-readout {
+  margin-top: 34px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(217, 208, 197, 0.78);
+  color: var(--muted);
+}
+
+.readout-plot {
+  height: 96px;
+  margin-bottom: 18px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: end;
+  gap: 14px;
+  border-bottom: 1px solid var(--line);
+  background:
+    linear-gradient(to right, rgba(38, 95, 115, 0.12) 1px, transparent 1px),
+    linear-gradient(to top, rgba(21, 21, 21, 0.045) 1px, transparent 1px);
+  background-size: 33.333% 100%, 100% 24px;
+}
+
+.readout-plot span {
+  display: block;
+  height: var(--readout-height, 54%);
+  border-top: 2px solid var(--accent);
+  background: linear-gradient(to top, rgba(38, 95, 115, 0.16), transparent);
+}
+
+.readout-plot span:nth-child(1) {
+  --readout-height: 42%;
+}
+
+.readout-plot span:nth-child(2) {
+  --readout-height: 68%;
+  border-color: var(--gold);
+  background: linear-gradient(to top, rgba(184, 138, 24, 0.16), transparent);
+}
+
+.readout-plot span:nth-child(3) {
+  --readout-height: 55%;
+  border-color: var(--signal);
+  background: linear-gradient(to top, rgba(177, 61, 87, 0.14), transparent);
+}
+
+.solver-readout dl {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+}
+
+.solver-readout div {
+  display: grid;
+  grid-template-columns: 74px minmax(0, 1fr);
+  gap: 16px;
+  align-items: baseline;
+}
+
+.solver-readout dt,
+.solver-readout dd {
+  margin: 0;
+}
+
+.solver-readout dd {
+  color: var(--ink);
+}
+
 .tags {
   list-style: none;
   padding: 0;
@@ -429,6 +496,122 @@ h1 {
   font-weight: 400;
   line-height: 0.96;
   letter-spacing: 0;
+}
+
+.trajectory {
+  padding: 56px 0 70px;
+  position: relative;
+  z-index: 1;
+}
+
+.trajectory-grid {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.88fr) minmax(0, 1.12fr);
+  gap: clamp(32px, 7vw, 96px);
+  align-items: stretch;
+}
+
+.trajectory-map {
+  min-height: 360px;
+  position: relative;
+  overflow: hidden;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background:
+    linear-gradient(to right, rgba(21, 21, 21, 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(21, 21, 21, 0.026) 1px, transparent 1px);
+  background-size: 44px 44px;
+}
+
+.map-line,
+.map-node,
+.map-sweep {
+  position: absolute;
+  display: block;
+}
+
+.map-line {
+  top: 58%;
+  left: 10%;
+  width: 84%;
+  height: 1px;
+  background: var(--accent);
+  transform: rotate(-17deg);
+  transform-origin: left center;
+}
+
+.map-node {
+  width: 12px;
+  height: 12px;
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  background: var(--bg);
+}
+
+.map-node-one {
+  top: 67%;
+  left: 18%;
+}
+
+.map-node-two {
+  top: 48%;
+  left: 49%;
+  border-color: var(--accent);
+}
+
+.map-node-three {
+  top: 31%;
+  right: 15%;
+  border-color: var(--signal);
+}
+
+.map-sweep {
+  width: 54%;
+  height: 42%;
+  border: 1px solid rgba(38, 95, 115, 0.34);
+  transform: skew(-18deg);
+}
+
+.map-sweep-one {
+  left: 8%;
+  bottom: 13%;
+}
+
+.map-sweep-two {
+  top: 12%;
+  right: 8%;
+  border-color: rgba(177, 61, 87, 0.26);
+}
+
+.trajectory-list {
+  border-top: 1px solid var(--line);
+}
+
+.trajectory-list article {
+  display: grid;
+  grid-template-columns: 64px minmax(160px, 0.44fr) minmax(0, 1fr);
+  gap: clamp(18px, 3vw, 44px);
+  align-items: baseline;
+  padding: 26px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.trajectory-list span {
+  color: var(--soft);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+}
+
+.trajectory-list h2 {
+  font-size: clamp(1.35rem, 2.1vw, 2.25rem);
+  font-weight: 400;
+  line-height: 1;
+}
+
+.trajectory-list p {
+  max-width: 520px;
+  color: var(--muted);
+  line-height: 1.35;
 }
 
 .evidence {
@@ -760,6 +943,7 @@ code {
   }
 
   .hero-grid,
+  .trajectory-grid,
   .pending-grid,
   .resume-hero-grid,
   .split,
@@ -797,6 +981,15 @@ code {
   }
 
   .evidence-list article {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .trajectory-map {
+    min-height: 260px;
+  }
+
+  .trajectory-list article {
     grid-template-columns: 1fr;
     gap: 12px;
   }

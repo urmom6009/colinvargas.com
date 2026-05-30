@@ -25,6 +25,30 @@ const projects = [
   }
 ];
 
+const readout = [
+  { label: "scheme", value: "fv / explicit" },
+  { label: "case", value: "scalar advection" },
+  { label: "next", value: "amr verification" }
+];
+
+const trajectory = [
+  {
+    step: "01",
+    title: "baseline physics",
+    detail: "Keep the first cases small enough to inspect every numerical choice."
+  },
+  {
+    step: "02",
+    title: "solver architecture",
+    detail: "Separate mesh, state, flux, and update paths so the system can grow cleanly."
+  },
+  {
+    step: "03",
+    title: "public record",
+    detail: "Publish the plots, notes, and verification trail once they clarify the work."
+  }
+];
+
 const links = [
   { label: "github", href: "https://github.com/colinvargas" },
   { label: "linkedin", href: "https://www.linkedin.com/in/colinvargas" },
@@ -68,6 +92,24 @@ const links = [
           <p>
             Scalar advection now, adaptive higher-order flow capability next.
           </p>
+
+          <div class="solver-readout" aria-label="Solver readout">
+            <div class="readout-plot" aria-hidden="true">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+            <dl>
+              {
+                readout.map((item) => (
+                  <div>
+                    <dt>{item.label}</dt>
+                    <dd>{item.value}</dd>
+                  </div>
+                ))
+              }
+            </dl>
+          </div>
         </aside>
       </div>
 
@@ -109,6 +151,36 @@ const links = [
         Developing a solver and project record that make the numerical choices,
         verification path, and engineering tradeoffs inspectable.
       </p>
+    </section>
+
+    <section class="trajectory" aria-labelledby="trajectory-title">
+      <div class="section-heading">
+        <span id="trajectory-title">solver trajectory</span>
+        <span>from case to record</span>
+      </div>
+
+      <div class="trajectory-grid">
+        <div class="trajectory-map" aria-hidden="true">
+          <span class="map-line"></span>
+          <span class="map-node map-node-one"></span>
+          <span class="map-node map-node-two"></span>
+          <span class="map-node map-node-three"></span>
+          <span class="map-sweep map-sweep-one"></span>
+          <span class="map-sweep map-sweep-two"></span>
+        </div>
+
+        <div class="trajectory-list">
+          {
+            trajectory.map((item) => (
+              <article>
+                <span>{item.step}</span>
+                <h2>{item.title}</h2>
+                <p>{item.detail}</p>
+              </article>
+            ))
+          }
+        </div>
+      </div>
     </section>
 
     <section class="evidence" aria-labelledby="evidence-title">
