@@ -1,0 +1,54 @@
+---
+import SiteHeader from "../components/SiteHeader.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const principles = [
+  {
+    title: "make the physics inspectable",
+    detail: "Prefer calculations, plots, and explanations that expose assumptions instead of hiding them."
+  },
+  {
+    title: "build systems that can grow",
+    detail: "Separate numerical choices, data flow, and presentation so tools can survive new cases."
+  },
+  {
+    title: "publish the useful trail",
+    detail: "Turn working notes into public records when they help someone understand the work."
+  }
+];
+---
+
+<BaseLayout title="about - colin vargas">
+  <SiteHeader current="about" />
+
+  <main>
+    <section class="directory-hero" aria-labelledby="about-title">
+      <div class="section-heading">
+        <span>about</span>
+        <span>computational aerospace systems</span>
+      </div>
+      <h1 id="about-title">aerospace engineering, numerical methods, and careful software.</h1>
+      <p>
+        I focus on computational tools that connect physical intuition with transparent implementation: solver architecture, propulsion analysis, verification workflows, and clear technical records.
+      </p>
+    </section>
+
+    <section class="directory-section" aria-labelledby="principles-title">
+      <div class="section-heading">
+        <span id="principles-title">principles</span>
+        <span>working style</span>
+      </div>
+      <div class="principle-grid">
+        {
+          principles.map((principle, index) => (
+            <article>
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              <h2>{principle.title}</h2>
+              <p>{principle.detail}</p>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+  </main>
+</BaseLayout>

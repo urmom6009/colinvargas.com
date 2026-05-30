@@ -1,18 +1,10 @@
 ---
+import SiteHeader from "../../components/SiteHeader.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 ---
 
 <BaseLayout title="notes - colin vargas">
-  <header class="site-header">
-    <a class="brand" href="/" aria-label="colin vargas home">colin vargas</a>
-    <nav aria-label="Primary navigation">
-      <a href="/#work">work</a>
-      <a href="/notes">notes</a>
-      <a href="/resume">resume</a>
-      <a href="/#about">about</a>
-      <a href="/#contact">contact</a>
-    </nav>
-  </header>
+  <SiteHeader current="notes" />
 
   <main>
     <section class="pending-page" aria-labelledby="notes-title">
@@ -41,7 +33,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 
       <div class="pending-actions">
         <a href="/">back home</a>
-        <a href="/#work">selected work</a>
+        <a href="/work">work index</a>
         <a href="/resume">resume index</a>
       </div>
     </section>

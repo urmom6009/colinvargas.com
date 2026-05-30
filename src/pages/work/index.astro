@@ -1,0 +1,74 @@
+---
+import SiteHeader from "../../components/SiteHeader.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const projects = [
+  {
+    title: "adaptive cfd solver",
+    meta: "thesis / amrex / c++ / finite volume",
+    detail:
+      "A modular solver path from scalar advection toward adaptive, higher-order flow capabilities.",
+    href: "/work/adaptive-cfd-solver",
+    status: "active build log"
+  },
+  {
+    title: "scramjet analysis tool",
+    meta: "python / propulsion / parametric analysis",
+    detail:
+      "A computational tool for exploring propulsion trade spaces and visualizing performance trends.",
+    href: "/work/scramjet-analysis-tool",
+    status: "writeup pending"
+  },
+  {
+    title: "compressible flow project",
+    meta: "numerical methods / visualization / paraview",
+    detail:
+      "Finite-volume simulations and post-processing workflows for understanding flow behavior.",
+    href: "/work/compressible-flow-project",
+    status: "archive pending"
+  },
+  {
+    title: "technical log workflow",
+    meta: "astro content / node script / documentation",
+    detail:
+      "A repeatable workflow for turning local engineering notes into durable public records.",
+    href: "/notes",
+    status: "workflow live"
+  }
+];
+---
+
+<BaseLayout title="work - colin vargas">
+  <SiteHeader current="work" />
+
+  <main>
+    <section class="directory-hero" aria-labelledby="work-title">
+      <div class="section-heading">
+        <span>work</span>
+        <span>dedicated project index</span>
+      </div>
+      <h1 id="work-title">engineering artifacts with the assumptions left visible.</h1>
+      <p>
+        Solver development, propulsion tooling, numerical experiments, and the project records that make each result easier to inspect.
+      </p>
+    </section>
+
+    <section class="directory-section" aria-label="Work projects">
+      <div class="directory-list">
+        {
+          projects.map((project, index) => (
+            <a class="directory-card" href={project.href}>
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              <div>
+                <strong>{project.meta}</strong>
+                <h2>{project.title}</h2>
+                <p>{project.detail}</p>
+              </div>
+              <em>{project.status}</em>
+            </a>
+          ))
+        }
+      </div>
+    </section>
+  </main>
+</BaseLayout>

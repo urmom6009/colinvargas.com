@@ -1,0 +1,40 @@
+---
+import SiteHeader from "../components/SiteHeader.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const contactLinks = [
+  { label: "email", value: "hello@colinvargas.com", href: "mailto:hello@colinvargas.com" },
+  { label: "github", value: "github.com/colinvargas", href: "https://github.com/colinvargas" },
+  { label: "linkedin", value: "linkedin.com/in/colinvargas", href: "https://www.linkedin.com/in/colinvargas" }
+];
+---
+
+<BaseLayout title="contact - colin vargas">
+  <SiteHeader current="contact" />
+
+  <main>
+    <section class="directory-hero" aria-labelledby="contact-title">
+      <div class="section-heading">
+        <span>contact</span>
+        <span>america/phoenix</span>
+      </div>
+      <h1 id="contact-title">open channels for projects, questions, and collaboration.</h1>
+      <p>
+        Reach out about aerospace tools, numerical methods, solver development, propulsion analysis, or technical writing that benefits from careful engineering records.
+      </p>
+    </section>
+
+    <section class="directory-section" aria-label="Contact links">
+      <div class="contact-card-grid">
+        {
+          contactLinks.map((link) => (
+            <a href={link.href}>
+              <span>{link.label}</span>
+              <strong>{link.value}</strong>
+            </a>
+          ))
+        }
+      </div>
+    </section>
+  </main>
+</BaseLayout>

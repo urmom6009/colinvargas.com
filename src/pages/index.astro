@@ -1,4 +1,5 @@
 ---
+import SiteHeader from "../components/SiteHeader.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 
 const projects = [
@@ -60,6 +61,13 @@ const links = [
   { label: "linkedin", href: "https://www.linkedin.com/in/colinvargas" },
   { label: "email", href: "mailto:hello@colinvargas.com" }
 ];
+
+const telemetry = [
+  { label: "mesh", value: "adaptive" },
+  { label: "residual", value: "stable" },
+  { label: "cfl", value: "0.42" },
+  { label: "log", value: "public" }
+];
 ---
 
 <BaseLayout>
@@ -70,21 +78,16 @@ const links = [
     <span class="patch patch-two"></span>
   </div>
 
-  <header class="site-header">
-    <a class="brand" href="/" aria-label="colin vargas home">colin vargas</a>
-    <nav aria-label="Primary navigation">
-      <a href="#work">work</a>
-      <a href="/notes">notes</a>
-      <a href="/resume">resume</a>
-      <a href="#about">about</a>
-      <a href="#contact">contact</a>
-    </nav>
-  </header>
+  <SiteHeader />
 
   <main>
     <section class="hero" aria-labelledby="hero-title">
       <div class="hero-grid">
         <div class="hero-copy">
+          <div class="hero-kicker" aria-hidden="true">
+            <span>solver lab</span>
+            <span>mach lines armed</span>
+          </div>
           <h1 id="hero-title">computational aerospace systems.</h1>
           <p class="intro">
             Numerical methods, propulsion analysis, and careful software for
@@ -105,6 +108,13 @@ const links = [
               <span></span>
               <span></span>
             </div>
+            <div class="orbit-visual" aria-hidden="true">
+              <span class="orbit-ring orbit-ring-one"></span>
+              <span class="orbit-ring orbit-ring-two"></span>
+              <span class="orbit-core"></span>
+              <span class="orbit-dot orbit-dot-one"></span>
+              <span class="orbit-dot orbit-dot-two"></span>
+            </div>
             <dl>
               {
                 readout.map((item) => (
@@ -119,13 +129,26 @@ const links = [
         </aside>
       </div>
 
-      <ul class="tags" aria-label="Technical focus areas">
-        <li>amrex</li>
-        <li>c++</li>
-        <li>finite volume</li>
-        <li>adaptive mesh refinement</li>
-        <li>verification</li>
-      </ul>
+      <div class="hero-bottom">
+        <ul class="tags" aria-label="Technical focus areas">
+          <li>amrex</li>
+          <li>c++</li>
+          <li>finite volume</li>
+          <li>adaptive mesh refinement</li>
+          <li>verification</li>
+        </ul>
+
+        <dl class="telemetry-strip" aria-label="Homepage telemetry">
+          {
+            telemetry.map((item) => (
+              <div>
+                <dt>{item.label}</dt>
+                <dd>{item.value}</dd>
+              </div>
+            ))
+          }
+        </dl>
+      </div>
     </section>
 
     <section class="signature" aria-labelledby="signature-title">
@@ -167,7 +190,7 @@ const links = [
     <section class="section" id="work" aria-labelledby="work-title">
       <div class="section-heading">
         <span id="work-title">selected work</span>
-        <span><a href="/resume">full index</a></span>
+        <span><a href="/work">full index</a></span>
       </div>
 
       <div class="project-grid">
@@ -274,7 +297,7 @@ const links = [
     </section>
   </main>
 
-  <footer id="contact">
+  <footer>
     <span>america/phoenix</span>
     <div class="footer-links">
       {links.map((link) => <a href={link.href}>{link.label}</a>)}

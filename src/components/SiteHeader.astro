@@ -1,0 +1,24 @@
+---
+const { current = "" } = Astro.props;
+
+const navItems = [
+  { label: "work", href: "/work" },
+  { label: "notes", href: "/notes" },
+  { label: "resume", href: "/resume" },
+  { label: "about", href: "/about" },
+  { label: "contact", href: "/contact" }
+];
+---
+
+<header class="site-header">
+  <a class="brand" href="/" aria-label="colin vargas home">colin vargas</a>
+  <nav aria-label="Primary navigation">
+    {
+      navItems.map((item) => (
+        <a href={item.href} aria-current={current === item.label ? "page" : undefined}>
+          {item.label}
+        </a>
+      ))
+    }
+  </nav>
+</header>
