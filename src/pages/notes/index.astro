@@ -18,15 +18,16 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
     <section class="pending-page" aria-labelledby="notes-title">
       <div class="section-heading">
         <span>notes</span>
-        <span>log workflow active</span>
+        <span>field notes pending</span>
       </div>
 
       <div class="pending-grid">
         <div>
-          <h1 id="notes-title">notes are being assembled.</h1>
+          <h1 id="notes-title">notes will publish when they earn the space.</h1>
           <p>
-            The logging workflow is wired into the repo, but public entries are
-            still being cleaned up before they are published here.
+            The logging workflow is wired into the repo. Public entries will
+            appear once the build context, figures, and decisions are clear
+            enough to be useful.
           </p>
         </div>
 
@@ -34,7 +35,8 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
           <span>how entries are made</span>
           <p>
             New notes are created from any local repository with
-            <code>portfolio-log "topic"</code>, then promoted when the record is useful.
+            <code>portfolio-log "topic"</code>, then promoted when the record
+            explains something worth keeping.
           </p>
         </aside>
       </div>

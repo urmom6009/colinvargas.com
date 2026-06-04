@@ -2,8 +2,8 @@
 import "../styles/global.css";
 
 const {
-  title = "colin vargas - computational aerospace engineering",
-  description = "Computational fluid dynamics, propulsion, and numerical methods."
+  title = "colin vargas - evidence-first aerospace software",
+  description = "Computational aerospace work across numerical methods, propulsion analysis, solver development, and inspectable technical records."
 } = Astro.props;
 ---
 
@@ -13,12 +13,12 @@ const {
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#f7f3ed" />
+    <meta name="theme-color" content="#eff1ea" />
     <script is:inline>
       (() => {
         const storageKey = "colinvargas-theme";
-        const lightColor = "#f6f2ea";
-        const darkColor = "#111515";
+        const lightColor = "#eff1ea";
+        const darkColor = "#0d1211";
         const media = window.matchMedia("(prefers-color-scheme: dark)");
 
         const getStoredTheme = () => {

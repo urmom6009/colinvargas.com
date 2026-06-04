@@ -15,17 +15,17 @@
 }
 
 :root {
-  --bg: #f6f2ea;
-  --surface: rgba(255, 255, 255, 0.42);
-  --frost: rgba(255, 255, 255, 0.38);
-  --frost-strong: rgba(255, 255, 255, 0.55);
-  --ink: #151515;
-  --muted: #6e6a64;
-  --soft: #9d968c;
-  --line: #d9d0c5;
-  --accent: #265f73;
-  --signal: #b13d57;
-  --gold: #b88a18;
+  --bg: #eff1ea;
+  --surface: rgba(255, 255, 255, 0.36);
+  --frost: rgba(255, 255, 255, 0.32);
+  --frost-strong: rgba(255, 255, 255, 0.5);
+  --ink: #101616;
+  --muted: #626a65;
+  --soft: #8c958f;
+  --line: #cfd8d1;
+  --accent: #176a78;
+  --signal: #9f3548;
+  --gold: #a6842b;
   --grid-line-x: rgba(21, 21, 21, 0.026);
   --grid-line-y: rgba(21, 21, 21, 0.018);
   --shadow: rgba(51, 42, 28, 0.09);
@@ -34,14 +34,14 @@
 }
 
 [data-theme="dark"] {
-  --bg: #111515;
+  --bg: #0d1211;
   --surface: rgba(246, 242, 234, 0.06);
   --frost: rgba(246, 242, 234, 0.075);
   --frost-strong: rgba(246, 242, 234, 0.12);
-  --ink: #efe8dc;
-  --muted: #aaa297;
-  --soft: #786f64;
-  --line: rgba(239, 232, 220, 0.16);
+  --ink: #eef2ea;
+  --muted: #a6afa8;
+  --soft: #78827c;
+  --line: rgba(238, 242, 234, 0.16);
   --accent: #79b7c2;
   --signal: #e3748d;
   --gold: #d3a944;
@@ -69,10 +69,12 @@ body {
   margin: 0;
   min-height: 100vh;
   background:
+    radial-gradient(circle at 78% 8%, color-mix(in srgb, var(--accent) 9%, transparent), transparent 28vw),
+    radial-gradient(circle at 14% 74%, color-mix(in srgb, var(--signal) 7%, transparent), transparent 24vw),
     linear-gradient(to right, var(--grid-line-x) 1px, transparent 1px),
     linear-gradient(to bottom, var(--grid-line-y) 1px, transparent 1px),
     var(--bg);
-  background-size: 80px 80px;
+  background-size: auto, auto, 80px 80px, 80px 80px, auto;
   font-size: 16px;
   line-height: 1.5;
   overflow-x: hidden;
@@ -309,8 +311,36 @@ nav a[aria-current="page"]::after {
   opacity: 0.58;
 }
 
+.field::before,
+.field::after {
+  content: "";
+  position: absolute;
+  display: block;
+  border: 1px solid color-mix(in srgb, var(--ink) 10%, transparent);
+  opacity: 0.32;
+}
+
+.field::before {
+  top: 12vh;
+  left: 46vw;
+  width: min(32vw, 420px);
+  height: min(32vw, 420px);
+  border-radius: 999px;
+  animation: field-breathe 12s ease-in-out infinite;
+}
+
+.field::after {
+  right: 7vw;
+  bottom: 10vh;
+  width: min(24vw, 300px);
+  height: min(18vw, 220px);
+  transform: skew(-18deg);
+  animation: field-drift 16s ease-in-out infinite;
+}
+
 .mach,
-.patch {
+.patch,
+.trace {
   position: absolute;
   display: block;
 }
@@ -326,6 +356,7 @@ nav a[aria-current="page"]::after {
   right: -4vw;
   background: var(--accent);
   transform: rotate(-28deg);
+  animation: signal-pass 9s ease-in-out infinite;
 }
 
 .mach-two {
@@ -356,6 +387,27 @@ nav a[aria-current="page"]::after {
   border-color: color-mix(in srgb, var(--signal) 24%, transparent);
 }
 
+.trace {
+  width: 1px;
+  height: min(34vh, 340px);
+  background: linear-gradient(to bottom, transparent, var(--accent), transparent);
+  opacity: 0.24;
+  transform: rotate(18deg);
+  animation: trace-drift 11s ease-in-out infinite;
+}
+
+.trace-one {
+  top: 34vh;
+  left: 18vw;
+}
+
+.trace-two {
+  right: 28vw;
+  bottom: 14vh;
+  background: linear-gradient(to bottom, transparent, var(--signal), transparent);
+  animation-delay: 1.8s;
+}
+
 .hero {
   min-height: calc(100svh - 240px);
   display: flex;
@@ -379,20 +431,45 @@ nav a[aria-current="page"]::after {
   animation: rise 700ms ease both;
 }
 
+.hero-kicker,
+.hero-stance {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0;
+  text-transform: lowercase;
+}
+
+.hero-kicker {
+  width: fit-content;
+  margin-bottom: clamp(18px, 3vh, 32px);
+  padding-top: 12px;
+  border-top: 1px solid var(--accent);
+  color: var(--accent);
+}
+
 h1 {
   max-width: 1120px;
-  font-size: clamp(4rem, 8.5vw, 8.9rem);
+  font-size: clamp(4.8rem, 11.4vw, 12.6rem);
   font-weight: 400;
-  line-height: 0.88;
+  line-height: 0.8;
   letter-spacing: 0;
 }
 
 .intro {
-  max-width: 520px;
+  max-width: 680px;
   margin-top: 28px;
   color: var(--muted);
   font-size: clamp(0.98rem, 1.35vw, 1.18rem);
   line-height: 1.36;
+}
+
+.hero-stance {
+  max-width: 460px;
+  margin-top: 22px;
+  padding-left: 18px;
+  border-left: 1px solid var(--line);
+  color: var(--soft);
+  line-height: 1.45;
 }
 
 .hero-panel {
@@ -403,6 +480,7 @@ h1 {
   box-shadow: 0 24px 70px var(--shadow);
   backdrop-filter: blur(18px) saturate(1.18);
   -webkit-backdrop-filter: blur(18px) saturate(1.18);
+  animation: fade-in 760ms 120ms ease both;
 }
 
 .panel-kicker {
@@ -1347,6 +1425,50 @@ code {
   }
 }
 
+@keyframes field-breathe {
+  0%, 100% {
+    transform: scale(0.94);
+    opacity: 0.2;
+  }
+
+  50% {
+    transform: scale(1.04);
+    opacity: 0.38;
+  }
+}
+
+@keyframes field-drift {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) skew(-18deg);
+  }
+
+  50% {
+    transform: translate3d(16px, -12px, 0) skew(-18deg);
+  }
+}
+
+@keyframes signal-pass {
+  0%, 100% {
+    opacity: 0.38;
+    transform: rotate(-28deg) translateX(0);
+  }
+
+  50% {
+    opacity: 0.82;
+    transform: rotate(-28deg) translateX(-34px);
+  }
+}
+
+@keyframes trace-drift {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) rotate(18deg);
+  }
+
+  50% {
+    transform: translate3d(12px, -18px, 0) rotate(18deg);
+  }
+}
+
 @media (max-width: 900px) {
   main,
   .site-header,
@@ -1443,7 +1565,7 @@ code {
 
 @media (max-width: 560px) {
   body {
-    background-size: 52px 52px;
+    background-size: auto, auto, 52px 52px, 52px 52px, auto;
   }
 
   .site-header {
@@ -1468,6 +1590,10 @@ code {
     gap: 42px;
   }
 
+  .hero-kicker {
+    max-width: 260px;
+  }
+
   h1 {
     font-size: 2.95rem;
     line-height: 0.94;
@@ -1476,6 +1602,11 @@ code {
 
   .intro {
     margin-top: 20px;
+  }
+
+  .hero-stance {
+    margin-top: 18px;
+    padding-left: 12px;
   }
 
   .section {
@@ -1539,6 +1670,14 @@ code {
     animation-iteration-count: 1 !important;
     scroll-behavior: auto !important;
     transition-duration: 0.001ms !important;
+  }
+
+  .field::before,
+  .field::after,
+  .mach-one,
+  .trace {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
   }
 }
 

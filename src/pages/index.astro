@@ -5,28 +5,28 @@ const projects = [
   {
     title: "adaptive cfd solver",
     meta: "thesis / amrex / c++",
-    status: "active build log",
-    desc: "A modular solver path from scalar advection toward adaptive, higher-order flow capabilities.",
-    lens: "mesh/state/flux separation",
-    signal: "verification-first solver architecture",
+    status: "active notebook",
+    desc: "Thesis work that starts with scalar advection and makes each solver choice testable, visible, and defensible.",
+    lens: "mesh, state, flux, update",
+    signal: "small cases before big claims",
     href: "/work/adaptive-cfd-solver"
   },
   {
     title: "scramjet analysis tool",
     meta: "python / propulsion / parametric analysis",
     status: "writeup pending",
-    desc: "A computational tool for exploring propulsion trade spaces and visualizing performance trends.",
-    lens: "parametric propulsion sweeps",
-    signal: "turning assumptions into visible trends",
+    desc: "A propulsion trade-space tool for turning assumptions, sweeps, and trends into plots that can be argued with.",
+    lens: "assumption, sweep, trend",
+    signal: "make the trade visible",
     href: "/work/scramjet-analysis-tool"
   },
   {
     title: "compressible flow project",
     meta: "numerical methods / visualization / paraview",
     status: "archive pending",
-    desc: "Finite-volume simulations and post-processing workflows for understanding flow behavior.",
-    lens: "finite-volume flow inspection",
-    signal: "simulation output with reproducible context",
+    desc: "Finite-volume simulation work where the useful artifact is not just the plot, but the record around it.",
+    lens: "finite-volume inspection",
+    signal: "figures with provenance",
     href: "/work/compressible-flow-project"
   }
 ];
@@ -36,7 +36,7 @@ const solverCases = [
     id: "baseline",
     label: "baseline",
     title: "AMReX solver development",
-    copy: "Scalar advection now, adaptive higher-order flow capability next.",
+    copy: "Start plain enough that every boundary condition and update can be inspected.",
     scheme: "fv / explicit",
     case: "smooth pulse",
     cfl: "0.42",
@@ -47,7 +47,7 @@ const solverCases = [
     id: "refine",
     label: "refine",
     title: "mesh refinement pass",
-    copy: "Track how numerical choices change when the same case is tightened.",
+    copy: "Tighten the same case and watch which numerical choices start to matter.",
     scheme: "fv / limited",
     case: "refined mesh",
     cfl: "0.31",
@@ -58,7 +58,7 @@ const solverCases = [
     id: "stress",
     label: "stress",
     title: "stability inspection",
-    copy: "Push the step size until the readout makes the risk visible.",
+    copy: "Push the step size until the readout stops pretending everything is fine.",
     scheme: "fv / explicit",
     case: "steep front",
     cfl: "0.88",
@@ -76,28 +76,28 @@ const readout = [
 const trajectory = [
   {
     step: "01",
-    title: "baseline physics",
-    detail: "Keep the first cases small enough to inspect every numerical choice.",
-    state: "case is intentionally small"
+    title: "make it inspectable",
+    detail: "Keep the first cases small enough that a mistake has nowhere to hide.",
+    state: "case is small on purpose"
   },
   {
     step: "02",
-    title: "solver architecture",
-    detail: "Separate mesh, state, flux, and update paths so the system can grow cleanly.",
-    state: "interfaces carry the complexity"
+    title: "separate the hard parts",
+    detail: "Let mesh, state, flux, and update paths carry their own responsibilities.",
+    state: "complexity has addresses"
   },
   {
     step: "03",
-    title: "public record",
-    detail: "Publish the plots, notes, and verification trail once they clarify the work.",
-    state: "publish only the useful evidence"
+    title: "leave a record",
+    detail: "Publish notes and figures when they explain the decision, not just the result.",
+    state: "evidence before polish"
   }
 ];
 
 const signal = [
-  { label: "numerics", value: "stability first, then speed" },
-  { label: "propulsion", value: "trade space over guesswork" },
-  { label: "software", value: "readable systems that survive inspection" }
+  { label: "numerics", value: "stability before performance theater" },
+  { label: "propulsion", value: "trade spaces over hunches" },
+  { label: "software", value: "systems that can be reopened later" }
 ];
 
 const links = [
@@ -113,6 +113,8 @@ const links = [
     <span class="mach mach-two"></span>
     <span class="patch patch-one"></span>
     <span class="patch patch-two"></span>
+    <span class="trace trace-one"></span>
+    <span class="trace trace-two"></span>
   </div>
 
   <header class="site-header">
@@ -130,10 +132,16 @@ const links = [
     <section class="hero" aria-labelledby="hero-title">
       <div class="hero-grid">
         <div class="hero-copy">
-          <h1 id="hero-title">computational aerospace systems.</h1>
+          <p class="hero-kicker">computational aerospace / numerical methods / propulsion</p>
+          <h1 id="hero-title">colin vargas</h1>
           <p class="intro">
-            Numerical methods, propulsion analysis, and careful software for
-            turning physical behavior into inspectable tools.
+            I build evidence-first aerospace software: numerical tools, solver
+            experiments, and project records that make physical behavior easier
+            to inspect.
+          </p>
+          <p class="hero-stance">
+            The throughline is taste under constraint: make the math visible,
+            make the code readable, and make the claim earn its keep.
           </p>
         </div>
 
@@ -194,9 +202,9 @@ const links = [
         </div>
 
         <div class="flow-copy">
-          <span>live surface</span>
-          <strong>mesh, signal, trajectory</strong>
-          <p>Animated like a solver dashboard: calm by default, responsive when you explore.</p>
+          <span>working surface</span>
+          <strong>measure, compare, explain</strong>
+          <p>A quiet instrument panel for the habits behind the work.</p>
         </div>
 
         <div class="flow-tiles" aria-hidden="true">
@@ -225,8 +233,8 @@ const links = [
           <span>engineering taste</span>
         </div>
         <p>
-          I like systems where the math, the code, and the physical intuition
-          all have to be right at the same time.
+          The interesting problems live where the math, the machine, and the
+          physical system all get a vote.
         </p>
       </div>
 
@@ -287,8 +295,8 @@ const links = [
         <span>thesis track</span>
       </div>
       <p>
-        Developing a solver and project record that make the numerical choices,
-        verification path, and engineering tradeoffs inspectable.
+        I am building the solver, the verification trail, and the public record
+        together so the work can be reopened without depending on memory.
       </p>
     </section>
 
@@ -334,17 +342,17 @@ const links = [
         <article>
           <span>01</span>
           <h2>Build the calculation.</h2>
-          <p>Start with working local tools, small verification cases, and source history that can be replayed.</p>
+          <p>Start with local tools, small verification cases, and source history that can be replayed.</p>
         </article>
         <article>
           <span>02</span>
-          <h2>Expose the assumptions.</h2>
-          <p>Document boundary conditions, discretization choices, solver limits, and what changed between runs.</p>
+          <h2>Name the assumptions.</h2>
+          <p>Write down boundary conditions, discretization choices, solver limits, and what changed between runs.</p>
         </article>
         <article>
           <span>03</span>
-          <h2>Publish the useful record.</h2>
-          <p>Turn notes, plots, and project logs into public pages only when they help someone inspect the work.</p>
+          <h2>Publish what sharpens it.</h2>
+          <p>Turn notes, plots, and logs into public pages only when they improve the inspection.</p>
         </article>
       </div>
     </section>
@@ -356,8 +364,9 @@ const links = [
           <span><a href="/notes">open log index</a></span>
         </div>
         <p>
-          A repo-aware log workflow is in place. Public notes will appear as
-          project entries are cleaned up with enough context to be useful.
+          Notes are not a content treadmill here. They are where project
+          decisions, build scars, and numerical context get cleaned into
+          something reusable.
         </p>
       </article>
 
@@ -367,8 +376,8 @@ const links = [
           <span>systems reasoning</span>
         </div>
         <p>
-          Aerospace engineering, numerical methods, propulsion, and the habit of turning
-          complex physical behavior into inspectable computational tools.
+          Aerospace engineering, numerical methods, propulsion, and a bias for
+          tools that show their work instead of hiding behind a clean screenshot.
         </p>
       </article>
     </section>

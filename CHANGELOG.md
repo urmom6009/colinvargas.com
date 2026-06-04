@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Refreshed the site voice and visual system around evidence-first aerospace software, visible reasoning, and a more personal technical brand.
 - Added intentional homepage interactions for the solver lab, project cards, and trajectory map.
 - Added persistent light/dark theme support, frosted surfaces, and a sharper homepage signal panel.
 - Added a solver readout and trajectory band to give the homepage a richer technical layer.
