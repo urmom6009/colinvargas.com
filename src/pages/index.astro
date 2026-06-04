@@ -1,5 +1,17 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import katex from "katex";
+import "katex/dist/katex.min.css";
+
+const conservationLaw = katex.renderToString(String.raw`\partial_t u + \nabla \cdot F(u) = 0`, {
+  displayMode: true,
+  throwOnError: false
+});
+
+const cflCondition = katex.renderToString(String.raw`\Delta t \le C_{\mathrm{CFL}}\frac{\Delta x}{\max |\lambda|}`, {
+  displayMode: false,
+  throwOnError: false
+});
 
 const projects = [
   {
@@ -97,7 +109,8 @@ const trajectory = [
 const signal = [
   { label: "numerics", value: "stability before performance theater" },
   { label: "propulsion", value: "trade spaces over hunches" },
-  { label: "software", value: "systems that can be reopened later" }
+  { label: "software", value: "systems that can be reopened later" },
+  { label: "taste", value: "dense technical surfaces with a little blur at the edge" }
 ];
 
 const links = [
@@ -133,7 +146,10 @@ const links = [
       <div class="hero-grid">
         <div class="hero-copy">
           <p class="hero-kicker">computational aerospace / numerical methods / propulsion</p>
-          <h1 id="hero-title">colin vargas</h1>
+          <h1 id="hero-title" class="hero-title">
+            <span class="hero-title-text">colin vargas</span>
+            <span class="hero-title-blur" aria-hidden="true">colin vargas</span>
+          </h1>
           <p class="intro">
             I build evidence-first aerospace software: numerical tools, solver
             experiments, and project records that make physical behavior easier
@@ -234,14 +250,16 @@ const links = [
         </div>
         <p>
           The interesting problems live where the math, the machine, and the
-          physical system all get a vote.
+          physical system all get a vote. I like when the record has enough
+          personality to feel handled by a person, but enough discipline to
+          survive inspection.
         </p>
       </div>
 
       <div class="signature-board" aria-label="Technical signal board">
         <div class="signature-equation">
-          <span>u_t + div F(u) = 0</span>
-          <span>dt &lt;= cfl * dx / max(|lambda|)</span>
+          <span set:html={conservationLaw}></span>
+          <span set:html={cflCondition}></span>
         </div>
         <div class="signature-wave" aria-hidden="true">
           <span></span>

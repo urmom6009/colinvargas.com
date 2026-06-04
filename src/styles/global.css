@@ -59,7 +59,10 @@ html {
   background: var(--bg);
   color: var(--ink);
   font-family: var(--font-sans);
+  font-synthesis: none;
   scroll-behavior: smooth;
+  text-rendering: geometricPrecision;
+  -webkit-font-smoothing: antialiased;
   transition:
     background-color 220ms ease,
     color 220ms ease;
@@ -450,9 +453,36 @@ nav a[aria-current="page"]::after {
 h1 {
   max-width: 1120px;
   font-size: clamp(4.8rem, 11.4vw, 12.6rem);
-  font-weight: 400;
+  font-weight: 500;
   line-height: 0.8;
   letter-spacing: 0;
+}
+
+.hero-title {
+  position: relative;
+  width: fit-content;
+  max-width: 100%;
+  font-family: var(--font-sans);
+  text-shadow:
+    0 0 0.018em color-mix(in srgb, var(--ink) 38%, transparent),
+    0.018em 0.012em 0 color-mix(in srgb, var(--accent) 18%, transparent);
+  isolation: isolate;
+}
+
+.hero-title-text {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-title-blur {
+  position: absolute;
+  inset: 0;
+  color: var(--ink);
+  filter: blur(7px);
+  opacity: 0.13;
+  transform: translate(0.02em, 0.015em);
+  z-index: 0;
+  pointer-events: none;
 }
 
 .intro {
@@ -714,7 +744,7 @@ h1 {
   z-index: 1;
 }
 
-.signature-equation span:first-child {
+.signature-equation > span:first-child {
   font-family: var(--font-sans);
   font-size: clamp(2.15rem, 5vw, 5.2rem);
   font-weight: 400;
@@ -722,8 +752,24 @@ h1 {
   text-transform: none;
 }
 
-.signature-equation span:last-child {
+.signature-equation > span:last-child {
   color: var(--muted);
+}
+
+.signature-equation .katex-display {
+  margin: 0;
+  text-align: left;
+}
+
+.signature-equation .katex {
+  color: var(--ink);
+  font-size: 1em;
+  text-transform: none;
+}
+
+.signature-equation > span:last-child .katex {
+  color: var(--muted);
+  font-size: clamp(1.18rem, 2vw, 1.55rem);
 }
 
 .signature-wave {
@@ -1636,7 +1682,7 @@ code {
     min-height: 310px;
   }
 
-  .signature-equation span:first-child {
+  .signature-equation > span:first-child {
     font-size: 2.35rem;
   }
 
