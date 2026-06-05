@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Reduced always-visible homepage instrumentation with closed drawers, quieter navigation, and scroll/hover reveal behavior.
 - Warmed the jet-age visual system, made navigation sticky with a light shadow, and added a minimal hidden field-notes interaction.
 - Added build-time KaTeX equation rendering, heavier PP Neue Montreal hero treatment, and a slightly more personal statement of visual taste.
 - Refreshed the site voice and visual system around evidence-first aerospace software, visible reasoning, and a more personal technical brand.

@@ -81,6 +81,16 @@ const {
     <slot />
     <script is:inline>
       (() => {
+        const header = document.querySelector(".site-header");
+        if (header) {
+          const syncHeader = () => {
+            header.classList.toggle("is-scrolled", window.scrollY > 24);
+          };
+
+          syncHeader();
+          window.addEventListener("scroll", syncHeader, { passive: true });
+        }
+
         const button = document.querySelector(".theme-toggle");
         if (!button) {
           return;

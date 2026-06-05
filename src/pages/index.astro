@@ -161,77 +161,85 @@ const links = [
           </p>
         </div>
 
-        <aside class="hero-panel" aria-label="Interactive solver status" data-solver-lab>
-          <div class="panel-kicker">
+        <details class="hero-panel hero-drawer" data-solver-lab>
+          <summary class="drawer-summary" aria-label="Open interactive solver status">
             <span>solver lab</span>
             <span data-solver-state>{solverCases[0].state}</span>
-          </div>
-          <div class="solver-tabs" aria-label="Solver case selector">
-            {
-              solverCases.map((item, index) => (
-                <button
-                  type="button"
-                  class:list={["solver-tab", { "is-active": index === 0 }]}
-                  aria-pressed={index === 0 ? "true" : "false"}
-                  data-solver-case={item.id}
-                  data-title={item.title}
-                  data-copy={item.copy}
-                  data-scheme={item.scheme}
-                  data-case={item.case}
-                  data-cfl={item.cfl}
-                  data-state={item.state}
-                  data-bars={item.bars.join(",")}
-                >
-                  {item.label}
-                </button>
-              ))
-            }
-          </div>
-          <strong data-solver-title>{solverCases[0].title}</strong>
-          <p data-solver-copy>{solverCases[0].copy}</p>
-
-          <div class="solver-readout" aria-label="Solver readout">
-            <div class="readout-plot" aria-hidden="true">
-              {solverCases[0].bars.map((height) => <span style={`--readout-height: ${height}%`}></span>)}
-            </div>
-            <dl>
+          </summary>
+          <div class="drawer-panel">
+            <div class="solver-tabs" aria-label="Solver case selector">
               {
-                readout.map((item) => (
-                  <div>
-                    <dt>{item.label}</dt>
-                    <dd data-solver-field={item.key}>{item.value}</dd>
-                  </div>
+                solverCases.map((item, index) => (
+                  <button
+                    type="button"
+                    class:list={["solver-tab", { "is-active": index === 0 }]}
+                    aria-pressed={index === 0 ? "true" : "false"}
+                    data-solver-case={item.id}
+                    data-title={item.title}
+                    data-copy={item.copy}
+                    data-scheme={item.scheme}
+                    data-case={item.case}
+                    data-cfl={item.cfl}
+                    data-state={item.state}
+                    data-bars={item.bars.join(",")}
+                  >
+                    {item.label}
+                  </button>
                 ))
               }
-            </dl>
+            </div>
+            <strong data-solver-title>{solverCases[0].title}</strong>
+            <p data-solver-copy>{solverCases[0].copy}</p>
+
+            <div class="solver-readout" aria-label="Solver readout">
+              <div class="readout-plot" aria-hidden="true">
+                {solverCases[0].bars.map((height) => <span style={`--readout-height: ${height}%`}></span>)}
+              </div>
+              <dl>
+                {
+                  readout.map((item) => (
+                    <div>
+                      <dt>{item.label}</dt>
+                      <dd data-solver-field={item.key}>{item.value}</dd>
+                    </div>
+                  ))
+                }
+              </dl>
+            </div>
           </div>
-        </aside>
+        </details>
       </div>
 
-      <div class="flow-lab" aria-label="Animated flow field preview">
-        <div class="flow-orbit" aria-hidden="true">
-          <span class="orbit-ring orbit-ring-one"></span>
-          <span class="orbit-ring orbit-ring-two"></span>
-          <span class="orbit-dot orbit-dot-one"></span>
-          <span class="orbit-dot orbit-dot-two"></span>
-          <span class="orbit-dot orbit-dot-three"></span>
-        </div>
+      <details class="flow-lab" data-reveal>
+        <summary class="drawer-summary">
+          <span>motion field</span>
+          <span>open surface</span>
+        </summary>
+        <div class="flow-lab-body">
+          <div class="flow-orbit" aria-hidden="true">
+            <span class="orbit-ring orbit-ring-one"></span>
+            <span class="orbit-ring orbit-ring-two"></span>
+            <span class="orbit-dot orbit-dot-one"></span>
+            <span class="orbit-dot orbit-dot-two"></span>
+            <span class="orbit-dot orbit-dot-three"></span>
+          </div>
 
-        <div class="flow-copy">
-          <span>working surface</span>
-          <strong>measure, compare, explain</strong>
-          <p>A quiet instrument panel for the habits behind the work.</p>
-        </div>
+          <div class="flow-copy">
+            <span>working surface</span>
+            <strong>measure, compare, explain</strong>
+            <p>A quiet instrument panel for the habits behind the work.</p>
+          </div>
 
-        <div class="flow-tiles" aria-hidden="true">
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
+          <div class="flow-tiles" aria-hidden="true">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
         </div>
-      </div>
+      </details>
 
       <ul class="tags" aria-label="Technical focus areas">
         <li>amrex</li>
@@ -260,7 +268,7 @@ const links = [
       </details>
     </section>
 
-    <section class="signature" aria-labelledby="signature-title">
+    <section class="signature" aria-labelledby="signature-title" data-reveal>
       <div class="signature-copy">
         <div class="section-heading">
           <span id="signature-title">signal</span>
@@ -298,7 +306,7 @@ const links = [
       </div>
     </section>
 
-    <section class="section" id="work" aria-labelledby="work-title">
+    <section class="section" id="work" aria-labelledby="work-title" data-reveal>
       <div class="section-heading">
         <span id="work-title">selected work</span>
         <span><a href="/work">full index</a></span>
@@ -325,7 +333,7 @@ const links = [
       </div>
     </section>
 
-    <section class="focus" aria-labelledby="focus-title">
+    <section class="focus" aria-labelledby="focus-title" data-reveal>
       <div class="section-heading">
         <span id="focus-title">current focus</span>
         <span>thesis track</span>
@@ -336,7 +344,7 @@ const links = [
       </p>
     </section>
 
-    <section class="trajectory" aria-labelledby="trajectory-title">
+    <section class="trajectory" aria-labelledby="trajectory-title" data-reveal>
       <div class="section-heading">
         <span id="trajectory-title">solver trajectory</span>
         <span>from case to record</span>
@@ -369,7 +377,7 @@ const links = [
       </div>
     </section>
 
-    <section class="evidence" aria-labelledby="evidence-title">
+    <section class="evidence" aria-labelledby="evidence-title" data-reveal>
       <div class="section-heading">
         <span id="evidence-title">working style</span>
         <span>repeatable records</span>
@@ -393,7 +401,7 @@ const links = [
       </div>
     </section>
 
-    <section class="split" aria-label="Notes and profile">
+    <section class="split" aria-label="Notes and profile" data-reveal>
       <article>
         <div class="section-heading">
           <span>notes</span>
@@ -491,6 +499,25 @@ const links = [
             setStep(article);
           }
         });
+      }
+
+      const revealItems = Array.from(document.querySelectorAll("[data-reveal]"));
+      if (revealItems.length) {
+        if (!("IntersectionObserver" in window)) {
+          revealItems.forEach((item) => item.classList.add("is-visible"));
+          return;
+        }
+
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              entry.target.classList.toggle("is-visible", entry.isIntersecting);
+            });
+          },
+          { rootMargin: "-12% 0px -18% 0px", threshold: 0.08 }
+        );
+
+        revealItems.forEach((item) => observer.observe(item));
       }
     })();
   </script>

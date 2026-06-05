@@ -223,13 +223,36 @@ footer,
   position: sticky;
   top: 12px;
   z-index: 30;
-  border: 1px solid color-mix(in srgb, var(--line) 86%, transparent);
-  background: color-mix(in srgb, var(--frost-strong) 78%, transparent);
+  border: 1px solid color-mix(in srgb, var(--line) 58%, transparent);
+  background: color-mix(in srgb, var(--frost) 54%, transparent);
   box-shadow:
-    0 1px 0 color-mix(in srgb, var(--ink) 6%, transparent),
-    0 16px 38px color-mix(in srgb, var(--shadow) 72%, transparent);
+    0 1px 0 color-mix(in srgb, var(--ink) 3%, transparent),
+    0 8px 24px color-mix(in srgb, var(--shadow) 34%, transparent);
   backdrop-filter: blur(18px) saturate(1.18);
   -webkit-backdrop-filter: blur(18px) saturate(1.18);
+  transition:
+    background-color 220ms ease,
+    border-color 220ms ease,
+    box-shadow 220ms ease,
+    opacity 220ms ease,
+    transform 220ms ease;
+}
+
+.site-header:not(:hover):not(:focus-within):not(.is-scrolled) {
+  opacity: 0.74;
+  transform: translateY(-4px);
+}
+
+.site-header:hover,
+.site-header:focus-within,
+.site-header.is-scrolled {
+  border-color: color-mix(in srgb, var(--line) 86%, transparent);
+  background: color-mix(in srgb, var(--frost-strong) 82%, transparent);
+  box-shadow:
+    0 1px 0 color-mix(in srgb, var(--ink) 6%, transparent),
+    0 16px 38px color-mix(in srgb, var(--shadow) 68%, transparent);
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .brand {
@@ -250,6 +273,17 @@ nav,
   flex-wrap: wrap;
   justify-content: flex-end;
   gap: 10px 18px;
+}
+
+.site-header nav {
+  opacity: 0.42;
+  transition: opacity 220ms ease;
+}
+
+.site-header:hover nav,
+.site-header:focus-within nav,
+.site-header.is-scrolled nav {
+  opacity: 1;
 }
 
 nav a,
@@ -512,14 +546,79 @@ h1 {
 }
 
 .hero-panel {
-  padding: 18px;
+  padding: 0;
   border: 1px solid var(--line);
   background: var(--frost);
   color: var(--muted);
-  box-shadow: 0 16px 44px color-mix(in srgb, var(--shadow) 54%, transparent);
+  box-shadow: none;
   backdrop-filter: blur(18px) saturate(1.18);
   -webkit-backdrop-filter: blur(18px) saturate(1.18);
   animation: fade-in 760ms 120ms ease both;
+  transition:
+    background-color 220ms ease,
+    border-color 220ms ease,
+    box-shadow 220ms ease,
+    transform 220ms ease;
+}
+
+.hero-panel[open],
+.hero-panel:hover,
+.hero-panel:focus-within {
+  background: var(--frost-strong);
+  border-color: color-mix(in srgb, var(--accent) 38%, var(--line));
+  box-shadow: 0 16px 44px color-mix(in srgb, var(--shadow) 44%, transparent);
+  transform: translateY(-1px);
+}
+
+.drawer-summary {
+  min-height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 14px 16px;
+  color: var(--muted);
+  cursor: pointer;
+  list-style: none;
+  transition:
+    color 180ms ease,
+    padding 220ms ease;
+}
+
+.drawer-summary::-webkit-details-marker {
+  display: none;
+}
+
+.drawer-summary::after {
+  content: "";
+  width: 18px;
+  height: 1px;
+  display: block;
+  background: currentColor;
+  transform: scaleX(0.62);
+  transform-origin: right;
+  transition:
+    background-color 180ms ease,
+    transform 180ms ease;
+}
+
+.hero-panel[open] .drawer-summary,
+.hero-panel:hover .drawer-summary,
+.hero-panel:focus-within .drawer-summary,
+.flow-lab[open] .drawer-summary,
+.flow-lab:hover .drawer-summary,
+.flow-lab:focus-within .drawer-summary {
+  color: var(--ink);
+}
+
+.hero-panel[open] .drawer-summary::after,
+.flow-lab[open] .drawer-summary::after {
+  transform: scaleX(1) rotate(-18deg);
+}
+
+.drawer-panel {
+  padding: 0 16px 18px;
+  animation: drawer-open 240ms ease both;
 }
 
 .panel-kicker {
@@ -672,6 +771,13 @@ h1 {
   flex-wrap: wrap;
   gap: 10px 18px;
   color: var(--muted);
+  opacity: 0.48;
+  transition: opacity 220ms ease;
+}
+
+.hero:hover .tags,
+.hero:focus-within .tags {
+  opacity: 1;
 }
 
 .tags li::before {
@@ -689,6 +795,14 @@ h1 {
   max-width: 720px;
   margin-top: -8px;
   color: var(--muted);
+  opacity: 0.54;
+  transition: opacity 220ms ease;
+}
+
+.field-notes:hover,
+.field-notes:focus-within,
+.field-notes[open] {
+  opacity: 1;
 }
 
 .field-notes summary {
@@ -743,6 +857,7 @@ h1 {
   border-left: 1px solid var(--line);
   color: var(--muted);
   text-transform: none;
+  animation: drawer-open 240ms ease both;
 }
 
 .field-notes-panel p {
@@ -756,6 +871,21 @@ h1 {
   padding: 88px 0 72px;
   position: relative;
   z-index: 1;
+}
+
+[data-reveal] {
+  opacity: 0.18;
+  transform: translateY(28px);
+  transition:
+    opacity 520ms ease,
+    transform 520ms ease;
+}
+
+[data-reveal].is-visible,
+[data-reveal]:hover,
+[data-reveal]:focus-within {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .signature {
@@ -856,6 +986,8 @@ h1 {
   gap: 10px;
   position: relative;
   z-index: 1;
+  opacity: 0.38;
+  transition: opacity 220ms ease;
 }
 
 .signature-wave span {
@@ -891,6 +1023,15 @@ h1 {
   border-top: 1px solid var(--line);
   position: relative;
   z-index: 1;
+  opacity: 0.46;
+  transition: opacity 220ms ease;
+}
+
+.signature-board:hover .signature-wave,
+.signature-board:focus-within .signature-wave,
+.signature-board:hover dl,
+.signature-board:focus-within dl {
+  opacity: 1;
 }
 
 .signature-board dl div {
@@ -1547,6 +1688,18 @@ code {
   }
 }
 
+@keyframes drawer-open {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @keyframes field-breathe {
   0%, 100% {
     transform: scale(0.94);
@@ -1806,11 +1959,8 @@ code {
 }
 
 .flow-lab {
-  display: grid;
-  grid-template-columns: minmax(190px, 0.42fr) minmax(220px, 0.58fr) minmax(220px, 0.55fr);
-  gap: clamp(18px, 3vw, 34px);
-  align-items: stretch;
-  padding: clamp(18px, 2.4vw, 28px);
+  display: block;
+  padding: 0;
   border: 1px solid var(--line);
   background:
     radial-gradient(circle at 12% 10%, color-mix(in srgb, var(--gold) 18%, transparent), transparent 28%),
@@ -1847,6 +1997,15 @@ code {
 .flow-lab:hover::before,
 .flow-lab:focus-within::before {
   opacity: 0.52;
+}
+
+.flow-lab-body {
+  display: grid;
+  grid-template-columns: minmax(190px, 0.42fr) minmax(220px, 0.58fr) minmax(220px, 0.55fr);
+  gap: clamp(18px, 3vw, 34px);
+  align-items: stretch;
+  padding: 0 clamp(18px, 2.4vw, 28px) clamp(18px, 2.4vw, 28px);
+  animation: drawer-open 260ms ease both;
 }
 
 .flow-orbit,
@@ -2054,7 +2213,7 @@ code {
 }
 
 @media (max-width: 900px) {
-  .flow-lab {
+  .flow-lab-body {
     grid-template-columns: 1fr;
   }
 
