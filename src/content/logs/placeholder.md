@@ -1,11 +1,11 @@
 ---
-title: "Placeholder"
+title: "placeholder"
 date: 2026-05-29
-project: "Portfolio"
+project: "portfolio"
 repo: "colinvargas.com"
 repoPath: "/Users/colinvargas/dev/colinvargas.com"
 tags: ["internal"]
-summary: "Internal placeholder so the logs collection exists before the first public note."
+summary: "internal placeholder so the logs collection exists before the first public note."
 draft: true
 attachmentDir: "/attachments/logs/placeholder/"
 attachments: []

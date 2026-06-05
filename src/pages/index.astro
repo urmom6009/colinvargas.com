@@ -18,7 +18,7 @@ const projects = [
     title: "adaptive cfd solver",
     meta: "thesis / amrex / c++",
     status: "active notebook",
-    desc: "Thesis work that starts with scalar advection and makes each solver choice testable, visible, and defensible.",
+    desc: "thesis work that starts with scalar advection and makes each solver choice testable, visible, and defensible.",
     lens: "mesh, state, flux, update",
     href: "/work/adaptive-cfd-solver"
   },
@@ -26,7 +26,7 @@ const projects = [
     title: "scramjet analysis tool",
     meta: "python / propulsion / parametric analysis",
     status: "writeup pending",
-    desc: "A propulsion trade-space tool for turning assumptions, sweeps, and trends into plots that can be argued with.",
+    desc: "a propulsion trade-space tool for turning assumptions, sweeps, and trends into plots that can be argued with.",
     lens: "assumption, sweep, trend",
     href: "/work/scramjet-analysis-tool"
   },
@@ -34,7 +34,7 @@ const projects = [
     title: "compressible flow project",
     meta: "numerical methods / visualization / paraview",
     status: "archive pending",
-    desc: "Finite-volume simulation work where the useful artifact is not just the plot, but the record around it.",
+    desc: "finite-volume simulation work where the useful artifact is not just the plot, but the record around it.",
     lens: "finite-volume inspection",
     href: "/work/compressible-flow-project"
   }
@@ -44,21 +44,21 @@ const specimens = [
   {
     label: "solver surface",
     title: "small cases before big claims",
-    copy: "Start plain enough that every boundary condition, flux, and update has nowhere to hide.",
+    copy: "start plain enough that every boundary condition, flux, and update has nowhere to hide.",
     meta: "fv / explicit / cfl 0.42",
     bars: [38, 70, 54, 82]
   },
   {
     label: "mesh pass",
     title: "let refinement reveal the argument",
-    copy: "Tighten the same case and watch which numerical choices start to matter.",
+    copy: "tighten the same case and watch which numerical choices start to matter.",
     meta: "limited / refined mesh / cfl 0.31",
     bars: [68, 44, 78, 60]
   },
   {
     label: "stability readout",
     title: "show when the model stops behaving",
-    copy: "Push the step size until the readout stops pretending everything is fine.",
+    copy: "push the step size until the readout stops pretending everything is fine.",
     meta: "steep front / boundary watch / cfl 0.88",
     bars: [82, 48, 64, 88]
   }
@@ -68,19 +68,19 @@ const trajectory = [
   {
     step: "01",
     title: "make it inspectable",
-    detail: "Keep first cases small enough that a mistake has nowhere to hide.",
+    detail: "keep first cases small enough that a mistake has nowhere to hide.",
     state: "case is small on purpose"
   },
   {
     step: "02",
     title: "separate the hard parts",
-    detail: "Let mesh, state, flux, and update paths carry their own responsibilities.",
+    detail: "let mesh, state, flux, and update paths carry their own responsibilities.",
     state: "complexity has addresses"
   },
   {
     step: "03",
     title: "leave a record",
-    detail: "Publish notes and figures when they explain the decision, not just the result.",
+    detail: "publish notes and figures when they explain the decision, not just the result.",
     state: "evidence before polish"
   }
 ];
@@ -115,7 +115,7 @@ const links = [
 
   <header class="site-header">
     <a class="brand" href="/" aria-label="colin vargas home">colin vargas</a>
-    <nav aria-label="Primary navigation">
+    <nav aria-label="primary navigation">
       <a href="/work">work</a>
       <a href="/notes">notes</a>
       <a href="/resume">resume</a>
@@ -132,12 +132,17 @@ const links = [
           <span>vargas</span>
         </h1>
         <p class="intro">
-          I build evidence-first aerospace software: numerical tools, solver experiments,
+          i build evidence-first aerospace software: numerical tools, solver experiments,
           and project records that make physical behavior easier to inspect.
         </p>
+        <aside class="hero-focus">
+          <span>current focus</span>
+          <strong>build the solver, the verification trail, and the public record together.</strong>
+          <p>thesis track / amrex / scalar advection toward adaptive flow capability</p>
+        </aside>
       </div>
 
-      <div class="hero-specimen" aria-label="Homepage technical specimen">
+      <div class="hero-specimen" aria-label="homepage technical specimen">
         <div class="specimen-equation">
           <span set:html={conservationLaw}></span>
           <span set:html={cflCondition}></span>
@@ -147,7 +152,7 @@ const links = [
         </p>
       </div>
 
-      <ul class="hero-tags" aria-label="Technical focus areas">
+      <ul class="hero-tags" aria-label="technical focus areas">
         <li>amrex</li>
         <li>c++</li>
         <li>finite volume</li>
@@ -156,13 +161,16 @@ const links = [
       </ul>
     </section>
 
-    <section class="showreel" aria-labelledby="showreel-title">
-      <div class="section-heading" data-reveal>
-        <span id="showreel-title">solver specimens</span>
-        <span>scroll readout</span>
+    <section class="story-section showreel" aria-labelledby="showreel-title">
+      <div class="section-lead">
+        <div class="section-heading" data-reveal>
+          <span id="showreel-title">solver specimens</span>
+          <span>scroll readout</span>
+        </div>
+        <p class="section-idea" data-reveal>small cases before big claims.</p>
       </div>
 
-      <div class="specimen-stack">
+      <div class="section-details specimen-stack">
         {
           specimens.map((item, index) => (
             <article class="specimen-card" data-reveal style={`--reveal-index: ${index}`}>
@@ -181,18 +189,19 @@ const links = [
       </div>
     </section>
 
-    <section class="signature" aria-labelledby="signature-title" data-reveal>
-      <div class="signature-copy">
-        <div class="section-heading">
+    <section class="story-section signature" aria-labelledby="signature-title">
+      <div class="section-lead signature-copy">
+        <div class="section-heading" data-reveal>
           <span id="signature-title">signal</span>
           <span>engineering taste</span>
         </div>
-        <p>
-          The interesting problems live where the math, the machine, and the physical system all get a vote.
+        <p class="section-idea" data-reveal>
+          the interesting problems live where the math, the machine, and the physical system all get a vote.
         </p>
       </div>
 
-      <div class="signature-board" aria-label="Technical signal board">
+      <div class="section-details">
+      <div class="signature-board" aria-label="technical signal board" data-reveal>
         <div class="signature-wave" aria-hidden="true">
           <span></span>
           <span></span>
@@ -211,18 +220,22 @@ const links = [
           }
         </dl>
       </div>
+      </div>
     </section>
 
-    <section class="work-show" id="work" aria-labelledby="work-title">
-      <div class="section-heading" data-reveal>
-        <span id="work-title">selected work</span>
-        <span><a href="/work">full index</a></span>
+    <section class="story-section work-show" id="work" aria-labelledby="work-title">
+      <div class="section-lead">
+        <div class="section-heading" data-reveal>
+          <span id="work-title">selected work</span>
+          <span><a href="/work">full index</a></span>
+        </div>
+        <p class="section-idea" data-reveal>project records that make the claim show its work.</p>
       </div>
 
-      <div class="work-list">
+      <div class="section-details work-list">
         {
           projects.map((project, index) => (
-            <a class="work-row" href={project.href} data-reveal style={`--reveal-index: ${index}`}>
+            <a class="work-card" href={project.href} data-reveal style={`--reveal-index: ${index}`}>
               <span class="project-meta">{project.meta}</span>
               <h2>{project.title}</h2>
               <p>{project.desc}</p>
@@ -234,23 +247,16 @@ const links = [
       </div>
     </section>
 
-    <section class="focus" aria-labelledby="focus-title" data-reveal>
-      <div class="section-heading">
-        <span id="focus-title">current focus</span>
-        <span>thesis track</span>
-      </div>
-      <p>
-        Build the solver, the verification trail, and the public record together.
-      </p>
-    </section>
-
-    <section class="trajectory" aria-labelledby="trajectory-title">
-      <div class="section-heading" data-reveal>
-        <span id="trajectory-title">solver trajectory</span>
-        <span>from case to record</span>
+    <section class="story-section trajectory" aria-labelledby="trajectory-title">
+      <div class="section-lead">
+        <div class="section-heading" data-reveal>
+          <span id="trajectory-title">solver trajectory</span>
+          <span>from case to record</span>
+        </div>
+        <p class="section-idea" data-reveal>the work gets clearer as the record builds.</p>
       </div>
 
-      <div class="trajectory-grid">
+      <div class="section-details trajectory-grid">
         <div class="trajectory-map" aria-hidden="true" data-reveal>
           <span class="map-line"></span>
           <span class="map-node map-node-one"></span>
@@ -276,38 +282,41 @@ const links = [
       </div>
     </section>
 
-    <section class="evidence" aria-labelledby="evidence-title">
-      <div class="section-heading" data-reveal>
-        <span id="evidence-title">working style</span>
-        <span>repeatable records</span>
+    <section class="story-section evidence" aria-labelledby="evidence-title">
+      <div class="section-lead">
+        <div class="section-heading" data-reveal>
+          <span id="evidence-title">working style</span>
+          <span>repeatable records</span>
+        </div>
+        <p class="section-idea" data-reveal>build, name, publish only what sharpens inspection.</p>
       </div>
-      <div class="evidence-list">
+      <div class="section-details evidence-list">
         <article data-reveal>
           <span>01</span>
-          <h2>Build the calculation.</h2>
-          <p>Start with local tools, small verification cases, and source history that can be replayed.</p>
+          <h2>build the calculation.</h2>
+          <p>start with local tools, small verification cases, and source history that can be replayed.</p>
         </article>
         <article data-reveal>
           <span>02</span>
-          <h2>Name the assumptions.</h2>
-          <p>Write down boundary conditions, discretization choices, solver limits, and what changed between runs.</p>
+          <h2>name the assumptions.</h2>
+          <p>write down boundary conditions, discretization choices, solver limits, and what changed between runs.</p>
         </article>
         <article data-reveal>
           <span>03</span>
-          <h2>Publish what sharpens it.</h2>
-          <p>Turn notes, plots, and logs into public pages only when they improve the inspection.</p>
+          <h2>publish what sharpens it.</h2>
+          <p>turn notes, plots, and logs into public pages only when they improve the inspection.</p>
         </article>
       </div>
     </section>
 
-    <section class="split" aria-label="Notes and profile">
+    <section class="split" aria-label="notes and profile">
       <article data-reveal>
         <div class="section-heading">
           <span>notes</span>
           <span><a href="/notes">open log index</a></span>
         </div>
         <p>
-          Notes are not a content treadmill here. They are where project decisions,
+          notes are not a content treadmill here. they are where project decisions,
           build scars, and numerical context get cleaned into something reusable.
         </p>
       </article>
@@ -318,7 +327,7 @@ const links = [
           <span>systems reasoning</span>
         </div>
         <p>
-          Aerospace engineering, numerical methods, propulsion, and a bias for tools
+          aerospace engineering, numerical methods, propulsion, and a bias for tools
           that show their work instead of hiding behind a clean screenshot.
         </p>
       </article>

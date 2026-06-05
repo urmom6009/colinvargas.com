@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Refined the homepage with sticky scroll chapters, a hero-level current focus block, selected-work cards, full-width frosted navigation, intentional background marks, and sitewide lowercase styling.
 - Reworked the homepage into a bold type-specimen scroll experience with organic reveal sections instead of click-gated drawers.
 - Reduced always-visible homepage instrumentation with closed drawers, quieter navigation, and scroll/hover reveal behavior.
 - Warmed the jet-age visual system, made navigation sticky with a light shadow, and added a minimal hidden field-notes interaction.

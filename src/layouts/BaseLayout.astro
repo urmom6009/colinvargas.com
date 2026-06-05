@@ -3,7 +3,7 @@ import "../styles/global.css";
 
 const {
   title = "colin vargas - evidence-first aerospace software",
-  description = "Computational aerospace work across numerical methods, propulsion analysis, solver development, and inspectable technical records."
+  description = "computational aerospace work across numerical methods, propulsion analysis, solver development, and inspectable technical records."
 } = Astro.props;
 ---
 
@@ -71,7 +71,7 @@ const {
     <title>{title}</title>
   </head>
   <body>
-    <button class="theme-toggle" type="button" aria-label="Switch color theme" aria-pressed="false">
+    <button class="theme-toggle" type="button" aria-label="switch color theme" aria-pressed="false">
       <span class="theme-toggle-track" aria-hidden="true">
         <span class="theme-toggle-sun"></span>
         <span class="theme-toggle-moon"></span>
@@ -101,7 +101,7 @@ const {
           button.setAttribute("aria-pressed", String(theme === "dark"));
           button.setAttribute(
             "aria-label",
-            theme === "dark" ? "Switch to light theme" : "Switch to dark theme"
+            theme === "dark" ? "switch to light theme" : "switch to dark theme"
           );
         };
 
