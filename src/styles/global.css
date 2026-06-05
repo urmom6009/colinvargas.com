@@ -236,16 +236,16 @@ footer,
   margin: 0;
   padding: 14px max(24px, calc((100vw - 1480px) / 2 + 24px));
   position: sticky;
-  top: 12px;
+  top: 0;
   z-index: 30;
-  border-top: 1px solid color-mix(in srgb, var(--line) 58%, transparent);
-  border-bottom: 1px solid color-mix(in srgb, var(--line) 58%, transparent);
-  background: color-mix(in srgb, var(--frost) 54%, transparent);
+  border-top: 1px solid color-mix(in srgb, var(--line) 78%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--line) 78%, transparent);
+  background: color-mix(in srgb, var(--frost-strong) 72%, transparent);
   box-shadow:
-    0 1px 0 color-mix(in srgb, var(--ink) 3%, transparent),
-    0 8px 24px color-mix(in srgb, var(--shadow) 34%, transparent);
-  backdrop-filter: blur(18px) saturate(1.18);
-  -webkit-backdrop-filter: blur(18px) saturate(1.18);
+    0 1px 0 color-mix(in srgb, var(--ink) 5%, transparent),
+    0 12px 32px color-mix(in srgb, var(--shadow) 48%, transparent);
+  backdrop-filter: blur(22px) saturate(1.24);
+  -webkit-backdrop-filter: blur(22px) saturate(1.24);
   transition:
     background-color 220ms ease,
     border-color 220ms ease,
@@ -255,18 +255,18 @@ footer,
 }
 
 .site-header:not(:hover):not(:focus-within):not(.is-scrolled) {
-  opacity: 0.82;
-  transform: translateY(-4px);
+  opacity: 0.9;
+  transform: translateY(0);
 }
 
 .site-header:hover,
 .site-header:focus-within,
 .site-header.is-scrolled {
   border-color: color-mix(in srgb, var(--line) 86%, transparent);
-  background: color-mix(in srgb, var(--frost-strong) 82%, transparent);
+  background: color-mix(in srgb, var(--frost-strong) 94%, transparent);
   box-shadow:
-    0 1px 0 color-mix(in srgb, var(--ink) 6%, transparent),
-    0 16px 38px color-mix(in srgb, var(--shadow) 68%, transparent);
+    0 1px 0 color-mix(in srgb, var(--ink) 8%, transparent),
+    0 20px 48px color-mix(in srgb, var(--shadow) 82%, transparent);
   opacity: 1;
   transform: translateY(0);
 }
@@ -614,17 +614,44 @@ footer,
 }
 
 .story-section {
-  min-height: 112svh;
+  min-height: 260svh;
   display: grid;
   grid-template-columns: minmax(280px, 0.42fr) minmax(0, 1fr);
   gap: 72px;
   align-items: start;
-  padding: 86px 0 96px;
+  padding: 92px 0 120px;
+  margin-top: 14svh;
+  border-top: 1px solid color-mix(in srgb, var(--line) 88%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--line) 62%, transparent);
+  isolation: isolate;
+  overflow: clip;
+}
+
+.story-section::before {
+  content: "";
+  position: absolute;
+  inset: 0 calc(50% - 50vw);
+  z-index: -1;
+  background:
+    linear-gradient(to right, transparent 0 42%, color-mix(in srgb, var(--accent) 4%, transparent) 42% 42.4%, transparent 42.4%),
+    linear-gradient(to bottom, color-mix(in srgb, var(--ink) 4%, transparent), transparent 28svh, transparent calc(100% - 28svh), color-mix(in srgb, var(--ink) 3%, transparent));
+}
+
+.signature::before {
+  background:
+    linear-gradient(to right, transparent 0 56%, color-mix(in srgb, var(--gold) 5%, transparent) 56% 56.35%, transparent 56.35%),
+    linear-gradient(to bottom, color-mix(in srgb, var(--ink) 4%, transparent), transparent 28svh, transparent calc(100% - 28svh), color-mix(in srgb, var(--ink) 3%, transparent));
+}
+
+.work-show::before {
+  background:
+    linear-gradient(to right, transparent 0 47%, color-mix(in srgb, var(--signal) 4%, transparent) 47% 47.35%, transparent 47.35%),
+    linear-gradient(to bottom, color-mix(in srgb, var(--ink) 4%, transparent), transparent 28svh, transparent calc(100% - 28svh), color-mix(in srgb, var(--ink) 3%, transparent));
 }
 
 .section-lead {
   position: sticky;
-  top: 104px;
+  top: 92px;
   align-self: start;
 }
 
@@ -640,7 +667,34 @@ footer,
 .section-details {
   display: grid;
   gap: 0;
-  padding-top: 18svh;
+  min-height: calc(100svh - 132px);
+  align-content: center;
+  padding-top: 0;
+  position: sticky;
+  top: 92px;
+}
+
+[data-build-step] {
+  opacity: 0;
+  filter: blur(10px);
+  transform: translateY(34px) scale(0.985);
+  transition:
+    opacity 620ms ease,
+    filter 620ms ease,
+    transform 720ms cubic-bezier(0.2, 0.72, 0.18, 1),
+    border-color 220ms ease,
+    box-shadow 220ms ease;
+}
+
+[data-build-step].is-built {
+  opacity: 1;
+  filter: blur(0);
+  transform: translateY(0) scale(1);
+}
+
+.story-section.is-complete .section-details {
+  outline: 1px solid color-mix(in srgb, var(--accent) 12%, transparent);
+  outline-offset: 18px;
 }
 
 .specimen-stack {
@@ -1101,10 +1155,6 @@ footer,
   grid-column: 3;
 }
 
-.evidence {
-  padding: 68px 0 40px;
-}
-
 .evidence-list {
   border-top: 1px solid var(--line);
 }
@@ -1486,7 +1536,13 @@ code {
   }
 
   .section-details {
+    min-height: auto;
+    position: static;
     padding-top: 0;
+  }
+
+  .story-section.is-complete .section-details {
+    outline: 0;
   }
 
   .specimen-card,

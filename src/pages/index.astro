@@ -18,7 +18,7 @@ const projects = [
     title: "adaptive cfd solver",
     meta: "thesis / amrex / c++",
     status: "active notebook",
-    desc: "thesis work that starts with scalar advection and makes each solver choice testable, visible, and defensible.",
+    desc: "scalar advection work kept small enough for boundary conditions, updates, and plots to stay inspectable.",
     lens: "mesh, state, flux, update",
     href: "/work/adaptive-cfd-solver"
   },
@@ -26,7 +26,7 @@ const projects = [
     title: "scramjet analysis tool",
     meta: "python / propulsion / parametric analysis",
     status: "writeup pending",
-    desc: "a propulsion trade-space tool for turning assumptions, sweeps, and trends into plots that can be argued with.",
+    desc: "propulsion sweeps shaped around assumptions, trends, and comparisons that can be argued with.",
     lens: "assumption, sweep, trend",
     href: "/work/scramjet-analysis-tool"
   },
@@ -34,7 +34,7 @@ const projects = [
     title: "compressible flow project",
     meta: "numerical methods / visualization / paraview",
     status: "archive pending",
-    desc: "finite-volume simulation work where the useful artifact is not just the plot, but the record around it.",
+    desc: "finite-volume outputs paired with enough provenance for the figure to mean something later.",
     lens: "finite-volume inspection",
     href: "/work/compressible-flow-project"
   }
@@ -132,12 +132,12 @@ const links = [
           <span>vargas</span>
         </h1>
         <p class="intro">
-          i build evidence-first aerospace software: numerical tools, solver experiments,
+          evidence-first aerospace software for numerical tools, solver experiments,
           and project records that make physical behavior easier to inspect.
         </p>
         <aside class="hero-focus">
           <span>current focus</span>
-          <strong>build the solver, the verification trail, and the public record together.</strong>
+          <strong>solver development, verification trail, and public record moving as one surface.</strong>
           <p>thesis track / amrex / scalar advection toward adaptive flow capability</p>
         </aside>
       </div>
@@ -161,19 +161,19 @@ const links = [
       </ul>
     </section>
 
-    <section class="story-section showreel" aria-labelledby="showreel-title">
+    <section class="story-section showreel" aria-labelledby="showreel-title" data-scroll-chapter>
       <div class="section-lead">
         <div class="section-heading" data-reveal>
           <span id="showreel-title">solver specimens</span>
           <span>scroll readout</span>
         </div>
-        <p class="section-idea" data-reveal>small cases before big claims.</p>
+        <p class="section-idea" data-reveal>a calculation earns trust by becoming inspectable.</p>
       </div>
 
       <div class="section-details specimen-stack">
         {
           specimens.map((item, index) => (
-            <article class="specimen-card" data-reveal style={`--reveal-index: ${index}`}>
+            <article class="specimen-card" data-build-step={index + 1}>
               <div class="specimen-card-copy">
                 <span>{item.label}</span>
                 <h2>{item.title}</h2>
@@ -189,19 +189,19 @@ const links = [
       </div>
     </section>
 
-    <section class="story-section signature" aria-labelledby="signature-title">
+    <section class="story-section signature" aria-labelledby="signature-title" data-scroll-chapter>
       <div class="section-lead signature-copy">
         <div class="section-heading" data-reveal>
           <span id="signature-title">signal</span>
           <span>engineering taste</span>
         </div>
         <p class="section-idea" data-reveal>
-          the interesting problems live where the math, the machine, and the physical system all get a vote.
+          the useful signal is the place where math, machine, and physical system all get a vote.
         </p>
       </div>
 
       <div class="section-details">
-      <div class="signature-board" aria-label="technical signal board" data-reveal>
+      <div class="signature-board" aria-label="technical signal board" data-build-step="1">
         <div class="signature-wave" aria-hidden="true">
           <span></span>
           <span></span>
@@ -223,19 +223,19 @@ const links = [
       </div>
     </section>
 
-    <section class="story-section work-show" id="work" aria-labelledby="work-title">
+    <section class="story-section work-show" id="work" aria-labelledby="work-title" data-scroll-chapter>
       <div class="section-lead">
         <div class="section-heading" data-reveal>
           <span id="work-title">selected work</span>
           <span><a href="/work">full index</a></span>
         </div>
-        <p class="section-idea" data-reveal>project records that make the claim show its work.</p>
+        <p class="section-idea" data-reveal>selected work reads best as evidence, not decoration.</p>
       </div>
 
       <div class="section-details work-list">
         {
           projects.map((project, index) => (
-            <a class="work-card" href={project.href} data-reveal style={`--reveal-index: ${index}`}>
+            <a class="work-card" href={project.href} data-build-step={index + 1}>
               <span class="project-meta">{project.meta}</span>
               <h2>{project.title}</h2>
               <p>{project.desc}</p>
@@ -247,17 +247,17 @@ const links = [
       </div>
     </section>
 
-    <section class="story-section trajectory" aria-labelledby="trajectory-title">
+    <section class="story-section trajectory" aria-labelledby="trajectory-title" data-scroll-chapter>
       <div class="section-lead">
         <div class="section-heading" data-reveal>
           <span id="trajectory-title">solver trajectory</span>
           <span>from case to record</span>
         </div>
-        <p class="section-idea" data-reveal>the work gets clearer as the record builds.</p>
+        <p class="section-idea" data-reveal>the record clarifies when each responsibility has an address.</p>
       </div>
 
       <div class="section-details trajectory-grid">
-        <div class="trajectory-map" aria-hidden="true" data-reveal>
+        <div class="trajectory-map" aria-hidden="true" data-build-step="1">
           <span class="map-line"></span>
           <span class="map-node map-node-one"></span>
           <span class="map-node map-node-two"></span>
@@ -270,7 +270,7 @@ const links = [
         <div class="trajectory-list">
           {
             trajectory.map((item, index) => (
-              <article data-reveal style={`--reveal-index: ${index}`}>
+              <article data-build-step={index + 2}>
                 <span>{item.step}</span>
                 <h2>{item.title}</h2>
                 <p>{item.detail}</p>
@@ -282,26 +282,26 @@ const links = [
       </div>
     </section>
 
-    <section class="story-section evidence" aria-labelledby="evidence-title">
+    <section class="story-section evidence" aria-labelledby="evidence-title" data-scroll-chapter>
       <div class="section-lead">
         <div class="section-heading" data-reveal>
           <span id="evidence-title">working style</span>
           <span>repeatable records</span>
         </div>
-        <p class="section-idea" data-reveal>build, name, publish only what sharpens inspection.</p>
+        <p class="section-idea" data-reveal>the working rhythm is calculation, assumption, record.</p>
       </div>
       <div class="section-details evidence-list">
-        <article data-reveal>
+        <article data-build-step="1">
           <span>01</span>
           <h2>build the calculation.</h2>
           <p>start with local tools, small verification cases, and source history that can be replayed.</p>
         </article>
-        <article data-reveal>
+        <article data-build-step="2">
           <span>02</span>
           <h2>name the assumptions.</h2>
           <p>write down boundary conditions, discretization choices, solver limits, and what changed between runs.</p>
         </article>
-        <article data-reveal>
+        <article data-build-step="3">
           <span>03</span>
           <h2>publish what sharpens it.</h2>
           <p>turn notes, plots, and logs into public pages only when they improve the inspection.</p>
@@ -366,6 +366,51 @@ const links = [
       );
 
       revealItems.forEach((item) => observer.observe(item));
+
+      const chapters = Array.from(document.querySelectorAll("[data-scroll-chapter]"));
+      if (!chapters.length) {
+        return;
+      }
+
+      let ticking = false;
+      const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+
+      const syncChapters = () => {
+        ticking = false;
+
+        chapters.forEach((chapter) => {
+          const steps = Array.from(chapter.querySelectorAll("[data-build-step]"));
+          const rect = chapter.getBoundingClientRect();
+          const viewport = window.innerHeight || 1;
+          const travel = Math.max(rect.height - viewport, viewport);
+          const progress = clamp((viewport * 0.48 - rect.top) / travel, 0, 1);
+          const start = 0.2;
+          const complete = 0.72;
+          const activeCount =
+            progress < start
+              ? 0
+              : Math.min(steps.length, Math.floor(((progress - start) / (complete - start)) * steps.length) + 1);
+
+          chapter.dataset.stage = String(activeCount);
+          chapter.classList.toggle("is-complete", progress >= complete);
+
+          steps.forEach((step) => {
+            const index = Number(step.dataset.buildStep || "1");
+            step.classList.toggle("is-built", index <= activeCount);
+          });
+        });
+      };
+
+      const requestSync = () => {
+        if (!ticking) {
+          ticking = true;
+          window.requestAnimationFrame(syncChapters);
+        }
+      };
+
+      syncChapters();
+      window.addEventListener("scroll", requestSync, { passive: true });
+      window.addEventListener("resize", requestSync);
     })();
   </script>
 </BaseLayout>
