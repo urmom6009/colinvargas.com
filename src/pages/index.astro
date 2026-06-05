@@ -20,7 +20,6 @@ const projects = [
     status: "active notebook",
     desc: "Thesis work that starts with scalar advection and makes each solver choice testable, visible, and defensible.",
     lens: "mesh, state, flux, update",
-    signal: "small cases before big claims",
     href: "/work/adaptive-cfd-solver"
   },
   {
@@ -29,7 +28,6 @@ const projects = [
     status: "writeup pending",
     desc: "A propulsion trade-space tool for turning assumptions, sweeps, and trends into plots that can be argued with.",
     lens: "assumption, sweep, trend",
-    signal: "make the trade visible",
     href: "/work/scramjet-analysis-tool"
   },
   {
@@ -38,58 +36,39 @@ const projects = [
     status: "archive pending",
     desc: "Finite-volume simulation work where the useful artifact is not just the plot, but the record around it.",
     lens: "finite-volume inspection",
-    signal: "figures with provenance",
     href: "/work/compressible-flow-project"
   }
 ];
 
-const solverCases = [
+const specimens = [
   {
-    id: "baseline",
-    label: "baseline",
-    title: "AMReX solver development",
-    copy: "Start plain enough that every boundary condition and update can be inspected.",
-    scheme: "fv / explicit",
-    case: "smooth pulse",
-    cfl: "0.42",
-    state: "stable margin",
-    bars: [42, 68, 55]
+    label: "solver surface",
+    title: "small cases before big claims",
+    copy: "Start plain enough that every boundary condition, flux, and update has nowhere to hide.",
+    meta: "fv / explicit / cfl 0.42",
+    bars: [38, 70, 54, 82]
   },
   {
-    id: "refine",
-    label: "refine",
-    title: "mesh refinement pass",
+    label: "mesh pass",
+    title: "let refinement reveal the argument",
     copy: "Tighten the same case and watch which numerical choices start to matter.",
-    scheme: "fv / limited",
-    case: "refined mesh",
-    cfl: "0.31",
-    state: "low dissipation",
-    bars: [58, 76, 63]
+    meta: "limited / refined mesh / cfl 0.31",
+    bars: [68, 44, 78, 60]
   },
   {
-    id: "stress",
-    label: "stress",
-    title: "stability inspection",
+    label: "stability readout",
+    title: "show when the model stops behaving",
     copy: "Push the step size until the readout stops pretending everything is fine.",
-    scheme: "fv / explicit",
-    case: "steep front",
-    cfl: "0.88",
-    state: "watch boundary",
-    bars: [74, 46, 82]
+    meta: "steep front / boundary watch / cfl 0.88",
+    bars: [82, 48, 64, 88]
   }
-];
-
-const readout = [
-  { label: "scheme", key: "scheme", value: solverCases[0].scheme },
-  { label: "case", key: "case", value: solverCases[0].case },
-  { label: "cfl", key: "cfl", value: solverCases[0].cfl }
 ];
 
 const trajectory = [
   {
     step: "01",
     title: "make it inspectable",
-    detail: "Keep the first cases small enough that a mistake has nowhere to hide.",
+    detail: "Keep first cases small enough that a mistake has nowhere to hide.",
     state: "case is small on purpose"
   },
   {
@@ -121,6 +100,10 @@ const links = [
 ---
 
 <BaseLayout>
+  <script is:inline>
+    document.documentElement.classList.add("reveal-enabled");
+  </script>
+
   <div class="field" aria-hidden="true">
     <span class="mach mach-one"></span>
     <span class="mach mach-two"></span>
@@ -143,129 +126,59 @@ const links = [
 
   <main>
     <section class="hero" aria-labelledby="hero-title">
-      <div class="hero-grid">
-        <div class="hero-copy">
-          <p class="hero-kicker">computational aerospace / numerical methods / propulsion</p>
-          <h1 id="hero-title" class="hero-title">
-            <span class="hero-title-text">colin vargas</span>
-            <span class="hero-title-blur" aria-hidden="true">colin vargas</span>
-          </h1>
-          <p class="intro">
-            I build evidence-first aerospace software: numerical tools, solver
-            experiments, and project records that make physical behavior easier
-            to inspect.
-          </p>
-          <p class="hero-stance">
-            The throughline is taste under constraint: make the math visible,
-            make the code readable, and make the claim earn its keep.
-          </p>
-        </div>
-
-        <details class="hero-panel hero-drawer" data-solver-lab>
-          <summary class="drawer-summary" aria-label="Open interactive solver status">
-            <span>solver lab</span>
-            <span data-solver-state>{solverCases[0].state}</span>
-          </summary>
-          <div class="drawer-panel">
-            <div class="solver-tabs" aria-label="Solver case selector">
-              {
-                solverCases.map((item, index) => (
-                  <button
-                    type="button"
-                    class:list={["solver-tab", { "is-active": index === 0 }]}
-                    aria-pressed={index === 0 ? "true" : "false"}
-                    data-solver-case={item.id}
-                    data-title={item.title}
-                    data-copy={item.copy}
-                    data-scheme={item.scheme}
-                    data-case={item.case}
-                    data-cfl={item.cfl}
-                    data-state={item.state}
-                    data-bars={item.bars.join(",")}
-                  >
-                    {item.label}
-                  </button>
-                ))
-              }
-            </div>
-            <strong data-solver-title>{solverCases[0].title}</strong>
-            <p data-solver-copy>{solverCases[0].copy}</p>
-
-            <div class="solver-readout" aria-label="Solver readout">
-              <div class="readout-plot" aria-hidden="true">
-                {solverCases[0].bars.map((height) => <span style={`--readout-height: ${height}%`}></span>)}
-              </div>
-              <dl>
-                {
-                  readout.map((item) => (
-                    <div>
-                      <dt>{item.label}</dt>
-                      <dd data-solver-field={item.key}>{item.value}</dd>
-                    </div>
-                  ))
-                }
-              </dl>
-            </div>
-          </div>
-        </details>
+      <div class="hero-copy">
+        <h1 id="hero-title" class="hero-title">
+          <span>colin</span>
+          <span>vargas</span>
+        </h1>
+        <p class="intro">
+          I build evidence-first aerospace software: numerical tools, solver experiments,
+          and project records that make physical behavior easier to inspect.
+        </p>
       </div>
 
-      <details class="flow-lab" data-reveal>
-        <summary class="drawer-summary">
-          <span>motion field</span>
-          <span>open surface</span>
-        </summary>
-        <div class="flow-lab-body">
-          <div class="flow-orbit" aria-hidden="true">
-            <span class="orbit-ring orbit-ring-one"></span>
-            <span class="orbit-ring orbit-ring-two"></span>
-            <span class="orbit-dot orbit-dot-one"></span>
-            <span class="orbit-dot orbit-dot-two"></span>
-            <span class="orbit-dot orbit-dot-three"></span>
-          </div>
-
-          <div class="flow-copy">
-            <span>working surface</span>
-            <strong>measure, compare, explain</strong>
-            <p>A quiet instrument panel for the habits behind the work.</p>
-          </div>
-
-          <div class="flow-tiles" aria-hidden="true">
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-          </div>
+      <div class="hero-specimen" aria-label="Homepage technical specimen">
+        <div class="specimen-equation">
+          <span set:html={conservationLaw}></span>
+          <span set:html={cflCondition}></span>
         </div>
-      </details>
+        <p>
+          computational aerospace / numerical methods / propulsion / technical records
+        </p>
+      </div>
 
-      <ul class="tags" aria-label="Technical focus areas">
+      <ul class="hero-tags" aria-label="Technical focus areas">
         <li>amrex</li>
         <li>c++</li>
         <li>finite volume</li>
         <li>adaptive mesh refinement</li>
         <li>verification</li>
       </ul>
+    </section>
 
-      <details class="field-notes">
-        <summary>
-          <span>open field marks</span>
-          <span aria-hidden="true"></span>
-        </summary>
-        <div class="field-notes-panel">
-          <p>
-            Visual references stay close to late-modern technical print: heavy
-            grotesque type, warm paper, applied grids, aircraft-instrument
-            restraint, and motion that feels measured rather than decorative.
-          </p>
-          <p>
-            The lively parts should behave like small mechanical readings:
-            quiet until touched, then precise enough to justify being there.
-          </p>
-        </div>
-      </details>
+    <section class="showreel" aria-labelledby="showreel-title">
+      <div class="section-heading" data-reveal>
+        <span id="showreel-title">solver specimens</span>
+        <span>scroll readout</span>
+      </div>
+
+      <div class="specimen-stack">
+        {
+          specimens.map((item, index) => (
+            <article class="specimen-card" data-reveal style={`--reveal-index: ${index}`}>
+              <div class="specimen-card-copy">
+                <span>{item.label}</span>
+                <h2>{item.title}</h2>
+                <p>{item.copy}</p>
+              </div>
+              <div class="specimen-meter" aria-hidden="true">
+                {item.bars.map((height) => <span style={`--meter-height: ${height}%`}></span>)}
+              </div>
+              <p class="specimen-meta">{item.meta}</p>
+            </article>
+          ))
+        }
+      </div>
     </section>
 
     <section class="signature" aria-labelledby="signature-title" data-reveal>
@@ -275,19 +188,13 @@ const links = [
           <span>engineering taste</span>
         </div>
         <p>
-          The interesting problems live where the math, the machine, and the
-          physical system all get a vote. I like when the record has enough
-          personality to feel handled by a person, but enough discipline to
-          survive inspection.
+          The interesting problems live where the math, the machine, and the physical system all get a vote.
         </p>
       </div>
 
       <div class="signature-board" aria-label="Technical signal board">
-        <div class="signature-equation">
-          <span set:html={conservationLaw}></span>
-          <span set:html={cflCondition}></span>
-        </div>
         <div class="signature-wave" aria-hidden="true">
+          <span></span>
           <span></span>
           <span></span>
           <span></span>
@@ -306,22 +213,16 @@ const links = [
       </div>
     </section>
 
-    <section class="section" id="work" aria-labelledby="work-title" data-reveal>
-      <div class="section-heading">
+    <section class="work-show" id="work" aria-labelledby="work-title">
+      <div class="section-heading" data-reveal>
         <span id="work-title">selected work</span>
         <span><a href="/work">full index</a></span>
       </div>
 
-      <div class="project-grid">
+      <div class="work-list">
         {
-          projects.map((project) => (
-            <a
-              class="project-card"
-              href={project.href}
-              data-project-card
-              data-project-lens={project.lens}
-              data-project-signal={project.signal}
-            >
+          projects.map((project, index) => (
+            <a class="work-row" href={project.href} data-reveal style={`--reveal-index: ${index}`}>
               <span class="project-meta">{project.meta}</span>
               <h2>{project.title}</h2>
               <p>{project.desc}</p>
@@ -339,37 +240,35 @@ const links = [
         <span>thesis track</span>
       </div>
       <p>
-        I am building the solver, the verification trail, and the public record
-        together so the work can be reopened without depending on memory.
+        Build the solver, the verification trail, and the public record together.
       </p>
     </section>
 
-    <section class="trajectory" aria-labelledby="trajectory-title" data-reveal>
-      <div class="section-heading">
+    <section class="trajectory" aria-labelledby="trajectory-title">
+      <div class="section-heading" data-reveal>
         <span id="trajectory-title">solver trajectory</span>
         <span>from case to record</span>
       </div>
 
-      <div class="trajectory-grid" data-trajectory>
-        <div class="trajectory-map" aria-hidden="true" data-trajectory-map>
+      <div class="trajectory-grid">
+        <div class="trajectory-map" aria-hidden="true" data-reveal>
           <span class="map-line"></span>
           <span class="map-node map-node-one"></span>
           <span class="map-node map-node-two"></span>
           <span class="map-node map-node-three"></span>
           <span class="map-sweep map-sweep-one"></span>
           <span class="map-sweep map-sweep-two"></span>
-          <span class="map-label" data-trajectory-state>{trajectory[0].state}</span>
+          <span class="map-label">{trajectory[0].state}</span>
         </div>
 
         <div class="trajectory-list">
           {
             trajectory.map((item, index) => (
-              <article class:list={[{ "is-active": index === 0 }]} data-trajectory-step>
-                <button type="button" data-state={item.state} aria-pressed={index === 0 ? "true" : "false"}>
-                  <span>{item.step}</span>
-                  <span class="trajectory-title">{item.title}</span>
-                  <span class="trajectory-detail">{item.detail}</span>
-                </button>
+              <article data-reveal style={`--reveal-index: ${index}`}>
+                <span>{item.step}</span>
+                <h2>{item.title}</h2>
+                <p>{item.detail}</p>
+                <small>{item.state}</small>
               </article>
             ))
           }
@@ -377,23 +276,23 @@ const links = [
       </div>
     </section>
 
-    <section class="evidence" aria-labelledby="evidence-title" data-reveal>
-      <div class="section-heading">
+    <section class="evidence" aria-labelledby="evidence-title">
+      <div class="section-heading" data-reveal>
         <span id="evidence-title">working style</span>
         <span>repeatable records</span>
       </div>
       <div class="evidence-list">
-        <article>
+        <article data-reveal>
           <span>01</span>
           <h2>Build the calculation.</h2>
           <p>Start with local tools, small verification cases, and source history that can be replayed.</p>
         </article>
-        <article>
+        <article data-reveal>
           <span>02</span>
           <h2>Name the assumptions.</h2>
           <p>Write down boundary conditions, discretization choices, solver limits, and what changed between runs.</p>
         </article>
-        <article>
+        <article data-reveal>
           <span>03</span>
           <h2>Publish what sharpens it.</h2>
           <p>Turn notes, plots, and logs into public pages only when they improve the inspection.</p>
@@ -401,27 +300,26 @@ const links = [
       </div>
     </section>
 
-    <section class="split" aria-label="Notes and profile" data-reveal>
-      <article>
+    <section class="split" aria-label="Notes and profile">
+      <article data-reveal>
         <div class="section-heading">
           <span>notes</span>
           <span><a href="/notes">open log index</a></span>
         </div>
         <p>
-          Notes are not a content treadmill here. They are where project
-          decisions, build scars, and numerical context get cleaned into
-          something reusable.
+          Notes are not a content treadmill here. They are where project decisions,
+          build scars, and numerical context get cleaned into something reusable.
         </p>
       </article>
 
-      <article>
+      <article data-reveal>
         <div class="section-heading">
           <span>about</span>
           <span>systems reasoning</span>
         </div>
         <p>
-          Aerospace engineering, numerical methods, propulsion, and a bias for
-          tools that show their work instead of hiding behind a clean screenshot.
+          Aerospace engineering, numerical methods, propulsion, and a bias for tools
+          that show their work instead of hiding behind a clean screenshot.
         </p>
       </article>
     </section>
@@ -436,89 +334,29 @@ const links = [
 
   <script is:inline>
     (() => {
-      const solver = document.querySelector("[data-solver-lab]");
-      if (solver) {
-        const title = solver.querySelector("[data-solver-title]");
-        const copy = solver.querySelector("[data-solver-copy]");
-        const state = solver.querySelector("[data-solver-state]");
-        const bars = Array.from(solver.querySelectorAll(".readout-plot span"));
-        const fields = {
-          scheme: solver.querySelector('[data-solver-field="scheme"]'),
-          case: solver.querySelector('[data-solver-field="case"]'),
-          cfl: solver.querySelector('[data-solver-field="cfl"]')
-        };
-
-        const setCase = (button) => {
-          solver.querySelectorAll("[data-solver-case]").forEach((item) => {
-            const active = item === button;
-            item.classList.toggle("is-active", active);
-            item.setAttribute("aria-pressed", String(active));
-          });
-
-          title.textContent = button.dataset.title;
-          copy.textContent = button.dataset.copy;
-          state.textContent = button.dataset.state;
-          fields.scheme.textContent = button.dataset.scheme;
-          fields.case.textContent = button.dataset.case;
-          fields.cfl.textContent = button.dataset.cfl;
-
-          button.dataset.bars.split(",").forEach((height, index) => {
-            bars[index]?.style.setProperty("--readout-height", `${height}%`);
-          });
-        };
-
-        solver.addEventListener("click", (event) => {
-          const button = event.target.closest("[data-solver-case]");
-          if (button) {
-            setCase(button);
-          }
-        });
+      const revealItems = Array.from(document.querySelectorAll("[data-reveal]"));
+      if (!revealItems.length) {
+        return;
       }
 
-      const trajectory = document.querySelector("[data-trajectory]");
-      if (trajectory) {
-        const steps = Array.from(trajectory.querySelectorAll("[data-trajectory-step]"));
-        const state = trajectory.querySelector("[data-trajectory-state]");
-        const map = trajectory.querySelector("[data-trajectory-map]");
+      if (!("IntersectionObserver" in window)) {
+        revealItems.forEach((item) => item.classList.add("is-visible"));
+        return;
+      }
 
-        const setStep = (article) => {
-          steps.forEach((step, index) => {
-            const active = step === article;
-            step.classList.toggle("is-active", active);
-            step.querySelector("button").setAttribute("aria-pressed", String(active));
-            if (active) {
-              map.dataset.activeStep = String(index + 1);
-              state.textContent = step.querySelector("button").dataset.state;
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-visible");
+              observer.unobserve(entry.target);
             }
           });
-        };
+        },
+        { rootMargin: "-8% 0px -12% 0px", threshold: 0.08 }
+      );
 
-        trajectory.addEventListener("click", (event) => {
-          const article = event.target.closest("[data-trajectory-step]");
-          if (article) {
-            setStep(article);
-          }
-        });
-      }
-
-      const revealItems = Array.from(document.querySelectorAll("[data-reveal]"));
-      if (revealItems.length) {
-        if (!("IntersectionObserver" in window)) {
-          revealItems.forEach((item) => item.classList.add("is-visible"));
-          return;
-        }
-
-        const observer = new IntersectionObserver(
-          (entries) => {
-            entries.forEach((entry) => {
-              entry.target.classList.toggle("is-visible", entry.isIntersecting);
-            });
-          },
-          { rootMargin: "-12% 0px -18% 0px", threshold: 0.08 }
-        );
-
-        revealItems.forEach((item) => observer.observe(item));
-      }
+      revealItems.forEach((item) => observer.observe(item));
     })();
   </script>
 </BaseLayout>
