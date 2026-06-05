@@ -130,8 +130,7 @@ const {
 
             parts.forEach((part, index) => {
               const revealAt = 0.04 + index * 0.08;
-              const exitAt = 0.94 - index * 0.06;
-              part.classList.toggle("is-visible", progress >= revealAt && progress < exitAt);
+              part.classList.toggle("is-visible", progress >= revealAt);
             });
 
             if (!steps.length) {
@@ -145,13 +144,11 @@ const {
 
             if (progress < detailsStart) {
               activeCount = 0;
-            } else if (progress <= detailsComplete) {
+            } else {
               activeCount = Math.min(
                 steps.length,
                 Math.floor(((progress - detailsStart) / (detailsComplete - detailsStart)) * steps.length) + 1
               );
-            } else {
-              activeCount = Math.max(0, Math.ceil(((1 - progress) / (1 - detailsComplete)) * steps.length));
             }
 
             scene.classList.toggle("is-complete", progress >= detailsComplete);

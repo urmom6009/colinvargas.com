@@ -192,25 +192,25 @@ const links = [
       </div>
 
       <div class="section-details">
-      <div class="signature-board" aria-label="technical signal board" data-build-step="1">
-        <div class="signature-wave" aria-hidden="true">
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
+        <div class="signature-board" aria-label="technical signal board" data-build-step="1">
+          <div class="signature-wave" aria-hidden="true">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          <dl>
+            {
+              signal.map((item) => (
+                <div>
+                  <dt>{item.label}</dt>
+                  <dd>{item.value}</dd>
+                </div>
+              ))
+            }
+          </dl>
         </div>
-        <dl>
-          {
-            signal.map((item) => (
-              <div>
-                <dt>{item.label}</dt>
-                <dd>{item.value}</dd>
-              </div>
-            ))
-          }
-        </dl>
-      </div>
       </div>
     </section>
 

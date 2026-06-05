@@ -115,13 +115,6 @@ footer {
   margin: 0 auto;
 }
 
-main > section + section,
-main > section + article,
-main > article + section,
-main > article + article {
-  margin-top: -7svh;
-}
-
 .katex,
 .katex * {
   text-transform: none;
@@ -1603,42 +1596,6 @@ code {
   .pending-grid h1,
   .resume-hero h1 {
     font-size: 5.8rem;
-  }
-}
-
-@media (min-width: 1181px) {
-  .specimen-stack,
-  .work-list,
-  .resume-list,
-  .trajectory-list,
-  .evidence-list {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
-  .specimen-card,
-  .work-card,
-  .resume-item {
-    min-height: 100%;
-  }
-
-  .specimen-card h2 {
-    font-size: 3.45rem;
-  }
-
-  .work-card h2 {
-    font-size: 3rem;
-  }
-
-  .resume-item h2 {
-    font-size: 2.6rem;
-  }
-
-  .trajectory-list h2 {
-    font-size: 1.75rem;
-  }
-
-  .evidence-list h2 {
-    font-size: 1.9rem;
   }
 }
 
