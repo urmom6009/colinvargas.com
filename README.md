@@ -28,6 +28,18 @@ npm run build
 
 then smoke test `/`, `/resume`, `/notes`, one `/work/...` page, and a missing route locally.
 
+## sitewide visual system
+
+all pages should inherit the homepage's specimen language: full-width frosted navigation, lowercase type, quiet mesh/grid backgrounds, intentional aerospace marks, oversized topic headers, and framed detail panels. secondary pages should not feel like neutral placeholders. give each route a clear main idea, one supporting detail card, and index/action cells that use the same border, grid, and shadow behavior as selected work.
+
+when adding a new route, start by choosing its page role, then map the visual details to that role:
+
+1. header: use the first viewport to state the route's main idea, not a generic label.
+2. detail panel: add one framed aside that explains the current state, priority, or missing artifact.
+3. index cards: use card-like rows or cells for links so the page feels built, not listed.
+4. background marks: reuse datum lines, mesh hints, sweep paths, and trace geometry only when they support the page's technical context.
+5. copy voice: keep source copy lowercase, direct, low-repetition, and mostly impersonal.
+
 ## homepage intention guide
 
 the homepage should feel like a staged technical specimen, not a list of panels. use this sequence when adding or changing visual details:

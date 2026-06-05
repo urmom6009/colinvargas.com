@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Extended the homepage specimen language across secondary pages with shared background marks, framed page asides, card-like indexes, and lowercase source copy.
 - Tightened the homepage nav, scroll-stage chapter behavior, copy voice, and README guidance for more intentional visual details.
 - Refined the homepage with sticky scroll chapters, a hero-level current focus block, selected-work cards, full-width frosted navigation, intentional background marks, and sitewide lowercase styling.
 - Reworked the homepage into a bold type-specimen scroll experience with organic reveal sections instead of click-gated drawers.

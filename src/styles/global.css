@@ -1214,16 +1214,17 @@ code {
 }
 
 .pending-page {
-  min-height: calc(100svh - 110px);
+  min-height: calc(100svh - 74px);
   display: grid;
   align-content: center;
-  padding: 96px 0 72px;
+  padding: 106px 0 86px;
+  border-bottom: 1px solid var(--line);
 }
 
 .pending-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(260px, 390px);
-  gap: 96px;
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 0.34fr);
+  gap: 72px;
   align-items: end;
 }
 
@@ -1244,9 +1245,32 @@ code {
 }
 
 .pending-note {
-  padding-top: 18px;
-  border-top: 1px solid var(--line);
+  min-height: 260px;
+  display: grid;
+  align-content: space-between;
+  padding: 22px;
+  border: 1px solid var(--line);
+  background:
+    linear-gradient(135deg, var(--frost), transparent),
+    linear-gradient(to right, color-mix(in srgb, var(--ink) 5%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--ink) 4%, transparent) 1px, transparent 1px);
+  background-size: auto, 44px 44px, 44px 44px;
+  box-shadow: 0 16px 42px color-mix(in srgb, var(--shadow) 38%, transparent);
   color: var(--muted);
+  position: relative;
+  overflow: hidden;
+}
+
+.pending-note::after {
+  content: "";
+  position: absolute;
+  right: 22px;
+  bottom: 24px;
+  width: 120px;
+  height: 1px;
+  background: var(--accent);
+  transform: rotate(-23deg);
+  opacity: 0.7;
 }
 
 .pending-note p {
@@ -1259,25 +1283,45 @@ code {
 }
 
 .pending-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 14px 24px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0;
   margin-top: 72px;
+  border-top: 1px solid var(--line);
+  border-left: 1px solid var(--line);
   color: var(--muted);
 }
 
 .pending-actions a {
-  border-bottom: 1px solid currentColor;
+  min-height: 86px;
+  display: flex;
+  align-items: end;
+  padding: 16px;
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background: color-mix(in srgb, var(--surface) 42%, transparent);
+  transition:
+    color 180ms ease,
+    background-color 180ms ease;
+}
+
+.pending-actions a:hover {
+  color: var(--ink);
+  background: var(--frost);
 }
 
 .resume-hero {
-  padding: 96px 0 56px;
+  min-height: calc(82svh - 74px);
+  display: grid;
+  align-content: center;
+  padding: 106px 0 66px;
+  border-bottom: 1px solid var(--line);
 }
 
 .resume-hero-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(260px, 390px);
-  gap: 96px;
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 0.34fr);
+  gap: 72px;
   align-items: end;
 }
 
@@ -1298,9 +1342,32 @@ code {
 }
 
 .resume-hero aside {
-  padding-top: 18px;
-  border-top: 1px solid var(--line);
+  min-height: 260px;
+  display: grid;
+  align-content: space-between;
+  padding: 22px;
+  border: 1px solid var(--line);
+  background:
+    linear-gradient(135deg, var(--frost), transparent),
+    linear-gradient(to right, color-mix(in srgb, var(--ink) 5%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--ink) 4%, transparent) 1px, transparent 1px);
+  background-size: auto, 44px 44px, 44px 44px;
+  box-shadow: 0 16px 42px color-mix(in srgb, var(--shadow) 38%, transparent);
   color: var(--muted);
+  position: relative;
+  overflow: hidden;
+}
+
+.resume-hero aside::after {
+  content: "";
+  position: absolute;
+  right: 22px;
+  bottom: 24px;
+  width: 120px;
+  height: 1px;
+  background: var(--accent);
+  transform: rotate(-23deg);
+  opacity: 0.7;
 }
 
 .resume-hero aside strong {
@@ -1324,30 +1391,45 @@ code {
 }
 
 .resume-section {
-  padding: 48px 0 56px;
+  padding: 76px 0 72px;
+  border-bottom: 1px solid var(--line);
 }
 
 .resume-list {
-  border-top: 1px solid var(--line);
+  display: grid;
+  gap: 22px;
 }
 
 .resume-item {
+  min-height: 240px;
   display: grid;
-  grid-template-columns: 64px minmax(0, 1fr) minmax(220px, 0.38fr);
-  gap: 42px;
-  align-items: baseline;
-  padding: 24px 0;
-  border-bottom: 1px solid var(--line);
+  grid-template-columns: 64px minmax(0, 1fr) minmax(220px, 0.32fr);
+  gap: 34px;
+  align-items: start;
+  padding: 24px;
+  border: 1px solid var(--line);
+  background:
+    linear-gradient(135deg, var(--frost), transparent),
+    linear-gradient(to right, color-mix(in srgb, var(--ink) 5%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--ink) 4%, transparent) 1px, transparent 1px);
+  background-size: auto, 44px 44px, 44px 44px;
+  box-shadow: 0 12px 34px color-mix(in srgb, var(--shadow) 28%, transparent);
+  position: relative;
+  overflow: hidden;
   transition:
     color 180ms ease,
     background-color 180ms ease,
-    padding-left 180ms ease;
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease;
 }
 
 .resume-item:hover {
   color: var(--accent);
-  background: linear-gradient(to right, var(--surface), transparent);
-  padding-left: 12px;
+  border-color: color-mix(in srgb, var(--accent) 46%, var(--line));
+  background-color: var(--frost-strong);
+  box-shadow: 0 18px 48px color-mix(in srgb, var(--shadow) 48%, transparent);
+  transform: translateY(-3px);
 }
 
 .resume-item > span,
@@ -1359,9 +1441,9 @@ code {
 
 .resume-item h2 {
   color: var(--ink);
-  font-size: 2.35rem;
+  font-size: 3.2rem;
   font-weight: 400;
-  line-height: 1;
+  line-height: 0.94;
 }
 
 .resume-item p {
@@ -1383,11 +1465,16 @@ code {
 }
 
 .capability-grid li {
-  min-height: 92px;
+  min-height: 128px;
   padding: 18px;
   border-right: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
   color: var(--muted);
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--surface) 62%, transparent), transparent),
+    linear-gradient(to right, color-mix(in srgb, var(--ink) 4%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--ink) 3%, transparent) 1px, transparent 1px);
+  background-size: auto, 38px 38px, 38px 38px;
 }
 
 .resume-contact-grid {
@@ -1398,7 +1485,7 @@ code {
 }
 
 .resume-contact-grid a {
-  min-height: 112px;
+  min-height: 156px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -1408,6 +1495,11 @@ code {
   border-right: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
   color: var(--muted);
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--surface) 62%, transparent), transparent),
+    linear-gradient(to right, color-mix(in srgb, var(--ink) 4%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--ink) 3%, transparent) 1px, transparent 1px);
+  background-size: auto, 38px 38px, 38px 38px;
   transition:
     color 180ms ease,
     background-color 180ms ease;
@@ -1551,6 +1643,7 @@ code {
   .evidence-list article,
   .resume-item,
   .capability-grid,
+  .pending-actions,
   .resume-contact-grid {
     grid-template-columns: 1fr;
   }

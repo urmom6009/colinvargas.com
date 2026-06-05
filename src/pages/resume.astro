@@ -49,6 +49,12 @@ const capabilities = [
   "paraview post-processing",
   "technical documentation"
 ];
+
+const contacts = [
+  { label: "github", detail: "source history", href: "https://github.com/colinvargas" },
+  { label: "linkedin", detail: "profile context", href: "https://www.linkedin.com/in/colinvargas" },
+  { label: "email", detail: "hello@colinvargas.com", href: "mailto:hello@colinvargas.com" }
+];
 ---
 
 <BaseLayout title="resume - colin vargas">
@@ -74,7 +80,7 @@ const capabilities = [
         <div>
           <h1 id="resume-title">colin vargas</h1>
           <p>
-            Aerospace engineering, numerical methods, propulsion, and software
+            aerospace engineering, numerical methods, propulsion, and software
             for turning complex physical behavior into something inspectable.
           </p>
         </div>
@@ -127,9 +133,14 @@ const capabilities = [
       </div>
 
       <div class="resume-contact-grid">
-        <a href="https://github.com/colinvargas">github</a>
-        <a href="https://www.linkedin.com/in/colinvargas">linkedin</a>
-        <a href="mailto:hello@colinvargas.com">hello@colinvargas.com</a>
+        {
+          contacts.map((contact) => (
+            <a href={contact.href}>
+              <span>{contact.label}</span>
+              <strong>{contact.detail}</strong>
+            </a>
+          ))
+        }
       </div>
     </section>
   </main>
