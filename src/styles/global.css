@@ -624,33 +624,9 @@ footer,
   gap: 72px;
   align-items: start;
   padding: 92px 0 120px;
-  margin-top: 14svh;
-  border-top: 1px solid color-mix(in srgb, var(--line) 88%, transparent);
-  border-bottom: 1px solid color-mix(in srgb, var(--line) 62%, transparent);
+  margin-top: 4svh;
   isolation: isolate;
   overflow: clip;
-}
-
-.story-section::before {
-  content: "";
-  position: absolute;
-  inset: 0 calc(50% - 50vw);
-  z-index: -1;
-  background:
-    linear-gradient(to right, transparent 0 42%, color-mix(in srgb, var(--accent) 4%, transparent) 42% 42.4%, transparent 42.4%),
-    linear-gradient(to bottom, color-mix(in srgb, var(--ink) 4%, transparent), transparent 28svh, transparent calc(100% - 28svh), color-mix(in srgb, var(--ink) 3%, transparent));
-}
-
-.signature::before {
-  background:
-    linear-gradient(to right, transparent 0 56%, color-mix(in srgb, var(--gold) 5%, transparent) 56% 56.35%, transparent 56.35%),
-    linear-gradient(to bottom, color-mix(in srgb, var(--ink) 4%, transparent), transparent 28svh, transparent calc(100% - 28svh), color-mix(in srgb, var(--ink) 3%, transparent));
-}
-
-.work-show::before {
-  background:
-    linear-gradient(to right, transparent 0 47%, color-mix(in srgb, var(--signal) 4%, transparent) 47% 47.35%, transparent 47.35%),
-    linear-gradient(to bottom, color-mix(in srgb, var(--ink) 4%, transparent), transparent 28svh, transparent calc(100% - 28svh), color-mix(in srgb, var(--ink) 3%, transparent));
 }
 
 .section-lead {
