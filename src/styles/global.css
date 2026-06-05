@@ -15,38 +15,38 @@
 }
 
 :root {
-  --bg: #eff1ea;
-  --surface: rgba(255, 255, 255, 0.36);
-  --frost: rgba(255, 255, 255, 0.32);
-  --frost-strong: rgba(255, 255, 255, 0.5);
-  --ink: #101616;
-  --muted: #626a65;
-  --soft: #8c958f;
-  --line: #cfd8d1;
-  --accent: #176a78;
-  --signal: #9f3548;
-  --gold: #a6842b;
-  --grid-line-x: rgba(21, 21, 21, 0.026);
-  --grid-line-y: rgba(21, 21, 21, 0.018);
-  --shadow: rgba(51, 42, 28, 0.09);
+  --bg: #f1eadb;
+  --surface: rgba(255, 250, 238, 0.42);
+  --frost: rgba(255, 250, 238, 0.36);
+  --frost-strong: rgba(255, 250, 238, 0.58);
+  --ink: #12120f;
+  --muted: #686257;
+  --soft: #928a7c;
+  --line: #d8cdb9;
+  --accent: #0f6570;
+  --signal: #9b3344;
+  --gold: #a57b16;
+  --grid-line-x: rgba(18, 18, 15, 0.028);
+  --grid-line-y: rgba(18, 18, 15, 0.02);
+  --shadow: rgba(64, 48, 25, 0.13);
   --font-sans: "PP Neue Montreal", "General Sans", "Inter", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", "SF Mono", ui-monospace, monospace;
 }
 
 [data-theme="dark"] {
-  --bg: #0d1211;
-  --surface: rgba(246, 242, 234, 0.06);
-  --frost: rgba(246, 242, 234, 0.075);
-  --frost-strong: rgba(246, 242, 234, 0.12);
-  --ink: #eef2ea;
-  --muted: #a6afa8;
-  --soft: #78827c;
-  --line: rgba(238, 242, 234, 0.16);
-  --accent: #79b7c2;
-  --signal: #e3748d;
-  --gold: #d3a944;
-  --grid-line-x: rgba(239, 232, 220, 0.045);
-  --grid-line-y: rgba(239, 232, 220, 0.032);
+  --bg: #15120f;
+  --surface: rgba(241, 234, 219, 0.06);
+  --frost: rgba(241, 234, 219, 0.075);
+  --frost-strong: rgba(241, 234, 219, 0.12);
+  --ink: #f0eadc;
+  --muted: #b0a897;
+  --soft: #847968;
+  --line: rgba(240, 234, 220, 0.16);
+  --accent: #85bec4;
+  --signal: #df7080;
+  --gold: #d6a843;
+  --grid-line-x: rgba(240, 234, 220, 0.044);
+  --grid-line-y: rgba(240, 234, 220, 0.03);
   --shadow: rgba(0, 0, 0, 0.28);
 }
 
@@ -72,8 +72,8 @@ body {
   margin: 0;
   min-height: 100vh;
   background:
-    radial-gradient(circle at 78% 8%, color-mix(in srgb, var(--accent) 9%, transparent), transparent 28vw),
-    radial-gradient(circle at 14% 74%, color-mix(in srgb, var(--signal) 7%, transparent), transparent 24vw),
+    radial-gradient(circle at 78% 8%, color-mix(in srgb, var(--gold) 12%, transparent), transparent 30vw),
+    radial-gradient(circle at 14% 74%, color-mix(in srgb, var(--accent) 7%, transparent), transparent 26vw),
     linear-gradient(to right, var(--grid-line-x) 1px, transparent 1px),
     linear-gradient(to bottom, var(--grid-line-y) 1px, transparent 1px),
     var(--bg);
@@ -126,7 +126,8 @@ footer,
 .solver-readout,
 .signature-board,
 .pending-note,
-.pending-actions {
+.pending-actions,
+.field-notes {
   font-family: var(--font-mono);
   font-size: 0.72rem;
   letter-spacing: 0;
@@ -150,7 +151,7 @@ footer,
   position: fixed;
   right: 18px;
   bottom: 18px;
-  z-index: 20;
+  z-index: 35;
   cursor: pointer;
   box-shadow: 0 16px 42px var(--shadow);
   backdrop-filter: blur(18px) saturate(1.22);
@@ -218,9 +219,17 @@ footer,
   align-items: center;
   justify-content: space-between;
   gap: 24px;
-  padding: 28px 0;
-  position: relative;
-  z-index: 5;
+  padding: 14px 18px;
+  position: sticky;
+  top: 12px;
+  z-index: 30;
+  border: 1px solid color-mix(in srgb, var(--line) 86%, transparent);
+  background: color-mix(in srgb, var(--frost-strong) 78%, transparent);
+  box-shadow:
+    0 1px 0 color-mix(in srgb, var(--ink) 6%, transparent),
+    0 16px 38px color-mix(in srgb, var(--shadow) 72%, transparent);
+  backdrop-filter: blur(18px) saturate(1.18);
+  -webkit-backdrop-filter: blur(18px) saturate(1.18);
 }
 
 .brand {
@@ -507,7 +516,7 @@ h1 {
   border: 1px solid var(--line);
   background: var(--frost);
   color: var(--muted);
-  box-shadow: 0 24px 70px var(--shadow);
+  box-shadow: 0 16px 44px color-mix(in srgb, var(--shadow) 54%, transparent);
   backdrop-filter: blur(18px) saturate(1.18);
   -webkit-backdrop-filter: blur(18px) saturate(1.18);
   animation: fade-in 760ms 120ms ease both;
@@ -676,6 +685,73 @@ h1 {
   transform: translateY(-1px);
 }
 
+.field-notes {
+  max-width: 720px;
+  margin-top: -8px;
+  color: var(--muted);
+}
+
+.field-notes summary {
+  width: fit-content;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  list-style: none;
+  transition:
+    color 180ms ease,
+    transform 180ms ease;
+}
+
+.field-notes summary::-webkit-details-marker {
+  display: none;
+}
+
+.field-notes summary:hover,
+.field-notes[open] summary {
+  color: var(--ink);
+  transform: translateX(4px);
+}
+
+.field-notes summary span:last-child {
+  width: 18px;
+  height: 1px;
+  display: block;
+  background: currentColor;
+  position: relative;
+}
+
+.field-notes summary span:last-child::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: currentColor;
+  transform: rotate(90deg);
+  transition: transform 180ms ease;
+}
+
+.field-notes[open] summary span:last-child::after {
+  transform: rotate(0deg);
+}
+
+.field-notes-panel {
+  display: grid;
+  gap: 10px;
+  margin-top: 18px;
+  padding: 18px 0 0 24px;
+  border-top: 1px solid var(--line);
+  border-left: 1px solid var(--line);
+  color: var(--muted);
+  text-transform: none;
+}
+
+.field-notes-panel p {
+  max-width: 620px;
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.36;
+}
+
 .section {
   padding: 88px 0 72px;
   position: relative;
@@ -719,7 +795,7 @@ h1 {
   background-size: auto, 46px 46px, 46px 46px;
   overflow: hidden;
   position: relative;
-  box-shadow: 0 28px 90px var(--shadow);
+  box-shadow: 0 18px 54px color-mix(in srgb, var(--shadow) 56%, transparent);
   backdrop-filter: blur(20px) saturate(1.2);
   -webkit-backdrop-filter: blur(20px) saturate(1.2);
 }
@@ -865,7 +941,7 @@ h1 {
   background: linear-gradient(135deg, var(--frost), transparent);
   position: relative;
   overflow: hidden;
-  box-shadow: 0 18px 60px color-mix(in srgb, var(--shadow) 42%, transparent);
+  box-shadow: none;
   backdrop-filter: blur(16px) saturate(1.14);
   -webkit-backdrop-filter: blur(16px) saturate(1.14);
   transition:
@@ -908,7 +984,7 @@ h1 {
 .project-card:hover {
   background: var(--frost-strong);
   border-color: color-mix(in srgb, var(--accent) 42%, var(--line));
-  box-shadow: 0 24px 76px var(--shadow);
+  box-shadow: 0 14px 38px color-mix(in srgb, var(--shadow) 52%, transparent);
   transform: translateY(-3px);
 }
 
@@ -1010,7 +1086,7 @@ h1 {
   overflow: hidden;
   border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
-  box-shadow: 0 22px 76px color-mix(in srgb, var(--shadow) 50%, transparent);
+  box-shadow: 0 14px 40px color-mix(in srgb, var(--shadow) 42%, transparent);
   backdrop-filter: blur(14px) saturate(1.12);
   -webkit-backdrop-filter: blur(14px) saturate(1.12);
   background:
@@ -1528,7 +1604,8 @@ code {
   }
 
   .site-header {
-    padding: 22px 0;
+    padding: 14px 16px;
+    top: 10px;
   }
 
   .hero {
@@ -1617,6 +1694,7 @@ code {
   .site-header {
     display: grid;
     grid-template-columns: 1fr;
+    gap: 14px;
   }
 
   .field {
@@ -1737,21 +1815,38 @@ code {
   background:
     radial-gradient(circle at 12% 10%, color-mix(in srgb, var(--gold) 18%, transparent), transparent 28%),
     linear-gradient(135deg, var(--frost-strong), var(--frost));
-  box-shadow: 0 28px 90px color-mix(in srgb, var(--shadow) 65%, transparent);
+  box-shadow: 0 18px 52px color-mix(in srgb, var(--shadow) 46%, transparent);
   overflow: hidden;
   position: relative;
   backdrop-filter: blur(18px) saturate(1.18);
   -webkit-backdrop-filter: blur(18px) saturate(1.18);
   animation: fade-in 800ms 180ms ease both;
+  transition:
+    border-color 220ms ease,
+    box-shadow 220ms ease,
+    transform 220ms ease;
 }
 
 .flow-lab::before {
   content: "";
   position: absolute;
   inset: -40% -15%;
-  background: linear-gradient(110deg, transparent 42%, color-mix(in srgb, var(--accent) 16%, transparent), transparent 58%);
+  background: linear-gradient(110deg, transparent 42%, color-mix(in srgb, var(--accent) 10%, transparent), transparent 58%);
   transform: translateX(-36%);
+  opacity: 0.24;
   animation: scanner 7s ease-in-out infinite;
+}
+
+.flow-lab:hover,
+.flow-lab:focus-within {
+  border-color: color-mix(in srgb, var(--accent) 46%, var(--line));
+  box-shadow: 0 20px 58px color-mix(in srgb, var(--shadow) 58%, transparent);
+  transform: translateY(-1px);
+}
+
+.flow-lab:hover::before,
+.flow-lab:focus-within::before {
+  opacity: 0.52;
 }
 
 .flow-orbit,
@@ -1782,14 +1877,14 @@ code {
 .orbit-ring-one {
   width: min(58%, 150px);
   aspect-ratio: 1;
-  border: 1px solid color-mix(in srgb, var(--accent) 55%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 42%, transparent);
   animation: spin 12s linear infinite;
 }
 
 .orbit-ring-two {
   width: min(78%, 205px);
   aspect-ratio: 1;
-  border: 1px dashed color-mix(in srgb, var(--signal) 45%, transparent);
+  border: 1px dashed color-mix(in srgb, var(--signal) 30%, transparent);
   animation: spin 18s linear reverse infinite;
 }
 
@@ -1852,25 +1947,32 @@ code {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 10px;
+  opacity: 0.42;
+  transition: opacity 220ms ease;
+}
+
+.flow-lab:hover .flow-tiles,
+.flow-lab:focus-within .flow-tiles {
+  opacity: 0.86;
 }
 
 .flow-tiles span {
   min-height: 78px;
   border: 1px solid color-mix(in srgb, var(--line) 82%, transparent);
-  background: linear-gradient(to top, color-mix(in srgb, var(--accent) 10%, transparent), transparent);
+  background: linear-gradient(to top, color-mix(in srgb, var(--accent) 7%, transparent), transparent);
   transform: translateY(var(--tile-shift, 0));
   animation: tile-drift 4.8s ease-in-out infinite;
 }
 
 .flow-tiles span:nth-child(2n) {
   --tile-shift: 12px;
-  background: linear-gradient(to top, color-mix(in srgb, var(--gold) 13%, transparent), transparent);
+  background: linear-gradient(to top, color-mix(in srgb, var(--gold) 8%, transparent), transparent);
   animation-delay: 500ms;
 }
 
 .flow-tiles span:nth-child(3n) {
   --tile-shift: -8px;
-  background: linear-gradient(to top, color-mix(in srgb, var(--signal) 11%, transparent), transparent);
+  background: linear-gradient(to top, color-mix(in srgb, var(--signal) 7%, transparent), transparent);
   animation-delay: 900ms;
 }
 

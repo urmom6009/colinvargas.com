@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Warmed the jet-age visual system, made navigation sticky with a light shadow, and added a minimal hidden field-notes interaction.
 - Added build-time KaTeX equation rendering, heavier PP Neue Montreal hero treatment, and a slightly more personal statement of visual taste.
 - Refreshed the site voice and visual system around evidence-first aerospace software, visible reasoning, and a more personal technical brand.
 - Added intentional homepage interactions for the solver lab, project cards, and trajectory map.
