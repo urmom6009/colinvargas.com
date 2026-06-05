@@ -335,59 +335,78 @@ const links = [
   <script is:inline>
     (() => {
       const revealItems = Array.from(document.querySelectorAll("[data-reveal]"));
-      if (!revealItems.length) {
-        return;
-      }
-
-      if (!("IntersectionObserver" in window)) {
-        revealItems.forEach((item) => item.classList.add("is-visible"));
-        return;
-      }
-
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add("is-visible");
-              observer.unobserve(entry.target);
-            }
-          });
-        },
-        { rootMargin: "-8% 0px -12% 0px", threshold: 0.08 }
-      );
-
-      revealItems.forEach((item) => observer.observe(item));
-
       const chapters = Array.from(document.querySelectorAll("[data-scroll-chapter]"));
-      if (!chapters.length) {
+      const looseRevealItems = revealItems.filter((item) => !item.closest("[data-scroll-chapter]"));
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      if (reduceMotion) {
+        revealItems.forEach((item) => item.classList.add("is-visible"));
+        chapters.forEach((chapter) => {
+          chapter.classList.add("is-complete");
+          chapter.querySelectorAll("[data-build-step]").forEach((step) => step.classList.add("is-built"));
+        });
         return;
+      }
+
+      if ("IntersectionObserver" in window) {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("is-visible");
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          { rootMargin: "-8% 0px -12% 0px", threshold: 0.08 }
+        );
+
+        looseRevealItems.forEach((item) => observer.observe(item));
+      } else {
+        looseRevealItems.forEach((item) => item.classList.add("is-visible"));
       }
 
       let ticking = false;
       const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+      const sceneTiming = {
+        leadStart: 0.04,
+        ideaStart: 0.16,
+        detailsStart: 0.36,
+        detailsComplete: 0.84
+      };
 
       const syncChapters = () => {
         ticking = false;
 
         chapters.forEach((chapter) => {
           const steps = Array.from(chapter.querySelectorAll("[data-build-step]"));
+          const chapterRevealItems = Array.from(chapter.querySelectorAll("[data-reveal]"));
           const rect = chapter.getBoundingClientRect();
           const viewport = window.innerHeight || 1;
           const travel = Math.max(rect.height - viewport, viewport);
-          const progress = clamp((viewport * 0.48 - rect.top) / travel, 0, 1);
-          const start = 0.2;
-          const complete = 0.72;
+          const progress = clamp((viewport * 0.42 - rect.top) / travel, 0, 1);
+          const detailProgress = clamp(
+            (progress - sceneTiming.detailsStart) / (sceneTiming.detailsComplete - sceneTiming.detailsStart),
+            0,
+            1
+          );
           const activeCount =
-            progress < start
+            progress < sceneTiming.detailsStart
               ? 0
-              : Math.min(steps.length, Math.floor(((progress - start) / (complete - start)) * steps.length) + 1);
+              : Math.min(steps.length, Math.floor(detailProgress * steps.length) + 1);
 
           chapter.dataset.stage = String(activeCount);
-          chapter.classList.toggle("is-complete", progress >= complete);
+          chapter.classList.toggle("is-complete", progress >= sceneTiming.detailsComplete);
+
+          chapterRevealItems.forEach((item, index) => {
+            const revealAt = index === 0 ? sceneTiming.leadStart : sceneTiming.ideaStart;
+            item.classList.toggle("is-visible", progress >= revealAt);
+          });
 
           steps.forEach((step) => {
             const index = Number(step.dataset.buildStep || "1");
             step.classList.toggle("is-built", index <= activeCount);
+            step.classList.toggle("is-spotlight", index === activeCount && activeCount > 0);
           });
         });
       };

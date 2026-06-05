@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Retimed homepage scroll scenes so section ideas land before details, with each active detail receiving a spotlight state until the next reveal.
 - Extended the homepage specimen language across secondary pages with shared background marks, framed page asides, card-like indexes, and lowercase source copy.
 - Tightened the homepage nav, scroll-stage chapter behavior, copy voice, and README guidance for more intentional visual details.
 - Refined the homepage with sticky scroll chapters, a hero-level current focus block, selected-work cards, full-width frosted navigation, intentional background marks, and sitewide lowercase styling.
