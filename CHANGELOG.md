@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Reframed homepage scroll chapters as viewport-sized scenes with sticky headlines and layered detail cards that scale to the window.
 - Moved the scroll scene treatment into the shared layout while preserving the stacked homepage and index layouts so staged sections stay readable.
 - Softened homepage scene transitions by removing hard story-section bands and keeping only subtle continuous field lines.
 - Retimed homepage scroll scenes so section ideas land before details, with each active detail receiving a spotlight state until the next reveal.

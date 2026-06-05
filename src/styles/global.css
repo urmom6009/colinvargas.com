@@ -591,6 +591,13 @@ footer,
   transition-delay: 0ms;
 }
 
+.reveal-enabled .story-section .section-lead,
+.reveal-enabled .story-section .section-lead [data-reveal] {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
+}
+
 .reveal-enabled [data-reveal].is-visible {
   opacity: 1;
   transform: translateY(0);
@@ -618,12 +625,14 @@ footer,
 }
 
 .story-section {
-  min-height: 180svh;
+  --scene-top: clamp(78px, 8svh, 104px);
+  --scene-frame: calc(100svh - var(--scene-top) - 34px);
+  min-height: clamp(1180px, 300svh, 2400px);
   display: grid;
   grid-template-columns: minmax(280px, 0.42fr) minmax(0, 1fr);
-  gap: 72px;
+  gap: clamp(42px, 5vw, 72px);
   align-items: start;
-  padding: 92px 0 120px;
+  padding: var(--scene-top) 0 120px;
   margin-top: 2svh;
   isolation: isolate;
   overflow: clip;
@@ -631,14 +640,16 @@ footer,
 
 .section-lead {
   position: sticky;
-  top: 92px;
+  top: var(--scene-top);
   align-self: start;
+  max-height: var(--scene-frame);
+  overflow: hidden;
 }
 
 .section-idea {
   max-width: 620px;
   color: var(--ink);
-  font-size: 3.9rem;
+  font-size: clamp(2.55rem, 5.8svh, 4.35rem);
   font-weight: 500;
   line-height: 0.92;
   letter-spacing: 0;
@@ -647,14 +658,17 @@ footer,
 .section-details {
   display: grid;
   gap: 0;
-  min-height: calc(100svh - 132px);
-  align-content: center;
+  min-height: 0;
+  height: var(--scene-frame);
+  align-content: stretch;
   padding-top: 0;
   position: sticky;
-  top: 92px;
+  top: var(--scene-top);
+  overflow: hidden;
 }
 
 [data-build-step] {
+  --build-index: 0;
   opacity: 0;
   filter: blur(10px);
   transform: translateY(34px) scale(0.985);
@@ -668,16 +682,28 @@ footer,
     background-color 220ms ease;
 }
 
+[data-build-step="2"] {
+  --build-index: 1;
+}
+
+[data-build-step="3"] {
+  --build-index: 2;
+}
+
+[data-build-step="4"] {
+  --build-index: 3;
+}
+
 [data-build-step].is-built {
   opacity: 0.48;
   filter: blur(0);
-  transform: translateY(0) scale(0.965);
+  transform: translateY(calc(var(--build-index) * 10px)) scale(0.965);
 }
 
 .story-section [data-build-step].is-spotlight {
   opacity: 1;
   filter: blur(0);
-  transform: translateY(0) scale(1.018);
+  transform: translateY(0) scale(1);
   z-index: 2;
 }
 
@@ -707,19 +733,34 @@ footer,
 }
 
 .specimen-stack {
-  display: grid;
-  gap: 18px;
+  display: block;
   border-top: 1px solid var(--line);
 }
 
+.section-details > [data-build-step],
+.trajectory-list > [data-build-step] {
+  position: absolute;
+  inset: 0;
+}
+
 .specimen-card {
-  min-height: 280px;
+  min-height: 0;
+  height: 100%;
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(210px, 0.32fr) minmax(180px, 0.22fr);
-  gap: 34px;
+  gap: clamp(18px, 3vw, 34px);
   align-items: stretch;
-  padding: 28px 0;
+  padding: clamp(18px, 3svh, 30px);
+  border: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--surface) 72%, transparent), transparent),
+    linear-gradient(to right, color-mix(in srgb, var(--ink) 5%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--ink) 4%, transparent) 1px, transparent 1px);
+  background-size: auto, 44px 44px, 44px 44px;
+  box-shadow: 0 14px 42px color-mix(in srgb, var(--shadow) 34%, transparent);
+  backdrop-filter: blur(16px) saturate(1.12);
+  -webkit-backdrop-filter: blur(16px) saturate(1.12);
 }
 
 .specimen-card-copy {
@@ -736,7 +777,7 @@ footer,
 .specimen-card h2 {
   max-width: 980px;
   color: var(--ink);
-  font-size: 5.7rem;
+  font-size: clamp(2.45rem, 8.6svh, 5.2rem);
   font-weight: 500;
   line-height: 0.86;
   letter-spacing: 0;
@@ -751,7 +792,8 @@ footer,
 }
 
 .specimen-meter {
-  min-height: 210px;
+  min-height: 0;
+  height: 100%;
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   align-items: end;
@@ -806,7 +848,8 @@ footer,
 }
 
 .signature-board {
-  min-height: 410px;
+  min-height: 0;
+  height: 100%;
   display: grid;
   align-content: space-between;
   gap: 30px;
@@ -907,18 +950,18 @@ footer,
 }
 
 .work-list {
-  display: grid;
-  gap: 22px;
+  display: block;
 }
 
 .work-card {
-  min-height: 310px;
+  min-height: 0;
+  height: 100%;
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(150px, 0.24fr);
   grid-template-rows: auto 1fr auto;
   gap: 20px 28px;
   align-items: start;
-  padding: 26px;
+  padding: clamp(22px, 3.4svh, 34px);
   border: 1px solid var(--line);
   background:
     linear-gradient(135deg, var(--frost), transparent),
@@ -996,7 +1039,7 @@ footer,
   grid-column: 1 / -1;
   max-width: 780px;
   color: var(--ink);
-  font-size: 4.15rem;
+  font-size: clamp(2.35rem, 7.4svh, 4.8rem);
   font-weight: 500;
   line-height: 0.88;
   letter-spacing: 0;
@@ -1033,12 +1076,13 @@ footer,
 .trajectory-grid {
   display: grid;
   grid-template-columns: minmax(260px, 0.9fr) minmax(0, 1.1fr);
-  gap: 72px;
+  gap: clamp(28px, 4vw, 72px);
   align-items: stretch;
 }
 
 .trajectory-map {
-  min-height: 390px;
+  min-height: 0;
+  height: 100%;
   position: relative;
   overflow: hidden;
   border-top: 1px solid var(--line);
@@ -1131,18 +1175,23 @@ footer,
 }
 
 .trajectory-list {
-  display: grid;
-  gap: 0;
+  display: block;
+  position: relative;
   border-top: 1px solid var(--line);
 }
 
 .trajectory-list article {
+  height: 100%;
   display: grid;
-  grid-template-columns: 56px minmax(160px, 0.42fr) minmax(0, 1fr);
-  gap: 28px;
-  align-items: baseline;
-  padding: 24px 0;
-  border-bottom: 1px solid var(--line);
+  grid-template-columns: 56px minmax(0, 1fr);
+  grid-template-rows: auto auto 1fr;
+  gap: 18px 28px;
+  align-items: start;
+  align-content: center;
+  padding: clamp(22px, 3svh, 32px);
+  border: 1px solid var(--line);
+  background: color-mix(in srgb, var(--surface) 78%, transparent);
+  box-shadow: 0 12px 34px color-mix(in srgb, var(--shadow) 28%, transparent);
 }
 
 .trajectory-list span,
@@ -1152,36 +1201,46 @@ footer,
 }
 
 .trajectory-list h2 {
+  grid-column: 2;
   color: var(--ink);
-  font-size: 2rem;
+  font-size: clamp(2rem, 5.8svh, 4rem);
   font-weight: 400;
   line-height: 1;
   text-transform: lowercase;
 }
 
 .trajectory-list p {
+  grid-column: 2;
   max-width: 520px;
   color: var(--muted);
   line-height: 1.35;
 }
 
 .trajectory-list small {
-  grid-column: 3;
+  grid-column: 2;
 }
 
 .evidence-list {
-  display: grid;
-  gap: 0;
+  display: block;
   border-top: 1px solid var(--line);
 }
 
 .evidence-list article {
+  height: 100%;
   display: grid;
-  grid-template-columns: 72px minmax(210px, 0.48fr) minmax(0, 1fr);
-  gap: 42px;
-  align-items: baseline;
-  padding: 26px 0;
-  border-bottom: 1px solid var(--line);
+  grid-template-columns: 72px minmax(0, 1fr);
+  grid-template-rows: auto 1fr;
+  gap: 22px 34px;
+  align-items: start;
+  align-content: center;
+  padding: clamp(24px, 3.5svh, 40px);
+  border: 1px solid var(--line);
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--surface) 78%, transparent), transparent),
+    linear-gradient(to right, color-mix(in srgb, var(--ink) 4%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--ink) 3%, transparent) 1px, transparent 1px);
+  background-size: auto, 42px 42px, 42px 42px;
+  box-shadow: 0 12px 34px color-mix(in srgb, var(--shadow) 28%, transparent);
 }
 
 .evidence-list span {
@@ -1189,13 +1248,15 @@ footer,
 }
 
 .evidence-list h2 {
+  grid-column: 2;
   color: var(--ink);
-  font-size: 2.35rem;
+  font-size: clamp(2.35rem, 6.4svh, 4.8rem);
   font-weight: 400;
   line-height: 1;
 }
 
 .evidence-list p {
+  grid-column: 2;
   max-width: 680px;
   color: var(--muted);
   line-height: 1.35;
@@ -1644,9 +1705,17 @@ code {
   }
 
   .section-details {
+    height: auto;
     min-height: auto;
     position: static;
     padding-top: 0;
+    overflow: visible;
+  }
+
+  .section-details > [data-build-step],
+  .trajectory-list > [data-build-step] {
+    position: relative;
+    inset: auto;
   }
 
   .story-section.is-complete .section-details {
@@ -1673,6 +1742,7 @@ code {
   }
 
   .specimen-card {
+    height: auto;
     min-height: auto;
     gap: 22px;
   }
@@ -1683,12 +1753,14 @@ code {
   }
 
   .specimen-meter {
+    height: auto;
     min-height: 170px;
     border-left: 0;
     border-right: 0;
   }
 
   .work-card {
+    height: auto;
     min-height: auto;
   }
 
@@ -1705,6 +1777,7 @@ code {
 
   .signature-board,
   .trajectory-map {
+    height: auto;
     min-height: 320px;
   }
 
