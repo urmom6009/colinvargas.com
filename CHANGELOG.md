@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Extended the scroll-scene behavior to secondary pages so resume, work, notes, contact, about, and project pages use bounded staged sections.
 - Reframed homepage scroll chapters as viewport-sized scenes with sticky headlines and layered detail cards that scale to the window.
 - Moved the scroll scene treatment into the shared layout while preserving the stacked homepage and index layouts so staged sections stay readable.
 - Softened homepage scene transitions by removing hard story-section bands and keeping only subtle continuous field lines.

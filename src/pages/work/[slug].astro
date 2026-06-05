@@ -55,7 +55,7 @@ const project = Astro.props;
   </header>
 
   <main>
-    <section class="pending-page" aria-labelledby="pending-title">
+    <section class="pending-page page-scene" aria-labelledby="pending-title" data-scroll-chapter>
       <div class="section-heading">
         <span>{project.meta}</span>
         <span>{project.status}</span>
@@ -74,9 +74,9 @@ const project = Astro.props;
       </div>
 
       <div class="pending-actions">
-        <a href="/work">back to selected work</a>
-        <a href="/resume">resume index</a>
-        <a href="/notes">view notes index</a>
+        <a href="/work" data-build-step="1">back to selected work</a>
+        <a href="/resume" data-build-step="2">resume index</a>
+        <a href="/notes" data-build-step="3">view notes index</a>
       </div>
     </section>
   </main>
