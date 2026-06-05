@@ -52,8 +52,8 @@ const contacts = [
 
       <div class="resume-contact-grid">
         {
-          contacts.map((contact) => (
-            <a href={contact.href}>
+          contacts.map((contact, index) => (
+            <a href={contact.href} data-build-step={index + 1}>
               <span>{contact.label}</span>
               <strong>{contact.detail}</strong>
             </a>

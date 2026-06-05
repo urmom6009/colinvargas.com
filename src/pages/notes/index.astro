@@ -42,9 +42,13 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
       </div>
 
       <div class="pending-actions">
-        <a href="/">back home</a>
-        <a href="/work">selected work</a>
-        <a href="/resume">resume index</a>
+        {[
+          { href: "/", label: "back home" },
+          { href: "/work", label: "selected work" },
+          { href: "/resume", label: "resume index" }
+        ].map((link, index) => (
+          <a href={link.href} data-build-step={index + 1}>{link.label}</a>
+        ))}
       </div>
     </section>
   </main>

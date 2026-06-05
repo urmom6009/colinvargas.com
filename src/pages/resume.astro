@@ -102,7 +102,7 @@ const contacts = [
       <div class="resume-list">
         {
           work.map((item, index) => (
-            <a class="resume-item" href={item.href}>
+            <a class="resume-item" href={item.href} data-build-step={index + 1}>
               <span>{String(index + 1).padStart(2, "0")}</span>
               <div>
                 <h2>{item.title}</h2>
@@ -122,7 +122,7 @@ const contacts = [
       </div>
 
       <ul class="capability-grid" aria-label="capabilities">
-        {capabilities.map((capability) => <li>{capability}</li>)}
+        {capabilities.map((capability, index) => <li data-build-step={index + 1}>{capability}</li>)}
       </ul>
     </section>
 
@@ -134,8 +134,8 @@ const contacts = [
 
       <div class="resume-contact-grid">
         {
-          contacts.map((contact) => (
-            <a href={contact.href}>
+          contacts.map((contact, index) => (
+            <a href={contact.href} data-build-step={index + 1}>
               <span>{contact.label}</span>
               <strong>{contact.detail}</strong>
             </a>

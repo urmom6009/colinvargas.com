@@ -89,7 +89,11 @@ const {
     <slot />
     <script is:inline>
       (() => {
+        document.documentElement.classList.add("reveal-enabled");
+
         const header = document.querySelector(".site-header");
+        const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+
         if (header) {
           const syncHeader = () => {
             header.classList.toggle("is-scrolled", window.scrollY > 24);
@@ -97,6 +101,92 @@ const {
 
           syncHeader();
           window.addEventListener("scroll", syncHeader, { passive: true });
+        }
+
+        const scenes = Array.from(document.querySelectorAll("main > section, main > article"));
+        const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const sceneState = scenes.map((scene) => {
+          const parts = Array.from(scene.children).filter((child) => child.nodeType === Node.ELEMENT_NODE);
+          parts.forEach((part, index) => {
+            if (!part.hasAttribute("data-reveal")) {
+              part.setAttribute("data-reveal", "");
+            }
+            part.style.setProperty("--reveal-index", String(index));
+          });
+
+          return {
+            scene,
+            parts,
+            steps: Array.from(scene.querySelectorAll("[data-build-step]"))
+          };
+        });
+
+        const syncScenes = () => {
+          sceneState.forEach(({ scene, parts, steps }) => {
+            const rect = scene.getBoundingClientRect();
+            const viewport = window.innerHeight || 1;
+            const travel = Math.max(rect.height - viewport, viewport);
+            const progress = clamp((viewport * 0.42 - rect.top) / travel, 0, 1);
+
+            parts.forEach((part, index) => {
+              const revealAt = 0.04 + index * 0.08;
+              const exitAt = 0.94 - index * 0.06;
+              part.classList.toggle("is-visible", progress >= revealAt && progress < exitAt);
+            });
+
+            if (!steps.length) {
+              scene.classList.toggle("is-complete", progress >= 0.84);
+              return;
+            }
+
+            const detailsStart = 0.2;
+            const detailsComplete = 0.84;
+            let activeCount = 0;
+
+            if (progress < detailsStart) {
+              activeCount = 0;
+            } else if (progress <= detailsComplete) {
+              activeCount = Math.min(
+                steps.length,
+                Math.floor(((progress - detailsStart) / (detailsComplete - detailsStart)) * steps.length) + 1
+              );
+            } else {
+              activeCount = Math.max(0, Math.ceil(((1 - progress) / (1 - detailsComplete)) * steps.length));
+            }
+
+            scene.classList.toggle("is-complete", progress >= detailsComplete);
+
+            steps.forEach((step) => {
+              const index = Number(step.dataset.buildStep || "1");
+              step.classList.toggle("is-built", index <= activeCount);
+              step.classList.toggle("is-spotlight", index === activeCount && activeCount > 0);
+            });
+          });
+        };
+
+        if (sceneState.length) {
+          if (reduceMotion) {
+            sceneState.forEach(({ scene, parts, steps }) => {
+              parts.forEach((part) => part.classList.add("is-visible"));
+              steps.forEach((step) => step.classList.add("is-built"));
+              scene.classList.add("is-complete");
+            });
+          } else {
+            let ticking = false;
+            const requestSync = () => {
+              if (!ticking) {
+                ticking = true;
+                window.requestAnimationFrame(() => {
+                  ticking = false;
+                  syncScenes();
+                });
+              }
+            };
+
+            syncScenes();
+            window.addEventListener("scroll", requestSync, { passive: true });
+            window.addEventListener("resize", requestSync);
+          }
         }
 
         const button = document.querySelector(".theme-toggle");
