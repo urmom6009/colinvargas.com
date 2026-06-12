@@ -43,22 +43,22 @@ const projects = [
 const specimens = [
   {
     label: "solver surface",
-    title: "small cases before big claims",
-    copy: "start plain enough that every boundary condition, flux, and update has nowhere to hide.",
+    title: "start with small cases",
+    copy: "keep boundary conditions, fluxes, and updates visible before the case grows.",
     meta: "fv / explicit / cfl 0.42",
     bars: [38, 70, 54, 82]
   },
   {
     label: "mesh pass",
-    title: "let refinement reveal the argument",
-    copy: "tighten the same case and watch which numerical choices start to matter.",
+    title: "compare the refined case",
+    copy: "tighten the same setup and record which numerical choices start to matter.",
     meta: "limited / refined mesh / cfl 0.31",
     bars: [68, 44, 78, 60]
   },
   {
     label: "stability readout",
-    title: "show when the model stops behaving",
-    copy: "push the step size until the readout stops pretending everything is fine.",
+    title: "mark the stability limit",
+    copy: "increase the step size and record where the run becomes unreliable.",
     meta: "steep front / boundary watch / cfl 0.88",
     bars: [82, 48, 64, 88]
   }
@@ -68,28 +68,28 @@ const trajectory = [
   {
     step: "01",
     title: "make it inspectable",
-    detail: "keep first cases small enough that a mistake has nowhere to hide.",
-    state: "case is small on purpose"
+    detail: "keep first cases small enough to check by hand and by plot.",
+    state: "small verification case"
   },
   {
     step: "02",
     title: "separate the hard parts",
     detail: "let mesh, state, flux, and update paths carry their own responsibilities.",
-    state: "complexity has addresses"
+    state: "separate solver modules"
   },
   {
     step: "03",
     title: "leave a record",
     detail: "publish notes and figures when they explain the decision, not just the result.",
-    state: "evidence before polish"
+    state: "notes and figures"
   }
 ];
 
 const signal = [
-  { label: "numerics", value: "stability before performance theater" },
-  { label: "propulsion", value: "trade spaces over hunches" },
+  { label: "numerics", value: "stability before runtime tuning" },
+  { label: "propulsion", value: "trade spaces with stated assumptions" },
   { label: "software", value: "systems that can be reopened later" },
-  { label: "taste", value: "dense technical surfaces with a little blur at the edge" }
+  { label: "taste", value: "plain pages with enough technical detail" }
 ];
 ---
 
@@ -122,7 +122,7 @@ const signal = [
         </p>
         <aside class="hero-focus">
           <span>current focus</span>
-          <strong>solver development, verification trail, and public record moving as one surface.</strong>
+          <strong>solver development, verification, and project notes kept in one place.</strong>
           <p>thesis track / amrex / scalar advection toward adaptive flow capability</p>
         </aside>
       </div>
@@ -152,7 +152,7 @@ const signal = [
           <span id="showreel-title">solver specimens</span>
           <span>scroll readout</span>
         </div>
-        <p class="section-idea" data-reveal>a calculation earns trust by becoming inspectable.</p>
+        <p class="section-idea" data-reveal>small calculations are easier to verify.</p>
       </div>
 
       <div class="section-details specimen-stack">
@@ -181,7 +181,7 @@ const signal = [
           <span>engineering taste</span>
         </div>
         <p class="section-idea" data-reveal>
-          the useful signal is the place where math, machine, and physical system all get a vote.
+          useful signal comes from math, code, and the physical system agreeing enough to explain.
         </p>
       </div>
 
@@ -214,7 +214,7 @@ const signal = [
           <span id="work-title">selected work</span>
           <span><a href="/work">full index</a></span>
         </div>
-        <p class="section-idea" data-reveal>selected work reads best as evidence, not decoration.</p>
+        <p class="section-idea" data-reveal>selected work is organized around evidence.</p>
       </div>
 
       <div class="section-details work-list">
@@ -238,7 +238,7 @@ const signal = [
           <span id="trajectory-title">solver trajectory</span>
           <span>from case to record</span>
         </div>
-        <p class="section-idea" data-reveal>the record clarifies when each responsibility has an address.</p>
+        <p class="section-idea" data-reveal>the record shows what each part is responsible for.</p>
       </div>
 
       <div class="section-details trajectory-grid">
@@ -273,7 +273,7 @@ const signal = [
           <span id="evidence-title">working style</span>
           <span>repeatable records</span>
         </div>
-        <p class="section-idea" data-reveal>the working rhythm is calculation, assumption, record.</p>
+        <p class="section-idea" data-reveal>calculation, assumptions, and records stay linked.</p>
       </div>
       <div class="section-details evidence-list">
         <article data-build-step="1">
@@ -301,8 +301,8 @@ const signal = [
           <span><a href="/notes">open log index</a></span>
         </div>
         <p>
-          notes are not a content treadmill here. they are where project decisions,
-          build scars, and numerical context get cleaned into something reusable.
+          notes hold project decisions, build context, and numerical details once
+          they are clear enough to reuse.
         </p>
       </article>
 
@@ -313,7 +313,7 @@ const signal = [
         </div>
         <p>
           aerospace engineering, numerical methods, propulsion, and a bias for tools
-          that show their work instead of hiding behind a clean screenshot.
+          that keep the reasoning visible.
         </p>
       </article>
     </section>
