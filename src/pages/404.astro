@@ -15,7 +15,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   </header>
 
   <main>
-    <section class="pending-page" aria-labelledby="not-found-title">
+    <section class="pending-page page-scene" aria-labelledby="not-found-title" data-scroll-chapter>
       <div class="section-heading">
         <span>404</span>
         <span>not ready yet</span>
@@ -40,9 +40,9 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       </div>
 
       <div class="pending-actions">
-        <a href="/">back home</a>
-        <a href="/resume">resume index</a>
-        <a href="/work">selected work</a>
+        <a href="/" data-build-step="1">back home</a>
+        <a href="/resume" data-build-step="2">resume index</a>
+        <a href="/work" data-build-step="3">selected work</a>
       </div>
     </section>
   </main>

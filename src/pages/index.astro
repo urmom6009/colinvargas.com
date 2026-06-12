@@ -91,12 +91,6 @@ const signal = [
   { label: "software", value: "systems that can be reopened later" },
   { label: "taste", value: "dense technical surfaces with a little blur at the edge" }
 ];
-
-const links = [
-  { label: "github", href: "https://github.com/colinvargas" },
-  { label: "linkedin", href: "https://www.linkedin.com/in/colinvargas" },
-  { label: "email", href: "mailto:hello@colinvargas.com" }
-];
 ---
 
 <BaseLayout>
@@ -324,12 +318,4 @@ const links = [
       </article>
     </section>
   </main>
-
-  <footer>
-    <span>america/phoenix</span>
-    <div class="footer-links">
-      {links.map((link) => <a href={link.href}>{link.label}</a>)}
-    </div>
-  </footer>
-
 </BaseLayout>

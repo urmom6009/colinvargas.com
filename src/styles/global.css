@@ -172,12 +172,24 @@ footer,
     background-color 180ms ease,
     border-color 180ms ease,
     color 180ms ease,
+    bottom 220ms ease,
     transform 180ms ease;
 }
 
 .theme-toggle:hover {
   color: var(--ink);
   transform: translateY(-2px);
+}
+
+.theme-toggle.is-near-footer {
+  bottom: 112px;
+  background: color-mix(in srgb, var(--frost-strong) 88%, transparent);
+  border-color: color-mix(in srgb, var(--accent) 38%, var(--line));
+  color: var(--ink);
+}
+
+.theme-toggle.is-near-footer:hover {
+  transform: translateY(-3px);
 }
 
 .theme-toggle-track {
@@ -1386,12 +1398,114 @@ footer,
 }
 
 footer {
-  display: flex;
-  justify-content: space-between;
-  gap: 24px;
-  padding: 24px 0 34px;
-  border-top: 1px solid var(--line);
   color: var(--muted);
+}
+
+.site-ribbon {
+  width: 100%;
+  min-height: 98px;
+  display: grid;
+  grid-template-columns: minmax(190px, 0.36fr) minmax(220px, 1fr) auto;
+  align-items: stretch;
+  gap: 0;
+  margin: 0;
+  padding: 0 max(24px, calc((100vw - 1480px) / 2 + 24px));
+  border-top: 1px solid color-mix(in srgb, var(--line) 88%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--line) 62%, transparent);
+  background:
+    linear-gradient(to right, color-mix(in srgb, var(--accent) 10%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--ink) 5%, transparent) 1px, transparent 1px),
+    linear-gradient(112deg, transparent 0 58%, color-mix(in srgb, var(--signal) 9%, transparent) 58% 58.35%, transparent 58.35%),
+    color-mix(in srgb, var(--frost) 76%, var(--bg));
+  background-size: 44px 44px, 44px 44px, auto, auto;
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--ink) 5%, transparent);
+  position: relative;
+  overflow: hidden;
+}
+
+.site-ribbon::before {
+  content: "";
+  position: absolute;
+  right: max(24px, calc((100vw - 1480px) / 2 + 24px));
+  top: 50%;
+  width: min(28vw, 420px);
+  height: 1px;
+  background: var(--accent);
+  opacity: 0.62;
+  transform: rotate(-23deg);
+  transform-origin: right center;
+}
+
+.ribbon-copy,
+.footer-links {
+  position: relative;
+  z-index: 1;
+}
+
+.ribbon-copy {
+  display: grid;
+  align-content: center;
+  gap: 8px;
+  min-height: 98px;
+  padding: 18px 24px 18px 0;
+  border-right: 1px solid color-mix(in srgb, var(--line) 76%, transparent);
+}
+
+.ribbon-copy strong {
+  max-width: 320px;
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: clamp(1.05rem, 2.1vw, 1.55rem);
+  font-weight: 400;
+  line-height: 1;
+}
+
+.ribbon-signal {
+  min-height: 98px;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  align-items: end;
+  gap: 10px;
+  padding: 20px clamp(22px, 5vw, 86px);
+  position: relative;
+  z-index: 1;
+}
+
+.ribbon-signal span {
+  display: block;
+  height: var(--signal-height, 44%);
+  border-top: 1px solid var(--accent);
+  border-left: 1px solid color-mix(in srgb, var(--accent) 38%, transparent);
+  transform: skew(-14deg);
+}
+
+.ribbon-signal span:nth-child(1) {
+  --signal-height: 34%;
+}
+
+.ribbon-signal span:nth-child(2) {
+  --signal-height: 78%;
+  border-color: var(--gold);
+}
+
+.ribbon-signal span:nth-child(3) {
+  --signal-height: 52%;
+}
+
+.ribbon-signal span:nth-child(4) {
+  --signal-height: 88%;
+  border-color: var(--signal);
+}
+
+.ribbon-signal span:nth-child(5) {
+  --signal-height: 48%;
+}
+
+.site-ribbon .footer-links {
+  min-height: 98px;
+  align-items: center;
+  padding-left: 24px;
+  border-left: 1px solid color-mix(in srgb, var(--line) 76%, transparent);
 }
 
 code {
@@ -1588,11 +1702,44 @@ code {
 .page-scene {
   --scene-top: clamp(78px, 8svh, 104px);
   --scene-frame: calc(100svh - var(--scene-top) - 120px);
+  --scene-gap: clamp(12px, 1.7svh, 18px);
   min-height: clamp(980px, 240svh, 2100px);
+  display: grid;
   align-content: start;
   padding: var(--scene-top) 0 100px;
   overflow: clip;
   isolation: isolate;
+  position: relative;
+}
+
+.page-scene::before,
+.page-scene::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.page-scene::before {
+  left: 3vw;
+  top: 15svh;
+  width: min(24vw, 360px);
+  height: min(18vw, 260px);
+  border: 1px solid color-mix(in srgb, var(--line) 74%, transparent);
+  background:
+    linear-gradient(to right, color-mix(in srgb, var(--ink) 4%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--ink) 4%, transparent) 1px, transparent 1px);
+  background-size: 28px 28px;
+  transform: skew(-13deg);
+}
+
+.page-scene::after {
+  right: -2vw;
+  bottom: 13svh;
+  width: min(42vw, 640px);
+  height: 1px;
+  background: color-mix(in srgb, var(--accent) 72%, transparent);
+  transform: rotate(-23deg);
 }
 
 .page-scene > .section-heading {
@@ -1609,6 +1756,15 @@ code {
   position: sticky;
   top: calc(var(--scene-top) + 54px);
   overflow: hidden;
+  gap: var(--scene-gap);
+  padding: clamp(12px, 1.5svh, 18px);
+  border-top: 1px solid color-mix(in srgb, var(--line) 88%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--line) 70%, transparent);
+  background:
+    linear-gradient(to right, color-mix(in srgb, var(--ink) 3%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--ink) 3%, transparent) 1px, transparent 1px),
+    color-mix(in srgb, var(--surface) 26%, transparent);
+  background-size: 52px 52px, 52px 52px, auto;
 }
 
 .page-scene .resume-hero-grid > div,
@@ -1644,10 +1800,20 @@ code {
   position: sticky;
   top: calc(var(--scene-top) + 74px);
   overflow: hidden;
+  gap: var(--scene-gap);
+  padding: clamp(10px, 1.4svh, 16px);
+  border-top: 1px solid color-mix(in srgb, var(--line) 88%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--line) 72%, transparent);
+  background:
+    linear-gradient(to right, color-mix(in srgb, var(--ink) 3%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--ink) 3%, transparent) 1px, transparent 1px),
+    color-mix(in srgb, var(--surface) 26%, transparent);
+  background-size: 52px 52px, 52px 52px, auto;
 }
 
 .page-scene .resume-list {
-  display: block;
+  display: grid;
+  grid-auto-rows: minmax(0, 1fr);
 }
 
 .page-scene .capability-grid,
@@ -1657,23 +1823,59 @@ code {
 }
 
 .page-scene .resume-list > [data-build-step] {
-  position: absolute;
-  inset: 0;
-  height: 100%;
-}
-
-.page-scene .resume-list > [data-build-step] {
   min-height: 0;
-}
-
-.page-scene .resume-list > [data-build-step] {
+  height: auto;
+  position: relative;
   align-content: center;
 }
 
 .page-scene .resume-list > [data-build-step].is-built:not(.is-spotlight) {
-  opacity: 0.14;
-  filter: blur(7px);
-  transform: translateY(calc((var(--build-index) - 1) * 22px)) scale(0.96);
+  opacity: 0.34;
+  filter: blur(0);
+  transform: translateY(0) scale(0.982);
+}
+
+.page-scene .resume-list > [data-build-step].is-spotlight {
+  box-shadow: 0 18px 48px color-mix(in srgb, var(--shadow) 42%, transparent);
+}
+
+.page-scene .pending-actions {
+  margin-top: var(--scene-gap);
+}
+
+.page-scene .pending-actions a,
+.page-scene .capability-grid li,
+.page-scene .resume-contact-grid a {
+  min-height: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.page-scene .pending-actions a::after,
+.page-scene .capability-grid li::after,
+.page-scene .resume-contact-grid a::after {
+  content: "";
+  position: absolute;
+  right: 18px;
+  bottom: 18px;
+  width: 86px;
+  height: 1px;
+  background: color-mix(in srgb, var(--accent) 68%, transparent);
+  opacity: 0;
+  transform: rotate(-24deg) scaleX(0.7);
+  transform-origin: right center;
+  transition:
+    opacity 180ms ease,
+    transform 180ms ease;
+}
+
+.page-scene .pending-actions a.is-spotlight::after,
+.page-scene .capability-grid li.is-spotlight::after,
+.page-scene .resume-contact-grid a.is-spotlight::after,
+.page-scene .pending-actions a:hover::after,
+.page-scene .resume-contact-grid a:hover::after {
+  opacity: 0.78;
+  transform: rotate(-24deg) scaleX(1);
 }
 
 .resume-list {
@@ -1725,6 +1927,17 @@ code {
   font-size: 3.2rem;
   font-weight: 400;
   line-height: 0.94;
+}
+
+.page-scene .resume-item {
+  min-height: 0;
+  gap: clamp(16px, 2.4vw, 28px);
+  padding: clamp(16px, 2svh, 24px);
+}
+
+.page-scene .resume-item h2 {
+  font-size: clamp(1.35rem, 3.4svh, 2.65rem);
+  line-height: 0.98;
 }
 
 .resume-item p {
@@ -1879,6 +2092,11 @@ code {
   main,
   footer {
     width: min(100% - 32px, 1480px);
+  }
+
+  .site-ribbon {
+    width: 100%;
+    padding: 0 16px;
   }
 
   .site-header,
@@ -2121,6 +2339,22 @@ code {
   .theme-toggle {
     right: 12px;
     bottom: 12px;
+  }
+
+  .theme-toggle.is-near-footer {
+    bottom: 142px;
+  }
+
+  .ribbon-copy,
+  .site-ribbon .footer-links {
+    min-height: auto;
+    padding: 18px 0;
+    border: 0;
+  }
+
+  .ribbon-signal {
+    min-height: 82px;
+    padding: 12px 0;
   }
 }
 

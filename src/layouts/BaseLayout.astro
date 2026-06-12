@@ -5,6 +5,12 @@ const {
   title = "colin vargas - evidence-first aerospace software",
   description = "computational aerospace work across numerical methods, propulsion analysis, solver development, and inspectable technical records."
 } = Astro.props;
+
+const ribbonLinks = [
+  { label: "github", href: "https://github.com/colinvargas" },
+  { label: "linkedin", href: "https://www.linkedin.com/in/colinvargas" },
+  { label: "email", href: "mailto:hello@colinvargas.com" }
+];
 ---
 
 <!doctype html>
@@ -87,6 +93,22 @@ const {
       <span class="theme-toggle-label">mode</span>
     </button>
     <slot />
+    <footer class="site-ribbon" aria-label="site footer">
+      <div class="ribbon-copy">
+        <span>america/phoenix</span>
+        <strong>evidence-first aerospace software</strong>
+      </div>
+      <div class="ribbon-signal" aria-hidden="true">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <div class="footer-links">
+        {ribbonLinks.map((link) => <a href={link.href}>{link.label}</a>)}
+      </div>
+    </footer>
     <script is:inline>
       (() => {
         document.documentElement.classList.add("reveal-enabled");
@@ -189,6 +211,24 @@ const {
         const button = document.querySelector(".theme-toggle");
         if (!button) {
           return;
+        }
+
+        const footer = document.querySelector(".site-ribbon");
+        if (footer && "IntersectionObserver" in window) {
+          const footerObserver = new IntersectionObserver(
+            ([entry]) => {
+              button.classList.toggle("is-near-footer", entry.isIntersecting);
+            },
+            { threshold: 0.08 }
+          );
+          footerObserver.observe(footer);
+        } else if (footer) {
+          const syncFooterDock = () => {
+            button.classList.toggle("is-near-footer", footer.getBoundingClientRect().top < window.innerHeight);
+          };
+          syncFooterDock();
+          window.addEventListener("scroll", syncFooterDock, { passive: true });
+          window.addEventListener("resize", syncFooterDock);
         }
 
         const syncButton = () => {

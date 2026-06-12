@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Extended the in-flow scroll-scene treatment to secondary pages and moved the footer into a shared ribbon with a footer-aware theme toggle.
 - Reworked homepage scroll scenes so staged cards stay in-flow, section-specific, and visually separated instead of overlapping in one stacked layer.
 - Extended the scroll-scene behavior to secondary pages so resume, work, notes, contact, about, and project pages use bounded staged sections.
 - Reframed homepage scroll chapters as viewport-sized scenes with sticky headlines and layered detail cards that scale to the window.
