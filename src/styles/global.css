@@ -634,6 +634,7 @@ footer,
 .story-section {
   --scene-top: clamp(78px, 8svh, 104px);
   --scene-frame: calc(100svh - var(--scene-top) - 34px);
+  --scene-gap: clamp(12px, 1.7svh, 18px);
   min-height: clamp(1180px, 300svh, 2400px);
   display: grid;
   grid-template-columns: minmax(280px, 0.42fr) minmax(0, 1fr);
@@ -643,6 +644,62 @@ footer,
   margin-top: 2svh;
   isolation: isolate;
   overflow: clip;
+}
+
+.story-section::before,
+.story-section::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.story-section::before {
+  inset: clamp(42px, 7svh, 92px) -4vw 8svh auto;
+  width: min(34vw, 520px);
+  border-top: 1px solid color-mix(in srgb, var(--accent) 28%, transparent);
+  transform: rotate(-21deg);
+}
+
+.story-section::after {
+  right: clamp(8px, 3vw, 46px);
+  bottom: clamp(54px, 9svh, 110px);
+  width: clamp(84px, 13vw, 188px);
+  height: clamp(84px, 13vw, 188px);
+  border: 1px solid color-mix(in srgb, var(--line) 72%, transparent);
+  background:
+    linear-gradient(to right, color-mix(in srgb, var(--ink) 4%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--ink) 4%, transparent) 1px, transparent 1px);
+  background-size: 18px 18px;
+  opacity: 0.7;
+  transform: skew(-12deg);
+}
+
+.signature::before {
+  right: 8vw;
+  left: auto;
+  width: min(42vw, 640px);
+  border-color: color-mix(in srgb, var(--signal) 28%, transparent);
+}
+
+.work-show::after {
+  width: min(52vw, 740px);
+  height: 1px;
+  border: 0;
+  background: var(--gold);
+  opacity: 0.44;
+  transform: rotate(-24deg);
+}
+
+.trajectory::before {
+  width: min(46vw, 700px);
+  border-color: color-mix(in srgb, var(--gold) 34%, transparent);
+}
+
+.evidence::after {
+  right: 2vw;
+  bottom: 16svh;
+  border-color: color-mix(in srgb, var(--signal) 24%, transparent);
 }
 
 .section-lead {
@@ -664,14 +721,21 @@ footer,
 
 .section-details {
   display: grid;
-  gap: 0;
+  gap: var(--scene-gap);
   min-height: 0;
   height: var(--scene-frame);
   align-content: stretch;
-  padding-top: 0;
+  padding: clamp(10px, 1.4svh, 16px);
   position: sticky;
   top: var(--scene-top);
   overflow: hidden;
+  border-top: 1px solid color-mix(in srgb, var(--line) 88%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--line) 72%, transparent);
+  background:
+    linear-gradient(to right, color-mix(in srgb, var(--ink) 3%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--ink) 3%, transparent) 1px, transparent 1px),
+    color-mix(in srgb, var(--surface) 26%, transparent);
+  background-size: 52px 52px, 52px 52px, auto;
 }
 
 [data-build-step] {
@@ -718,9 +782,9 @@ footer,
 }
 
 [data-build-step].is-built {
-  opacity: 0.48;
+  opacity: 0.34;
   filter: blur(0);
-  transform: translateY(calc(var(--build-index) * 10px)) scale(0.965);
+  transform: translateY(0) scale(0.982);
 }
 
 .story-section [data-build-step].is-spotlight,
@@ -758,31 +822,29 @@ footer,
 }
 
 .story-section.is-complete .section-details {
-  outline: 1px solid color-mix(in srgb, var(--accent) 12%, transparent);
-  outline-offset: 18px;
+  border-color: color-mix(in srgb, var(--accent) 24%, var(--line));
 }
 
 .specimen-stack {
-  display: block;
-  border-top: 1px solid var(--line);
+  display: grid;
+  grid-template-rows: repeat(3, minmax(0, 1fr));
 }
 
-.section-details > [data-build-step],
-.trajectory-list > [data-build-step] {
-  position: absolute;
-  inset: 0;
+.section-details > [data-build-step] {
+  min-height: 0;
+  position: relative;
+  z-index: 1;
 }
 
 .specimen-card {
   min-height: 0;
-  height: 100%;
+  height: auto;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(210px, 0.32fr) minmax(180px, 0.22fr);
-  gap: clamp(18px, 3vw, 34px);
+  grid-template-columns: minmax(0, 1fr) minmax(160px, 0.28fr) minmax(150px, 0.2fr);
+  gap: clamp(14px, 2vw, 26px);
   align-items: stretch;
-  padding: clamp(18px, 3svh, 30px);
+  padding: clamp(16px, 2.1svh, 24px);
   border: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
   background:
     linear-gradient(135deg, color-mix(in srgb, var(--surface) 72%, transparent), transparent),
     linear-gradient(to right, color-mix(in srgb, var(--ink) 5%, transparent) 1px, transparent 1px),
@@ -793,10 +855,17 @@ footer,
   -webkit-backdrop-filter: blur(16px) saturate(1.12);
 }
 
+.specimen-card.is-built:not(.is-spotlight),
+.work-card.is-built:not(.is-spotlight),
+.evidence-list article.is-built:not(.is-spotlight),
+.trajectory-list article.is-built:not(.is-spotlight) {
+  box-shadow: 0 8px 24px color-mix(in srgb, var(--shadow) 18%, transparent);
+}
+
 .specimen-card-copy {
   display: grid;
   align-content: space-between;
-  gap: 24px;
+  gap: 12px;
 }
 
 .specimen-card-copy > span,
@@ -807,9 +876,9 @@ footer,
 .specimen-card h2 {
   max-width: 980px;
   color: var(--ink);
-  font-size: clamp(2.45rem, 8.6svh, 5.2rem);
+  font-size: clamp(1.8rem, 4.3svh, 3.2rem);
   font-weight: 500;
-  line-height: 0.86;
+  line-height: 0.92;
   letter-spacing: 0;
   text-transform: lowercase;
 }
@@ -828,7 +897,7 @@ footer,
   grid-template-columns: repeat(4, minmax(0, 1fr));
   align-items: end;
   gap: 12px;
-  padding: 18px;
+  padding: 12px;
   border-left: 1px solid var(--line);
   border-right: 1px solid var(--line);
   background:
@@ -980,18 +1049,19 @@ footer,
 }
 
 .work-list {
-  display: block;
+  display: grid;
+  grid-template-rows: repeat(3, minmax(0, 1fr));
 }
 
 .work-card {
   min-height: 0;
-  height: 100%;
+  height: auto;
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(150px, 0.24fr);
   grid-template-rows: auto 1fr auto;
-  gap: 20px 28px;
+  gap: 14px 24px;
   align-items: start;
-  padding: clamp(22px, 3.4svh, 34px);
+  padding: clamp(18px, 2.4svh, 28px);
   border: 1px solid var(--line);
   background:
     linear-gradient(135deg, var(--frost), transparent),
@@ -1069,9 +1139,9 @@ footer,
   grid-column: 1 / -1;
   max-width: 780px;
   color: var(--ink);
-  font-size: clamp(2.35rem, 7.4svh, 4.8rem);
+  font-size: clamp(1.9rem, 4.9svh, 3.65rem);
   font-weight: 500;
-  line-height: 0.88;
+  line-height: 0.92;
   letter-spacing: 0;
   text-transform: lowercase;
   transition: color 180ms ease;
@@ -1105,9 +1175,12 @@ footer,
 
 .trajectory-grid {
   display: grid;
-  grid-template-columns: minmax(260px, 0.9fr) minmax(0, 1.1fr);
-  gap: clamp(28px, 4vw, 72px);
+  grid-template-columns: minmax(240px, 0.82fr) minmax(0, 1.18fr);
+  gap: var(--scene-gap);
   align-items: stretch;
+  padding: 0;
+  border: 0;
+  background: transparent;
 }
 
 .trajectory-map {
@@ -1125,6 +1198,11 @@ footer,
     linear-gradient(to bottom, color-mix(in srgb, var(--ink) 4%, transparent) 1px, transparent 1px),
     var(--surface);
   background-size: 44px 44px, 44px 44px, auto;
+}
+
+.trajectory-map.is-built {
+  opacity: 1;
+  transform: translateY(0) scale(1);
 }
 
 .map-line,
@@ -1205,20 +1283,21 @@ footer,
 }
 
 .trajectory-list {
-  display: block;
+  display: grid;
+  grid-template-rows: repeat(3, minmax(0, 1fr));
+  gap: var(--scene-gap);
   position: relative;
-  border-top: 1px solid var(--line);
 }
 
 .trajectory-list article {
-  height: 100%;
+  height: auto;
   display: grid;
   grid-template-columns: 56px minmax(0, 1fr);
   grid-template-rows: auto auto 1fr;
-  gap: 18px 28px;
+  gap: 12px 22px;
   align-items: start;
   align-content: center;
-  padding: clamp(22px, 3svh, 32px);
+  padding: clamp(16px, 2svh, 24px);
   border: 1px solid var(--line);
   background: color-mix(in srgb, var(--surface) 78%, transparent);
   box-shadow: 0 12px 34px color-mix(in srgb, var(--shadow) 28%, transparent);
@@ -1233,7 +1312,7 @@ footer,
 .trajectory-list h2 {
   grid-column: 2;
   color: var(--ink);
-  font-size: clamp(2rem, 5.8svh, 4rem);
+  font-size: clamp(1.55rem, 3.8svh, 2.85rem);
   font-weight: 400;
   line-height: 1;
   text-transform: lowercase;
@@ -1251,19 +1330,19 @@ footer,
 }
 
 .evidence-list {
-  display: block;
-  border-top: 1px solid var(--line);
+  display: grid;
+  grid-template-rows: repeat(3, minmax(0, 1fr));
 }
 
 .evidence-list article {
-  height: 100%;
+  height: auto;
   display: grid;
   grid-template-columns: 72px minmax(0, 1fr);
   grid-template-rows: auto 1fr;
-  gap: 22px 34px;
+  gap: 16px 28px;
   align-items: start;
   align-content: center;
-  padding: clamp(24px, 3.5svh, 40px);
+  padding: clamp(18px, 2.6svh, 30px);
   border: 1px solid var(--line);
   background:
     linear-gradient(135deg, color-mix(in srgb, var(--surface) 78%, transparent), transparent),
@@ -1280,7 +1359,7 @@ footer,
 .evidence-list h2 {
   grid-column: 2;
   color: var(--ink);
-  font-size: clamp(2.35rem, 6.4svh, 4.8rem);
+  font-size: clamp(1.8rem, 4.8svh, 3.45rem);
   font-weight: 400;
   line-height: 1;
 }
@@ -1770,13 +1849,24 @@ code {
     font-size: 8.7rem;
   }
 
-  .specimen-card h2,
   .section-idea {
     font-size: 5rem;
   }
 
+  .specimen-card h2 {
+    font-size: clamp(1.65rem, 3.6svh, 2.8rem);
+  }
+
   .work-card h2 {
-    font-size: 3.8rem;
+    font-size: clamp(1.7rem, 4.2svh, 3.05rem);
+  }
+
+  .evidence-list h2 {
+    font-size: clamp(1.65rem, 4svh, 2.8rem);
+  }
+
+  .trajectory-list h2 {
+    font-size: clamp(1.4rem, 3.3svh, 2.3rem);
   }
 
   .pending-grid h1,
@@ -1840,7 +1930,7 @@ code {
     height: auto;
     min-height: auto;
     position: static;
-    padding-top: 0;
+    padding: 14px;
     overflow: visible;
   }
 
