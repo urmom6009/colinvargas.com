@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Refined the portfolio identity into a sharper editorial technical record with self-hosted IBM Plex Mono accents, fewer decorative card surfaces, stronger statement plates, rule-based motion, route-wide clipping safeguards, updated purpose copy, and a reusable style guide.
 - Updated Astro dependency tooling and pinned patched transitive packages to clear Dependabot advisories for `esbuild` and YAML language-service dependencies.
 - Cleaned up the public systems pages with calmer dashboard styling, read-only telemetry language, and a clearer private admin endpoint boundary.
 - Raised inactive scroll-card contrast and trimmed slogan-like copy so previously revealed content stays readable across the site.
