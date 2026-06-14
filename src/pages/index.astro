@@ -42,23 +42,23 @@ const projects = [
 
 const specimens = [
   {
-    label: "solver surface",
-    title: "start with small cases",
-    copy: "keep boundary conditions, fluxes, and updates visible before the case grows.",
+    label: "case record",
+    title: "begin with the smallest run",
+    copy: "make boundary conditions, fluxes, and updates visible before adding scale.",
     meta: "fv / explicit / cfl 0.42",
     bars: [38, 70, 54, 82]
   },
   {
-    label: "mesh pass",
-    title: "compare the refined case",
-    copy: "tighten the same setup and record which numerical choices start to matter.",
+    label: "mesh record",
+    title: "tighten the same case",
+    copy: "change one numerical choice at a time and record when it starts to matter.",
     meta: "limited / refined mesh / cfl 0.31",
     bars: [68, 44, 78, 60]
   },
   {
-    label: "stability readout",
-    title: "mark the stability limit",
-    copy: "increase the step size and record where the run becomes unreliable.",
+    label: "limit record",
+    title: "mark the stability edge",
+    copy: "push the step size until the method explains where it stops being trustworthy.",
     meta: "steep front / boundary watch / cfl 0.88",
     bars: [82, 48, 64, 88]
   }
@@ -118,13 +118,13 @@ const signal = [
           <span>vargas</span>
         </h1>
         <p class="intro">
-          evidence-first aerospace software for numerical tools, solver experiments,
-          and project records that make physical behavior easier to inspect.
+          a public record of aerospace software, numerical experiments, and project
+          notes built so the reasoning can be reopened.
         </p>
         <aside class="hero-focus">
           <span>current focus</span>
-          <strong>solver development, verification, and project notes kept in one place.</strong>
-          <p>thesis track / amrex / scalar advection toward adaptive flow capability</p>
+          <strong>solver development, verification, and project notes kept close to the work.</strong>
+          <p>thesis track / amrex / scalar advection / adaptive flow capability</p>
         </aside>
       </div>
 
@@ -134,7 +134,7 @@ const signal = [
           <span set:html={cflCondition}></span>
         </div>
         <p>
-          computational aerospace / numerical methods / propulsion / technical records
+          computational aerospace / numerical methods / propulsion / public technical record
         </p>
       </div>
 
@@ -150,10 +150,10 @@ const signal = [
     <section class="story-section showreel" id="specimens" aria-labelledby="showreel-title" data-scroll-chapter>
       <div class="section-lead">
         <div class="section-heading" data-reveal>
-          <span id="showreel-title">solver specimens</span>
-          <span>scroll readout</span>
+          <span id="showreel-title">solver records</span>
+          <span>case sequence</span>
         </div>
-        <p class="section-idea" data-reveal>small calculations are easier to verify.</p>
+        <p class="section-idea" data-reveal>small cases make the solver honest.</p>
       </div>
 
       <div class="section-details specimen-stack">
@@ -182,7 +182,7 @@ const signal = [
           <span>engineering taste</span>
         </div>
         <p class="section-idea" data-reveal>
-          useful signal comes from math, code, and the physical system agreeing enough to explain.
+          useful signal is math, code, and the physical system agreeing enough to reopen.
         </p>
       </div>
 
@@ -215,7 +215,7 @@ const signal = [
           <span id="work-title">selected work</span>
           <span><a href="/work">full index</a></span>
         </div>
-        <p class="section-idea" data-reveal>selected work is organized around evidence.</p>
+        <p class="section-idea" data-reveal>selected work keeps evidence attached.</p>
       </div>
 
       <div class="section-details work-list">
@@ -274,7 +274,7 @@ const signal = [
           <span id="evidence-title">working style</span>
           <span>repeatable records</span>
         </div>
-        <p class="section-idea" data-reveal>calculation, assumptions, and records stay linked.</p>
+        <p class="section-idea" data-reveal>calculation, assumptions, and notes stay linked.</p>
       </div>
       <div class="section-details evidence-list">
         <article data-build-step="1">
