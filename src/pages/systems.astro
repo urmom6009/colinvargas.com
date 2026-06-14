@@ -14,10 +14,10 @@ const fallbackPublic = {
     { label: "backups", value: 94 }
   ],
   cards: [
-    { label: "website", value: "online", detail: "portfolio edge responding", tone: "good" },
-    { label: "minecraft", value: "online", detail: "public relay monitored", tone: "good" },
-    { label: "deployments", value: "tracked", detail: "project builds under watch", tone: "good" },
-    { label: "storage", value: "healthy", detail: "pool signal sanitized", tone: "good" }
+    { label: "website", value: "online", detail: "portfolio edge responding", tone: "good", href: "/systems/website" },
+    { label: "minecraft", value: "online", detail: "public relay monitored", tone: "good", href: "/systems/minecraft" },
+    { label: "deployments", value: "tracked", detail: "project builds under watch", tone: "good", href: "/systems/deployments" },
+    { label: "storage", value: "healthy", detail: "pool signal sanitized", tone: "good", href: "/systems/storage" }
   ],
   services: [
     { name: "web frontend", status: "online", cpu: 12, mem: 18, net: "public edge", public: true },
@@ -135,18 +135,36 @@ const formatGenerated = (value: string) => {
         <section class="systems-panel systems-primary-panel" aria-labelledby="systems-summary-title" data-build-step="1">
           <div class="systems-panel-head">
             <span>public snapshot</span>
-            <small>no admin controls exposed</small>
+            <small>sanitized telemetry</small>
           </div>
 
-          <div class="systems-score-ring" style={`--score-angle: ${fallbackPublic.health_score * 3.6}deg`} data-score-ring>
-            <span data-health-score>{fallbackPublic.health_score}</span>
-            <small>health score</small>
+          <div class="systems-snapshot-hero">
+            <div class="systems-score-ring" style={`--score-angle: ${fallbackPublic.health_score * 3.6}deg`} data-score-ring>
+              <span data-health-score>{fallbackPublic.health_score}</span>
+              <small>health score</small>
+            </div>
+
+            <div class="systems-snapshot-copy">
+              <span class="systems-state-chip">public signal</span>
+              <h2 id="systems-summary-title" data-headline>{fallbackPublic.headline}</h2>
+              <p data-subtitle>{fallbackPublic.subtitle}</p>
+            </div>
           </div>
 
-          <div>
-            <h2 id="systems-summary-title" data-headline>{fallbackPublic.headline}</h2>
-            <p data-subtitle>{fallbackPublic.subtitle}</p>
-          </div>
+          <dl class="systems-snapshot-stats">
+            <div>
+              <dt>services</dt>
+              <dd data-service-count>{onlineServices}/{fallbackPublic.services.length} online</dd>
+            </div>
+            <div>
+              <dt>source</dt>
+              <dd data-source>local fallback</dd>
+            </div>
+            <div>
+              <dt>updated</dt>
+              <dd data-generated>{formatGenerated(fallbackPublic.generated_at)}</dd>
+            </div>
+          </dl>
 
           <div class="systems-radar" data-radar aria-label="public systems scorecard">
             {
@@ -196,11 +214,12 @@ const formatGenerated = (value: string) => {
         <section class="systems-card-grid" data-cards aria-label="headline system cards" data-build-step="2">
           {
             fallbackPublic.cards.map((card) => (
-              <article class={`systems-card tone-${card.tone}`}>
+              <a class={`systems-card tone-${card.tone}`} href={card.href}>
                 <span>{card.label}</span>
                 <strong>{card.value}</strong>
                 <p>{card.detail}</p>
-              </article>
+                <small>open detail</small>
+              </a>
             ))
           }
         </section>
@@ -307,6 +326,25 @@ const formatGenerated = (value: string) => {
         }
         return node;
       };
+      const cardHref = (label, fallbackHref) => {
+        if (fallbackHref) {
+          return fallbackHref;
+        }
+        const normalized = lower(label);
+        if (normalized.includes("minecraft")) {
+          return "/systems/minecraft";
+        }
+        if (normalized.includes("deploy")) {
+          return "/systems/deployments";
+        }
+        if (normalized.includes("storage")) {
+          return "/systems/storage";
+        }
+        if (normalized.includes("website") || normalized.includes("web")) {
+          return "/systems/website";
+        }
+        return "/systems";
+      };
 
       const formatGenerated = (value) => {
         if (!value) {
@@ -378,11 +416,13 @@ const formatGenerated = (value: string) => {
 
         target.replaceChildren(...(cards || []).map((card) => {
           const tone = ["good", "warn", "bad"].includes(lower(card.tone)) ? lower(card.tone) : "neutral";
-          const item = make("article", `systems-card tone-${tone}`);
+          const item = make("a", `systems-card tone-${tone}`);
+          item.href = cardHref(card.label, card.href);
           item.append(
             make("span", "", lower(card.label)),
             make("strong", "", lower(card.value)),
-            make("p", "", lower(card.detail))
+            make("p", "", lower(card.detail)),
+            make("small", "", "open detail")
           );
           return item;
         }));
