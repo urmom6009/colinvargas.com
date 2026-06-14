@@ -21,7 +21,7 @@ const fallbackJson = JSON.stringify({
 
 <BaseLayout
   title={`${page.title} systems - colin vargas`}
-  description={`${page.title} telemetry details for the public Mission Control surface.`}
+  description={`${page.title} systems readout for the public colin vargas status surface.`}
 >
   <header class="site-header">
     <a class="brand" href="/" aria-label="colin vargas home">colin vargas</a>
@@ -49,7 +49,7 @@ const fallbackJson = JSON.stringify({
         </div>
 
         <aside class="systems-detail-card">
-          <span>public detail</span>
+          <span>readout</span>
           <strong data-detail-metric>{page.metric}</strong>
           <p data-detail-copy>{page.detail}</p>
           <dl class="systems-meta">
@@ -75,12 +75,12 @@ const fallbackJson = JSON.stringify({
       <div class="systems-detail-grid">
         <article class="systems-panel systems-detail-primary" data-build-step="1">
           <div class="systems-panel-head">
-            <span>current signal</span>
+            <span>current readout</span>
             <small data-detail-updated>api pending</small>
           </div>
           <div class="systems-detail-gauge" style={`--score-angle: ${Number(page.signal) * 3.6}deg`} data-detail-gauge>
             <span data-detail-signal>{page.signal}</span>
-            <small>public score</small>
+            <small>signal score</small>
           </div>
           <p>{page.summary}</p>
         </article>
@@ -88,7 +88,7 @@ const fallbackJson = JSON.stringify({
         <article class="systems-panel systems-detail-notes" data-build-step="2">
           <div class="systems-panel-head">
             <span>boundaries</span>
-            <small>what is public</small>
+            <small>public boundary</small>
           </div>
           <ul>
             {page.notes.map((note) => <li>{note}</li>)}
@@ -97,11 +97,11 @@ const fallbackJson = JSON.stringify({
 
         <article class="systems-panel systems-detail-live" data-build-step="3">
           <div class="systems-panel-head">
-            <span>live payload</span>
-            <small>sanitized fields</small>
+            <span>visible fields</span>
+            <small>api or fallback</small>
           </div>
           <div class="systems-detail-live-list" data-detail-live>
-            <p>waiting for public api.</p>
+            <p>waiting for read-only api.</p>
           </div>
         </article>
       </div>
@@ -156,7 +156,7 @@ const fallbackJson = JSON.stringify({
         renderLiveList([
           ["status", card?.value || fallback.metric],
           ["detail", card?.detail || fallback.detail],
-          ["public score", `${score}%`],
+          ["signal score", `${score}%`],
           ["source", source]
         ]);
       };

@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Cleaned up the public systems pages with calmer dashboard styling, read-only telemetry language, and a clearer private admin endpoint boundary.
 - Raised inactive scroll-card contrast and trimmed slogan-like copy so previously revealed content stays readable across the site.
 - Extended the in-flow scroll-scene treatment to secondary pages and moved the footer into a shared ribbon with a footer-aware theme toggle.
 - Reworked homepage scroll scenes so staged cards stay in-flow, section-specific, and visually separated instead of overlapping in one stacked layer.

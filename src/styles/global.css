@@ -2085,7 +2085,7 @@ code {
 }
 
 .systems-control-section {
-  min-height: clamp(1080px, 255svh, 2200px);
+  min-height: clamp(980px, 220svh, 1900px);
 }
 
 .page-scene .systems-dashboard {
@@ -2094,14 +2094,14 @@ code {
   top: calc(var(--scene-top) + 74px);
   overflow: hidden;
   gap: var(--scene-gap);
-  padding: clamp(10px, 1.4svh, 16px);
+  padding: clamp(12px, 1.6svh, 18px);
   border-top: 1px solid color-mix(in srgb, var(--line) 88%, transparent);
   border-bottom: 1px solid color-mix(in srgb, var(--line) 72%, transparent);
   background:
-    linear-gradient(to right, color-mix(in srgb, var(--ink) 2%, transparent) 1px, transparent 1px),
-    linear-gradient(to bottom, color-mix(in srgb, var(--ink) 2%, transparent) 1px, transparent 1px),
-    color-mix(in srgb, var(--surface) 34%, transparent);
-  background-size: 52px 52px, 52px 52px, auto;
+    linear-gradient(to right, color-mix(in srgb, var(--ink) 1.5%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--ink) 1.5%, transparent) 1px, transparent 1px),
+    color-mix(in srgb, var(--surface) 26%, transparent);
+  background-size: 64px 64px, 64px 64px, auto;
 }
 
 .systems-dashboard {
@@ -2114,13 +2114,12 @@ code {
 .systems-panel,
 .systems-card,
 .systems-boundary-note {
+  border-radius: 8px;
   border: 1px solid var(--line);
   background:
-    linear-gradient(135deg, color-mix(in srgb, var(--frost) 82%, transparent), transparent),
-    linear-gradient(to right, color-mix(in srgb, var(--ink) 4%, transparent) 1px, transparent 1px),
-    linear-gradient(to bottom, color-mix(in srgb, var(--ink) 3%, transparent) 1px, transparent 1px);
-  background-size: auto, 40px 40px, 40px 40px;
-  box-shadow: 0 12px 34px color-mix(in srgb, var(--shadow) 28%, transparent);
+    linear-gradient(145deg, color-mix(in srgb, var(--frost) 84%, transparent), color-mix(in srgb, var(--surface) 28%, transparent)),
+    linear-gradient(to bottom, color-mix(in srgb, var(--ink) 2%, transparent), transparent 42%);
+  box-shadow: 0 10px 28px color-mix(in srgb, var(--shadow) 20%, transparent);
   overflow: hidden;
 }
 
@@ -2181,6 +2180,7 @@ code {
   gap: clamp(14px, 2svh, 22px);
   align-items: center;
   padding: clamp(12px, 1.6svh, 16px);
+  border-radius: 8px;
   border: 1px solid color-mix(in srgb, var(--accent) 28%, var(--line));
   background:
     linear-gradient(145deg, color-mix(in srgb, var(--accent) 10%, transparent), transparent 62%),
@@ -2188,7 +2188,7 @@ code {
 }
 
 .systems-score-ring {
-  width: min(100%, 176px);
+  width: min(100%, 156px);
   aspect-ratio: 1;
   display: grid;
   place-items: center;
@@ -2222,14 +2222,14 @@ code {
 
 .systems-score-ring span {
   color: var(--ink);
-  font-size: clamp(3rem, 7svh, 4.9rem);
+  font-size: clamp(2.65rem, 6svh, 4.2rem);
   font-weight: 500;
   line-height: 0.8;
 }
 
 .systems-score-ring small {
   position: absolute;
-  bottom: clamp(32px, 4.5svh, 46px);
+  bottom: clamp(28px, 4svh, 40px);
   color: var(--muted);
   font-family: var(--font-mono);
   font-size: 0.68rem;
@@ -2279,6 +2279,7 @@ code {
   align-content: end;
   gap: 5px;
   padding: 10px;
+  border-radius: 6px;
   border: 1px solid color-mix(in srgb, var(--line) 78%, transparent);
   background: color-mix(in srgb, var(--surface) 32%, transparent);
 }
@@ -2343,6 +2344,7 @@ code {
   align-content: end;
   gap: 6px;
   padding: 12px;
+  border-radius: 6px;
   border: 1px solid color-mix(in srgb, var(--line) 78%, transparent);
   background: color-mix(in srgb, var(--surface) 34%, transparent);
 }
@@ -2386,7 +2388,7 @@ code {
 .systems-boundary-note {
   display: grid;
   gap: 8px;
-  padding: 14px;
+  padding: 16px;
   color: var(--muted);
 }
 
@@ -2402,7 +2404,7 @@ code {
   display: grid;
   align-content: space-between;
   gap: 10px;
-  padding: clamp(14px, 1.8svh, 18px);
+  padding: clamp(16px, 1.9svh, 20px);
   color: var(--muted);
   transition:
     border-color 180ms ease,
@@ -2412,7 +2414,7 @@ code {
 
 .systems-card::after {
   content: "";
-  width: 70px;
+  width: 48px;
   height: 1px;
   background: currentColor;
   opacity: 0.34;
@@ -2422,7 +2424,7 @@ code {
 
 .systems-card:hover {
   border-color: color-mix(in srgb, var(--accent) 44%, var(--line));
-  box-shadow: 0 18px 48px color-mix(in srgb, var(--shadow) 42%, transparent);
+  box-shadow: 0 16px 40px color-mix(in srgb, var(--shadow) 32%, transparent);
   transform: translateY(-2px);
 }
 
@@ -2482,6 +2484,7 @@ code {
   gap: 10px;
   align-items: center;
   padding: 12px;
+  border-radius: 6px;
   border: 1px solid color-mix(in srgb, var(--line) 76%, transparent);
   background: color-mix(in srgb, var(--surface) 34%, transparent);
   color: var(--muted);
@@ -2574,6 +2577,7 @@ code {
   justify-content: space-between;
   gap: 18px;
   padding: 14px;
+  border-radius: 6px;
   border: 1px solid color-mix(in srgb, var(--line) 78%, transparent);
   background: color-mix(in srgb, var(--surface) 34%, transparent);
 }
@@ -2614,7 +2618,7 @@ code {
 }
 
 .systems-detail-section {
-  min-height: clamp(820px, 180svh, 1600px);
+  min-height: clamp(760px, 155svh, 1380px);
 }
 
 .page-scene .systems-detail-grid {
@@ -2623,14 +2627,14 @@ code {
   top: calc(var(--scene-top) + 74px);
   overflow: hidden;
   gap: var(--scene-gap);
-  padding: clamp(10px, 1.4svh, 16px);
+  padding: clamp(12px, 1.6svh, 18px);
   border-top: 1px solid color-mix(in srgb, var(--line) 88%, transparent);
   border-bottom: 1px solid color-mix(in srgb, var(--line) 72%, transparent);
   background:
-    linear-gradient(to right, color-mix(in srgb, var(--ink) 2%, transparent) 1px, transparent 1px),
-    linear-gradient(to bottom, color-mix(in srgb, var(--ink) 2%, transparent) 1px, transparent 1px),
-    color-mix(in srgb, var(--surface) 34%, transparent);
-  background-size: 52px 52px, 52px 52px, auto;
+    linear-gradient(to right, color-mix(in srgb, var(--ink) 1.5%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--ink) 1.5%, transparent) 1px, transparent 1px),
+    color-mix(in srgb, var(--surface) 26%, transparent);
+  background-size: 64px 64px, 64px 64px, auto;
 }
 
 .systems-detail-grid {
@@ -2645,7 +2649,7 @@ code {
 }
 
 .systems-detail-gauge {
-  width: min(100%, 260px);
+  width: min(100%, 220px);
   aspect-ratio: 1;
   display: grid;
   place-items: center;
@@ -2673,14 +2677,14 @@ code {
 
 .systems-detail-gauge span {
   color: var(--ink);
-  font-size: clamp(4rem, 8svh, 6rem);
+  font-size: clamp(3.4rem, 7svh, 5.1rem);
   font-weight: 500;
   line-height: 0.8;
 }
 
 .systems-detail-gauge small {
   position: absolute;
-  bottom: 54px;
+  bottom: 46px;
   color: var(--muted);
   font-family: var(--font-mono);
   font-size: 0.72rem;
@@ -2696,6 +2700,7 @@ code {
 
 .systems-detail-notes li {
   padding: 14px;
+  border-radius: 6px;
   border: 1px solid color-mix(in srgb, var(--line) 76%, transparent);
   color: var(--muted);
   background: color-mix(in srgb, var(--surface) 32%, transparent);

@@ -7,7 +7,7 @@ astro portfolio site for `colinvargas.com`.
 - `/` is the live editorial portfolio homepage.
 - `/work/adaptive-cfd-solver`, `/work/scramjet-analysis-tool`, and `/work/compressible-flow-project` are intentional pending project pages until the full case studies are ready.
 - `/notes` is an intentional pending notes index while public logs are being assembled.
-- `/systems` is the public mission-control surface. it renders sanitized telemetry and falls back cleanly if the live API route is unavailable.
+- `/systems` is the public systems readout. it renders sanitized, read-only telemetry and falls back cleanly if the live API route is unavailable.
 - `/resume` is a linkable resume-style work index summarizing projects, capabilities, and public contact links.
 - `/404` provides a styled fallback for unpublished or missing pages.
 
@@ -98,6 +98,6 @@ cloudflare dns for the domain is configured with dns-only `a` records:
 before deploying future changes, run `npm run build`. use `npx vercel deploy --prod` when the build is ready to publish.
 
 `/systems/api/public` is rewritten by Vercel to `https://systems-api.urmom.systems/api/public`.
-that hostname should expose only the sanitized public Mission Control API. keep private
-admin controls and host-level details on the separate admin boundary until the final
-admin hostname plan is chosen.
+that hostname should expose only sanitized, read-only systems data. restart
+controls, hostnames, peer names, raw logs, and host-level details belong on the
+separate private admin endpoint.

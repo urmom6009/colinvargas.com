@@ -3,8 +3,8 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
 const fallbackPublic = {
   generated_at: "",
-  headline: "systems under review",
-  subtitle: "sanitized portfolio telemetry. private controls stay behind the admin boundary.",
+  headline: "systems worth making visible.",
+  subtitle: "a small public readout for uptime, deploys, storage, and local context. controls stay on the private endpoint.",
   health_score: 96,
   radar: [
     { label: "website", value: 100 },
@@ -14,22 +14,22 @@ const fallbackPublic = {
     { label: "backups", value: 94 }
   ],
   cards: [
-    { label: "website", value: "online", detail: "portfolio edge responding", tone: "good", href: "/systems/website" },
-    { label: "minecraft", value: "online", detail: "public relay monitored", tone: "good", href: "/systems/minecraft" },
-    { label: "deployments", value: "tracked", detail: "project builds under watch", tone: "good", href: "/systems/deployments" },
-    { label: "storage", value: "healthy", detail: "pool signal sanitized", tone: "good", href: "/systems/storage" }
+    { label: "website", value: "online", detail: "portfolio edge is answering", tone: "good", href: "/systems/website" },
+    { label: "minecraft", value: "online", detail: "relay status without backend details", tone: "good", href: "/systems/minecraft" },
+    { label: "deployments", value: "tracked", detail: "recent builds summarized", tone: "good", href: "/systems/deployments" },
+    { label: "storage", value: "healthy", detail: "pool health without raw paths", tone: "good", href: "/systems/storage" }
   ],
   services: [
-    { name: "web frontend", status: "online", cpu: 12, mem: 18, net: "public edge", public: true },
-    { name: "cloudflare tunnel", status: "online", cpu: 10, mem: 16, net: "restricted ingress", public: true },
-    { name: "discord bot", status: "online", cpu: 9, mem: 14, net: "alerts ready", public: true },
-    { name: "monitor agent", status: "online", cpu: 11, mem: 18, net: "watching signals", public: true },
-    { name: "minecraft cozy", status: "online", cpu: 22, mem: 38, net: "player path", public: true }
+    { name: "site edge", status: "online", cpu: 12, mem: 18, net: "public web path", public: true },
+    { name: "public tunnel", status: "online", cpu: 10, mem: 16, net: "sanitized ingress signal", public: true },
+    { name: "alert relay", status: "online", cpu: 9, mem: 14, net: "notification path", public: true },
+    { name: "monitor agent", status: "online", cpu: 11, mem: 18, net: "public snapshot source", public: true },
+    { name: "minecraft relay", status: "online", cpu: 22, mem: 38, net: "player-facing status", public: true }
   ],
   deployments: [
-    { name: "colinvargas.com", ref: "main", status: "success", when: "latest public build", duration: "astro portfolio" },
-    { name: "mission control", ref: "main", status: "success", when: "local service", duration: "fastapi telemetry" },
-    { name: "admin bundle", ref: "private", status: "guarded", when: "access controlled", duration: "tailscale/cloudflare" }
+    { name: "colinvargas.com", ref: "main", status: "success", when: "latest public build", duration: "astro site" },
+    { name: "systems api", ref: "public", status: "success", when: "sanitized endpoint", duration: "read-only json" },
+    { name: "admin endpoint", ref: "private", status: "guarded", when: "separate boundary", duration: "not rendered here" }
   ],
   storage: {
     overall: 98,
@@ -76,7 +76,7 @@ const formatGenerated = (value: string) => {
 
 <BaseLayout
   title="systems - colin vargas"
-  description="sanitized public systems telemetry for colin vargas infrastructure, with private admin controls kept separate."
+  description="Public systems telemetry for colin vargas infrastructure, with private admin controls kept off the portfolio domain."
 >
   <header class="site-header">
     <a class="brand" href="/" aria-label="colin vargas home">colin vargas</a>
@@ -94,22 +94,23 @@ const formatGenerated = (value: string) => {
     <section class="resume-hero page-scene systems-hero" aria-labelledby="systems-title" data-scroll-chapter>
       <div class="section-heading">
         <span>systems</span>
-        <span>public telemetry</span>
+        <span>public readout</span>
       </div>
 
       <div class="resume-hero-grid">
         <div>
-          <h1 id="systems-title">live systems, public signal.</h1>
+          <h1 id="systems-title">a public readout, not a control panel.</h1>
           <p>
-            a sanitized readout for the infrastructure behind the portfolio,
-            game server, deploy flow, storage health, and environmental context.
+            visible status for the portfolio, game relay, deploy trail, storage
+            health, and local context. anything that can change a host stays off
+            this domain.
           </p>
         </div>
 
         <aside class="systems-live-card" aria-live="polite">
-          <span>public health</span>
+          <span>systems health</span>
           <strong><span data-health-score>{fallbackPublic.health_score}</span><small>%</small></strong>
-          <p data-status-line>{onlineServices} of {fallbackPublic.services.length} public services reporting online.</p>
+          <p data-status-line>{onlineServices} of {fallbackPublic.services.length} read-only signals reporting online.</p>
 
           <dl class="systems-meta">
             <div>
@@ -127,8 +128,8 @@ const formatGenerated = (value: string) => {
 
     <section class="resume-section page-scene systems-control-section" aria-labelledby="systems-control-title" data-scroll-chapter>
       <div class="section-heading">
-        <span id="systems-control-title">mission control</span>
-        <span>sanitized readout</span>
+        <span id="systems-control-title">systems board</span>
+        <span>public view</span>
       </div>
 
       <div class="systems-dashboard" data-systems-root>
@@ -145,7 +146,7 @@ const formatGenerated = (value: string) => {
             </div>
 
             <div class="systems-snapshot-copy">
-              <span class="systems-state-chip">public signal</span>
+              <span class="systems-state-chip">read-only signal</span>
               <h2 id="systems-summary-title" data-headline>{fallbackPublic.headline}</h2>
               <p data-subtitle>{fallbackPublic.subtitle}</p>
             </div>
@@ -202,11 +203,11 @@ const formatGenerated = (value: string) => {
           </div>
 
           <div class="systems-boundary-note" data-build-step="6">
-            <span>access boundary</span>
+            <span>admin endpoint</span>
             <p>
-              public visitors get portfolio-safe telemetry only. admin controls,
-              host details, service restarts, and network internals stay on the
-              private side until the hostname plan is settled.
+              the admin side is a separate private endpoint. this page does not
+              render restart controls, hostnames, peer names, raw logs, or
+              network internals.
             </p>
           </div>
         </section>
@@ -218,7 +219,7 @@ const formatGenerated = (value: string) => {
                 <span>{card.label}</span>
                 <strong>{card.value}</strong>
                 <p>{card.detail}</p>
-                <small>open detail</small>
+                <small>view readout</small>
               </a>
             ))
           }
@@ -226,7 +227,7 @@ const formatGenerated = (value: string) => {
 
         <section class="systems-panel systems-service-panel" aria-labelledby="systems-services-title" data-build-step="3">
           <div class="systems-panel-head">
-            <span id="systems-services-title">currently running</span>
+            <span id="systems-services-title">public signals</span>
             <small data-service-count>{onlineServices}/{fallbackPublic.services.length} online</small>
           </div>
 
@@ -249,7 +250,7 @@ const formatGenerated = (value: string) => {
 
         <section class="systems-panel systems-deploy-panel" aria-labelledby="systems-deploy-title" data-build-step="4">
           <div class="systems-panel-head">
-            <span id="systems-deploy-title">builds and deploys</span>
+            <span id="systems-deploy-title">build trail</span>
             <small>latest visible refs</small>
           </div>
 
@@ -422,7 +423,7 @@ const formatGenerated = (value: string) => {
             make("span", "", lower(card.label)),
             make("strong", "", lower(card.value)),
             make("p", "", lower(card.detail)),
-            make("small", "", "open detail")
+            make("small", "", "view readout")
           );
           return item;
         }));
@@ -436,7 +437,7 @@ const formatGenerated = (value: string) => {
 
         const online = (services || []).filter((service) => isOnline(service.status)).length;
         textAll("[data-service-count]", `${online}/${(services || []).length} online`);
-        textAll("[data-status-line]", `${online} of ${(services || []).length} public services reporting online.`);
+        textAll("[data-status-line]", `${online} of ${(services || []).length} read-only signals reporting online.`);
 
         target.replaceChildren(...(services || []).map((service) => {
           const status = lower(service.status);
