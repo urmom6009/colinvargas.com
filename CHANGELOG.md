@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Updated Astro dependency tooling and pinned patched transitive packages to clear Dependabot advisories for `esbuild` and YAML language-service dependencies.
 - Cleaned up the public systems pages with calmer dashboard styling, read-only telemetry language, and a clearer private admin endpoint boundary.
 - Raised inactive scroll-card contrast and trimmed slogan-like copy so previously revealed content stays readable across the site.
 - Extended the in-flow scroll-scene treatment to secondary pages and moved the footer into a shared ribbon with a footer-aware theme toggle.
