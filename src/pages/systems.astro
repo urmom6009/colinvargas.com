@@ -1,0 +1,516 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const fallbackPublic = {
+  generated_at: "",
+  headline: "systems under review",
+  subtitle: "sanitized portfolio telemetry. private controls stay behind the admin boundary.",
+  health_score: 96,
+  radar: [
+    { label: "website", value: 100 },
+    { label: "minecraft", value: 92 },
+    { label: "services", value: 86 },
+    { label: "storage", value: 98 },
+    { label: "backups", value: 94 }
+  ],
+  cards: [
+    { label: "website", value: "online", detail: "portfolio edge responding", tone: "good" },
+    { label: "minecraft", value: "online", detail: "public relay monitored", tone: "good" },
+    { label: "deployments", value: "tracked", detail: "project builds under watch", tone: "good" },
+    { label: "storage", value: "healthy", detail: "pool signal sanitized", tone: "good" }
+  ],
+  services: [
+    { name: "web frontend", status: "online", cpu: 12, mem: 18, net: "public edge", public: true },
+    { name: "cloudflare tunnel", status: "online", cpu: 10, mem: 16, net: "restricted ingress", public: true },
+    { name: "discord bot", status: "online", cpu: 9, mem: 14, net: "alerts ready", public: true },
+    { name: "monitor agent", status: "online", cpu: 11, mem: 18, net: "watching signals", public: true },
+    { name: "minecraft cozy", status: "online", cpu: 22, mem: 38, net: "player path", public: true }
+  ],
+  deployments: [
+    { name: "colinvargas.com", ref: "main", status: "success", when: "latest public build", duration: "astro portfolio" },
+    { name: "mission control", ref: "main", status: "success", when: "local service", duration: "fastapi telemetry" },
+    { name: "admin bundle", ref: "private", status: "guarded", when: "access controlled", duration: "tailscale/cloudflare" }
+  ],
+  storage: {
+    overall: 98,
+    pools: [{ name: "storage pool", used: "sanitized", capacity: "sanitized", health: 98, state: "healthy" }],
+    redundancy: "zfs",
+    integrity: "passed"
+  },
+  environment: {
+    weather: { temp: "phoenix", label: "weather signal pending", source: "configured location" },
+    air: {
+      aqi: 48,
+      label: "good",
+      pm25: 20,
+      bars: [5, 8, 11, 7, 10, 6, 9, 5, 8, 11, 7, 10]
+    }
+  }
+};
+
+const onlineServices = fallbackPublic.services.filter((service) =>
+  ["online", "running", "active"].includes(service.status)
+).length;
+
+const fallbackJson = JSON.stringify(fallbackPublic).replace(/</g, "\\u003c");
+
+const formatGenerated = (value: string) => {
+  if (!value) {
+    return "api pending";
+  }
+
+  const generated = new Date(value);
+  if (Number.isNaN(generated.getTime())) {
+    return value;
+  }
+
+  return new Intl.DateTimeFormat("en", {
+    month: "short",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    timeZoneName: "short"
+  }).format(generated).toLowerCase();
+};
+---
+
+<BaseLayout
+  title="systems - colin vargas"
+  description="sanitized public systems telemetry for colin vargas infrastructure, with private admin controls kept separate."
+>
+  <header class="site-header">
+    <a class="brand" href="/" aria-label="colin vargas home">colin vargas</a>
+    <nav aria-label="primary navigation">
+      <a href="/work">work</a>
+      <a href="/notes">notes</a>
+      <a href="/systems" aria-current="page">systems</a>
+      <a href="/resume">resume</a>
+      <a href="/about">about</a>
+      <a href="/contact">contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="resume-hero page-scene systems-hero" aria-labelledby="systems-title" data-scroll-chapter>
+      <div class="section-heading">
+        <span>systems</span>
+        <span>public telemetry</span>
+      </div>
+
+      <div class="resume-hero-grid">
+        <div>
+          <h1 id="systems-title">live systems, public signal.</h1>
+          <p>
+            a sanitized readout for the infrastructure behind the portfolio,
+            game server, deploy flow, storage health, and environmental context.
+          </p>
+        </div>
+
+        <aside class="systems-live-card" aria-live="polite">
+          <span>public health</span>
+          <strong><span data-health-score>{fallbackPublic.health_score}</span><small>%</small></strong>
+          <p data-status-line>{onlineServices} of {fallbackPublic.services.length} public services reporting online.</p>
+
+          <dl class="systems-meta">
+            <div>
+              <dt>source</dt>
+              <dd data-source>local fallback</dd>
+            </div>
+            <div>
+              <dt>updated</dt>
+              <dd data-generated>{formatGenerated(fallbackPublic.generated_at)}</dd>
+            </div>
+          </dl>
+        </aside>
+      </div>
+    </section>
+
+    <section class="resume-section page-scene systems-control-section" aria-labelledby="systems-control-title" data-scroll-chapter>
+      <div class="section-heading">
+        <span id="systems-control-title">mission control</span>
+        <span>sanitized readout</span>
+      </div>
+
+      <div class="systems-dashboard" data-systems-root>
+        <section class="systems-panel systems-primary-panel" aria-labelledby="systems-summary-title" data-build-step="1">
+          <div class="systems-panel-head">
+            <span>public snapshot</span>
+            <small>no admin controls exposed</small>
+          </div>
+
+          <div class="systems-score-ring" style={`--score-angle: ${fallbackPublic.health_score * 3.6}deg`} data-score-ring>
+            <span data-health-score>{fallbackPublic.health_score}</span>
+            <small>health score</small>
+          </div>
+
+          <div>
+            <h2 id="systems-summary-title" data-headline>{fallbackPublic.headline}</h2>
+            <p data-subtitle>{fallbackPublic.subtitle}</p>
+          </div>
+
+          <div class="systems-radar" data-radar aria-label="public systems scorecard">
+            {
+              fallbackPublic.radar.map((item) => (
+                <div class="systems-radar-row">
+                  <span>{item.label}</span>
+                  <div class="systems-radar-track" aria-hidden="true">
+                    <span class="systems-radar-fill" style={`--value: ${item.value}%`}></span>
+                  </div>
+                  <strong>{item.value}%</strong>
+                </div>
+              ))
+            }
+          </div>
+
+          <div class="systems-environment" data-environment>
+            <div>
+              <span>weather</span>
+              <strong data-weather-temp>{fallbackPublic.environment.weather.temp}</strong>
+              <p data-weather-label>{fallbackPublic.environment.weather.label}</p>
+            </div>
+            <div>
+              <span>air</span>
+              <strong><span data-air-aqi>{fallbackPublic.environment.air.aqi}</span> aqi</strong>
+              <p data-air-label>{fallbackPublic.environment.air.label}</p>
+            </div>
+          </div>
+
+          <div class="systems-air-bars" data-air-bars aria-label="air quality trend">
+            {
+              fallbackPublic.environment.air.bars.map((bar) => (
+                <span style={`--bar: ${Math.min(100, Math.max(8, bar * 7))}%`}></span>
+              ))
+            }
+          </div>
+
+          <div class="systems-boundary-note" data-build-step="6">
+            <span>access boundary</span>
+            <p>
+              public visitors get portfolio-safe telemetry only. admin controls,
+              host details, service restarts, and network internals stay on the
+              private side until the hostname plan is settled.
+            </p>
+          </div>
+        </section>
+
+        <section class="systems-card-grid" data-cards aria-label="headline system cards" data-build-step="2">
+          {
+            fallbackPublic.cards.map((card) => (
+              <article class={`systems-card tone-${card.tone}`}>
+                <span>{card.label}</span>
+                <strong>{card.value}</strong>
+                <p>{card.detail}</p>
+              </article>
+            ))
+          }
+        </section>
+
+        <section class="systems-panel systems-service-panel" aria-labelledby="systems-services-title" data-build-step="3">
+          <div class="systems-panel-head">
+            <span id="systems-services-title">currently running</span>
+            <small data-service-count>{onlineServices}/{fallbackPublic.services.length} online</small>
+          </div>
+
+          <div class="systems-service-list" data-services>
+            {
+              fallbackPublic.services.map((service) => (
+                <article class="systems-service-row">
+                  <span class={`systems-status-dot is-${service.status}`}></span>
+                  <div>
+                    <strong>{service.name}</strong>
+                    <small>{service.net}</small>
+                  </div>
+                  <span>{service.status}</span>
+                  <i style={`--load: ${Math.min(100, Math.max(service.cpu, service.mem))}%`}></i>
+                </article>
+              ))
+            }
+          </div>
+        </section>
+
+        <section class="systems-panel systems-deploy-panel" aria-labelledby="systems-deploy-title" data-build-step="4">
+          <div class="systems-panel-head">
+            <span id="systems-deploy-title">builds and deploys</span>
+            <small>latest visible refs</small>
+          </div>
+
+          <div class="systems-timeline" data-deployments>
+            {
+              fallbackPublic.deployments.map((deployment) => (
+                <article>
+                  <span>{deployment.status}</span>
+                  <div>
+                    <strong>{deployment.name}</strong>
+                    <p>{deployment.when} / {deployment.duration}</p>
+                  </div>
+                  <small>{deployment.ref}</small>
+                </article>
+              ))
+            }
+          </div>
+        </section>
+
+        <section class="systems-panel systems-storage-panel" aria-labelledby="systems-storage-title" data-build-step="5">
+          <div class="systems-panel-head">
+            <span id="systems-storage-title">storage pool health</span>
+            <small data-storage-summary>{fallbackPublic.storage.integrity}</small>
+          </div>
+
+          <div class="systems-storage-score">
+            <strong><span data-storage-overall>{fallbackPublic.storage.overall}</span>%</strong>
+            <p><span data-storage-redundancy>{fallbackPublic.storage.redundancy}</span> / <span data-storage-integrity>{fallbackPublic.storage.integrity}</span></p>
+          </div>
+
+          <div class="systems-storage-list" data-storage-pools>
+            {
+              fallbackPublic.storage.pools.map((pool) => (
+                <article>
+                  <div>
+                    <strong>{pool.name}</strong>
+                    <span>{pool.state}</span>
+                  </div>
+                  <i style={`--health: ${pool.health}%`}></i>
+                </article>
+              ))
+            }
+          </div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <script is:inline id="systems-fallback-data" type="application/json" set:html={fallbackJson}></script>
+  <script is:inline>
+    (() => {
+      const fallbackNode = document.getElementById("systems-fallback-data");
+      const fallback = JSON.parse(fallbackNode?.textContent || "{}");
+      const endpoint = "/systems/api/public";
+      const refreshMs = 60_000;
+
+      const clamp = (value, min = 0, max = 100) => Math.min(Math.max(Number(value) || 0, min), max);
+      const lower = (value, fallbackText = "pending") => String(value ?? fallbackText).toLowerCase();
+      const isOnline = (status) => ["online", "running", "active"].includes(lower(status));
+
+      const textAll = (selector, value) => {
+        document.querySelectorAll(selector).forEach((node) => {
+          node.textContent = String(value);
+        });
+      };
+
+      const make = (tag, className, text) => {
+        const node = document.createElement(tag);
+        if (className) {
+          node.className = className;
+        }
+        if (text !== undefined && text !== null) {
+          node.textContent = String(text);
+        }
+        return node;
+      };
+
+      const formatGenerated = (value) => {
+        if (!value) {
+          return "api pending";
+        }
+
+        const generated = new Date(value);
+        if (Number.isNaN(generated.getTime())) {
+          return lower(value);
+        }
+
+        return new Intl.DateTimeFormat("en", {
+          month: "short",
+          day: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+          timeZoneName: "short"
+        }).format(generated).toLowerCase();
+      };
+
+      const normalize = (incoming) => {
+        const source = incoming && typeof incoming === "object" ? incoming : {};
+        const environment = { ...(fallback.environment || {}), ...(source.environment || {}) };
+        environment.weather = { ...((fallback.environment || {}).weather || {}), ...((environment || {}).weather || {}) };
+        environment.air = { ...((fallback.environment || {}).air || {}), ...((environment || {}).air || {}) };
+
+        return {
+          ...fallback,
+          ...source,
+          radar: Array.isArray(source.radar) ? source.radar : fallback.radar,
+          cards: Array.isArray(source.cards) ? source.cards : fallback.cards,
+          services: Array.isArray(source.services) ? source.services : fallback.services,
+          deployments: Array.isArray(source.deployments) ? source.deployments : fallback.deployments,
+          storage: {
+            ...(fallback.storage || {}),
+            ...(source.storage || {}),
+            pools: Array.isArray(source.storage?.pools) ? source.storage.pools : fallback.storage?.pools || []
+          },
+          environment
+        };
+      };
+
+      const renderRadar = (radar) => {
+        const target = document.querySelector("[data-radar]");
+        if (!target) {
+          return;
+        }
+
+        target.replaceChildren(...(radar || []).map((item) => {
+          const row = make("div", "systems-radar-row");
+          row.append(make("span", "", lower(item.label)));
+
+          const track = make("div", "systems-radar-track");
+          track.setAttribute("aria-hidden", "true");
+          const fill = make("span", "systems-radar-fill");
+          fill.style.setProperty("--value", `${clamp(item.value)}%`);
+          track.append(fill);
+
+          row.append(track, make("strong", "", `${clamp(item.value)}%`));
+          return row;
+        }));
+      };
+
+      const renderCards = (cards) => {
+        const target = document.querySelector("[data-cards]");
+        if (!target) {
+          return;
+        }
+
+        target.replaceChildren(...(cards || []).map((card) => {
+          const tone = ["good", "warn", "bad"].includes(lower(card.tone)) ? lower(card.tone) : "neutral";
+          const item = make("article", `systems-card tone-${tone}`);
+          item.append(
+            make("span", "", lower(card.label)),
+            make("strong", "", lower(card.value)),
+            make("p", "", lower(card.detail))
+          );
+          return item;
+        }));
+      };
+
+      const renderServices = (services) => {
+        const target = document.querySelector("[data-services]");
+        if (!target) {
+          return;
+        }
+
+        const online = (services || []).filter((service) => isOnline(service.status)).length;
+        textAll("[data-service-count]", `${online}/${(services || []).length} online`);
+        textAll("[data-status-line]", `${online} of ${(services || []).length} public services reporting online.`);
+
+        target.replaceChildren(...(services || []).map((service) => {
+          const status = lower(service.status);
+          const row = make("article", "systems-service-row");
+          const dot = make("span", `systems-status-dot is-${status}`);
+          const copy = make("div");
+          copy.append(make("strong", "", lower(service.name)), make("small", "", lower(service.net || "public signal")));
+          const state = make("span", "", status);
+          const meter = make("i");
+          meter.style.setProperty("--load", `${clamp(Math.max(Number(service.cpu) || 0, Number(service.mem) || 0), 5, 100)}%`);
+          row.append(dot, copy, state, meter);
+          return row;
+        }));
+      };
+
+      const renderDeployments = (deployments) => {
+        const target = document.querySelector("[data-deployments]");
+        if (!target) {
+          return;
+        }
+
+        target.replaceChildren(...(deployments || []).map((deployment) => {
+          const row = make("article");
+          const copy = make("div");
+          copy.append(
+            make("strong", "", lower(deployment.name)),
+            make("p", "", `${lower(deployment.when)} / ${lower(deployment.duration)}`)
+          );
+          row.append(make("span", "", lower(deployment.status)), copy, make("small", "", lower(deployment.ref)));
+          return row;
+        }));
+      };
+
+      const renderStorage = (storage) => {
+        const pools = Array.isArray(storage?.pools) ? storage.pools : [];
+        textAll("[data-storage-overall]", clamp(storage?.overall));
+        textAll("[data-storage-redundancy]", lower(storage?.redundancy));
+        textAll("[data-storage-integrity]", lower(storage?.integrity));
+        textAll("[data-storage-summary]", lower(storage?.integrity));
+
+        const target = document.querySelector("[data-storage-pools]");
+        if (!target) {
+          return;
+        }
+
+        target.replaceChildren(...pools.map((pool) => {
+          const row = make("article");
+          const copy = make("div");
+          copy.append(make("strong", "", lower(pool.name)), make("span", "", lower(pool.state)));
+          const meter = make("i");
+          meter.style.setProperty("--health", `${clamp(pool.health)}%`);
+          row.append(copy, meter);
+          return row;
+        }));
+      };
+
+      const renderEnvironment = (environment) => {
+        const weather = environment?.weather || {};
+        const air = environment?.air || {};
+        textAll("[data-weather-temp]", lower(weather.temp));
+        textAll("[data-weather-label]", lower(weather.label || weather.source));
+        textAll("[data-air-aqi]", clamp(air.aqi));
+        textAll("[data-air-label]", lower(air.label));
+
+        const bars = Array.isArray(air.bars) ? air.bars : [];
+        const target = document.querySelector("[data-air-bars]");
+        if (!target) {
+          return;
+        }
+
+        target.replaceChildren(...bars.map((bar) => {
+          const item = make("span");
+          item.style.setProperty("--bar", `${clamp(Number(bar) * 7, 8, 100)}%`);
+          return item;
+        }));
+      };
+
+      const render = (rawData, sourceLabel) => {
+        const data = normalize(rawData);
+        const score = clamp(data.health_score);
+        textAll("[data-health-score]", score);
+        textAll("[data-headline]", lower(data.headline));
+        textAll("[data-subtitle]", lower(data.subtitle));
+        textAll("[data-generated]", formatGenerated(data.generated_at));
+        textAll("[data-source]", sourceLabel);
+        document.querySelector("[data-score-ring]")?.style.setProperty("--score-angle", `${score * 3.6}deg`);
+        renderRadar(data.radar);
+        renderCards(data.cards);
+        renderServices(data.services);
+        renderDeployments(data.deployments);
+        renderStorage(data.storage);
+        renderEnvironment(data.environment);
+      };
+
+      const fetchLive = async () => {
+        try {
+          const response = await fetch(endpoint, {
+            headers: { accept: "application/json" },
+            cache: "no-store"
+          });
+
+          if (!response.ok) {
+            throw new Error(`systems api returned ${response.status}`);
+          }
+
+          render(await response.json(), "live api");
+        } catch {
+          render(fallback, "local fallback");
+        }
+      };
+
+      render(fallback, "local fallback");
+      fetchLive();
+      window.setInterval(fetchLive, refreshMs);
+    })();
+  </script>
+</BaseLayout>
