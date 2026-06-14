@@ -1,0 +1,172 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { systemsSections } from "../../data/systemsSections";
+
+export function getStaticPaths() {
+  return Object.entries(systemsSections).map(([section, props]) => ({
+    params: { section },
+    props: { section, ...props }
+  }));
+}
+
+const page = Astro.props;
+const fallbackJson = JSON.stringify({
+  title: page.title,
+  metric: page.metric,
+  detail: page.detail,
+  signal: page.signal,
+  sourceKey: page.sourceKey
+}).replace(/</g, "\\u003c");
+---
+
+<BaseLayout
+  title={`${page.title} systems - colin vargas`}
+  description={`${page.title} telemetry details for the public Mission Control surface.`}
+>
+  <header class="site-header">
+    <a class="brand" href="/" aria-label="colin vargas home">colin vargas</a>
+    <nav aria-label="primary navigation">
+      <a href="/work">work</a>
+      <a href="/notes">notes</a>
+      <a href="/systems" aria-current="page">systems</a>
+      <a href="/resume">resume</a>
+      <a href="/about">about</a>
+      <a href="/contact">contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="resume-hero page-scene systems-detail-hero" aria-labelledby="systems-detail-title" data-scroll-chapter>
+      <div class="section-heading">
+        <span>{page.eyebrow}</span>
+        <span><a href="/systems">back to systems</a></span>
+      </div>
+
+      <div class="resume-hero-grid">
+        <div>
+          <h1 id="systems-detail-title">{page.headline}</h1>
+          <p>{page.summary}</p>
+        </div>
+
+        <aside class="systems-detail-card">
+          <span>public detail</span>
+          <strong data-detail-metric>{page.metric}</strong>
+          <p data-detail-copy>{page.detail}</p>
+          <dl class="systems-meta">
+            <div>
+              <dt>signal</dt>
+              <dd><span data-detail-signal>{page.signal}</span>%</dd>
+            </div>
+            <div>
+              <dt>source</dt>
+              <dd data-detail-source>fallback</dd>
+            </div>
+          </dl>
+        </aside>
+      </div>
+    </section>
+
+    <section class="resume-section page-scene systems-detail-section" aria-labelledby="systems-detail-readout" data-scroll-chapter>
+      <div class="section-heading">
+        <span id="systems-detail-readout">readout</span>
+        <span>{page.title}</span>
+      </div>
+
+      <div class="systems-detail-grid">
+        <article class="systems-panel systems-detail-primary" data-build-step="1">
+          <div class="systems-panel-head">
+            <span>current signal</span>
+            <small data-detail-updated>api pending</small>
+          </div>
+          <div class="systems-detail-gauge" style={`--score-angle: ${Number(page.signal) * 3.6}deg`} data-detail-gauge>
+            <span data-detail-signal>{page.signal}</span>
+            <small>public score</small>
+          </div>
+          <p>{page.summary}</p>
+        </article>
+
+        <article class="systems-panel systems-detail-notes" data-build-step="2">
+          <div class="systems-panel-head">
+            <span>boundaries</span>
+            <small>what is public</small>
+          </div>
+          <ul>
+            {page.notes.map((note) => <li>{note}</li>)}
+          </ul>
+        </article>
+
+        <article class="systems-panel systems-detail-live" data-build-step="3">
+          <div class="systems-panel-head">
+            <span>live payload</span>
+            <small>sanitized fields</small>
+          </div>
+          <div class="systems-detail-live-list" data-detail-live>
+            <p>waiting for public api.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <script is:inline id="systems-detail-fallback" type="application/json" set:html={fallbackJson}></script>
+  <script is:inline>
+    (() => {
+      const fallback = JSON.parse(document.getElementById("systems-detail-fallback")?.textContent || "{}");
+      const lower = (value, backup = "pending") => String(value ?? backup).toLowerCase();
+      const setText = (selector, value) => {
+        document.querySelectorAll(selector).forEach((node) => {
+          node.textContent = String(value);
+        });
+      };
+      const formatGenerated = (value) => {
+        if (!value) return "api pending";
+        const date = new Date(value);
+        if (Number.isNaN(date.getTime())) return lower(value);
+        return new Intl.DateTimeFormat("en", {
+          month: "short",
+          day: "numeric",
+          hour: "2-digit",
+          minute: "2-digit"
+        }).format(date).toLowerCase();
+      };
+      const clamp = (value) => Math.min(Math.max(Number(value) || 0, 0), 100);
+      const renderLiveList = (items) => {
+        const target = document.querySelector("[data-detail-live]");
+        if (!target) return;
+        target.replaceChildren(...items.map(([label, value]) => {
+          const row = document.createElement("div");
+          const key = document.createElement("span");
+          const detail = document.createElement("strong");
+          key.textContent = lower(label);
+          detail.textContent = lower(value);
+          row.append(key, detail);
+          return row;
+        }));
+      };
+      const render = (data, source) => {
+        const card = (data.cards || []).find((item) => lower(item.label).includes(fallback.title));
+        const radar = (data.radar || []).find((item) => lower(item.label) === lower(fallback.sourceKey));
+        const score = clamp(radar?.value || fallback.signal);
+        setText("[data-detail-metric]", lower(card?.value || fallback.metric));
+        setText("[data-detail-copy]", lower(card?.detail || fallback.detail));
+        setText("[data-detail-signal]", score);
+        setText("[data-detail-source]", source);
+        setText("[data-detail-updated]", formatGenerated(data.generated_at));
+        document.querySelector("[data-detail-gauge]")?.style.setProperty("--score-angle", `${score * 3.6}deg`);
+        renderLiveList([
+          ["status", card?.value || fallback.metric],
+          ["detail", card?.detail || fallback.detail],
+          ["public score", `${score}%`],
+          ["source", source]
+        ]);
+      };
+      fetch("/systems/api/public", { headers: { accept: "application/json" }, cache: "no-store" })
+        .then((response) => {
+          if (!response.ok) throw new Error(String(response.status));
+          return response.json();
+        })
+        .then((data) => render(data, "live api"))
+        .catch(() => render({ cards: [], radar: [] }, "fallback"));
+    })();
+  </script>
+</BaseLayout>
