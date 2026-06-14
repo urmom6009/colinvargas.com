@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/systems/api/public",
+      "destination": "https://systems-api.urmom.systems/api/public"
+    }
+  ]
+}
