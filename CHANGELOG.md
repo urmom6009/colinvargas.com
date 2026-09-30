@@ -1,6 +1,7 @@
 # Changelog
 
 ## Unreleased
+- Documented the planning-to-implementation handoff, authoritative sources, worktree discipline, and verification closeout in `AI-WORKFLOW.md` and `AGENTS.md`.
 
 - Refined the portfolio identity into a sharper editorial technical record with self-hosted IBM Plex Mono accents, fewer decorative card surfaces, stronger statement plates, rule-based motion, route-wide clipping safeguards, updated purpose copy, and a reusable style guide.
 - Updated Astro dependency tooling and pinned patched transitive packages to clear Dependabot advisories for `esbuild` and YAML language-service dependencies.

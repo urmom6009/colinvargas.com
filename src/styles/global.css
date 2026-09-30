@@ -771,7 +771,7 @@ footer,
   color: var(--ink);
   font-size: clamp(3.4rem, 8svh, 6.6rem);
   font-weight: 500;
-  line-height: 0.8;
+  line-height: 0.85;
   letter-spacing: 0;
 }
 

@@ -24,16 +24,16 @@ const projects = [
   },
   {
     title: "scramjet analysis tool",
-    meta: "python / propulsion / parametric analysis",
-    status: "writeup pending",
+    meta: "matlab / propulsion / gas turbine / parametric analysis",
+    status: "report",
     desc: "propulsion sweeps shaped around assumptions, trends, and comparisons that can be argued with.",
-    lens: "assumption, sweep, trend",
+    lens: "model, assumption, sweep, trend, design analysis",
     href: "/work/scramjet-analysis-tool"
   },
   {
-    title: "compressible flow project",
-    meta: "numerical methods / visualization / paraview",
-    status: "archive pending",
+    title: "mixing chamber modeling & analysis",
+    meta: "numerical methods / finite-differences / immersed boundaries / verification & validation",
+    status: "report",
     desc: "finite-volume outputs paired with enough provenance for the figure to mean something later.",
     lens: "finite-volume inspection",
     href: "/work/compressible-flow-project"
@@ -42,25 +42,32 @@ const projects = [
 
 const specimens = [
   {
-    label: "case record",
-    title: "begin with the smallest run",
-    copy: "make boundary conditions, fluxes, and updates visible before adding scale.",
-    meta: "fv / explicit / cfl 0.42",
+    label: "advection",
+    title: "first-order upwind, no amr",
+    copy: "set a baseline for a finite volume solver with a prescribed velocity field that is validated with richardson extrapolation and gci analysis",
+    meta: "fv / explicit",
     bars: [38, 70, 54, 82]
   },
   {
-    label: "mesh record",
-    title: "tighten the same case",
-    copy: "change one numerical choice at a time and record when it starts to matter.",
-    meta: "limited / refined mesh / cfl 0.31",
+    label: "adaptive refinement",
+    title: "now make it more efficient",
+    copy: "use amrex to tag and refine mech in areas of interest and compare result with traditional global refinement",
+    meta: "amr / adapt to validating a non-constant grid size",
     bars: [68, 44, 78, 60]
   },
   {
-    label: "limit record",
-    title: "mark the stability edge",
-    copy: "push the step size until the method explains where it stops being trustworthy.",
-    meta: "steep front / boundary watch / cfl 0.88",
+    label: "higher-order",
+    title: "make it harder to disprove",
+    copy: "implement higher-order techniques like weno, tvd, and adams-bashforth to further enhance understanding of temporally and spatially varying fluid properties",
+    meta: "weno / tvd / rk-4",
     bars: [82, 48, 64, 88]
+  },
+  {
+    label: "ns pathway",
+    title: "repeat and add the next leg",
+    copy: "from advection continue to momentum resolution, to then non-conservative ns, add energy to get the conservative navier-stokes equations",
+    meta: "verification & validation / pde resolution / visualization",
+    bars: []
   }
 ];
 
@@ -103,7 +110,7 @@ const signal = [
     <nav aria-label="primary navigation">
       <a href="/work">work</a>
       <a href="/notes">notes</a>
-      <a href="/systems">systems</a>
+      <a href="/sysadmin">sysadmin</a>
       <a href="/resume">resume</a>
       <a href="/about">about</a>
       <a href="/contact">contact</a>
@@ -118,13 +125,12 @@ const signal = [
           <span>vargas</span>
         </h1>
         <p class="intro">
-          a public record of aerospace software, numerical experiments, and project
-          notes built so the reasoning can be reopened.
+        a master's aerospace student, a cautious ai supporter, homelab admin, and student pilot that got way in over his head to build a respectable resume.
         </p>
         <aside class="hero-focus">
           <span>current focus</span>
-          <strong>solver development, verification, and project notes kept close to the work.</strong>
-          <p>thesis track / amrex / scalar advection / adaptive flow capability</p>
+          <strong>research in advanced cfd techniques and data structures</strong>
+          <p>thesis title - applications of open-source adaptive mesh refinement libraries in classical fluid dynamics problems and exploration of their extensibility to advanced and novel problem</p>
         </aside>
       </div>
 
@@ -134,26 +140,27 @@ const signal = [
           <span set:html={cflCondition}></span>
         </div>
         <p>
-          computational aerospace / numerical methods / propulsion / public technical record
+          computational aerospace / numerical methods / propulsion / advanced computing techniques
         </p>
       </div>
 
       <ul class="hero-tags" aria-label="technical focus areas">
         <li>amrex</li>
         <li>c++</li>
-        <li>finite volume</li>
+        <li>finite volume analysis</li>
         <li>adaptive mesh refinement</li>
-        <li>verification</li>
+        <li>v&v</li>
+        <li>paraview</li>
       </ul>
     </section>
 
     <section class="story-section showreel" id="specimens" aria-labelledby="showreel-title" data-scroll-chapter>
       <div class="section-lead">
         <div class="section-heading" data-reveal>
-          <span id="showreel-title">solver records</span>
-          <span>case sequence</span>
+          <span id="showreel-title">roadmap</span>
+          <span>building to the conservative NS equations</span>
         </div>
-        <p class="section-idea" data-reveal>small cases make the solver honest.</p>
+        <p class="section-idea" data-reveal>validation starts with an assumption</p>
       </div>
 
       <div class="section-details specimen-stack">
@@ -178,11 +185,11 @@ const signal = [
     <section class="story-section signature" aria-labelledby="signature-title" data-scroll-chapter>
       <div class="section-lead signature-copy">
         <div class="section-heading" data-reveal>
-          <span id="signature-title">signal</span>
-          <span>engineering taste</span>
+          <span id="signature-title">interactive lab</span>
+          <span>learn through teaching</span>
         </div>
         <p class="section-idea" data-reveal>
-          useful signal is math, code, and the physical system agreeing enough to reopen.
+          why is this the coolest project i've done and why i care so much
         </p>
       </div>
 
@@ -213,9 +220,9 @@ const signal = [
       <div class="section-lead">
         <div class="section-heading" data-reveal>
           <span id="work-title">selected work</span>
-          <span><a href="/work">full index</a></span>
+          <span><a href="/work">complete public portfolio</a></span>
         </div>
-        <p class="section-idea" data-reveal>selected work keeps evidence attached.</p>
+        <p class="section-idea" data-reveal>so how did we get here and what i have learned along the way</p>
       </div>
 
       <div class="section-details work-list">
@@ -233,13 +240,14 @@ const signal = [
       </div>
     </section>
 
+    {/* this section might be better for the trajectory and the first "specimen" reel would be better for "other applications" */}
     <section class="story-section trajectory" aria-labelledby="trajectory-title" data-scroll-chapter>
       <div class="section-lead">
         <div class="section-heading" data-reveal>
-          <span id="trajectory-title">solver trajectory</span>
-          <span>from case to record</span>
+          <span id="trajectory-title">side-quests</span>
+          <span>other fun procrastinations</span>
         </div>
-        <p class="section-idea" data-reveal>the record shows what each part is responsible for.</p>
+        <p class="section-idea" data-reveal>i'd go crazy if all i did was attempt to solve the navier-stokes equations</p>
       </div>
 
       <div class="section-details trajectory-grid">
@@ -265,33 +273,6 @@ const signal = [
             ))
           }
         </div>
-      </div>
-    </section>
-
-    <section class="story-section evidence" aria-labelledby="evidence-title" data-scroll-chapter>
-      <div class="section-lead">
-        <div class="section-heading" data-reveal>
-          <span id="evidence-title">working style</span>
-          <span>repeatable records</span>
-        </div>
-        <p class="section-idea" data-reveal>calculation, assumptions, and notes stay linked.</p>
-      </div>
-      <div class="section-details evidence-list">
-        <article data-build-step="1">
-          <span>01</span>
-          <h2>build the calculation.</h2>
-          <p>start with local tools, small verification cases, and source history that can be replayed.</p>
-        </article>
-        <article data-build-step="2">
-          <span>02</span>
-          <h2>name the assumptions.</h2>
-          <p>write down boundary conditions, discretization choices, solver limits, and what changed between runs.</p>
-        </article>
-        <article data-build-step="3">
-          <span>03</span>
-          <h2>publish what sharpens it.</h2>
-          <p>turn notes, plots, and logs into public pages only when they improve the inspection.</p>
-        </article>
       </div>
     </section>
 

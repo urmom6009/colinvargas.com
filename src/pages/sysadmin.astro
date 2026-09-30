@@ -4,7 +4,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 const fallbackPublic = {
   generated_at: "",
   headline: "systems worth making visible.",
-  subtitle: "a small public readout for uptime, deploys, storage, and local context. controls stay on the private endpoint.",
+  subtitle: "a peek into how i apply the data management and software development skills i've picked up",
   health_score: 96,
   radar: [
     { label: "website", value: 100 },
@@ -93,22 +93,21 @@ const formatGenerated = (value: string) => {
   <main>
     <section class="resume-hero page-scene systems-hero" aria-labelledby="systems-title" data-scroll-chapter>
       <div class="section-heading">
-        <span>systems</span>
-        <span>public readout</span>
+        <span>urmom.systems</span>
+        <span>public dashboard</span>
       </div>
 
       <div class="resume-hero-grid">
         <div>
-          <h1 id="systems-title">a public readout, not a control panel.</h1>
+          <h1 id="systems-title">status of my homelab accessed securely and presented aesthetically</h1>
           <p>
             visible status for the portfolio, game relay, deploy trail, storage
-            health, and local context. anything that can change a host stays off
-            this domain.
+            health, and local context. (proof that i'm not full of crap)
           </p>
         </div>
 
         <aside class="systems-live-card" aria-live="polite">
-          <span>systems health</span>
+          <span>system health</span>
           <strong><span data-health-score>{fallbackPublic.health_score}</span><small>%</small></strong>
           <p data-status-line>{onlineServices} of {fallbackPublic.services.length} read-only signals reporting online.</p>
 
