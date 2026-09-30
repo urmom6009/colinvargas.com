@@ -6,6 +6,8 @@ Public Astro portfolio. Routes live in src/pages; shared layouts in src/layouts;
 
 ## setup and validation
 
+Install: `bash .codex/setup.sh`. Validate: `bash .codex/validate.sh`. Read `.codex/README.md` for environment publication and startup instructions. These commands do not activate a cloud environment automatically.
+
 Use a current Node runtime compatible with the checked-in Astro version. If package-lock.json exists, install with npm ci; otherwise use npm install and review dependency changes. Run npm run build (astro check followed by astro build). For route/UI changes, smoke test /, /resume, /notes, one /work route, and a missing route. Do not claim those checks passed unless executed.
 
 The existing Vercel deployment remains authoritative. Cloud setup must not run npx vercel deploy --prod or connect production credentials. Use npm run new:log -- "title" from the repository; the absolute /Users/colinvargas paths in the README describe optional local wrappers, not cloud prerequisites.
