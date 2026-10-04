@@ -128,7 +128,7 @@ p,
 h1,
 h2,
 h3 {
-  margin: 0;
+  margin-block: 30px;
 }
 
 main h1,
@@ -493,7 +493,7 @@ footer,
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(320px, 0.33fr);
   grid-template-rows: 1fr auto;
-  gap: clamp(26px, 4vw, 68px);
+  gap: 26px;
   align-items: end;
   padding: clamp(28px, 4svh, 52px) max(24px, calc((100vw - 1480px) / 2 + 24px)) 34px;
   border-top: 1px solid color-mix(in srgb, var(--ink) 40%, var(--line));
