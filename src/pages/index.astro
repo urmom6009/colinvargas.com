@@ -9,7 +9,7 @@ const conservationLaw = katex.renderToString(String.raw`\partial_t u + \nabla \c
 });
 
 const cflCondition = katex.renderToString(String.raw`\Delta t \le C_{\mathrm{CFL}}\frac{\Delta x}{\max |\lambda|}`, {
-  displayMode: false,
+  displayMode: true,
   throwOnError: false
 });
 
@@ -117,31 +117,40 @@ const signal = [
 
   <main>
     <section class="hero" aria-labelledby="hero-title">
-      <div class="hero-copy">
-        <h1 id="hero-title" class="hero-title">
-          <span>colin</span>
-          <span>vargas</span>
-        </h1>
-        <div class=
-        <p class="intro" padding="20xpx">
-        a master's aerospace student, a cautious ai supporter, homelab admin, and student pilot that got way in over his head to build a respectable resume.
-        </p>
-        <aside class="hero-focus">
+        <div class="hero-copy">
+        <div>
+          <h1 id="hero-title" class="hero-title">
+            <span>colin</span>
+            <span>vargas</span>
+          </h1>
+          <div class>
+            <p class="intro" padding="60px">
+            a master's aerospace student, cautious ai supporter, homelab admin, and student pilot that's building a respectable resume.
+            </p>
+          </div>
+        </div>
+        <div>
+          <aside class="hero-focus">
           <span>current focus</span>
           <strong>research in advanced cfd techniques and data structures</strong>
           <p>working thesis title - applications of open-source adaptive mesh refinement libraries in classical fluid dynamics problems and exploration of their extensibility to advanced and novel problem</p>
-        </aside>
-      </div>
-      <span></span>
-      <div class="hero-specimen" aria-label="homepage technical specimen">
-        <div class="specimen-equation">
-          <span set:html={conservationLaw}></span>
-          <span set:html={cflCondition}></span>
+          </aside>
         </div>
-        <p>
-          computational aerospace / numerical methods / propulsion / advanced computing techniques
-        </p>
-      </div>
+        <span></span>
+        </div>
+          <div class="hero-specimen" aria-label="homepage technical specimen">
+          <div class="specimen-equation">
+              <div>
+              <aside>continuity equation</aside>
+              <h2 set:html={conservationLaw}></h2>
+              </div>
+              <div>
+              <aside>cfl condition</aside>
+              <h2 set:html={cflCondition}></h2>
+              </div>
+          <p>computational aerospace / numerical methods / propulsion / advanced computing</p>
+          </div>
+        </div>
 
       <ul class="hero-tags" aria-label="technical focus areas">
         <li>amrex</li>
