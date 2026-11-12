@@ -1,0 +1,129 @@
+---
+interface Props {
+  kind: string;
+}
+const { kind } = Astro.props;
+---
+
+<svg
+  class:list={["project-diagram", `diagram-${kind}`]}
+  viewBox="0 0 400 240"
+  aria-hidden="true"
+  focusable="false"
+>
+  <g fill="none" stroke="currentColor" stroke-width="1">
+    {
+      kind === "mesh" && (
+        <>
+          {Array.from({ length: 13 }, (_, i) => (
+            <path d={`M${20 + i * 30} 15 V225`} opacity="0.35" />
+          ))}
+          {Array.from({ length: 8 }, (_, i) => (
+            <path d={`M20 ${15 + i * 30} H380`} opacity="0.35" />
+          ))}
+          {Array.from({ length: 6 }, (_, i) => (
+            <path d={`M${140 + i * 15} 75 V165 M140 ${75 + i * 15} H230`} />
+          ))}
+          <ellipse
+            cx="188"
+            cy="119"
+            rx="66"
+            ry="40"
+            class="diagram-highlight"
+          />
+          <ellipse
+            cx="188"
+            cy="119"
+            rx="38"
+            ry="23"
+            class="diagram-highlight"
+          />
+        </>
+      )
+    }
+    {
+      kind === "engine" && (
+        <>
+          <path
+            d="M20 35 L126 90 H260 L380 42 M20 205 L126 150 H260 L380 198"
+            stroke-width="2"
+          />
+          <path
+            d="M20 120 H380 M92 65 V175 M158 90 V150 M260 90 V150 M327 65 V175"
+            stroke-dasharray="4 6"
+            opacity="0.45"
+          />
+          {[102, 120, 138].map((y) => (
+            <path
+              d={`M32 ${y} H337 l-9 -5 M337 ${y} l-9 5`}
+              class="diagram-highlight"
+            />
+          ))}
+          <path
+            d="M198 75 v22 m-6 -6 6 6 6 -6 M222 75 v22 m-6 -6 6 6 6 -6"
+            class="diagram-signal"
+          />
+        </>
+      )
+    }
+    {
+      kind === "mixing" && (
+        <>
+          <path
+            d="M20 43 H100 V73 H330 V43 H380 M20 197 H100 V167 H330 V197 H380"
+            stroke-width="2"
+          />
+          {[80, 105, 130, 155].map((y, i) => (
+            <path
+              d={`M20 ${y} C100 ${y}, 130 ${70 + i * 36}, 192 ${90 + i * 18} S290 ${150 - i * 12}, 380 ${90 + i * 18}`}
+              class="diagram-highlight"
+            />
+          ))}
+          <circle
+            cx="228"
+            cy="120"
+            r="29"
+            stroke-dasharray="3 4"
+            class="diagram-signal"
+          />
+        </>
+      )
+    }
+    {
+      kind === "record" && (
+        <>
+          <path
+            d="M65 30 H275 L320 75 V210 H65 Z M275 30 V75 H320"
+            stroke-width="1.5"
+          />
+          <path
+            d="M91 62 H192 M91 96 H164 M91 114 H267 M91 132 H246 M91 150 H267"
+            opacity="0.55"
+          />
+          <path d="M91 183 H275" class="diagram-highlight" />
+          <circle
+            cx="112"
+            cy="183"
+            r="4"
+            class="diagram-highlight"
+            fill="currentColor"
+          />
+          <circle
+            cx="194"
+            cy="183"
+            r="4"
+            class="diagram-highlight"
+            fill="currentColor"
+          />
+          <circle
+            cx="271"
+            cy="183"
+            r="4"
+            class="diagram-highlight"
+            fill="currentColor"
+          />
+        </>
+      )
+    }
+  </g>
+</svg>

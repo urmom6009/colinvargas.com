@@ -5,21 +5,23 @@ astro portfolio site for `colinvargas.com`.
 ## site structure
 
 - `/` is the live editorial portfolio homepage.
-- `/work/adaptive-cfd-solver`, `/work/scramjet-analysis-tool`, and `/work/compressible-flow-project` are intentional pending project pages until the full case studies are ready.
-- `/notes` is an intentional pending notes index while public logs are being assembled.
+- `/work` is a filterable project index. `/work/adaptive-cfd-solver`, `/work/scramjet-analysis-tool`, and `/work/compressible-flow-project` explain project scope, approach, and publication status. the last url is retained for the mixing chamber analysis project.
+- `/work/portfolio-and-technical-logs` describes this site and its repository-aware logging workflow, with a link to the public source.
+- `/notes` explains that there are currently no public notes. draft entries remain private and are not rendered into pages.
 - `/systems` is the public systems readout. it renders sanitized, read-only telemetry and falls back cleanly if the live API route is unavailable.
-- `/resume` is a linkable resume-style work index summarizing projects, capabilities, and public contact links.
+- `/sysadmin` and its four detail urls redirect to their corresponding `/systems` pages for existing bookmarks.
+- `/resume` is a printable, project-based technical profile summarizing focus areas, project experience, and public contact links.
 - `/404` provides a styled fallback for unpublished or missing pages.
 
 ## local workflow
 
 ```sh
-npm install
+npm ci
 npm run dev
 npm run build
 ```
 
-the dev server defaults to `http://localhost:4321/`. the production build writes static output to `dist/`.
+use node.js >=22.12.0. the dev server defaults to `http://localhost:4321/`. the production build runs astro diagnostics before writing static output to `dist/`.
 
 before publishing a visual change, check at least:
 
@@ -27,7 +29,11 @@ before publishing a visual change, check at least:
 npm run build
 ```
 
-then smoke test `/`, `/resume`, `/notes`, one `/work/...` page, and a missing route locally.
+then smoke test `/`, `/work`, `/resume`, `/notes`, the project pages, `/systems`, and a missing route locally. check project filters, mesh view controls, theme persistence, keyboard access, and mobile layouts. `npm run preview` serves the built output for a production smoke test.
+
+project data lives in `src/data/portfolio.ts`. the homepage, work index, project pages, and technical profile share these records so titles, tooling, and publication status stay consistent. diagrams are labeled as concepts; they are not solver output or performance evidence. add verified artifacts before promoting project results or planned capabilities to demonstrated claims.
+
+local astro does not apply the vercel telemetry rewrite. `/systems` labels fallback values as sample data, never as current service health. missing fields in an api response do not inherit sample measurements.
 
 ## sitewide visual system
 
@@ -43,17 +49,14 @@ when adding a new route, start by choosing its page role, then map the visual de
 
 ## homepage intention guide
 
-the homepage should feel like a staged editorial record for aerospace work, not a list of panels. use this sequence when adding or changing visual details:
+the audience is aerospace and engineering teams. lead with a clear identity and area of focus, then make the work easy to explore.
 
-1. name the section role first: topic, proof, record, trajectory, or contact path.
-2. give every visual element a job: equation, grid, line, meter, or status should clarify a real engineering habit.
-3. stage the scroll: big idea first, then one detail, then another, then a complete view worth pausing on.
-4. avoid repeated claims. if a section already says "evidence," the details should show evidence rather than restating the word.
-5. keep background marks intentional: use datum lines, mesh hints, sweep paths, and readout geometry only when tied to aerospace or numerical work.
-6. check the completed state of each chapter. the final view of a section should look composed, not like unrelated items happened to scroll into frame.
-7. keep copy lowercase, direct, and mostly impersonal. prefer project behavior, assumptions, verification, and reusable records over first-person explanation.
-
-when reviewing the page locally, scroll each chapter slowly and check for: clear topic arrival, staged detail reveal, complete-section pause, clean exit, and obvious handoff into the next section.
+1. preserve the warm paper, dark green technical figures, oversized pp neue montreal type, ibm plex mono labels, and hard horizontal rules.
+2. use the mesh control to explain local refinement. its concept label must remain visible; do not imply that it is a running solver.
+3. keep selected work ahead of supporting interests and make publication status easy to find.
+4. give each project its question, current scope, approach, and available evidence. distinguish future methods from current capabilities.
+5. keep content in ordinary document flow, readable without javascript and without requiring scroll animations. interactive controls progressively enhance that content.
+6. check desktop and mobile layouts in both themes, with reduced motion and keyboard access. contact and project links should remain easy to find.
 
 ## notes and logs
 

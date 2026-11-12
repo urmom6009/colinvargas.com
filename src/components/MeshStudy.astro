@@ -1,0 +1,130 @@
+---
+interface Props {
+  interactive?: boolean;
+}
+const { interactive = true } = Astro.props;
+const xs = Array.from({ length: 16 }, (_, i) => 45 + i * 34);
+const ys = Array.from({ length: 11 }, (_, i) => 40 + i * 34);
+const cells = xs
+  .slice(0, -1)
+  .flatMap((x) => ys.slice(0, -1).map((y) => ({ x, y })))
+  .filter(({ x, y }) => Math.hypot((x + 17 - 317) / 1.35, y + 17 - 210) < 102);
+---
+
+<figure class="mesh-study" data-mesh-study>
+  <div class="figure-heading">
+    <span>01 / computational methods</span><span aria-hidden="true"
+      >[ x, y ]</span>
+  </div>
+  <svg
+    viewBox="0 0 600 420"
+    role="img"
+    aria-label="Concept diagram of a uniform mesh with a locally refined region, not a solver result"
+  >
+    <defs>
+      <radialGradient id="mesh-field"
+        ><stop offset="0" stop-color="#c5b66d" stop-opacity="0.65"></stop><stop
+          offset="0.65"
+          stop-color="#73b3a6"
+          stop-opacity="0.2"></stop><stop
+          offset="1"
+          stop-color="#73b3a6"
+          stop-opacity="0"></stop></radialGradient
+      >
+    </defs>
+    <ellipse cx="317" cy="210" rx="172" ry="122" fill="url(#mesh-field)"
+    ></ellipse>
+    <g class="mesh-base" fill="none" stroke="currentColor" stroke-width="0.6">
+      {xs.map((x) => <path d={`M${x} 40 V380`} />)}
+      {ys.map((y) => <path d={`M45 ${y} H555`} />)}
+    </g>
+    <g
+      class="mesh-refined"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="0.7"
+      data-mesh-refined
+    >
+      {
+        cells.map(({ x, y }) => (
+          <path d={`M${x + 17} ${y} v34 M${x} ${y + 17} h34`} />
+        ))
+      }
+    </g>
+    <g fill="none" stroke="#d5c278" stroke-width="1.2">
+      <ellipse cx="317" cy="210" rx="108" ry="74"></ellipse>
+      <ellipse cx="317" cy="210" rx="78" ry="53"></ellipse>
+      <ellipse cx="317" cy="210" rx="43" ry="29"></ellipse>
+    </g>
+    <path
+      d="M79 106 H176 l-8 -6 M176 106 l-8 6"
+      fill="none"
+      stroke="#e9a074"
+      stroke-width="1.5"></path>
+    <text x="79" y="92" class="mesh-label">prescribed velocity</text>
+    <path
+      d="M378 273 L444 317 H531"
+      fill="none"
+      stroke="#c3d4cc"
+      stroke-width="0.7"></path>
+    <text x="448" y="337" class="mesh-label">refinement region</text>
+    <g class="mesh-ticks"
+      ><text x="45" y="405">0</text><text x="543" y="405">x</text><text
+        x="21"
+        y="46">y</text
+      ></g
+    >
+  </svg>
+  {
+    interactive && (
+      <div
+        class="mesh-controls"
+        hidden
+        data-mesh-controls
+        role="group"
+        aria-label="mesh concept view"
+      >
+        <button type="button" aria-pressed="false" data-mesh-mode="uniform">
+          uniform mesh
+        </button>
+        <button type="button" aria-pressed="true" data-mesh-mode="adaptive">
+          local refinement
+        </button>
+      </div>
+    )
+  }
+  <figcaption>
+    <span class="figure-dot" aria-hidden="true"></span>concept illustration ·
+    not simulation output
+  </figcaption>
+  <p class="mesh-explanation" data-mesh-explanation aria-live="polite">
+    local refinement adds resolution in a selected region.
+  </p>
+</figure>
+<script>
+  document
+    .querySelectorAll<HTMLElement>("[data-mesh-study]")
+    .forEach((study) => {
+      const controls = study.querySelector<HTMLElement>("[data-mesh-controls]");
+      if (!controls) return;
+      controls.hidden = false;
+      controls
+        .querySelectorAll<HTMLButtonElement>("[data-mesh-mode]")
+        .forEach((button) => {
+          button.addEventListener("click", () => {
+            const uniform = button.dataset.meshMode === "uniform";
+            study.dataset.meshMode = uniform ? "uniform" : "adaptive";
+            controls
+              .querySelectorAll("button")
+              .forEach((item) =>
+                item.setAttribute("aria-pressed", String(item === button)),
+              );
+            const text = study.querySelector("[data-mesh-explanation]");
+            if (text)
+              text.textContent = uniform
+                ? "a uniform mesh uses the same spacing throughout the domain."
+                : "local refinement adds resolution in a selected region.";
+          });
+        });
+    });
+</script>

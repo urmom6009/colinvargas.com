@@ -1,311 +1,166 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import katex from "katex";
-import "katex/dist/katex.min.css";
-
-const conservationLaw = katex.renderToString(String.raw`\partial_t u + \nabla \cdot F(u) = 0`, {
-  displayMode: true,
-  throwOnError: false
-});
-
-const cflCondition = katex.renderToString(String.raw`\Delta t \le C_{\mathrm{CFL}}\frac{\Delta x}{\max |\lambda|}`, {
-  displayMode: true,
-  throwOnError: false
-});
-
-const projects = [
-  {
-    title: "adaptive cfd solver",
-    meta: "thesis / amrex / c++",
-    status: "active notebook",
-    desc: "scalar advection work kept small enough for boundary conditions, updates, and plots to stay inspectable.",
-    lens: "mesh, state, flux, update",
-    href: "/work/adaptive-cfd-solver"
-  },
-  {
-    title: "scramjet analysis tool",
-    meta: "matlab / propulsion / gas turbine / parametric analysis",
-    status: "report",
-    desc: "propulsion sweeps shaped around assumptions, trends, and comparisons that can be argued with.",
-    lens: "model, assumption, sweep, trend, design analysis",
-    href: "/work/scramjet-analysis-tool"
-  },
-  {
-    title: "mixing chamber modeling & analysis",
-    meta: "numerical methods / finite-differences / immersed boundaries / verification & validation",
-    status: "report",
-    desc: "finite-volume outputs paired with enough provenance for the figure to mean something later.",
-    lens: "finite-volume inspection",
-    href: "/work/compressible-flow-project"
-  }
-];
-
-const specimens = [
-  {
-    label: "advection",
-    title: "first-order upwind, no amr",
-    copy: "set a baseline for a finite volume solver with a prescribed velocity field that is validated with richardson extrapolation and gci analysis",
-    meta: "fv / explicit",
-    bars: [38, 70, 54, 82]
-  },
-  {
-    label: "adaptive refinement",
-    title: "now make it more efficient",
-    copy: "use amrex to tag and refine mech in areas of interest and compare result with traditional global refinement",
-    meta: "amr / adapt to validating a non-constant grid size",
-    bars: [68, 44, 78, 60]
-  },
-  {
-    label: "higher-order",
-    title: "make it harder to disprove",
-    copy: "implement higher-order techniques like weno, tvd, and adams-bashforth to further enhance understanding of temporally and spatially varying fluid properties",
-    meta: "weno / tvd / rk-4",
-    bars: [82, 48, 64, 88]
-  },
-  {
-    label: "ns pathway",
-    title: "repeat and add the next leg",
-    copy: "from advection continue to momentum resolution, to then non-conservative ns, add energy to get the conservative navier-stokes equations",
-    meta: "verification & validation / pde resolution / visualization",
-    bars: []
-  }
-];
-
-const trajectory = [
-  {
-    step: "01",
-    title: "make it inspectable",
-    detail: "keep first cases small enough to check by hand and by plot.",
-    state: "small verification case"
-  },
-  {
-    step: "02",
-    title: "separate the hard parts",
-    detail: "let mesh, state, flux, and update paths carry their own responsibilities.",
-    state: "separate solver modules"
-  },
-  {
-    step: "03",
-    title: "leave a record",
-    detail: "publish notes and figures when they explain the decision, not just the result.",
-    state: "notes and figures"
-  }
-];
-
-const signal = [
-  { label: "numerics", value: "stability before runtime tuning" },
-  { label: "propulsion", value: "trade spaces with stated assumptions" },
-  { label: "software", value: "systems that can be reopened later" },
-  { label: "taste", value: "plain pages with enough technical detail" }
-];
+import MeshStudy from "../components/MeshStudy.astro";
+import ProjectList from "../components/ProjectList.astro";
+import { profile } from "../data/portfolio";
 ---
 
 <BaseLayout>
-  <script is:inline>
-    document.documentElement.classList.add("reveal-enabled");
-  </script>
-
-  <header class="site-header">
-    <a class="brand" href="/" aria-label="colin vargas home">home</a>
-    <nav aria-label="primary navigation">
-      <a href="/work">work</a>
-      <a href="/notes">notes</a>
-      <a href="/sysadmin">sys-admin</a>
-      <a href="/about">about</a>
-    </nav>
-  </header>
-
-  <main>
-    <section class="hero" aria-labelledby="hero-title">
-        <div class="hero-copy">
-        <div>
-          <h1 id="hero-title" class="hero-title">
-            <span>colin</span>
-            <span>vargas</span>
+  <main id="main-content" tabindex="-1" class="portfolio-home">
+    <section class="portfolio-hero" aria-labelledby="hero-title">
+      <div class="hero-kicker">
+        <span>an aerospace engineering portfolio</span><span
+          >numerical methods / software / systems</span
+        >
+      </div>
+      <div class="hero-main">
+        <div class="hero-identity">
+          <h1 id="hero-title">
+            colin<br />vargas<span class="accent-dot">.</span>
           </h1>
-          <div class>
-            <p class="intro" padding="60px">
-            a master's aerospace student, cautious ai supporter, homelab admin, and student pilot that's building a respectable resume.
-            </p>
+          <p class="hero-description">
+            making sense of flow.<br />building the tools to explore it.
+          </p>
+          <p class="hero-bio">
+            a master's student in aerospace engineering working across
+            computational fluid dynamics, propulsion, and scientific software.
+          </p>
+          <div class="hero-actions">
+            <a class="button-link" href="#selected-work"
+              >explore the work <span aria-hidden="true">↓</span></a
+            ><a class="text-link" href="/about"
+              >a little about me <span aria-hidden="true">↗</span></a
+            >
           </div>
         </div>
-        <div>
-          <aside class="hero-focus">
-          <span>current focus</span>
-          <strong>research in advanced cfd techniques and data structures</strong>
-          <p>working thesis title - applications of open-source adaptive mesh refinement libraries in classical fluid dynamics problems and exploration of their extensibility to advanced and novel problem</p>
-          </aside>
+        <div class="hero-study">
+          <MeshStudy />
+          <a class="study-reference" href="/work/adaptive-cfd-solver"
+            ><span>currently exploring</span><strong
+              >adaptive mesh refinement</strong
+            ><span aria-hidden="true">↗</span></a
+          >
         </div>
-        <span></span>
-        </div>
-          <div class="hero-specimen" aria-label="homepage technical specimen">
-          <div class="specimen-equation">
-              <div>
-              <aside>continuity equation</aside>
-              <h2 set:html={conservationLaw}></h2>
-              </div>
-              <div>
-              <aside>cfl condition</aside>
-              <h2 set:html={cflCondition}></h2>
-              </div>
-          <p>computational aerospace / numerical methods / propulsion / advanced computing</p>
-          </div>
-        </div>
-
-      <ul class="hero-tags" aria-label="technical focus areas">
-        <li>amrex</li>
-        <li>c++</li>
-        <li>finite volume analysis</li>
-        <li>adaptive mesh refinement</li>
-        <li>v&v</li>
-        <li>paraview</li>
-      </ul>
-    </section>
-
-    <section class="story-section showreel" id="specimens" aria-labelledby="showreel-title" data-scroll-chapter>
-      <div class="section-lead">
-        <div class="section-heading" data-reveal>
-          <span id="showreel-title">roadmap</span>
-          <span>building to the conservative NS equations</span>
-        </div>
-        <p class="section-idea" data-reveal>validation starts with an assumption</p>
       </div>
-
-      <div class="section-details specimen-stack">
-        {
-          specimens.map((item, index) => (
-            <article class="specimen-card" data-build-step={index + 1}>
-              <div class="specimen-card-copy">
-                <span>{item.label}</span>
-                <h2>{item.title}</h2>
-                <p>{item.copy}</p>
-              </div>
-              <div class="specimen-meter" aria-hidden="true">
-                {item.bars.map((height) => <span style={`--meter-height: ${height}%`}></span>)}
-              </div>
-              <p class="specimen-meta">{item.meta}</p>
-            </article>
-          ))
-        }
+      <div class="hero-index">
+        <span
+          ><i aria-hidden="true"></i> current focus: amrex-based solver development</span
+        ><a href="#selected-work"
+          >01 — selected work <span aria-hidden="true">↓</span></a
+        >
       </div>
     </section>
-
-    <section class="story-section signature" aria-labelledby="signature-title" data-scroll-chapter>
-      <div class="section-lead signature-copy">
-        <div class="section-heading" data-reveal>
-          <span id="signature-title">interactive lab</span>
-          <span>learn through teaching</span>
-        </div>
-        <p class="section-idea" data-reveal>
-          why is this the coolest project i've done and why i care so much
+    <section
+      class="portfolio-section selected-work"
+      id="selected-work"
+      aria-labelledby="work-title"
+    >
+      <div class="section-heading">
+        <span>01 / selected work</span><a href="/work"
+          >all projects <span aria-hidden="true">↗</span></a
+        >
+      </div>
+      <div class="section-intro">
+        <h2 id="work-title">the questions.<br />the work behind them.</h2><p>
+          solver development, propulsion analysis, and numerical flow modeling.
+          each overview explains the scope and what is available to inspect.
         </p>
       </div>
-
-      <div class="section-details">
-        <div class="signature-board" aria-label="technical signal board" data-build-step="1">
-          <div class="signature-wave" aria-hidden="true">
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-          </div>
-          <dl>
-            {
-              signal.map((item) => (
-                <div>
-                  <dt>{item.label}</dt>
-                  <dd>{item.value}</dd>
-                </div>
-              ))
-            }
-          </dl>
+      <ProjectList limit={3} />
+      <a class="index-link" href="/work/portfolio-and-technical-logs"
+        ><span>also in the workshop</span><strong
+          >this site & the engineering record</strong
+        ><span>astro / git / technical documentation</span><span
+          aria-hidden="true">↗</span
+        ></a
+      >
+    </section>
+    <section
+      class="portfolio-section method-section"
+      aria-labelledby="method-title"
+    >
+      <div class="section-heading">
+        <span>02 / approach</span><span
+          >from a physical question to a useful record</span
+        >
+      </div>
+      <div class="method-grid">
+        <div class="method-lead">
+          <h2 id="method-title">a result needs<br />a reason.</h2><p>
+            the interesting part is how a model connects to the physics, where
+            its assumptions hold, and what would make the answer more
+            trustworthy.
+          </p><a class="text-link" href="/about"
+            >how i approach the work <span aria-hidden="true">↗</span></a
+          >
+        </div>
+        <ol class="method-list">
+          <li>
+            <span>01</span><div>
+              <h3>start with the physics.</h3><p>
+                define the question, the assumptions, and the boundary
+                conditions before adding complexity.
+              </p>
+            </div>
+          </li>
+          <li>
+            <span>02</span><div>
+              <h3>give the model a test.</h3><p>
+                use small cases and numerical checks to understand what the
+                method is actually doing.
+              </p>
+            </div>
+          </li>
+          <li>
+            <span>03</span><div>
+              <h3>leave something to inspect.</h3><p>
+                keep the setup, code context, and limitations alongside a figure
+                so the reasoning can be reopened.
+              </p>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </section>
+    <section
+      class="portfolio-section beyond-section"
+      aria-labelledby="beyond-title"
+    >
+      <div class="section-heading">
+        <span>03 / beyond the solver</span><span
+          >the curiosity carries over</span
+        >
+      </div>
+      <div class="beyond-grid">
+        <h2 id="beyond-title">same curiosity.<br />different systems.</h2><div>
+          <p>
+            outside aerospace, i spend time with homelab systems and learning to
+            fly. both keep the connection between theory and real-world behavior
+            close.
+          </p><a class="text-link" href="/systems"
+            >explore the systems dashboard <span aria-hidden="true">↗</span></a
+          ><a class="text-link" href="/resume"
+            >view the technical profile <span aria-hidden="true">↗</span></a
+          >
         </div>
       </div>
     </section>
-
-    <section class="story-section work-show" id="work" aria-labelledby="work-title" data-scroll-chapter>
-      <div class="section-lead">
-        <div class="section-heading" data-reveal>
-          <span id="work-title">selected work</span>
-          <span><a href="/work">complete public portfolio</a></span>
-        </div>
-        <p class="section-idea" data-reveal>so how did we get here and what i have learned along the way</p>
+    <section class="contact-plate" aria-labelledby="contact-title">
+      <div class="section-heading">
+        <span>have a problem worth working through?</span><span
+          >let's compare notes</span
+        >
       </div>
-
-      <div class="section-details work-list">
-        {
-          projects.map((project, index) => (
-            <a class="work-card" href={project.href} data-build-step={index + 1}>
-              <span class="project-meta">{project.meta}</span>
-              <h2>{project.title}</h2>
-              <p>{project.desc}</p>
-              <span class="project-lens">{project.lens}</span>
-              <span class="project-status">{project.status}</span>
-            </a>
-          ))
-        }
+      <a class="contact-statement" href={`mailto:${profile.email}`}
+        ><h2 id="contact-title">
+          let's talk<br />engineering<span class="accent-dot">.</span>
+        </h2><span aria-hidden="true">↗</span></a
+      >
+      <div class="contact-plate-bottom">
+        <a href={`mailto:${profile.email}`}>{profile.email}</a><span
+          >cfd / propulsion / scientific software</span
+        >
       </div>
-    </section>
-
-    {/* this section might be better for the trajectory and the first "specimen" reel would be better for "other applications" */}
-    <section class="story-section trajectory" aria-labelledby="trajectory-title" data-scroll-chapter>
-      <div class="section-lead">
-        <div class="section-heading" data-reveal>
-          <span id="trajectory-title">side-quests</span>
-          <span>other fun procrastinations</span>
-        </div>
-        <p class="section-idea" data-reveal>i'd go crazy if all i did was attempt to solve the navier-stokes equations</p>
-      </div>
-
-      <div class="section-details trajectory-grid">
-        <div class="trajectory-map" aria-hidden="true" data-build-step="1">
-          <span class="map-line"></span>
-          <span class="map-node map-node-one"></span>
-          <span class="map-node map-node-two"></span>
-          <span class="map-node map-node-three"></span>
-          <span class="map-sweep map-sweep-one"></span>
-          <span class="map-sweep map-sweep-two"></span>
-          <span class="map-label">{trajectory[0].state}</span>
-        </div>
-
-        <div class="trajectory-list">
-          {
-            trajectory.map((item, index) => (
-              <article data-build-step={index + 2}>
-                <span>{item.step}</span>
-                <h2>{item.title}</h2>
-                <p>{item.detail}</p>
-                <small>{item.state}</small>
-              </article>
-            ))
-          }
-        </div>
-      </div>
-    </section>
-
-    <section class="split" aria-label="notes and profile">
-      <article data-reveal>
-        <div class="section-heading">
-          <span>notes</span>
-          <span><a href="/notes">open log index</a></span>
-        </div>
-        <p>
-          notes hold project decisions, build context, and numerical details once
-          they are clear enough to reuse.
-        </p>
-      </article>
-
-      <article data-reveal>
-        <div class="section-heading">
-          <span>about</span>
-          <span>systems reasoning</span>
-        </div>
-        <p>
-          aerospace engineering, numerical methods, propulsion, and a bias for tools
-          that keep the reasoning visible.
-        </p>
-      </article>
     </section>
   </main>
 </BaseLayout>

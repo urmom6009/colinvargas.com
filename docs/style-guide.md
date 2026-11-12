@@ -37,14 +37,22 @@ The aerospace layer supplies the content: equations, solver states, verification
 
 ## page patterns
 
-- Homepage sections are editorial plates: one large idea, one technical surface, one clear reason to exist.
-- Secondary pages should inherit the same system through `page-scene`: a big route statement, one technical aside, and index/action rows with the same rule-based behavior.
+- Homepage sections are editorial plates: one large idea, one technical surface, one clear reason to exist. selected work follows the identity section, before approach and supporting interests.
+- Secondary pages use `page-intro`, readable overviews, and ruled action/index rows. retain `page-scene` only for the existing systems readouts; all content stays in normal document flow.
 - Systems pages may be denser, but they should still use restrained labels, clear boundaries, and public-safe summaries.
 - New routes should start with the record being exposed: project, note, system, or contact path. Do not start with generic portfolio filler.
 
+## evidence and interactions
+
+- Project titles, tools, scope, and status come from `src/data/portfolio.ts`. do not duplicate them in route-local arrays.
+- Concept diagrams always carry a visible concept label. use real figures with units, setup, and provenance when numerical results become available.
+- Planned methods, unpublished reports, and draft logs are not completed public evidence. current project pages are overviews, with the publication status stated explicitly.
+- The mesh control explains uniform spacing and local refinement. project filters use native buttons with pressed states and an announced count.
+- Without javascript, all project rows and the default mesh remain visible; enhancement-only controls remain hidden.
+
 ## motion
 
-- Motion should stage inspection: headline masks in, detail rows build, final section state is readable.
-- Keep scroll reveals restrained and legible. A completed section should look composed, not scattered.
-- Avoid blur-heavy reveals and hover lifts. Prefer type masks, rule movement, and small color state changes.
-- Preserve reduced-motion behavior.
+- Keep all information visible without requiring a scroll animation.
+- Use small color changes and arrow motion for links, and a short opacity transition for the mesh view.
+- Avoid blur-heavy reveals, hover lifts, and sticky scenes that stretch a short page over several viewports.
+- Preserve reduced-motion behavior and visible keyboard focus.

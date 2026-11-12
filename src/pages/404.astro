@@ -2,48 +2,25 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 ---
 
-<BaseLayout title="not ready yet - colin vargas">
-  <header class="site-header">
-    <a class="brand" href="/" aria-label="colin vargas home">colin vargas</a>
-    <nav aria-label="primary navigation">
-      <a href="/work">work</a>
-      <a href="/notes">notes</a>
-      <a href="/systems">systems</a>
-      <a href="/resume">resume</a>
-      <a href="/about">about</a>
-      <a href="/contact">contact</a>
-    </nav>
-  </header>
-
-  <main>
-    <section class="pending-page page-scene" aria-labelledby="not-found-title" data-scroll-chapter>
+<BaseLayout
+  title="page not found — colin vargas"
+  description="This page is not available. Explore Colin Vargas's engineering projects or get in touch."
+>
+  <main id="main-content" tabindex="-1">
+    <section class="page-intro not-found" aria-labelledby="not-found-title">
       <div class="section-heading">
-        <span>404</span>
-        <span>not ready yet</span>
-      </div>
-
-      <div class="pending-grid">
-        <div>
-          <h1 id="not-found-title">this page is not published yet.</h1>
-          <p>
-            some project pages and notes are still being turned from local work
-            into a useful public record.
-          </p>
-        </div>
-
-        <aside class="pending-note">
-          <span>current site status</span>
-          <p>
-            the homepage is live. project writeups, notes, and deeper artifacts
-            are being added as they become worth publishing.
-          </p>
-        </aside>
-      </div>
-
-      <div class="pending-actions">
-        <a href="/" data-build-step="1">back home</a>
-        <a href="/resume" data-build-step="2">resume index</a>
-        <a href="/work" data-build-step="3">selected work</a>
+        <span>404 / outside the domain</span><a href="/"
+          >back to the homepage ↗</a
+        >
+      </div><h1 id="not-found-title">
+        a boundary<br />we haven't set<span class="accent-dot">.</span>
+      </h1><div class="intro-bottom">
+        <p>
+          this page isn't available. the project index is a good place to pick
+          up the thread.
+        </p><a class="button-link" href="/work"
+          >explore the work <span aria-hidden="true">↗</span></a
+        >
       </div>
     </section>
   </main>

@@ -1,16 +1,19 @@
 ---
 import "../styles/global.css";
-
+import SiteHeader from "../components/SiteHeader.astro";
+import { profile } from "../data/portfolio";
+interface Props {
+  title?: string;
+  description?: string;
+}
 const {
-  title = "colin vargas - b.s.e. aerospace engineering",
-  description = "a portfolio of my work through undergrad and graduate studies as well as a spot to showcase my hobbies and ongoing development of technical knowledge"
-  } = Astro.props;
-
-const ribbonLinks = [
-  { label: "github", href: "https://github.com/urmom6009" },
-  { label: "linkedin", href: "https://www.linkedin.com/in/colinvargas" },
-  { label: "email", href: "mailto:me@colinvargas.com" }
-];
+  title = "colin vargas — aerospace engineering & scientific software",
+  description = "Aerospace engineering portfolio of Colin Vargas. Projects in computational fluid dynamics, propulsion analysis, and scientific software, with scope and publication status.",
+} = Astro.props;
+const canonical = new URL(
+  Astro.url.pathname.replace(/\/+$/, "") || "/",
+  Astro.site || "https://colinvargas.com",
+);
 ---
 
 <!doctype html>
@@ -19,232 +22,125 @@ const ribbonLinks = [
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#f1eadb" />
+    <meta name="theme-color" content="#f4f1ea" />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link
+      rel="preload"
+      href="/fonts/PPNeueMontreal-Book.otf"
+      as="font"
+      type="font/otf"
+      crossorigin
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="colin vargas" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
     <script is:inline>
       (() => {
         const storageKey = "colinvargas-theme";
-        const lightColor = "#f1eadb";
-        const darkColor = "#15120f";
         const media = window.matchMedia("(prefers-color-scheme: dark)");
-
-        const getStoredTheme = () => {
+        const stored = () => {
           try {
             return localStorage.getItem(storageKey);
           } catch {
             return null;
           }
         };
-
-        const setStoredTheme = (theme) => {
-          try {
-            localStorage.setItem(storageKey, theme);
-          } catch {
-            return;
-          }
-        };
-
-        const getPreferredTheme = () => {
-          const stored = getStoredTheme();
-          if (stored === "light" || stored === "dark") {
-            return stored;
-          }
-
-          return media.matches ? "dark" : "light";
-        };
-
-        const applyTheme = (theme) => {
+        const apply = (theme) => {
           document.documentElement.dataset.theme = theme;
           document.documentElement.style.colorScheme = theme;
           document
             .querySelector('meta[name="theme-color"]')
-            ?.setAttribute("content", theme === "dark" ? darkColor : lightColor);
+            ?.setAttribute("content", theme === "dark" ? "#141815" : "#f4f1ea");
         };
-
-        applyTheme(getPreferredTheme());
+        const preferred = () =>
+          ["light", "dark"].includes(stored())
+            ? stored()
+            : media.matches
+              ? "dark"
+              : "light";
+        apply(preferred());
         window.__setColinTheme = (theme) => {
-          setStoredTheme(theme);
-          applyTheme(theme);
+          try {
+            localStorage.setItem(storageKey, theme);
+          } catch {}
+          apply(theme);
         };
-
         media.addEventListener("change", () => {
-          const stored = getStoredTheme();
-          if (stored !== "light" && stored !== "dark") {
-            applyTheme(getPreferredTheme());
-          }
+          if (!["light", "dark"].includes(stored())) apply(preferred());
         });
       })();
     </script>
     <title>{title}</title>
   </head>
   <body>
-    <div class="field" aria-hidden="true">
-      <span class="mach mach-one"></span>
-      <span class="mach mach-two"></span>
-      <span class="patch patch-one"></span>
-      <span class="patch patch-two"></span>
-      <span class="trace trace-one"></span>
-      <span class="trace trace-two"></span>
-    </div>
-    <button class="theme-toggle" type="button" aria-label="switch color theme" aria-pressed="false">
-      <span class="theme-toggle-track" aria-hidden="true">
-        <span class="theme-toggle-sun"></span>
-        <span class="theme-toggle-moon"></span>
-      </span>
-    </button>
+    <a class="skip-link" href="#main-content">skip to content</a>
+    <SiteHeader />
     <slot />
     <footer class="site-ribbon" aria-label="site footer">
       <div class="ribbon-copy">
-        <span>america/phoenix</span>
-        <strong>computational mastery</strong>
-      </div>
-      <div class="ribbon-signal" aria-hidden="true">
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
+        <a href="/">colin vargas<span class="accent-dot">.</span></a><span
+          >aerospace / software / systems</span
+        >
       </div>
       <div class="footer-links">
-        {ribbonLinks.map((link) => <a href={link.href}>{link.label}</a>)}
+        <a href={profile.github}>github ↗</a><a href={profile.linkedin}
+          >linkedin ↗</a
+        ><a href="/systems">systems</a><a href={`mailto:${profile.email}`}
+          >email ↗</a
+        >
+      </div>
+      <div class="footer-bottom">
+        <span>built with curiosity. documented with care.</span><a
+          href={profile.source}
+          >site source <span aria-hidden="true">↗</span></a
+        ><span>america/phoenix</span>
       </div>
     </footer>
+    <button
+      class="theme-toggle"
+      type="button"
+      aria-label="switch color theme"
+      aria-pressed="false"
+      hidden
+      ><span class="theme-icon" aria-hidden="true">◐</span><span
+        data-theme-label>theme</span
+      ></button
+    >
     <script is:inline>
       (() => {
-        document.documentElement.classList.add("reveal-enabled");
-
         const header = document.querySelector(".site-header");
-        const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
-
-        if (header) {
-          const syncHeader = () => {
-            header.classList.toggle("is-scrolled", window.scrollY > 24);
-          };
-
-          syncHeader();
-          window.addEventListener("scroll", syncHeader, { passive: true });
-        }
-
-        const scenes = Array.from(document.querySelectorAll("main > section, main > article"));
-        const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-        const sceneState = scenes.map((scene) => {
-          const parts = Array.from(scene.children).filter((child) => child.nodeType === Node.ELEMENT_NODE);
-          parts.forEach((part, index) => {
-            if (!part.hasAttribute("data-reveal")) {
-              part.setAttribute("data-reveal", "");
-            }
-            part.style.setProperty("--reveal-index", String(index));
-          });
-
-          return {
-            scene,
-            parts,
-            steps: Array.from(scene.querySelectorAll("[data-build-step]"))
-          };
-        });
-
-        const syncScenes = () => {
-          sceneState.forEach(({ scene, parts, steps }) => {
-            const rect = scene.getBoundingClientRect();
-            const viewport = window.innerHeight || 1;
-            const travel = Math.max(rect.height - viewport, viewport);
-            const progress = clamp((viewport * 0.42 - rect.top) / travel, 0, 1);
-
-            parts.forEach((part, index) => {
-              const revealAt = 0.04 + index * 0.08;
-              part.classList.toggle("is-visible", progress >= revealAt);
-            });
-
-            if (!steps.length) {
-              scene.classList.toggle("is-complete", progress >= 0.84);
-              return;
-            }
-
-            const detailsStart = 0.2;
-            const detailsComplete = 0.84;
-            let activeCount = 0;
-
-            if (progress < detailsStart) {
-              activeCount = 0;
-            } else {
-              activeCount = Math.min(
-                steps.length,
-                Math.floor(((progress - detailsStart) / (detailsComplete - detailsStart)) * steps.length) + 1
-              );
-            }
-
-            scene.classList.toggle("is-complete", progress >= detailsComplete);
-
-            steps.forEach((step) => {
-              const index = Number(step.dataset.buildStep || "1");
-              step.classList.toggle("is-built", index <= activeCount);
-              step.classList.toggle("is-spotlight", index === activeCount && activeCount > 0);
-            });
-          });
-        };
-
-        if (sceneState.length) {
-          if (reduceMotion) {
-            sceneState.forEach(({ scene, parts, steps }) => {
-              parts.forEach((part) => part.classList.add("is-visible"));
-              steps.forEach((step) => step.classList.add("is-built"));
-              scene.classList.add("is-complete");
-            });
-          } else {
-            let ticking = false;
-            const requestSync = () => {
-              if (!ticking) {
-                ticking = true;
-                window.requestAnimationFrame(() => {
-                  ticking = false;
-                  syncScenes();
-                });
-              }
-            };
-
-            syncScenes();
-            window.addEventListener("scroll", requestSync, { passive: true });
-            window.addEventListener("resize", requestSync);
-          }
-        }
-
+        const syncHeader = () =>
+          header?.classList.toggle("is-scrolled", window.scrollY > 16);
+        syncHeader();
+        window.addEventListener("scroll", syncHeader, { passive: true });
         const button = document.querySelector(".theme-toggle");
-        if (!button) {
-          return;
-        }
-
-        const footer = document.querySelector(".site-ribbon");
-        if (footer && "IntersectionObserver" in window) {
-          const footerObserver = new IntersectionObserver(
-            ([entry]) => {
-              button.classList.toggle("is-near-footer", entry.isIntersecting);
-            },
-            { threshold: 0.08 }
-          );
-          footerObserver.observe(footer);
-        } else if (footer) {
-          const syncFooterDock = () => {
-            button.classList.toggle("is-near-footer", footer.getBoundingClientRect().top < window.innerHeight);
-          };
-          syncFooterDock();
-          window.addEventListener("scroll", syncFooterDock, { passive: true });
-          window.addEventListener("resize", syncFooterDock);
-        }
-
+        if (!button) return;
+        button.hidden = false;
         const syncButton = () => {
-          const theme = document.documentElement.dataset.theme || "light";
-          button.setAttribute("aria-pressed", String(theme === "dark"));
+          const dark = document.documentElement.dataset.theme === "dark";
+          button.setAttribute("aria-pressed", String(dark));
           button.setAttribute(
             "aria-label",
-            theme === "dark" ? "switch to light theme" : "switch to dark theme"
+            dark ? "switch to light theme" : "switch to dark theme",
           );
+          button.querySelector("[data-theme-label]").textContent = dark
+            ? "light"
+            : "dark";
         };
-
         button.addEventListener("click", () => {
-          const current = document.documentElement.dataset.theme || "light";
-          window.__setColinTheme?.(current === "dark" ? "light" : "dark");
+          window.__setColinTheme?.(
+            document.documentElement.dataset.theme === "dark"
+              ? "light"
+              : "dark",
+          );
           syncButton();
         });
-
+        window
+          .matchMedia("(prefers-color-scheme: dark)")
+          .addEventListener("change", syncButton);
         syncButton();
       })();
     </script>

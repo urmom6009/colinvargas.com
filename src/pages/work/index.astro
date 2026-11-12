@@ -1,91 +1,96 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-
-const projects = [
-  {
-    title: "adaptive cfd solver",
-    meta: "thesis / amrex / c++ / finite volume",
-    status: "active notebook",
-    detail:
-      "a solver path from scalar advection toward adaptive flow capability, built through small cases and visible verification.",
-    href: "/work/adaptive-cfd-solver"
-  },
-  {
-    title: "scramjet analysis tool",
-    meta: "python / propulsion / parametric analysis",
-    status: "writeup pending",
-    detail:
-      "a propulsion trade-space tool for making assumptions, sweeps, and performance trends easier to inspect.",
-    href: "/work/scramjet-analysis-tool"
-  },
-  {
-    title: "compressible flow project",
-    meta: "numerical methods / visualization / paraview",
-    status: "archive pending",
-    detail:
-      "finite-volume simulations and post-processing workflows with context around what the figures are claiming.",
-    href: "/work/compressible-flow-project"
-  }
+import ProjectList from "../../components/ProjectList.astro";
+import { projects } from "../../data/portfolio";
+const filters = [
+  { value: "all", label: "all work" },
+  { value: "numerics", label: "numerical methods" },
+  { value: "propulsion", label: "propulsion" },
+  { value: "software", label: "software" },
 ];
 ---
 
-<BaseLayout title="work - colin vargas">
-  <header class="site-header">
-    <a class="brand" href="/" aria-label="colin vargas home">colin vargas</a>
-    <nav aria-label="primary navigation">
-      <a href="/work" aria-current="page">work</a>
-      <a href="/notes">notes</a>
-      <a href="/systems">systems</a>
-      <a href="/resume">resume</a>
-      <a href="/about">about</a>
-      <a href="/contact">contact</a>
-    </nav>
-  </header>
-
-  <main>
-    <section class="resume-hero page-scene" aria-labelledby="work-title" data-scroll-chapter>
+<BaseLayout
+  title="selected work — colin vargas"
+  description="Projects in computational fluid dynamics, propulsion analysis, numerical flow modeling, and engineering software. Scope, approach, and publication status for each."
+>
+  <main id="main-content" tabindex="-1">
+    <section class="page-intro" aria-labelledby="work-title">
       <div class="section-heading">
-        <span>work</span>
-        <span>evidence index</span>
+        <span>the project index</span><span>01—04</span>
       </div>
-
-      <div class="resume-hero-grid">
-        <div>
-          <h1 id="work-title">projects with their records attached.</h1>
-          <p>
-            a focused index for solver development, propulsion analysis, and
-            computational flow work as notes, figures, and methods become useful to reopen.
-          </p>
-        </div>
-
-        <aside>
-          <span>current priority</span>
-          <strong>document the solver path clearly</strong>
-          <p>verification cases, architecture notes, and figures are added when they clarify the engineering decision.</p>
-        </aside>
+      <h1 id="work-title">
+        curiosity,<br />put to work<span class="accent-dot">.</span>
+      </h1>
+      <div class="intro-bottom">
+        <p>
+          computational aerospace and the software around it. explore the
+          question, the approach, and the current public record for each
+          project.
+        </p><p class="intro-note">
+          project overviews are available for all four entries. research reports
+          and numerical results are marked where they are still forthcoming.
+        </p>
       </div>
     </section>
-
-    <section class="resume-section page-scene" aria-labelledby="project-index-title" data-scroll-chapter>
-      <div class="section-heading">
-        <span id="project-index-title">project index</span>
-        <span>open each page</span>
+    <section class="work-index" aria-labelledby="project-index-title">
+      <div class="filter-bar">
+        <h2 id="project-index-title" class="eyebrow">browse the work</h2><div
+          class="work-filters"
+          data-work-filters
+          hidden
+          role="group"
+          aria-label="filter projects"
+        >
+          {
+            filters.map((filter) => (
+              <button
+                type="button"
+                data-filter={filter.value}
+                aria-pressed={filter.value === "all"}
+                aria-controls="project-list"
+              >
+                {filter.label}
+              </button>
+            ))
+          }
+        </div><span class="project-count" data-project-count aria-live="polite"
+          >{projects.length} projects</span
+        >
       </div>
-
-      <div class="resume-list">
-        {
-          projects.map((project, index) => (
-            <a class="resume-item" href={project.href} data-build-step={index + 1}>
-              <span>{String(index + 1).padStart(2, "0")}</span>
-              <div>
-                <h2>{project.title}</h2>
-                <p>{project.detail}</p>
-              </div>
-              <strong>{project.meta} / {project.status}</strong>
-            </a>
-          ))
-        }
-      </div>
+      <ProjectList />
+    </section>
+    <section class="page-next">
+      <span class="eyebrow">interested in the thinking behind a project?</span
+      ><a href="/contact"
+        >let's get into the details. <span aria-hidden="true">↗</span></a
+      >
     </section>
   </main>
 </BaseLayout>
+<script>
+  const filters = document.querySelector<HTMLElement>("[data-work-filters]");
+  if (filters) {
+    filters.hidden = false;
+    const rows = document.querySelectorAll<HTMLElement>(".project-row");
+    filters.querySelectorAll<HTMLButtonElement>("button").forEach((button) => {
+      button.addEventListener("click", () => {
+        filters
+          .querySelectorAll("button")
+          .forEach((item) =>
+            item.setAttribute("aria-pressed", String(item === button)),
+          );
+        let count = 0;
+        rows.forEach((row) => {
+          row.hidden =
+            button.dataset.filter !== "all" &&
+            row.dataset.category !== button.dataset.filter;
+          if (!row.hidden) count++;
+        });
+        const output = document.querySelector("[data-project-count]");
+        if (output)
+          output.textContent = `${count} ${count === 1 ? "project" : "projects"}`;
+      });
+    });
+  }
+</script>

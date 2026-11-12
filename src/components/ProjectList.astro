@@ -1,0 +1,51 @@
+---
+import { projects } from "../data/portfolio";
+import ProjectDiagram from "./ProjectDiagram.astro";
+interface Props {
+  limit?: number;
+}
+const { limit = projects.length } = Astro.props;
+---
+
+<div class="project-list" id="project-list">
+  {
+    projects.slice(0, limit).map((project) => (
+      <article class="project-row" data-category={project.category}>
+        <a class="project-link" href={`/work/${project.slug}`}>
+          <span class="project-number">
+            {project.number}
+            <span aria-hidden="true"> /</span>
+          </span>
+          <div class="project-copy">
+            <span class="eyebrow">{project.discipline}</span>
+            <h3>{project.title}</h3>
+            <p>{project.summary}</p>
+            <span class="project-tools">{project.tools.join(" / ")}</span>
+          </div>
+          <div class="project-thumbnail">
+            <>
+              <ProjectDiagram kind={project.diagram} />
+              <span>concept / {project.number}</span>
+            </>
+          </div>
+          <div class="project-end">
+            <>
+              <span
+                class:list={[
+                  "status-label",
+                  { "status-published": project.source },
+                ]}
+              >
+                {project.status}
+              </span>
+              <span class="project-arrow" aria-hidden="true">
+                ↗
+              </span>
+              <span class="link-label">view project</span>
+            </>
+          </div>
+        </a>
+      </article>
+    ))
+  }
+</div>

@@ -1,60 +1,91 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-
-const principles = [
-  "small verification cases before ambitious simulations",
-  "interfaces that keep math, mesh, state, and output honest",
-  "plots and notes that explain decisions, not just results"
-];
 ---
 
-<BaseLayout title="about - colin vargas">
-  <header class="site-header">
-    <a class="brand" href="/" aria-label="colin vargas home">colin vargas</a>
-    <nav aria-label="primary navigation">
-      <a href="/work">work</a>
-      <a href="/notes">notes</a>
-      <a href="/systems">systems</a>
-      <a href="/resume">resume</a>
-      <a href="/about" aria-current="page">about</a>
-      <a href="/contact">contact</a>
-    </nav>
-  </header>
-
-  <main>
-    <section class="resume-hero page-scene" aria-labelledby="about-title" data-scroll-chapter>
+<BaseLayout
+  title="about — colin vargas"
+  description="Colin Vargas is a master's student in aerospace engineering focused on computational fluid dynamics, propulsion, and scientific software."
+>
+  <main id="main-content" tabindex="-1">
+    <section class="page-intro" aria-labelledby="about-title">
       <div class="section-heading">
-        <span>about</span>
-        <span>visible reasoning</span>
-      </div>
-
-      <div class="resume-hero-grid">
-        <div>
-          <h1 id="about-title">the reasoning should be easy to reopen.</h1>
-          <p>
-            the center of gravity is computational aerospace: numerical methods,
-            propulsion, and software that turns physical behavior into an
-            inspectable record.
-          </p>
-        </div>
-
-        <aside>
-          <span>working focus</span>
-          <strong>math, code, and engineering judgment in one record</strong>
-          <p>this site collects projects when the setup, assumptions, and results are clear enough to reopen.</p>
-        </aside>
+        <span>about colin</span><span>aerospace engineering</span>
+      </div><h1 id="about-title">
+        drawn to the<br />hard questions<span class="accent-dot">.</span>
+      </h1><div class="intro-bottom">
+        <p>
+          i'm a master's student in aerospace engineering, working at the
+          intersection of numerical methods, fluid mechanics, and the software
+          used to explore them.
+        </p><p class="intro-note">
+          current focus / amrex-based solver development, from scalar advection
+          toward adaptive flow capability.
+        </p>
       </div>
     </section>
-
-    <section class="resume-section page-scene" aria-labelledby="principles-title" data-scroll-chapter>
-      <div class="section-heading">
-        <span id="principles-title">principles</span>
-        <span>build behavior</span>
+    <section class="about-story" aria-labelledby="thinking-title">
+      <span class="eyebrow">how i think about the work</span><div>
+        <h2 id="thinking-title">understand it.<br />then build on it.</h2><p>
+          the most interesting questions usually sit between the physics and the
+          implementation. what does a discretization assume? what does a
+          boundary condition change? what would a simple case tell us before a
+          larger simulation?
+        </p><p>
+          my thesis work gives those questions a practical home in solver
+          development. propulsion analysis and numerical flow modeling bring the
+          same habits into different engineering problems.
+        </p><a class="text-link" href="/work"
+          >explore the projects <span aria-hidden="true">↗</span></a
+        >
       </div>
-
-      <ul class="capability-grid" aria-label="working principles">
-        {principles.map((principle, index) => <li data-build-step={index + 1}>{principle}</li>)}
-      </ul>
+    </section>
+    <section class="portfolio-section" aria-labelledby="principles-title">
+      <div class="section-heading">
+        <h2 id="principles-title">working principles</h2><span
+          >the habits behind the projects</span
+        >
+      </div><ol class="project-approach">
+        <li>
+          <span class="eyebrow">01 / small cases</span><h3>
+            keep the first test simple.
+          </h3><p>
+            a tractable case makes it easier to separate the numerical behavior
+            from implementation mistakes.
+          </p>
+        </li><li>
+          <span class="eyebrow">02 / clear assumptions</span><h3>
+            show what the model assumes.
+          </h3><p>
+            an answer becomes more useful when its physical and numerical limits
+            are visible.
+          </p>
+        </li><li>
+          <span class="eyebrow">03 / useful records</span><h3>
+            make the reasoning reusable.
+          </h3><p>
+            the setup, inputs, figures, and code context matter as much as the
+            final plot.
+          </p>
+        </li>
+      </ol>
+    </section>
+    <section class="beyond-grid about-beyond">
+      <h2>curiosity doesn't<br />stop at the desk.</h2><div>
+        <p>
+          i also spend time learning to fly and building out homelab systems.
+          they offer a different way to think about reliability,
+          instrumentation, and how a system behaves in practice.
+        </p><a class="text-link" href="/systems"
+          >the systems side <span aria-hidden="true">↗</span></a
+        >
+      </div>
+    </section>
+    <section class="page-next">
+      <span class="eyebrow"
+        >bring a question, a project, or an engineering problem</span
+      ><a href="/contact"
+        >let's compare notes. <span aria-hidden="true">↗</span></a
+      >
     </section>
   </main>
 </BaseLayout>
