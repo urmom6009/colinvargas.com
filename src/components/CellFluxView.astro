@@ -134,6 +134,12 @@ const neighbors = [-1, 0, 1].flatMap((dy) =>
       ><text x="260" y="135" text-anchor="middle">φ new</text></g
     >
   </svg>
+  <dl class="cell-flux-readout" aria-label="face flux values">
+    <div><dt>left · Fx_lo</dt><dd>{scalarLabel(budget.Fx_lo)}</dd></div>
+    <div><dt>right · Fx_hi</dt><dd>{scalarLabel(budget.Fx_hi)}</dd></div>
+    <div><dt>bottom · Fy_lo</dt><dd>{scalarLabel(budget.Fy_lo)}</dd></div>
+    <div><dt>top · Fy_hi</dt><dd>{scalarLabel(budget.Fy_hi)}</dd></div>
+  </dl>
   <div class="cell-calculation">
     <span>φ new = φ old − dtdivF</span><span data-cell-equation
       >{scalarLabel(budget.nextPhi)} ≈ {scalarLabel(budget.phiC)} − ({

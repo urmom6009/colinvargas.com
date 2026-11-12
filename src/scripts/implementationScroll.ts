@@ -11,6 +11,7 @@ import {
   implementationSteps,
   scalarLabel,
   stepForScroll,
+  stepMotionWindows,
   stepValue,
   type ImplementationStep,
 } from "../data/implementationSteps";
@@ -74,9 +75,10 @@ export function enhanceImplementationStudies() {
         track.dataset.activeLine = key;
         track.dataset.view = running ? "global" : "cell";
         track.querySelectorAll<SVGGElement>("[data-face]").forEach((face) => {
-          face.dataset.active = String(
-            step.face === "all" || face.dataset.face === step.face,
+          const faceIndex = implementationSteps.findIndex(
+            ({ face: stepFace }) => stepFace === face.dataset.face,
           );
+          face.dataset.active = String(faceIndex <= index);
         });
         lineButtons.forEach(({ key: lineKey, button }) =>
           button.setAttribute("aria-pressed", String(lineKey === key)),
@@ -102,6 +104,16 @@ export function enhanceImplementationStudies() {
             : `${key === "new_fab" ? "φ new" : key} ≈ ${scalarLabel(stepValue(key, budget))}`,
         );
       };
+      const showLedger = (completed: number) => {
+        track
+          .querySelectorAll<HTMLElement>("[data-step-record]")
+          .forEach((record, index) => {
+            record.dataset.complete = String(index <= completed);
+          });
+      };
+      const showLedgerThrough = (key: ImplementationStep) => {
+        showLedger(implementationSteps.findIndex((step) => step.key === key));
+      };
       track.querySelectorAll<HTMLElement>("[data-code-key]").forEach((line) => {
         const key = line.dataset.codeKey as ImplementationStep;
         const step = implementationSteps.find((item) => item.key === key);
@@ -120,6 +132,7 @@ export function enhanceImplementationStudies() {
           manualStep = key;
           setReading(true);
           showStep(key);
+          showLedgerThrough(key);
         };
         button.addEventListener("focus", inspect);
         button.addEventListener("click", inspect);
@@ -133,6 +146,7 @@ export function enhanceImplementationStudies() {
           (track.dataset.activeLine as ImplementationStep) || "new_fab";
         setReading(true);
         showStep(manualStep);
+        showLedgerThrough(manualStep);
       };
       track
         .querySelector(".source-fragment pre")
@@ -196,12 +210,19 @@ export function enhanceImplementationStudies() {
         // Keep that deliberate selection until the reader actually scrolls.
         if (manualStep) {
           showStep(manualStep);
+          showLedgerThrough(manualStep);
           return;
         }
-        const running = progress >= 0.82;
-        showStep(stepForScroll(progress), running);
-        morph?.render(progress, stepForScroll(progress));
-        draw(ramp(0.9, 1, progress));
+        const activeStep = stepForScroll(progress);
+        const running = progress >= 0.9;
+        showStep(activeStep, running);
+        showLedger(
+          implementationSteps.findLastIndex(
+            ({ key }) => progress >= stepMotionWindows[key][1],
+          ),
+        );
+        morph?.render(progress, activeStep);
+        draw(ramp(0.94, 1, progress));
       };
       const requestUpdate = () => {
         if (queued || track.dataset.motion !== "scroll") return;
@@ -219,12 +240,25 @@ export function enhanceImplementationStudies() {
           if (readToggle) readToggle.hidden = true;
           track.dataset.morphPhase = "static";
           showStep("new_fab");
+          showLedger(implementationSteps.length - 1);
           write(".implementation-scroll-hint", "select a code line to inspect");
           track.style.removeProperty("--study-height");
           if (frames) draw(1);
         };
-        // Short viewports and reduced motion get both complete views in document flow.
-        if (motion.matches || window.innerHeight < 700) {
+        const wrapsSource = Array.from(
+          track.querySelectorAll<HTMLButtonElement>(".code-line-control"),
+        ).some((button) => {
+          const text = document.createRange();
+          text.selectNodeContents(button);
+          return text.getClientRects().length > 1;
+        });
+        // Wrapped source lines need normal flow; the animated copies track one line each.
+        if (
+          motion.matches ||
+          window.innerWidth <= 900 ||
+          window.innerHeight < 700 ||
+          wrapsSource
+        ) {
           showStatic();
           return;
         }
@@ -275,7 +309,7 @@ export function enhanceImplementationStudies() {
       motion.addEventListener("change", measure);
       const observer = new MutationObserver(() => {
         readColor();
-        if (track.dataset.motion === "scroll") draw(ramp(0.9, 1, progress));
+        if (track.dataset.motion === "scroll") draw(ramp(0.94, 1, progress));
       });
       observer.observe(document.documentElement, {
         attributes: true,
