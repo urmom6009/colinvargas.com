@@ -64,7 +64,8 @@ const neighbors = [-1, 0, 1].flatMap((dy) =>
     </g>
     <rect class="target-cell" x="210" y="60" width="100" height="100"></rect>
     <g class="cell-face" data-active="true" data-face="Fx_lo">
-      <path class="cell-face-edge" d="M210 60 V160"></path>
+      <path class="cell-face-edge" data-morph-target="Fx_lo" d="M210 60 V160"
+      ></path>
       <path class="cell-flux-arrow" d="M166 110 H220 M212 103 L220 110 L212 117"
       ></path>
       <text x="98" y="99" text-anchor="end" class="flux-name">Fx_lo</text>
@@ -77,7 +78,8 @@ const neighbors = [-1, 0, 1].flatMap((dy) =>
       >
     </g>
     <g class="cell-face" data-active="true" data-face="Fx_hi">
-      <path class="cell-face-edge" d="M310 60 V160"></path>
+      <path class="cell-face-edge" data-morph-target="Fx_hi" d="M310 60 V160"
+      ></path>
       <path class="cell-flux-arrow" d="M300 110 H354 M346 103 L354 110 L346 117"
       ></path>
       <text x="422" y="99" class="flux-name">Fx_hi</text>
@@ -86,7 +88,8 @@ const neighbors = [-1, 0, 1].flatMap((dy) =>
       >
     </g>
     <g class="cell-face" data-active="true" data-face="Fy_lo">
-      <path class="cell-face-edge" d="M210 160 H310"></path>
+      <path class="cell-face-edge" data-morph-target="Fy_lo" d="M210 160 H310"
+      ></path>
       <path class="cell-flux-arrow" d="M260 204 V150 M253 158 L260 150 L267 158"
       ></path>
       <text x="329" y="184" class="flux-name">Fy_lo</text>
@@ -95,13 +98,18 @@ const neighbors = [-1, 0, 1].flatMap((dy) =>
       >
     </g>
     <g class="cell-face" data-active="true" data-face="Fy_hi">
-      <path class="cell-face-edge" d="M210 60 H310"></path>
+      <path class="cell-face-edge" data-morph-target="Fy_hi" d="M210 60 H310"
+      ></path>
       <path class="cell-flux-arrow" d="M260 70 V16 M253 24 L260 16 L267 24"
       ></path>
       <text x="329" y="23" class="flux-name">Fy_hi</text>
       <text x="329" y="43" class="flux-value" data-value={budget.Fy_hi}
         >{scalarLabel(budget.Fy_hi)}</text
       >
+    </g>
+    <g class="morph-interior-targets" aria-hidden="true">
+      <path data-morph-target="dtdivF" d="M228 96 H292"></path>
+      <path data-morph-target="new_fab" d="M228 128 H292"></path>
     </g>
     <g class="cell-old-state"
       ><text x="260" y="95" text-anchor="middle">φ old</text><text

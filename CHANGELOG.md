@@ -2,6 +2,17 @@
 
 ## Unreleased
 
+### Move the actual code lines into the cell — November 12, 2026
+
+- Objective: implement the user's literal line-object transformation: each source statement moves independently to construct the cell, then dissolves into the computed physical field. preserve the approved geometric mark.
+- Requirements: independently positioned source-line objects, visible motion into the four actual face locations and cell interior, a continuous cell-to-field handoff, reversible scroll, and static/keyboard reading fallbacks. preserve the original C++ statements and numerical reference calculation.
+- Exclusions: brand changes, fabricated thesis output, deployment, and environment configuration changes.
+- Acceptance: Astro check/build, numerical regression tests, browser checks of source-to-face geometry and independent transforms, assembly/dissolution/reverse-scroll states, mobile/themes/reduced-motion/no-JavaScript views, and an updated video preview.
+- Result: eight independently measured text objects leave the source panel. the four flux statements rotate and compress into their corresponding cell faces, revealing each variable name and computed flux as it arrives; the balance and update statements enter the cell interior. the annotated cell then shrinks into its selected location in the computed field and dissolves before transport advances. reverse scrolling reconstructs the source. the reading control and keyboard focus restore the canonical code and direct line inspection. the approved mark is unchanged.
+- Validation: all seven numerical tests and Astro check/build passed, with zero diagnostics. Chromium checks passed across 14 viewport/theme combinations (12 animated, two compact static), including 72 measured source-to-target pairs and 84 keyboard selections. verified independent transforms, sequential assembly, cell dissolution, source reconstruction, reading controls, wheel resume, resize, reduced-motion changes, no-JavaScript content, source fidelity, project filters, and route smoke checks. additional production-preview checks confirmed the exact first-step canvas scalar, theme persistence, and return from reduced motion on desktop and phone. no uncaught JavaScript errors occurred. recorded a 19-second forward/reverse MP4 preview.
+- Limits: the field remains a labeled reference calculation, not a saved thesis run. browser verification used Chromium. no deployment, push, publication, or environment configuration change was performed.
+- Next action: review the completed line-object motion in the draft preview.
+
 ### Correlate each code line with the domain — November 11, 2026
 
 - Objective: show the physical effect of each displayed statement while keeping the code visible; replace the rejected letter monogram with a small abstract geometric mark selected by the user.

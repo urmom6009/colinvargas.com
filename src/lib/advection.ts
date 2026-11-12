@@ -197,7 +197,8 @@ export function createTransportFrames(
     field = upwindStep(field, config.resolution, config.velocity, dt);
     time = Math.min(time + dt, config.duration);
     step++;
-    if (step % 2 === 0 || time >= config.duration - 1e-12) {
+    // Keep the inspected first update exact when the assembled cell joins the field.
+    if (step === 1 || step % 2 === 0 || time >= config.duration - 1e-12) {
       frames.push({ time, field });
     }
   }

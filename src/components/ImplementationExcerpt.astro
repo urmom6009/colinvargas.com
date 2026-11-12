@@ -32,7 +32,7 @@ const { detailed = false, animate = false } = Astro.props;
     <p class="implementation-summary">
       {
         animate
-          ? "follow each line through one finite-volume cell."
+          ? "the code takes the shape of the cell."
           : "first-order upwind. face fluxes in, updated cell averages out."
       }
     </p>
@@ -43,7 +43,7 @@ const { detailed = false, animate = false } = Astro.props;
         </div>
         <pre
           tabindex="0"
-          aria-label="C++ excerpt from the actual upwind update"><code>{animate ? solverImplementation.code.split("\n").map((line, index, lines) => <><span data-code-key={codeStep(line)}>{line}</span>{index < lines.length - 1 ? "\n" : ""}</>) : solverImplementation.code}</code></pre>
+          aria-label="C++ excerpt from the actual upwind update"><code>{animate ? solverImplementation.code.split("\n").map((line, index, lines) => <><span data-code-line={index} data-code-key={codeStep(line)}>{line}</span>{index < lines.length - 1 ? "\n" : ""}</>) : solverImplementation.code}</code></pre>
       </div>
       {animate && <AdvectionView />}
     </div>
@@ -67,8 +67,21 @@ const { detailed = false, animate = false } = Astro.props;
       {
         animate && (
           <span class="implementation-scroll-hint">
-            scroll or select a code line <span aria-hidden="true">↓</span>
+            scroll to assemble the cell <span aria-hidden="true">↓</span>
           </span>
+        )
+      }
+      {
+        animate && (
+          <button
+            class="motion-read-toggle"
+            type="button"
+            data-motion-read
+            hidden
+            aria-pressed="false"
+          >
+            read code
+          </button>
         )
       }
     </figcaption>

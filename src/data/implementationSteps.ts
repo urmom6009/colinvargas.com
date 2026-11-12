@@ -50,11 +50,11 @@ export function codeStep(line: string): ImplementationStep | undefined {
 }
 
 export function stepForScroll(progress: number): ImplementationStep {
-  if (progress < 0.12) return "Fx_lo";
-  if (progress < 0.24) return "Fx_hi";
-  if (progress < 0.36) return "Fy_lo";
-  if (progress < 0.48) return "Fy_hi";
-  if (progress < 0.64) return "dtdivF";
+  if (progress < 0.36) return "Fx_lo";
+  if (progress < 0.43) return "Fx_hi";
+  if (progress < 0.5) return "Fy_lo";
+  if (progress < 0.57) return "Fy_hi";
+  if (progress < 0.73) return "dtdivF";
   return "new_fab";
 }
 

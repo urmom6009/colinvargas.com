@@ -325,7 +325,7 @@
   margin-top: 5px;
 }
 
-/* The source stays visible. Scroll selects the matching face, then the update. */
+/* One bounded study, with independent source objects and a static reading fallback. */
 .hero-main:has(.implementation-scroll) {
   align-items: start;
 }
@@ -447,6 +447,190 @@
 }
 @media print {
   .implementation-scroll .implementation-scroll-hint {
+    display: none !important;
+  }
+}
+
+/* Each source line is a measured visual object; the canonical code remains accessible. */
+.implementation-stage {
+  position: relative;
+}
+.code-morph-layer {
+  display: none;
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+}
+.code-object {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  color: var(--ink);
+  transform-origin: center;
+  will-change: transform, opacity;
+}
+.code-object[data-active="true"] {
+  color: var(--accent);
+}
+.motion-read-toggle {
+  justify-self: start;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  padding: 4px 0;
+  margin-top: 4px;
+  background: transparent;
+  color: var(--ink);
+  font: 10px/1.5 var(--font-mono);
+}
+.motion-read-toggle:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.morph-interior-targets {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.js
+  .implementation-scroll[data-motion="scroll"]:not([data-inspecting="true"])
+  .implementation-stage {
+  display: grid;
+}
+.js
+  .implementation-scroll[data-motion="scroll"]:not([data-inspecting="true"])
+  .implementation-stage
+  > :not(.code-morph-layer) {
+  grid-area: 1 / 1;
+}
+.js
+  .implementation-scroll[data-motion="scroll"][data-code-objects="ready"]:not(
+    [data-inspecting="true"]
+  )
+  .code-morph-layer {
+  display: block;
+}
+.js
+  .implementation-scroll[data-motion="scroll"][data-code-objects="ready"]:not(
+    [data-inspecting="true"]
+  )
+  .source-fragment
+  pre {
+  opacity: 0;
+  pointer-events: none;
+}
+.js
+  .implementation-scroll[data-motion="scroll"][data-code-objects="ready"]:not(
+    [data-inspecting="true"]
+  )
+  .source-fragment {
+  align-self: start;
+  opacity: var(--source-chrome, 1);
+}
+.js
+  .implementation-scroll[data-motion="scroll"]:not([data-inspecting="true"])
+  .advection-view {
+  margin-top: 0;
+  opacity: var(--physical-reveal, 0);
+}
+.implementation-scroll[data-motion="scroll"]:not([data-inspecting="true"])
+  .implementation-step,
+.implementation-scroll[data-motion="scroll"]:not([data-inspecting="true"])
+  .cell-context,
+.implementation-scroll[data-motion="scroll"]:not([data-inspecting="true"])
+  .cell-calculation,
+.implementation-scroll[data-motion="scroll"]:not([data-inspecting="true"])
+  .advection-case,
+.implementation-scroll[data-motion="scroll"]:not([data-inspecting="true"])
+  .advection-provenance {
+  opacity: var(--cell-details, 0);
+}
+.implementation-scroll[data-motion="scroll"]:not([data-inspecting="true"])
+  .target-cell {
+  opacity: var(--cell-details, 0);
+  stroke: transparent;
+}
+.implementation-scroll[data-motion="scroll"]:not([data-inspecting="true"])
+  .neighbor-cell {
+  opacity: var(--cell-neighbors, 0);
+}
+.implementation-scroll[data-motion="scroll"]:not([data-inspecting="true"])
+  .cell-face {
+  opacity: calc(var(--face-formed, 0) * 0.48);
+}
+.implementation-scroll[data-motion="scroll"]:not([data-inspecting="true"])
+  .cell-face[data-active="true"] {
+  opacity: var(--face-formed, 0);
+}
+.implementation-scroll[data-motion="scroll"]:not([data-inspecting="true"])
+  .cell-face-edge {
+  stroke-dasharray: var(--cell-dashes, none);
+}
+.implementation-scroll[data-motion="scroll"]:not([data-inspecting="true"])
+  .cell-flux-arrow,
+.implementation-scroll[data-motion="scroll"]:not([data-inspecting="true"])
+  .cell-old-state,
+.implementation-scroll[data-motion="scroll"]:not([data-inspecting="true"])
+  .cell-new-state {
+  opacity: var(--cell-details, 0);
+}
+.implementation-scroll[data-motion="scroll"]:not([data-inspecting="true"])
+  .cell-face
+  text {
+  opacity: 1;
+}
+.js
+  .implementation-scroll[data-motion="scroll"]:not([data-inspecting="true"])
+  .cell-flux-view {
+  visibility: visible;
+  opacity: var(--cell-opacity, 1);
+  pointer-events: none;
+}
+.js
+  .implementation-scroll[data-motion="scroll"]:not([data-inspecting="true"])
+  .advection-global {
+  visibility: visible;
+  opacity: var(--field-opacity, 0);
+  pointer-events: none;
+}
+.implementation-scroll[data-inspecting="true"] .cell-flux-view {
+  transform: none !important;
+}
+.implementation-scroll[data-motion="static"] .cell-flux-view {
+  transform: none !important;
+}
+
+@media (prefers-reduced-motion: reduce), print {
+  .code-morph-layer {
+    display: none !important;
+  }
+  .js .implementation-scroll .implementation-stage {
+    display: block !important;
+  }
+  .js .implementation-scroll .source-fragment,
+  .js .implementation-scroll .source-fragment pre,
+  .js .implementation-scroll .advection-view,
+  .js .implementation-scroll .cell-flux-view {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .js .implementation-scroll .cell-context,
+  .js .implementation-scroll .cell-calculation,
+  .js .implementation-scroll .implementation-step,
+  .js .implementation-scroll .advection-case,
+  .js .implementation-scroll .advection-provenance,
+  .js .implementation-scroll .neighbor-cell,
+  .js .implementation-scroll .target-cell,
+  .js .implementation-scroll .cell-face,
+  .js .implementation-scroll .cell-face text,
+  .js .implementation-scroll .cell-flux-arrow,
+  .js .implementation-scroll .cell-old-state,
+  .js .implementation-scroll .cell-new-state {
+    opacity: 1 !important;
+  }
+  .motion-read-toggle {
     display: none !important;
   }
 }

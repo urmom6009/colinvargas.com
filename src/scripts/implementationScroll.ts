@@ -15,6 +15,8 @@ import {
   type ImplementationStep,
 } from "../data/implementationSteps";
 
+import { createCodeMorph } from "./codeMorph";
+
 const clamp = (value: number) => Math.max(0, Math.min(1, value));
 const ramp = (start: number, end: number, value: number) => {
   const t = clamp((value - start) / (end - start));
@@ -52,6 +54,16 @@ export function enhanceImplementationStudies() {
         button: HTMLButtonElement;
       }[] = [];
       let manualStep: ImplementationStep | undefined;
+      const readToggle =
+        track.querySelector<HTMLButtonElement>("[data-motion-read]");
+      const setReading = (reading: boolean) => {
+        if (reading && track.dataset.motion === "scroll")
+          track.dataset.inspecting = "true";
+        else delete track.dataset.inspecting;
+        readToggle?.setAttribute("aria-pressed", String(reading));
+        if (readToggle)
+          readToggle.textContent = reading ? "return to motion" : "read code";
+      };
       const write = (selector: string, text: string) => {
         const node = track.querySelector<HTMLElement>(selector);
         if (node) node.textContent = text;
@@ -106,6 +118,7 @@ export function enhanceImplementationStudies() {
         );
         const inspect = () => {
           manualStep = key;
+          setReading(true);
           showStep(key);
         };
         button.addEventListener("focus", inspect);
@@ -114,6 +127,23 @@ export function enhanceImplementationStudies() {
         lineButtons.push({ key, button });
       });
       track.dataset.codeControls = "ready";
+      const morph = createCodeMorph(track, figure);
+      const inspectCurrent = () => {
+        manualStep =
+          (track.dataset.activeLine as ImplementationStep) || "new_fab";
+        setReading(true);
+        showStep(manualStep);
+      };
+      track
+        .querySelector(".source-fragment pre")
+        ?.addEventListener("focus", inspectCurrent);
+      readToggle?.addEventListener("click", () => {
+        if (track.dataset.inspecting === "true") {
+          manualStep = undefined;
+          setReading(false);
+          requestUpdate();
+        } else inspectCurrent();
+      });
       let frames: TransportFrame[] | undefined;
       let start = 0;
       let distance = 0;
@@ -129,7 +159,9 @@ export function enhanceImplementationStudies() {
       };
       const draw = (fraction: number) => {
         if (!frames) return;
-        const time = clamp(fraction) * referenceCase.duration;
+        const time =
+          referenceCell.dt +
+          clamp(fraction) * (referenceCase.duration - referenceCell.dt);
         if (time === currentTime) return;
         currentTime = time;
         // Interpolate only between computed finite-volume states, never between invented shapes.
@@ -168,7 +200,8 @@ export function enhanceImplementationStudies() {
         }
         const running = progress >= 0.82;
         showStep(stepForScroll(progress), running);
-        draw(ramp(0.82, 1, progress));
+        morph?.render(progress, stepForScroll(progress));
+        draw(ramp(0.9, 1, progress));
       };
       const requestUpdate = () => {
         if (queued || track.dataset.motion !== "scroll") return;
@@ -182,6 +215,9 @@ export function enhanceImplementationStudies() {
         const showStatic = () => {
           track.dataset.motion = "static";
           manualStep = undefined;
+          setReading(false);
+          if (readToggle) readToggle.hidden = true;
+          track.dataset.morphPhase = "static";
           showStep("new_fab");
           write(".implementation-scroll-hint", "select a code line to inspect");
           track.style.removeProperty("--study-height");
@@ -192,24 +228,30 @@ export function enhanceImplementationStudies() {
           showStatic();
           return;
         }
+        const reading = track.dataset.inspecting === "true";
+        setReading(false);
         track.dataset.motion = "scroll";
-        write(".implementation-scroll-hint", "scroll or select a code line ↓");
+        if (readToggle) readToggle.hidden = false;
+        write(".implementation-scroll-hint", "scroll to assemble the cell ↓");
+        morph?.measure();
         const height = figure.getBoundingClientRect().height;
         if (height + top + 24 > window.innerHeight) {
           showStatic();
           return;
         }
         frames ??= createTransportFrames();
-        distance = Math.max(320, Math.min(620, window.innerHeight * 0.65));
+        distance = Math.max(580, Math.min(900, window.innerHeight * 0.9));
         track.style.setProperty("--study-height", `${height + distance}px`);
         start = track.getBoundingClientRect().top + window.scrollY - top;
         readColor();
         update();
+        if (reading) setReading(true);
       };
 
       window.addEventListener("scroll", requestUpdate, { passive: true });
       const resumeScroll = () => {
         manualStep = undefined;
+        setReading(false);
         requestUpdate();
       };
       window.addEventListener("wheel", resumeScroll, { passive: true });
@@ -233,7 +275,7 @@ export function enhanceImplementationStudies() {
       motion.addEventListener("change", measure);
       const observer = new MutationObserver(() => {
         readColor();
-        if (track.dataset.motion === "scroll") draw(ramp(0.82, 1, progress));
+        if (track.dataset.motion === "scroll") draw(ramp(0.9, 1, progress));
       });
       observer.observe(document.documentElement, {
         attributes: true,

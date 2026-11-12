@@ -56,7 +56,7 @@ The aerospace layer supplies the content: equations, solver states, verification
 ## motion
 
 - Keep all information visible without requiring a scroll animation.
-- Use small color changes and arrow motion for links. detailed project excerpts stay still. in the homepage study, keep the code visible and highlight each statement together with the corresponding cell face, balance, or scalar update. show actual computed values alongside the matching variable names. reserve whole-field transport for the final repeated-update stage.
+- Use small color changes and arrow motion for links. detailed project excerpts stay still. in the homepage study, move each source line as its own object: flux statements form their actual cell faces, and balance/update statements enter the cell interior. dissolve the assembled cell into its position in the computed field before transport begins. show actual computed values alongside matching variable names, and let reverse scrolling reconstruct the code.
 - Avoid blur-heavy reveals, hover lifts, and sticky scenes that stretch a short page over several viewports.
 - Preserve reduced-motion behavior and visible keyboard focus.
-- With reduced motion or without JavaScript, show the code, annotated cell, and computed final field in normal flow. use the same static layout when the study cannot fit the viewport. native code-line buttons provide keyboard and pointer inspection when JavaScript is available; scroll is optional.
+- With reduced motion or without JavaScript, show the code, annotated cell, and computed final field in normal flow. use the same static layout when the study cannot fit the viewport. the animated copies are inert and hidden from assistive technology; retain the canonical code and expose it through the reading control and keyboard focus. native code-line buttons provide keyboard and pointer inspection when JavaScript is available; scroll is optional.
