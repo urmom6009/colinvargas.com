@@ -1,8 +1,23 @@
 ---
 import { createTransportFrames, referenceCase } from "../lib/advection";
+import CellFluxView from "./CellFluxView.astro";
+import {
+  implementationSteps,
+  scalarLabel,
+  stepValue,
+} from "../data/implementationSteps";
+import { inspectCell, referenceCell } from "../lib/advection";
 const frames = createTransportFrames();
 const final = frames[frames.length - 1];
 const n = referenceCase.resolution;
+const budget = inspectCell(
+  frames[0].field,
+  n,
+  referenceCase.velocity,
+  referenceCell.dt,
+  referenceCell.i,
+  referenceCell.j,
+);
 const cells = Array.from(final.field, (value, index) => ({
   x: index % n,
   y: n - 1 - Math.floor(index / n),
@@ -11,65 +26,90 @@ const cells = Array.from(final.field, (value, index) => ({
 ---
 
 <div class="advection-view" data-advection-view>
-  <div class="advection-view-heading">
-    <h3>the same update, in space.</h3><span>φ / transported scalar</span>
-  </div>
-  <div
-    class="advection-body"
-    role="img"
-    aria-label="A computed Gaussian scalar profile transported to the right on a 64 by 64 periodic grid, with numerical diffusion from first-order upwind."
-  >
-    <div class="advection-domain">
-      <div class="advection-field">
-        <svg
-          viewBox={`0 0 ${n} ${n}`}
-          aria-hidden="true"
-          class="advection-static"
-          shape-rendering="crispEdges"
-        >
-          {
-            cells.map((cell) => (
-              <rect
-                x={cell.x}
-                y={cell.y}
-                width="1"
-                height="1"
-                fill="currentColor"
-                fill-opacity={cell.value.toFixed(4)}
-              />
-            ))
-          }
-        </svg>
-        <canvas width={n} height={n} data-advection-canvas aria-hidden="true"
-        ></canvas>
-      </div>
-      <span class="axis-y">y</span><span class="axis-origin">0</span><span
-        class="axis-end">1 / x</span
+  <div class="implementation-step" aria-live="off">
+    <div>
+      <span class="step-number" data-step-number>06 / 07</span><h3
+        data-step-title
+      >
+        {implementationSteps[5].title}
+      </h3><span class="step-value" data-step-value
+        >φ new ≈ {scalarLabel(stepValue("new_fab", budget))}</span
       >
     </div>
-    <div class="advection-description">
-      <span class="eyebrow">prescribed velocity</span>
-      <strong>u = (1, 0)</strong>
-      <svg class="advection-direction" viewBox="0 0 100 14" aria-hidden="true"
-        ><path
-          d="M1 7 H96 M90 2 L96 7 L90 12"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="1"></path></svg
+    <p id="implementation-step-description" data-step-description>
+      {implementationSteps[5].explanation}
+    </p>
+  </div>
+  <div class="physical-stage">
+    <CellFluxView initial={frames[0]} />
+    <div class="advection-global" data-global-view>
+      <div class="advection-view-heading">
+        <h3>repeat across the grid.</h3><span>64 × 64 cell averages / φ</span>
+      </div>
+      <div
+        class="advection-body"
+        role="img"
+        aria-label="A computed Gaussian scalar profile transported right and upward on a 64 by 64 periodic grid, with numerical diffusion from first-order upwind."
       >
-      <p>the profile moves right. its spread comes from numerical diffusion.</p>
-      <span class="eyebrow">reference time</span>
-      <span class="advection-time"
-        >t = <span data-reference-time>{final.time.toFixed(3)}</span></span
-      >
+        <div class="advection-domain">
+          <div class="advection-field">
+            <svg
+              viewBox={`0 0 ${n} ${n}`}
+              aria-hidden="true"
+              class="advection-static"
+              shape-rendering="crispEdges"
+            >
+              {
+                cells.map((cell) => (
+                  <rect
+                    x={cell.x}
+                    y={cell.y}
+                    width="1"
+                    height="1"
+                    fill="currentColor"
+                    fill-opacity={cell.value.toFixed(4)}
+                  />
+                ))
+              }
+            </svg>
+            <canvas
+              width={n}
+              height={n}
+              data-advection-canvas
+              aria-hidden="true"></canvas>
+          </div>
+          <span class="axis-y">y</span><span class="axis-origin">0</span><span
+            class="axis-end">1 / x</span
+          >
+        </div>
+        <div class="advection-description">
+          <span class="eyebrow">prescribed velocity</span>
+          <strong>u = ({referenceCase.velocity.join(", ")})</strong>
+          <svg
+            class="advection-direction"
+            viewBox="0 0 100 50"
+            aria-hidden="true"
+            ><path
+              d="M4 45 L84 5 M74 5 L84 5 L78 14"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1"></path></svg
+          >
+          <p>the same face balance updates every cell, at every timestep.</p>
+          <span class="eyebrow">reference time</span>
+          <span class="advection-time"
+            >t = <span data-reference-time>{final.time.toFixed(3)}</span></span
+          >
+        </div>
+      </div>
     </div>
   </div>
   <div class="advection-case">
-    <span>{n} × {n} / periodic / cfl {referenceCase.cfl}</span><span
-      >unit square · dimensionless</span>
+    <span>{n}² / periodic / cfl {referenceCase.cfl}</span><span
+      >u = ({referenceCase.velocity.join(", ")})</span
+    >
   </div>
   <p class="advection-provenance">
-    reference calculation of the displayed update · illustrative initial
-    condition
+    reference calculation · illustrative Gaussian
   </p>
 </div>

@@ -1,0 +1,136 @@
+---
+import {
+  inspectCell,
+  referenceCase,
+  referenceCell,
+  type TransportFrame,
+} from "../lib/advection";
+import { scalarLabel } from "../data/implementationSteps";
+interface Props {
+  initial: TransportFrame;
+}
+const { initial } = Astro.props;
+const n = referenceCase.resolution;
+const budget = inspectCell(
+  initial.field,
+  n,
+  referenceCase.velocity,
+  referenceCell.dt,
+  referenceCell.i,
+  referenceCell.j,
+);
+const neighbors = [-1, 0, 1].flatMap((dy) =>
+  [-1, 0, 1].map((dx) => ({
+    x: 210 + dx * 100,
+    y: 60 - dy * 100,
+    value:
+      initial.field[
+        ((referenceCell.j + dy + n) % n) * n + ((referenceCell.i + dx + n) % n)
+      ],
+  })),
+);
+---
+
+<div class="cell-flux-view" data-cell-view>
+  <div class="cell-context">
+    <span>cell ({referenceCell.i}, {referenceCell.j}) · one step at t = 0</span
+    ><span>Δt = {referenceCell.dt.toFixed(6)}</span>
+  </div>
+  <svg
+    id="upwind-cell-diagram"
+    class="cell-flux-diagram"
+    viewBox="0 0 520 220"
+    role="img"
+    aria-label="The selected cell receives flux through its left and bottom faces and loses flux through its right and top faces. Net inflow increases its scalar average."
+  >
+    <defs
+      ><clipPath id="cell-neighborhood-clip"
+        ><rect x="110" y="0" width="300" height="220"></rect></clipPath
+      ></defs
+    >
+    <g clip-path="url(#cell-neighborhood-clip)" aria-hidden="true">
+      {
+        neighbors.map((cell) => (
+          <rect
+            x={cell.x}
+            y={cell.y}
+            width="100"
+            height="100"
+            class="neighbor-cell"
+            fill-opacity={(cell.value * 0.13).toFixed(4)}
+          />
+        ))
+      }
+    </g>
+    <rect class="target-cell" x="210" y="60" width="100" height="100"></rect>
+    <g class="cell-face" data-active="true" data-face="Fx_lo">
+      <path class="cell-face-edge" d="M210 60 V160"></path>
+      <path class="cell-flux-arrow" d="M166 110 H220 M212 103 L220 110 L212 117"
+      ></path>
+      <text x="98" y="99" text-anchor="end" class="flux-name">Fx_lo</text>
+      <text
+        x="98"
+        y="119"
+        text-anchor="end"
+        class="flux-value"
+        data-value={budget.Fx_lo}>{scalarLabel(budget.Fx_lo)}</text
+      >
+    </g>
+    <g class="cell-face" data-active="true" data-face="Fx_hi">
+      <path class="cell-face-edge" d="M310 60 V160"></path>
+      <path class="cell-flux-arrow" d="M300 110 H354 M346 103 L354 110 L346 117"
+      ></path>
+      <text x="422" y="99" class="flux-name">Fx_hi</text>
+      <text x="422" y="119" class="flux-value" data-value={budget.Fx_hi}
+        >{scalarLabel(budget.Fx_hi)}</text
+      >
+    </g>
+    <g class="cell-face" data-active="true" data-face="Fy_lo">
+      <path class="cell-face-edge" d="M210 160 H310"></path>
+      <path class="cell-flux-arrow" d="M260 204 V150 M253 158 L260 150 L267 158"
+      ></path>
+      <text x="329" y="184" class="flux-name">Fy_lo</text>
+      <text x="329" y="204" class="flux-value" data-value={budget.Fy_lo}
+        >{scalarLabel(budget.Fy_lo)}</text
+      >
+    </g>
+    <g class="cell-face" data-active="true" data-face="Fy_hi">
+      <path class="cell-face-edge" d="M210 60 H310"></path>
+      <path class="cell-flux-arrow" d="M260 70 V16 M253 24 L260 16 L267 24"
+      ></path>
+      <text x="329" y="23" class="flux-name">Fy_hi</text>
+      <text x="329" y="43" class="flux-value" data-value={budget.Fy_hi}
+        >{scalarLabel(budget.Fy_hi)}</text
+      >
+    </g>
+    <g class="cell-old-state"
+      ><text x="260" y="95" text-anchor="middle">φ old</text><text
+        class="cell-scalar"
+        x="260"
+        y="117"
+        text-anchor="middle"
+        data-cell-old
+        data-value={budget.phiC}>{scalarLabel(budget.phiC)}</text
+      ></g
+    >
+    <g class="cell-new-state"
+      ><text x="260" y="84" text-anchor="middle"
+        >φ old {scalarLabel(budget.phiC)}</text
+      ><text
+        x="260"
+        y="112"
+        class="cell-scalar"
+        text-anchor="middle"
+        data-cell-new
+        data-value={budget.nextPhi}>{scalarLabel(budget.nextPhi)}</text
+      ><text x="260" y="135" text-anchor="middle">φ new</text></g
+    >
+  </svg>
+  <div class="cell-calculation">
+    <span>φ new = φ old − dtdivF</span><span data-cell-equation
+      >{scalarLabel(budget.nextPhi)} ≈ {scalarLabel(budget.phiC)} − ({
+        scalarLabel(budget.dtdivF)
+      })</span
+    >
+  </div>
+</div>

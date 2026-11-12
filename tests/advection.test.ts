@@ -5,6 +5,8 @@ import {
   gaussianField,
   referenceCase,
   upwindStep,
+  inspectCell,
+  referenceCell,
 } from "../src/lib/advection.ts";
 
 test("the finite-volume update preserves a uniform scalar for either velocity sign", () => {
@@ -73,6 +75,13 @@ test("the reference case transports the peak, conserves mass, and stays bounded"
     ) < 0.04,
   );
   assert.ok(
+    Math.abs(
+      (Math.floor(peak / referenceCase.resolution) + 0.5) /
+        referenceCase.resolution -
+        0.75,
+    ) < 0.04,
+  );
+  assert.ok(
     Math.max(...last.field) < maximum,
     "first-order upwind should show numerical diffusion",
   );
@@ -90,4 +99,42 @@ test("invalid grids and unstable timesteps are rejected", () => {
     () => createTransportFrames({ ...referenceCase, duration: Infinity }),
     /duration/,
   );
+});
+
+test("every inspected flux budget reproduces the field kernel for both velocity signs", () => {
+  const n = 8;
+  const field = Float64Array.from(
+    { length: n * n },
+    (_, index) => Math.sin(index * 0.37) + 1.2,
+  );
+  for (const velocity of [
+    [1, 0.5],
+    [-0.5, 0.75],
+    [-1, -0.5],
+    [0, 0],
+  ] as const) {
+    const next = upwindStep(field, n, velocity, 0.02);
+    for (let j = 0; j < n; j++)
+      for (let i = 0; i < n; i++) {
+        const budget = inspectCell(field, n, velocity, 0.02, i, j);
+        assert.ok(Math.abs(budget.nextPhi - next[j * n + i]) < 1e-14);
+        assert.ok(
+          Math.abs(budget.dtdivF - budget.xChange - budget.yChange) < 1e-14,
+        );
+      }
+  }
+});
+
+test("the visible reference cell has nonzero fluxes on both axes and gains scalar", () => {
+  const budget = inspectCell(
+    gaussianField(referenceCase.resolution),
+    referenceCase.resolution,
+    referenceCase.velocity,
+    referenceCell.dt,
+    referenceCell.i,
+    referenceCell.j,
+  );
+  assert.ok(budget.Fx_lo > budget.Fx_hi && budget.Fy_lo > budget.Fy_hi);
+  assert.ok(budget.Fy_hi > 0 && budget.dtdivF < 0);
+  assert.ok(budget.nextPhi > budget.phiC);
 });

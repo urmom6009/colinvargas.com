@@ -2,6 +2,7 @@
 import { solverImplementation } from "../data/solverImplementation";
 import "../styles/implementation-study.css";
 import AdvectionView from "./AdvectionView.astro";
+import { codeStep } from "../data/implementationSteps";
 interface Props {
   detailed?: boolean;
   animate?: boolean;
@@ -15,6 +16,7 @@ const { detailed = false, animate = false } = Astro.props;
     { "implementation-scroll": animate },
   ]}
   data-implementation-track={animate ? "" : undefined}
+  data-active-line={animate ? "new_fab" : undefined}
 >
   <figure
     id={detailed ? "implementation" : undefined}
@@ -28,7 +30,11 @@ const { detailed = false, animate = false } = Astro.props;
     </div>
     <h2>the advection baseline.</h2>
     <p class="implementation-summary">
-      first-order upwind. face fluxes in, updated cell averages out.
+      {
+        animate
+          ? "follow each line through one finite-volume cell."
+          : "first-order upwind. face fluxes in, updated cell averages out."
+      }
     </p>
     <div class="implementation-stage">
       <div class="source-fragment" data-source-pane>
@@ -37,11 +43,16 @@ const { detailed = false, animate = false } = Astro.props;
         </div>
         <pre
           tabindex="0"
-          aria-label="C++ excerpt from the actual upwind update"><code>{solverImplementation.code}</code></pre>
+          aria-label="C++ excerpt from the actual upwind update"><code>{animate ? solverImplementation.code.split("\n").map((line, index, lines) => <><span data-code-key={codeStep(line)}>{line}</span>{index < lines.length - 1 ? "\n" : ""}</>) : solverImplementation.code}</code></pre>
       </div>
       {animate && <AdvectionView />}
     </div>
-    <dl class="implementation-facts">
+    <dl
+      class:list={[
+        "implementation-facts",
+        { "implementation-facts-static": animate },
+      ]}
+    >
       <div><dt>domain</dt><dd>2d · periodic</dd></div><div>
         <dt>current solver</dt><dd>single-level</dd>
       </div>
@@ -56,7 +67,7 @@ const { detailed = false, animate = false } = Astro.props;
       {
         animate && (
           <span class="implementation-scroll-hint">
-            scroll to follow the update <span aria-hidden="true">↓</span>
+            scroll or select a code line <span aria-hidden="true">↓</span>
           </span>
         )
       }

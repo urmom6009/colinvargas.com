@@ -1,8 +1,19 @@
 import {
   createTransportFrames,
   referenceCase,
+  referenceCell,
+  gaussianField,
+  inspectCell,
   type TransportFrame,
 } from "../lib/advection";
+
+import {
+  implementationSteps,
+  scalarLabel,
+  stepForScroll,
+  stepValue,
+  type ImplementationStep,
+} from "../data/implementationSteps";
 
 const clamp = (value: number) => Math.max(0, Math.min(1, value));
 const ramp = (start: number, end: number, value: number) => {
@@ -14,6 +25,7 @@ export function enhanceImplementationStudies() {
   document
     .querySelectorAll<HTMLElement>("[data-implementation-track]")
     .forEach((track) => {
+      if (track.dataset.codeControls === "ready") return;
       const figure = track.querySelector<HTMLElement>(
         ".implementation-feature",
       );
@@ -27,7 +39,81 @@ export function enhanceImplementationStudies() {
       const timeLabel = track.querySelector<HTMLElement>(
         "[data-reference-time]",
       );
-      const code = track.querySelector<HTMLElement>(".source-fragment pre");
+      const budget = inspectCell(
+        gaussianField(referenceCase.resolution),
+        referenceCase.resolution,
+        referenceCase.velocity,
+        referenceCell.dt,
+        referenceCell.i,
+        referenceCell.j,
+      );
+      const lineButtons: {
+        key: ImplementationStep;
+        button: HTMLButtonElement;
+      }[] = [];
+      let manualStep: ImplementationStep | undefined;
+      const write = (selector: string, text: string) => {
+        const node = track.querySelector<HTMLElement>(selector);
+        if (node) node.textContent = text;
+      };
+      const showStep = (key: ImplementationStep, running = false) => {
+        const index = implementationSteps.findIndex((step) => step.key === key);
+        const step = implementationSteps[index];
+        track.dataset.activeLine = key;
+        track.dataset.view = running ? "global" : "cell";
+        track.querySelectorAll<SVGGElement>("[data-face]").forEach((face) => {
+          face.dataset.active = String(
+            step.face === "all" || face.dataset.face === step.face,
+          );
+        });
+        lineButtons.forEach(({ key: lineKey, button }) =>
+          button.setAttribute("aria-pressed", String(lineKey === key)),
+        );
+        write(
+          "[data-step-number]",
+          `${String(running ? 7 : index + 1).padStart(2, "0")} / 07`,
+        );
+        write(
+          "[data-step-title]",
+          running ? "repeat the update across the grid" : step.title,
+        );
+        write(
+          "[data-step-description]",
+          running
+            ? "the same six statements advance every cell, timestep after timestep."
+            : step.explanation,
+        );
+        write(
+          "[data-step-value]",
+          running
+            ? "64 × 64 cells"
+            : `${key === "new_fab" ? "φ new" : key} ≈ ${scalarLabel(stepValue(key, budget))}`,
+        );
+      };
+      track.querySelectorAll<HTMLElement>("[data-code-key]").forEach((line) => {
+        const key = line.dataset.codeKey as ImplementationStep;
+        const step = implementationSteps.find((item) => item.key === key);
+        if (!step) return;
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "code-line-control";
+        button.textContent = line.textContent;
+        button.title = `inspect ${step.title}`;
+        button.setAttribute("aria-controls", "upwind-cell-diagram");
+        button.setAttribute(
+          "aria-describedby",
+          "implementation-step-description",
+        );
+        const inspect = () => {
+          manualStep = key;
+          showStep(key);
+        };
+        button.addEventListener("focus", inspect);
+        button.addEventListener("click", inspect);
+        line.replaceChildren(button);
+        lineButtons.push({ key, button });
+      });
+      track.dataset.codeControls = "ready";
       let frames: TransportFrame[] | undefined;
       let start = 0;
       let distance = 0;
@@ -74,17 +160,15 @@ export function enhanceImplementationStudies() {
         queued = false;
         if (track.dataset.motion !== "scroll") return;
         progress = clamp((window.scrollY - start) / distance);
-        const reveal = ramp(0.15, 0.42, progress);
-        figure.style.setProperty(
-          "--source-opacity",
-          String(1 - ramp(0.06, 0.35, progress)),
-        );
-        figure.style.setProperty("--field-opacity", String(reveal));
-        figure.style.setProperty("--source-offset", `${-14 * reveal}px`);
-        figure.style.setProperty("--field-offset", `${18 * (1 - reveal)}px`);
-        track.dataset.phase =
-          progress < 0.18 ? "code" : progress < 0.42 ? "transition" : "field";
-        draw(ramp(0.35, 0.97, progress));
+        // Focusing an offscreen code line can scroll the browser automatically.
+        // Keep that deliberate selection until the reader actually scrolls.
+        if (manualStep) {
+          showStep(manualStep);
+          return;
+        }
+        const running = progress >= 0.82;
+        showStep(stepForScroll(progress), running);
+        draw(ramp(0.82, 1, progress));
       };
       const requestUpdate = () => {
         if (queued || track.dataset.motion !== "scroll") return;
@@ -97,8 +181,9 @@ export function enhanceImplementationStudies() {
         track.style.setProperty("--study-top", `${top}px`);
         const showStatic = () => {
           track.dataset.motion = "static";
-          delete track.dataset.phase;
-          delete figure.dataset.sourceFocused;
+          manualStep = undefined;
+          showStep("new_fab");
+          write(".implementation-scroll-hint", "select a code line to inspect");
           track.style.removeProperty("--study-height");
           if (frames) draw(1);
         };
@@ -108,6 +193,7 @@ export function enhanceImplementationStudies() {
           return;
         }
         track.dataset.motion = "scroll";
+        write(".implementation-scroll-hint", "scroll or select a code line ↓");
         const height = figure.getBoundingClientRect().height;
         if (height + top + 24 > window.innerHeight) {
           showStatic();
@@ -119,24 +205,35 @@ export function enhanceImplementationStudies() {
         start = track.getBoundingClientRect().top + window.scrollY - top;
         readColor();
         update();
-        if (document.activeElement === code)
-          figure.dataset.sourceFocused = "true";
       };
 
-      // Keep the source readable when tabbing to it, even after the field is revealed.
-      code?.addEventListener("focus", () => {
-        if (track.dataset.motion === "scroll")
-          figure.dataset.sourceFocused = "true";
-      });
-      code?.addEventListener("blur", () => {
-        delete figure.dataset.sourceFocused;
-      });
       window.addEventListener("scroll", requestUpdate, { passive: true });
+      const resumeScroll = () => {
+        manualStep = undefined;
+        requestUpdate();
+      };
+      window.addEventListener("wheel", resumeScroll, { passive: true });
+      window.addEventListener("touchmove", resumeScroll, { passive: true });
+      window.addEventListener("keydown", (event) => {
+        const target = event.target instanceof Element ? event.target : null;
+        if (
+          [
+            "PageUp",
+            "PageDown",
+            "ArrowUp",
+            "ArrowDown",
+            "Home",
+            "End",
+          ].includes(event.key) ||
+          (event.key === " " && !target?.closest(".code-line-control"))
+        )
+          resumeScroll();
+      });
       window.addEventListener("resize", measure, { passive: true });
       motion.addEventListener("change", measure);
       const observer = new MutationObserver(() => {
         readColor();
-        if (track.dataset.motion === "scroll") draw(ramp(0.35, 0.97, progress));
+        if (track.dataset.motion === "scroll") draw(ramp(0.82, 1, progress));
       });
       observer.observe(document.documentElement, {
         attributes: true,

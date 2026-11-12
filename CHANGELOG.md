@@ -2,6 +2,18 @@
 
 ## Unreleased
 
+### Correlate each code line with the domain — November 11, 2026
+
+- Objective: show the physical effect of each displayed statement while keeping the code visible; replace the rejected letter monogram with a small abstract geometric mark selected by the user.
+- Requirements: matching highlights for four face fluxes, their divergence, and the cell update; actual values from the reference calculation; reversible scroll and keyboard inspection; readable reduced-motion/no-JavaScript views; coherent header/favicon geometry.
+- Decisions: use a two-component prescribed velocity so both x and y fluxes contribute. explain one cell and one timestep before repeating the update across the reference grid. retain the source excerpt and its revision unchanged.
+- Exclusions: fabricated thesis results, deployment, and environment configuration changes.
+- Acceptance: numerical checks that the inspected values reproduce the field update; Astro check/build; browser checks of all six code/face relationships, forward/reverse scrolling, line selection, themes, compact/reduced-motion/no-JavaScript views, and the new mark.
+- Result: the code remains visible while each flux statement highlights its matching cell face and computed value. the balance statement emphasizes all four faces; the update statement shows the old/new cell average and the numerical subtraction. the final stage repeats the update across the reference grid. native code-line buttons support direct inspection, including offscreen keyboard focus. replaced the letter monogram with two small offset geometric planes and matching favicon.
+- Validation: seven numerical tests passed, including per-cell agreement between the displayed budget and the field kernel for both velocity signs. Astro check/build passed with zero errors, warnings, or hints. browser checks passed across 14 viewport/theme combinations, including 60 scroll-stage pairings, 84 keyboard selections, reverse scrolling, live reduced-motion changes, compact/no-JavaScript views, source fidelity, filters, and matching icon paths. verified that focusing an offscreen line retains its selection and that a wheel gesture resumes scrolling. no uncaught JavaScript errors occurred. recorded an MP4 with a pause on each statement.
+- Limits: all shown values and fields are from the labeled reference calculation, not a saved thesis run. no deployment, push, publication, or environment configuration change was performed.
+- Next action: review the revised line-to-domain motion and abstract mark.
+
 ### Monogram and code-to-physics scroll study — November 11, 2026
 
 - Objective: refine the top-left logo and let the code excerpt transition into its physical meaning as the reader scrolls, retaining the approved restrained portfolio style.

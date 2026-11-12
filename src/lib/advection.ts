@@ -11,7 +11,7 @@ export interface TransportCase {
 
 export const referenceCase: TransportCase = {
   resolution: 64,
-  velocity: [1, 0],
+  velocity: [1, 0.5],
   cfl: 0.3,
   duration: 0.5,
 };
@@ -19,6 +19,83 @@ export const referenceCase: TransportCase = {
 export interface TransportFrame {
   time: number;
   field: Float64Array;
+}
+
+export interface CellBudget {
+  phiC: number;
+  Fx_lo: number;
+  Fx_hi: number;
+  Fy_lo: number;
+  Fy_hi: number;
+  xChange: number;
+  yChange: number;
+  dtdivF: number;
+  nextPhi: number;
+}
+
+export const referenceCell = {
+  i: 21,
+  j: 35,
+  dt:
+    referenceCase.cfl /
+    (referenceCase.resolution *
+      referenceCase.velocity.reduce((sum, v) => sum + Math.abs(v), 0)),
+};
+
+/** Inspect one cell using the same old-state face selection as upwindStep. */
+export function inspectCell(
+  previous: Float64Array,
+  resolution: number,
+  velocity: readonly [number, number],
+  dt: number,
+  i: number,
+  j: number,
+): CellBudget {
+  if (
+    !Number.isInteger(resolution) ||
+    resolution < 2 ||
+    previous.length !== resolution * resolution ||
+    !Number.isInteger(i) ||
+    !Number.isInteger(j) ||
+    i < 0 ||
+    i >= resolution ||
+    j < 0 ||
+    j >= resolution
+  ) {
+    throw new RangeError("The inspected cell must be inside the square grid.");
+  }
+  const [velx, vely] = velocity;
+  if (
+    ![velx, vely, dt].every(Number.isFinite) ||
+    dt < 0 ||
+    dt * resolution * (Math.abs(velx) + Math.abs(vely)) > 1 + 1e-12
+  ) {
+    throw new RangeError("Use a finite, stable CFL timestep.");
+  }
+  const at = (x: number, y: number) =>
+    previous[
+      ((y + resolution) % resolution) * resolution +
+        ((x + resolution) % resolution)
+    ];
+  const phiC = at(i, j);
+  const Fx_lo = velx * (velx >= 0 ? at(i - 1, j) : phiC);
+  const Fx_hi = velx * (velx >= 0 ? phiC : at(i + 1, j));
+  const Fy_lo = vely * (vely >= 0 ? at(i, j - 1) : phiC);
+  const Fy_hi = vely * (vely >= 0 ? phiC : at(i, j + 1));
+  const xChange = dt * resolution * (Fx_hi - Fx_lo);
+  const yChange = dt * resolution * (Fy_hi - Fy_lo);
+  const dtdivF = xChange + yChange;
+  return {
+    phiC,
+    Fx_lo,
+    Fx_hi,
+    Fy_lo,
+    Fy_hi,
+    xChange,
+    yChange,
+    dtdivF,
+    nextPhi: phiC - dtdivF,
+  };
 }
 
 export function gaussianField(resolution: number): Float64Array {
