@@ -35,6 +35,18 @@ astro portfolio site for `colinvargas.com`.
 - validation: seven numerical tests and Astro check/build passed with zero diagnostics. browser checks found no horizontal overflow at 320–1800px or on representative secondary pages at 320px. the study uses static mode on narrow, short, reduced-motion, or code-wrapping views; forward and reverse scroll still work when the source fits. code-line selection, project filtering, and theme persistence passed.
 - next action: review the readability preview and publish the focused change.
 
+## implementation study pacing / november 12, 2026
+
+- objective: reveal the annotated cell grid before any source line moves and retain a readable record of each completed update step through the final field.
+- source: the owner's request to make the grid appear first and keep each step visible rather than transient; the existing pinned source excerpt and computed reference case remain authoritative.
+- requirements: reserve an initial grid-only fade, move the six statements in order, keep completed faces and a compact step record visible, and let reverse scrolling reconstruct earlier states.
+- exclusions: no changes to the solver excerpt, reference calculation, project claims, or reduced-motion and no-javascript reading paths.
+- acceptance: check prelude timing, line arrivals, cumulative face and step visibility, final-field persistence, reverse scrolling, static fallbacks, and desktop/narrow layouts in a built preview.
+- unresolved: interpret “grid” as the annotated cell grid in the code-to-cell study; keep the 64 × 64 field as the final stage.
+- result: the selected cell grid fades in fully before the first source line moves. the source panel clears during the grid prelude; each statement becomes visible as it moves into the cell, and completed face highlights remain. a six-step value record stays above the cell and remains visible when the computed field takes over. reversing scroll reconstructs the earlier state.
+- validation: seven numerical tests and Astro check/build passed with zero diagnostics. built-preview checks at 1280 × 900 and 1800 × 1100 confirmed the grid-only prelude, ordered arrivals, cumulative faces and records, final-field persistence, and reverse scroll. compact, short, and reduced-motion views show the full study in normal flow without horizontal overflow.
+- next action: review the updated motion and readability preview in the open pull request, then publish after approval.
+
 ## local workflow
 
 ```sh

@@ -40,6 +40,21 @@ const cells = Array.from(final.field, (value, index) => ({
       {implementationSteps[5].explanation}
     </p>
   </div>
+  <ol class="implementation-ledger" aria-label="cell update steps">
+    {
+      implementationSteps.map((step, index) => (
+        <li data-step-record={step.key}>
+          <span class="record-index">{String(index + 1).padStart(2, "0")}</span>
+          <span class="record-title">{step.shortTitle}</span>
+          <strong class="record-value">
+            {step.key === "new_fab" ? "φ new" : step.key} ≈ {scalarLabel(
+              stepValue(step.key, budget),
+            )}
+          </strong>
+        </li>
+      ))
+    }
+  </ol>
   <div class="physical-stage">
     <CellFluxView initial={frames[0]} />
     <div class="advection-global" data-global-view>

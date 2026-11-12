@@ -1,5 +1,8 @@
 import { referenceCase, referenceCell } from "../lib/advection";
-import type { ImplementationStep } from "../data/implementationSteps";
+import {
+  stepMotionWindows,
+  type ImplementationStep,
+} from "../data/implementationSteps";
 
 const clamp = (x: number) => Math.max(0, Math.min(1, x));
 const ease = (start: number, end: number, value: number) => {
@@ -7,14 +10,9 @@ const ease = (start: number, end: number, value: number) => {
   return t * t * (3 - 2 * t);
 };
 const windows: Record<string, readonly [number, number]> = {
-  Fx_lo: [0.1, 0.36],
-  Fx_hi: [0.17, 0.43],
-  Fy_lo: [0.24, 0.5],
-  Fy_hi: [0.31, 0.57],
-  dtdivF: [0.4, 0.66],
-  new_fab: [0.49, 0.75],
-  "comment-0": [0.04, 0.28],
-  "comment-7": [0.36, 0.62],
+  ...stepMotionWindows,
+  "comment-0": [0.22, 0.35],
+  "comment-7": [0.62, 0.78],
 };
 interface LineObject {
   key: string;
@@ -142,8 +140,13 @@ export function createCodeMorph(track: HTMLElement, figure: HTMLElement) {
       const sy = 1 - 0.92 * compress;
       const angle = object.angle * ease(0.25, 1, t);
       object.element.style.transform = `translate(${dx}px, ${dy}px) rotate(${angle}deg) scale(${sx}, ${sy})`;
+      // Let the cell grid read clearly before motion, then bring each moving line forward.
+      const sourceGhost = 1 - ease(0.03, 0.17, progress);
+      const lineStrength = sourceGhost + (1 - sourceGhost) * ease(0, 0.12, t);
       object.element.style.opacity = String(
-        (object.key.startsWith("comment") ? 0.65 : 1) * (1 - ease(0.82, 1, t)),
+        (object.key.startsWith("comment") ? 0.65 : 1) *
+          lineStrength *
+          (1 - ease(0.82, 1, t)),
       );
       object.element.dataset.active = String(object.key === active);
       object.element.dataset.arrival = t.toFixed(4);
@@ -152,44 +155,52 @@ export function createCodeMorph(track: HTMLElement, figure: HTMLElement) {
       );
       face?.style.setProperty("--face-formed", String(ease(0.78, 1, t)));
     });
-    const zoom = ease(0.77, 0.92, progress);
+    const zoom = ease(0.88, 0.96, progress);
     cell.style.transform = `translate(${zoomX * zoom}px, ${zoomY * zoom}px) scale(${1 + (zoomScale - 1) * zoom})`;
     figure.style.setProperty(
       "--source-chrome",
-      String(1 - ease(0.04, 0.24, progress)),
+      String(1 - ease(0.03, 0.17, progress)),
     );
     figure.style.setProperty(
       "--physical-reveal",
-      String(ease(0.08, 0.22, progress)),
+      String(ease(0.02, 0.12, progress)),
+    );
+    figure.style.setProperty(
+      "--grid-reveal",
+      String(ease(0.03, 0.17, progress)),
+    );
+    figure.style.setProperty(
+      "--step-reveal",
+      String(ease(0.18, 0.24, progress)),
+    );
+    figure.style.setProperty(
+      "--context-reveal",
+      String(ease(0.35, 0.42, progress)),
     );
     figure.style.setProperty(
       "--cell-details",
-      String(ease(0.6, 0.76, progress)),
-    );
-    figure.style.setProperty(
-      "--cell-neighbors",
-      String(ease(0.4, 0.66, progress)),
+      String(ease(0.7, 0.84, progress)),
     );
     figure.style.setProperty(
       "--cell-opacity",
-      String(1 - ease(0.81, 0.93, progress)),
+      String(1 - ease(0.88, 0.96, progress)),
     );
     figure.style.setProperty(
       "--field-opacity",
-      String(ease(0.82, 0.94, progress)),
+      String(ease(0.88, 0.96, progress)),
     );
     figure.style.setProperty(
       "--cell-dashes",
       zoom > 0 ? `${Math.max(0.2, 12 * (1 - zoom))} ${zoom * 8}` : "none",
     );
     track.dataset.morphPhase =
-      progress < 0.08
-        ? "source"
-        : progress < 0.6
+      progress < 0.22
+        ? "grid"
+        : progress < 0.78
           ? "assembling"
-          : progress < 0.77
+          : progress < 0.88
             ? "cell"
-            : progress < 0.94
+            : progress < 0.96
               ? "dissolving"
               : "field";
   };

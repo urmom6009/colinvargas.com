@@ -109,6 +109,35 @@
   line-height: 1.4;
   color: var(--muted);
 }
+.implementation-ledger {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 4px 14px;
+  margin: 8px 0 10px;
+  padding: 0;
+  list-style: none;
+  font: 14px/1.35 var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+.implementation-ledger li {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1px 7px;
+  min-width: 0;
+  padding-top: 4px;
+  border-top: 1px solid var(--line);
+}
+.record-index {
+  color: var(--accent);
+}
+.record-title {
+  color: var(--muted);
+}
+.record-value {
+  grid-column: 2;
+  font-weight: 400;
+  white-space: nowrap;
+}
 .cell-context,
 .cell-calculation {
   display: flex;
@@ -409,6 +438,9 @@
   }
 }
 @media (max-width: 640px) {
+  .implementation-ledger {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
   .cell-flux-readout {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -562,10 +594,13 @@
   margin-top: 0;
   opacity: var(--physical-reveal, 0);
 }
-.implementation-scroll[data-motion="scroll"]:not([data-inspecting="true"])
-  .implementation-step,
-.implementation-scroll[data-motion="scroll"]:not([data-inspecting="true"])
-  .cell-context,
+.js
+  .implementation-scroll[data-motion="scroll"]:not([data-inspecting="true"])
+  .implementation-ledger
+  li:not([data-complete="true"]) {
+  visibility: hidden;
+  opacity: 0;
+}
 .implementation-scroll[data-motion="scroll"]:not([data-inspecting="true"])
   .cell-calculation,
 .implementation-scroll[data-motion="scroll"]:not([data-inspecting="true"])
@@ -575,30 +610,33 @@
   opacity: var(--cell-details, 0);
 }
 .implementation-scroll[data-motion="scroll"]:not([data-inspecting="true"])
+  .implementation-step {
+  opacity: var(--step-reveal, 0);
+}
+.implementation-scroll[data-motion="scroll"]:not([data-inspecting="true"])
+  .cell-old-state {
+  opacity: var(--grid-reveal, 0);
+}
+.implementation-scroll[data-motion="scroll"]:not([data-inspecting="true"])
+  .cell-context {
+  opacity: var(--context-reveal, 0);
+}
+.implementation-scroll[data-motion="scroll"]:not([data-inspecting="true"])
   .target-cell {
-  opacity: var(--cell-details, 0);
-  stroke: transparent;
+  opacity: var(--grid-reveal, 0);
 }
 .implementation-scroll[data-motion="scroll"]:not([data-inspecting="true"])
   .neighbor-cell {
-  opacity: var(--cell-neighbors, 0);
+  opacity: var(--grid-reveal, 0);
 }
 .implementation-scroll[data-motion="scroll"]:not([data-inspecting="true"])
   .cell-face {
-  opacity: calc(var(--face-formed, 0) * 0.48);
-}
-.implementation-scroll[data-motion="scroll"]:not([data-inspecting="true"])
-  .cell-face[data-active="true"] {
   opacity: var(--face-formed, 0);
 }
 .implementation-scroll[data-motion="scroll"]:not([data-inspecting="true"])
   .cell-face-edge {
   stroke-dasharray: var(--cell-dashes, none);
 }
-.implementation-scroll[data-motion="scroll"]:not([data-inspecting="true"])
-  .cell-flux-arrow,
-.implementation-scroll[data-motion="scroll"]:not([data-inspecting="true"])
-  .cell-old-state,
 .implementation-scroll[data-motion="scroll"]:not([data-inspecting="true"])
   .cell-new-state {
   opacity: var(--cell-details, 0);
