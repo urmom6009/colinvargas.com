@@ -3,150 +3,40 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
 const fallbackPublic = {
   generated_at: "",
-  headline: "systems worth making visible.",
-  subtitle:
-    "a peek into how i apply the data management and software development skills i've picked up",
-  health_score: 96,
-  radar: [
-    { label: "website", value: 100 },
-    { label: "minecraft", value: 92 },
-    { label: "services", value: 86 },
-    { label: "storage", value: 98 },
-    { label: "backups", value: 94 },
-  ],
-  cards: [
-    {
-      label: "website",
-      value: "online",
-      detail: "portfolio edge is answering",
-      tone: "good",
-      href: "/systems/website",
-    },
-    {
-      label: "minecraft",
-      value: "online",
-      detail: "relay status without backend details",
-      tone: "good",
-      href: "/systems/minecraft",
-    },
-    {
-      label: "deployments",
-      value: "tracked",
-      detail: "recent builds summarized",
-      tone: "good",
-      href: "/systems/deployments",
-    },
-    {
-      label: "storage",
-      value: "healthy",
-      detail: "pool health without raw paths",
-      tone: "good",
-      href: "/systems/storage",
-    },
-  ],
-  services: [
-    {
-      name: "site edge",
-      status: "online",
-      cpu: 12,
-      mem: 18,
-      net: "public web path",
-      public: true,
-    },
-    {
-      name: "public tunnel",
-      status: "online",
-      cpu: 10,
-      mem: 16,
-      net: "sanitized ingress signal",
-      public: true,
-    },
-    {
-      name: "alert relay",
-      status: "online",
-      cpu: 9,
-      mem: 14,
-      net: "notification path",
-      public: true,
-    },
-    {
-      name: "monitor agent",
-      status: "online",
-      cpu: 11,
-      mem: 18,
-      net: "public snapshot source",
-      public: true,
-    },
-    {
-      name: "minecraft relay",
-      status: "online",
-      cpu: 22,
-      mem: 38,
-      net: "player-facing status",
-      public: true,
-    },
-  ],
-  deployments: [
-    {
-      name: "colinvargas.com",
-      ref: "main",
-      status: "success",
-      when: "latest public build",
-      duration: "astro site",
-    },
-    {
-      name: "systems api",
-      ref: "public",
-      status: "success",
-      when: "sanitized endpoint",
-      duration: "read-only json",
-    },
-    {
-      name: "admin endpoint",
-      ref: "private",
-      status: "guarded",
-      when: "separate boundary",
-      duration: "not rendered here",
-    },
-  ],
+  headline: "live systems data is unavailable.",
+  subtitle: "the public readout will return when the api responds.",
+  health_score: null,
+  radar: ["website", "minecraft", "services", "storage", "backups"].map(
+    (label) => ({ label, value: null }),
+  ),
+  cards: ["website", "minecraft", "deployments", "storage"].map(
+    (label) => ({
+      label,
+      value: "unavailable",
+      detail: "live status unavailable",
+      tone: "neutral",
+      href: `/systems/${label}`,
+    }),
+  ),
+  services: [],
+  deployments: [],
   storage: {
-    overall: 98,
-    pools: [
-      {
-        name: "storage pool",
-        used: "sanitized",
-        capacity: "sanitized",
-        health: 98,
-        state: "healthy",
-      },
-    ],
-    redundancy: "zfs",
-    integrity: "passed",
+    overall: null,
+    pools: [],
+    redundancy: null,
+    integrity: null,
   },
   environment: {
-    weather: {
-      temp: "phoenix",
-      label: "weather signal pending",
-      source: "configured location",
-    },
-    air: {
-      aqi: 48,
-      label: "good",
-      pm25: 20,
-      bars: [5, 8, 11, 7, 10, 6, 9, 5, 8, 11, 7, 10],
-    },
+    weather: { temp: "unavailable", label: "live weather unavailable" },
+    air: { aqi: null, label: "live air data unavailable", bars: [] },
   },
 };
-
-const onlineServices = fallbackPublic.services.filter((service) =>
-  ["online", "running", "active"].includes(service.status),
-).length;
 
 const fallbackJson = JSON.stringify(fallbackPublic).replace(/</g, "\\u003c");
 
 const formatGenerated = (value: string) => {
   if (!value) {
-    return "api pending";
+    return "unavailable";
   }
 
   const generated = new Date(value);
@@ -172,8 +62,7 @@ const formatGenerated = (value: string) => {
 >
   <main id="main-content" tabindex="-1">
     <p class="telemetry-notice" data-telemetry-notice role="status">
-      sample dashboard — values below are illustrative until the public api
-      responds.
+      live public telemetry is unavailable. no current health values are shown.
     </p>
     <section
       class="resume-hero page-scene systems-hero"
@@ -189,27 +78,22 @@ const formatGenerated = (value: string) => {
         <div>
           <h1 id="systems-title">systems, with the status in context.</h1>
           <p>
-            a read-only view of the homelab. live responses are labeled; sample
-            values keep the dashboard explorable when telemetry is unavailable.
+            a read-only view of the homelab. live responses are labeled, and
+            missing telemetry is left unavailable.
           </p>
         </div>
 
         <aside class="systems-live-card" aria-live="polite">
           <span>system health</span>
           <strong
-            ><span data-health-score>{fallbackPublic.health_score}</span><small
-              >%</small
-            ></strong
+            ><span data-health-score>—</span><small data-health-unit></small></strong
           >
-          <p data-status-line>
-            {onlineServices} of {fallbackPublic.services.length} read-only signals
-            reporting online.
-          </p>
+          <p data-status-line>live systems data unavailable.</p>
 
           <dl class="systems-meta">
             <div>
               <dt>source</dt>
-              <dd data-source>sample data</dd>
+              <dd data-source>api unavailable</dd>
             </div>
             <div>
               <dt>updated</dt>
@@ -246,10 +130,10 @@ const formatGenerated = (value: string) => {
           <div class="systems-snapshot-hero">
             <div
               class="systems-score-ring"
-              style={`--score-angle: ${fallbackPublic.health_score * 3.6}deg`}
+              style="--score-angle: 0deg"
               data-score-ring
             >
-              <span data-health-score>{fallbackPublic.health_score}</span>
+              <span data-health-score>—</span>
               <small>health score</small>
             </div>
 
@@ -265,13 +149,11 @@ const formatGenerated = (value: string) => {
           <dl class="systems-snapshot-stats">
             <div>
               <dt>services</dt>
-              <dd data-service-count>
-                {onlineServices}/{fallbackPublic.services.length} online
-              </dd>
+              <dd data-service-count>unavailable</dd>
             </div>
             <div>
               <dt>source</dt>
-              <dd data-source>sample data</dd>
+              <dd data-source>api unavailable</dd>
             </div>
             <div>
               <dt>updated</dt>
@@ -293,10 +175,10 @@ const formatGenerated = (value: string) => {
                   <div class="systems-radar-track" aria-hidden="true">
                     <span
                       class="systems-radar-fill"
-                      style={`--value: ${item.value}%`}
+                      style="--value: 0%"
                     />
                   </div>
-                  <strong>{item.value}%</strong>
+                  <strong>—</strong>
                 </div>
               ))
             }
@@ -315,7 +197,7 @@ const formatGenerated = (value: string) => {
             <div>
               <span>air</span>
               <strong
-                ><span data-air-aqi>{fallbackPublic.environment.air.aqi}</span> aqi</strong
+                ><span data-air-aqi>unavailable</span><span data-air-unit></span></strong
               >
               <p data-air-label>{fallbackPublic.environment.air.label}</p>
             </div>
@@ -326,13 +208,7 @@ const formatGenerated = (value: string) => {
             data-air-bars
             aria-label="air quality trend"
           >
-            {
-              fallbackPublic.environment.air.bars.map((bar) => (
-                <span
-                  style={`--bar: ${Math.min(100, Math.max(8, bar * 7))}%`}
-                />
-              ))
-            }
+            <p>live air quality trend unavailable.</p>
           </div>
 
           <div class="systems-boundary-note" data-build-step="6">
@@ -370,27 +246,11 @@ const formatGenerated = (value: string) => {
         >
           <div class="systems-panel-head">
             <span id="systems-services-title">public signals</span>
-            <small data-service-count
-              >{onlineServices}/{fallbackPublic.services.length} online</small
-            >
+            <small data-service-count>unavailable</small>
           </div>
 
           <div class="systems-service-list" data-services>
-            {
-              fallbackPublic.services.map((service) => (
-                <article class="systems-service-row">
-                  <span class={`systems-status-dot is-${service.status}`} />
-                  <div>
-                    <strong>{service.name}</strong>
-                    <small>{service.net}</small>
-                  </div>
-                  <span>{service.status}</span>
-                  <i
-                    style={`--load: ${Math.min(100, Math.max(service.cpu, service.mem))}%`}
-                  />
-                </article>
-              ))
-            }
+            <p>live service status unavailable.</p>
           </div>
         </section>
 
@@ -405,20 +265,7 @@ const formatGenerated = (value: string) => {
           </div>
 
           <div class="systems-timeline" data-deployments>
-            {
-              fallbackPublic.deployments.map((deployment) => (
-                <article>
-                  <span>{deployment.status}</span>
-                  <div>
-                    <strong>{deployment.name}</strong>
-                    <p>
-                      {deployment.when} / {deployment.duration}
-                    </p>
-                  </div>
-                  <small>{deployment.ref}</small>
-                </article>
-              ))
-            }
+            <p>live deployment history unavailable.</p>
           </div>
         </section>
 
@@ -429,37 +276,16 @@ const formatGenerated = (value: string) => {
         >
           <div class="systems-panel-head">
             <span id="systems-storage-title">storage pool health</span>
-            <small data-storage-summary
-              >{fallbackPublic.storage.integrity}</small
-            >
+            <small data-storage-summary>unavailable</small>
           </div>
 
           <div class="systems-storage-score">
-            <strong
-              ><span data-storage-overall>{fallbackPublic.storage.overall}</span
-              >%</strong
-            >
-            <p>
-              <span data-storage-redundancy
-                >{fallbackPublic.storage.redundancy}</span
-              > / <span data-storage-integrity
-                >{fallbackPublic.storage.integrity}</span
-              >
-            </p>
+            <strong><span data-storage-overall>—</span><span data-storage-unit></span></strong>
+            <p data-storage-context>live storage data unavailable.</p>
           </div>
 
           <div class="systems-storage-list" data-storage-pools>
-            {
-              fallbackPublic.storage.pools.map((pool) => (
-                <article>
-                  <div>
-                    <strong>{pool.name}</strong>
-                    <span>{pool.state}</span>
-                  </div>
-                  <i style={`--health: ${pool.health}%`} />
-                </article>
-              ))
-            }
+            <p>live pool status unavailable.</p>
           </div>
         </section>
       </div>
@@ -481,7 +307,14 @@ const formatGenerated = (value: string) => {
 
       const clamp = (value, min = 0, max = 100) =>
         Math.min(Math.max(Number(value) || 0, min), max);
-      const lower = (value, fallbackText = "pending") =>
+      const metric = (value) =>
+        value !== null &&
+        value !== undefined &&
+        value !== "" &&
+        Number.isFinite(Number(value))
+          ? clamp(value)
+          : null;
+      const lower = (value, fallbackText = "unavailable") =>
         String(value ?? fallbackText).toLowerCase();
       const isOnline = (status) =>
         ["online", "running", "active"].includes(lower(status));
@@ -502,6 +335,7 @@ const formatGenerated = (value: string) => {
         }
         return node;
       };
+      const emptyMessage = (message) => make("p", "", message);
       const cardHref = (label, fallbackHref) => {
         if (fallbackHref) {
           return fallbackHref;
@@ -524,7 +358,7 @@ const formatGenerated = (value: string) => {
 
       const formatGenerated = (value) => {
         if (!value) {
-          return "api pending";
+          return "unavailable";
         }
 
         const generated = new Date(value);
@@ -575,21 +409,21 @@ const formatGenerated = (value: string) => {
           return;
         }
 
-        target.replaceChildren(
-          ...(radar || []).map((item) => {
+        const rows = (radar || []).map((item) => {
             const row = make("div", "systems-radar-row");
             row.append(make("span", "", lower(item.label)));
 
             const track = make("div", "systems-radar-track");
             track.setAttribute("aria-hidden", "true");
             const fill = make("span", "systems-radar-fill");
-            fill.style.setProperty("--value", `${clamp(item.value)}%`);
+            const value = metric(item.value);
+            fill.style.setProperty("--value", `${value ?? 0}%`);
             track.append(fill);
 
-            row.append(track, make("strong", "", `${clamp(item.value)}%`));
+            row.append(track, make("strong", "", value === null ? "—" : `${value}%`));
             return row;
-          }),
-        );
+          });
+        target.replaceChildren(...(rows.length ? rows : [emptyMessage("live scorecard unavailable.")]));
       };
 
       const renderCards = (cards) => {
@@ -598,8 +432,7 @@ const formatGenerated = (value: string) => {
           return;
         }
 
-        target.replaceChildren(
-          ...(cards || []).map((card) => {
+        const rows = (cards || []).map((card) => {
             const tone = ["good", "warn", "bad"].includes(lower(card.tone))
               ? lower(card.tone)
               : "neutral";
@@ -612,8 +445,8 @@ const formatGenerated = (value: string) => {
               make("small", "", "view readout"),
             );
             return item;
-          }),
-        );
+          });
+        target.replaceChildren(...(rows.length ? rows : [emptyMessage("live system cards unavailable.")]));
       };
 
       const renderServices = (services) => {
@@ -622,20 +455,26 @@ const formatGenerated = (value: string) => {
           return;
         }
 
-        const online = (services || []).filter((service) =>
-          isOnline(service.status),
-        ).length;
+        const items = services || [];
+        if (!items.length) {
+          textAll("[data-service-count]", "unavailable");
+          textAll("[data-status-line]", "live systems data unavailable.");
+          target.replaceChildren(emptyMessage("live service status unavailable."));
+          return;
+        }
+
+        const online = items.filter((service) => isOnline(service.status)).length;
         textAll(
           "[data-service-count]",
-          `${online}/${(services || []).length} online`,
+          `${online}/${items.length} online`,
         );
         textAll(
           "[data-status-line]",
-          `${online} of ${(services || []).length} read-only signals reporting online.`,
+          `${online} of ${items.length} read-only signals reporting online.`,
         );
 
         target.replaceChildren(
-          ...(services || []).map((service) => {
+          ...items.map((service) => {
             const status = lower(service.status);
             const row = make("article", "systems-service-row");
             const dot = make("span", `systems-status-dot is-${status}`);
@@ -646,10 +485,12 @@ const formatGenerated = (value: string) => {
             );
             const state = make("span", "", status);
             const meter = make("i");
-            meter.style.setProperty(
-              "--load",
-              `${clamp(Math.max(Number(service.cpu) || 0, Number(service.mem) || 0), 5, 100)}%`,
-            );
+            const load = [service.cpu, service.mem]
+              .map(metric)
+              .filter((value) => value !== null);
+            if (load.length) {
+              meter.style.setProperty("--load", `${Math.max(...load)}%`);
+            }
             row.append(dot, copy, state, meter);
             return row;
           }),
@@ -662,8 +503,7 @@ const formatGenerated = (value: string) => {
           return;
         }
 
-        target.replaceChildren(
-          ...(deployments || []).map((deployment) => {
+        const rows = (deployments || []).map((deployment) => {
             const row = make("article");
             const copy = make("div");
             copy.append(
@@ -680,18 +520,18 @@ const formatGenerated = (value: string) => {
               make("small", "", lower(deployment.ref)),
             );
             return row;
-          }),
-        );
+          });
+        target.replaceChildren(...(rows.length ? rows : [emptyMessage("live deployment history unavailable.")]));
       };
 
       const renderStorage = (storage) => {
         const pools = Array.isArray(storage?.pools) ? storage.pools : [];
-        textAll(
-          "[data-storage-overall]",
-          Number.isFinite(storage?.overall) ? clamp(storage.overall) : "—",
-        );
-        textAll("[data-storage-redundancy]", lower(storage?.redundancy));
-        textAll("[data-storage-integrity]", lower(storage?.integrity));
+        const overall = metric(storage?.overall);
+        textAll("[data-storage-overall]", overall === null ? "—" : overall);
+        textAll("[data-storage-unit]", overall === null ? "" : "%");
+        textAll("[data-storage-context]", storage?.redundancy || storage?.integrity
+          ? `${lower(storage?.redundancy)} / ${lower(storage?.integrity)}`
+          : "live storage data unavailable.");
         textAll("[data-storage-summary]", lower(storage?.integrity));
 
         const target = document.querySelector("[data-storage-pools]");
@@ -699,8 +539,7 @@ const formatGenerated = (value: string) => {
           return;
         }
 
-        target.replaceChildren(
-          ...pools.map((pool) => {
+        const rows = pools.map((pool) => {
             const row = make("article");
             const copy = make("div");
             copy.append(
@@ -708,11 +547,14 @@ const formatGenerated = (value: string) => {
               make("span", "", lower(pool.state)),
             );
             const meter = make("i");
-            meter.style.setProperty("--health", `${clamp(pool.health)}%`);
+            const health = metric(pool.health);
+            if (health !== null) {
+              meter.style.setProperty("--health", `${health}%`);
+            }
             row.append(copy, meter);
             return row;
-          }),
-        );
+          });
+        target.replaceChildren(...(rows.length ? rows : [emptyMessage("live pool status unavailable.")]));
       };
 
       const renderEnvironment = (environment) => {
@@ -720,10 +562,9 @@ const formatGenerated = (value: string) => {
         const air = environment?.air || {};
         textAll("[data-weather-temp]", lower(weather.temp));
         textAll("[data-weather-label]", lower(weather.label || weather.source));
-        textAll(
-          "[data-air-aqi]",
-          Number.isFinite(air.aqi) ? clamp(air.aqi) : "—",
-        );
+        const aqi = metric(air.aqi);
+        textAll("[data-air-aqi]", aqi === null ? "unavailable" : aqi);
+        textAll("[data-air-unit]", aqi === null ? "" : " aqi");
         textAll("[data-air-label]", lower(air.label));
 
         const bars = Array.isArray(air.bars) ? air.bars : [];
@@ -732,16 +573,15 @@ const formatGenerated = (value: string) => {
           return;
         }
 
-        target.replaceChildren(
-          ...bars.map((bar) => {
+        const columns = bars.map((bar) => {
             const item = make("span");
             item.style.setProperty(
               "--bar",
               `${clamp(Number(bar) * 7, 8, 100)}%`,
             );
             return item;
-          }),
-        );
+          });
+        target.replaceChildren(...(columns.length ? columns : [emptyMessage("live air quality trend unavailable.")]));
       };
 
       const render = (rawData, sourceLabel) => {
@@ -750,20 +590,18 @@ const formatGenerated = (value: string) => {
           notice.textContent =
             sourceLabel === "live api"
               ? "live public telemetry — read-only snapshot from the systems api."
-              : "sample dashboard — these illustrative values do not indicate current service health.";
+              : "live public telemetry is unavailable. no current health values are shown.";
         const data = normalize(rawData);
-        const score = clamp(data.health_score);
-        textAll(
-          "[data-health-score]",
-          Number.isFinite(data.health_score) ? score : "—",
-        );
+        const score = metric(data.health_score);
+        textAll("[data-health-score]", score === null ? "—" : score);
+        textAll("[data-health-unit]", score === null ? "" : "%");
         textAll("[data-headline]", lower(data.headline));
         textAll("[data-subtitle]", lower(data.subtitle));
         textAll("[data-generated]", formatGenerated(data.generated_at));
         textAll("[data-source]", sourceLabel);
         document
           .querySelector("[data-score-ring]")
-          ?.style.setProperty("--score-angle", `${score * 3.6}deg`);
+          ?.style.setProperty("--score-angle", `${(score ?? 0) * 3.6}deg`);
         renderRadar(data.radar);
         renderCards(data.cards);
         renderServices(data.services);
@@ -794,11 +632,11 @@ const formatGenerated = (value: string) => {
           }
           render(data, "live api");
         } catch {
-          render(fallback, "sample data");
+          render(fallback, "api unavailable");
         }
       };
 
-      render(fallback, "sample data");
+      render(fallback, "api unavailable");
       fetchLive();
       window.setInterval(fetchLive, refreshMs);
     })();

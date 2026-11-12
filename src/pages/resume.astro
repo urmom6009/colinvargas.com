@@ -1,28 +1,48 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { projects, profile } from "../data/portfolio";
+const experience = [
+  {
+    role: "in-service engineering intern",
+    organization: "honeywell aerospace / may–aug 2024",
+    detail:
+      "organized case data, emulator outputs, and documentation for gas-turbine and avionics investigations; tracked ownership and follow-up across 23 open cases.",
+  },
+  {
+    role: "aerodynamics team lead",
+    organization: "asu solar devils / 2023–2025",
+    detail:
+      "led a 10-student subteam through aeroshell geometry, ansys cfd, design reviews, procurement, and vehicle integration.",
+  },
+  {
+    role: "grader and instructional assistant",
+    organization: "arizona state university / 2025–2026",
+    detail:
+      "reviewed numerical integration, interpolation, and linear algebra work for method selection and correctness.",
+  },
+];
 const capabilities = [
   {
     title: "computational methods",
     detail:
-      "finite-volume and finite-difference methods, scalar advection, adaptive mesh refinement, and verification workflows.",
+      "finite-volume and finite-difference methods, scalar advection, grid-convergence checks, and verification workflows.",
   },
   {
     title: "scientific software",
     detail:
-      "c++, amrex, numerical program structure, and git-based engineering documentation.",
+      "c++, single-level amrex solver development, numerical program structure, and git-based engineering documentation.",
   },
   {
     title: "engineering analysis",
     detail:
-      "propulsion modeling, parametric studies, immersed-boundary methods, and interpreting numerical outputs.",
+      "matlab propulsion models, parametric studies, immersed-boundary methods, and interpreting numerical outputs.",
   },
 ];
 ---
 
 <BaseLayout
   title="technical profile — colin vargas"
-  description="A project-based technical profile for Colin Vargas, a master's student in aerospace engineering focused on computational methods and scientific software."
+  description="A technical profile for Colin Vargas, an aerospace engineering graduate with experience in numerical methods, propulsion, aircraft systems, and scientific software."
 >
   <main id="main-content" tabindex="-1" class="technical-profile">
     <section class="page-intro" aria-labelledby="resume-title">
@@ -37,9 +57,8 @@ const capabilities = [
         colin vargas<span class="accent-dot">.</span>
       </h1><div class="intro-bottom">
         <p>
-          master's student in aerospace engineering. focused on computational
-          fluid dynamics, numerical methods, propulsion analysis, and scientific
-          software.
+          aerospace engineering graduate. work across numerical methods,
+          propulsion models, aircraft systems, and scientific software.
         </p><div class="project-facts">
           <a href={`mailto:${profile.email}`}>{profile.email}</a><a
             href={profile.github}>github / urmom6009 ↗</a
@@ -61,6 +80,30 @@ const capabilities = [
             </article>
           ))
         }
+      </div>
+    </section>
+    <section class="profile-section" aria-labelledby="education-title">
+      <h2 id="education-title" class="eyebrow">education</h2>
+      <div class="profile-projects">
+        <article>
+          <h3>arizona state university</h3>
+          <span class="eyebrow">b.s.e. aerospace engineering (aeronautics) / may 2025</span>
+          <p>minor in french. additional graduate study in aerospace engineering, 2025–2026.</p>
+        </article>
+      </div>
+    </section>
+    <section class="profile-section" aria-labelledby="experience-title">
+      <div class="section-heading">
+        <h2 id="experience-title">experience</h2><span>engineering, leadership, and technical review</span>
+      </div>
+      <div class="profile-projects">
+        {experience.map((item) => (
+          <article>
+            <h3>{item.role}</h3>
+            <span class="eyebrow">{item.organization}</span>
+            <p>{item.detail}</p>
+          </article>
+        ))}
       </div>
     </section>
     <section class="profile-section" aria-labelledby="profile-projects-title">

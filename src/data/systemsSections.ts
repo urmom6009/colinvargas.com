@@ -4,9 +4,6 @@ export const systemsSections = {
     eyebrow: "edge and uptime",
     headline: "portfolio edge, watched from the outside.",
     summary: "reachability, response shape, and deploy status for the main site.",
-    metric: "online",
-    detail: "portfolio edge is answering",
-    signal: "100",
     sourceKey: "Website",
     notes: [
       "vercel remains the public website edge.",
@@ -19,9 +16,6 @@ export const systemsSections = {
     eyebrow: "relay and players",
     headline: "game server status without exposing the backend.",
     summary: "player-facing status for the minecraft relay, without backend routing details.",
-    metric: "online",
-    detail: "relay status without backend details",
-    signal: "92",
     sourceKey: "Minecraft",
     notes: [
       "the public card shows status and player count only.",
@@ -34,9 +28,6 @@ export const systemsSections = {
     eyebrow: "build trail",
     headline: "recent builds with enough context to trust the surface.",
     summary: "latest visible refs for the portfolio and the read-only systems api.",
-    metric: "tracked",
-    detail: "recent builds summarized",
-    signal: "86",
     sourceKey: "Services",
     notes: [
       "the timeline favors readable refs over raw logs.",
@@ -49,9 +40,6 @@ export const systemsSections = {
     eyebrow: "pool health",
     headline: "storage health, summarized without raw host internals.",
     summary: "pool state, integrity, and broad capacity signal without raw paths.",
-    metric: "healthy",
-    detail: "pool health without raw paths",
-    signal: "98",
     sourceKey: "Storage",
     notes: [
       "public storage details stay coarse on purpose.",

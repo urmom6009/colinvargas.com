@@ -12,9 +12,6 @@ export function getStaticPaths() {
 const page = Astro.props;
 const fallbackJson = JSON.stringify({
   title: page.title,
-  metric: page.metric,
-  detail: page.detail,
-  signal: page.signal,
   sourceKey: page.sourceKey,
 }).replace(/</g, "\\u003c");
 ---
@@ -25,8 +22,7 @@ const fallbackJson = JSON.stringify({
 >
   <main id="main-content" tabindex="-1">
     <p class="telemetry-notice" data-telemetry-notice role="status">
-      sample dashboard — values below are illustrative until the public api
-      responds.
+      live public telemetry is unavailable. no current health values are shown.
     </p>
     <section
       class="resume-hero page-scene systems-detail-hero"
@@ -46,16 +42,16 @@ const fallbackJson = JSON.stringify({
 
         <aside class="systems-detail-card">
           <span>readout</span>
-          <strong data-detail-metric>{page.metric}</strong>
-          <p data-detail-copy>{page.detail}</p>
+          <strong data-detail-metric>unavailable</strong>
+          <p data-detail-copy>live readout unavailable.</p>
           <dl class="systems-meta">
             <div>
               <dt>signal</dt>
-              <dd><span data-detail-signal>{page.signal}</span>%</dd>
+              <dd><span data-detail-signal>—</span><span data-detail-signal-unit></span></dd>
             </div>
             <div>
               <dt>source</dt>
-              <dd data-detail-source>sample data</dd>
+              <dd data-detail-source>api unavailable</dd>
             </div>
           </dl>
         </aside>
@@ -79,14 +75,14 @@ const fallbackJson = JSON.stringify({
         >
           <div class="systems-panel-head">
             <span>current readout</span>
-            <small data-detail-updated>api pending</small>
+            <small data-detail-updated>unavailable</small>
           </div>
           <div
             class="systems-detail-gauge"
-            style={`--score-angle: ${Number(page.signal) * 3.6}deg`}
+            style="--score-angle: 0deg"
             data-detail-gauge
           >
-            <span data-detail-signal>{page.signal}</span>
+            <span data-detail-signal>—</span>
             <small>signal score</small>
           </div>
           <p>{page.summary}</p>
@@ -105,10 +101,10 @@ const fallbackJson = JSON.stringify({
         <article class="systems-panel systems-detail-live" data-build-step="3">
           <div class="systems-panel-head">
             <span>visible fields</span>
-            <small>api or fallback</small>
+            <small>live api</small>
           </div>
           <div class="systems-detail-live-list" data-detail-live>
-            <p>waiting for read-only api.</p>
+            <p>live readout unavailable.</p>
           </div>
         </article>
       </div>
@@ -126,7 +122,7 @@ const fallbackJson = JSON.stringify({
       const fallback = JSON.parse(
         document.getElementById("systems-detail-fallback")?.textContent || "{}",
       );
-      const lower = (value, backup = "pending") =>
+      const lower = (value, backup = "unavailable") =>
         String(value ?? backup).toLowerCase();
       const setText = (selector, value) => {
         document.querySelectorAll(selector).forEach((node) => {
@@ -134,7 +130,7 @@ const fallbackJson = JSON.stringify({
         });
       };
       const formatGenerated = (value) => {
-        if (!value) return "api pending";
+        if (!value) return "unavailable";
         const date = new Date(value);
         if (Number.isNaN(date.getTime())) return lower(value);
         return new Intl.DateTimeFormat("en", {
@@ -168,29 +164,22 @@ const fallbackJson = JSON.stringify({
           notice.textContent =
             source === "live api"
               ? "live public telemetry — read-only snapshot from the systems api."
-              : "sample dashboard — these illustrative values do not indicate current service health.";
+              : "live public telemetry is unavailable. no current health values are shown.";
         const card = (data.cards || []).find((item) =>
           lower(item.label).includes(fallback.title),
         );
         const radar = (data.radar || []).find(
           (item) => lower(item.label) === lower(fallback.sourceKey),
         );
-        const sample = source !== "live api";
-        const score = radar
+        const score = radar?.value !== null && radar?.value !== undefined && radar?.value !== "" && Number.isFinite(Number(radar.value))
           ? clamp(radar.value)
-          : sample
-            ? clamp(fallback.signal)
-            : null;
-        const metric =
-          card?.value ?? (sample ? fallback.metric : "not reported");
-        const detail =
-          card?.detail ??
-          (sample
-            ? fallback.detail
-            : "no live value provided for this service");
-        setText("[data-detail-metric]", lower(metric));
-        setText("[data-detail-copy]", lower(detail));
-        setText("[data-detail-signal]", score ?? "—");
+          : null;
+        const metric = lower(card?.value);
+        const detail = lower(card?.detail, "live readout unavailable.");
+        setText("[data-detail-metric]", metric);
+        setText("[data-detail-copy]", detail);
+        setText("[data-detail-signal]", score === null ? "—" : score);
+        setText("[data-detail-signal-unit]", score === null ? "" : "%");
         setText("[data-detail-source]", source);
         setText("[data-detail-updated]", formatGenerated(data.generated_at));
         document
@@ -199,10 +188,11 @@ const fallbackJson = JSON.stringify({
         renderLiveList([
           ["status", metric],
           ["detail", detail],
-          ["signal score", score === null ? "not reported" : `${score}%`],
+          ["signal score", score === null ? "unavailable" : `${score}%`],
           ["source", source],
         ]);
       };
+      render({ cards: [], radar: [] }, "api unavailable");
       fetch("/systems/api/public", {
         headers: { accept: "application/json" },
         cache: "no-store",
@@ -222,7 +212,7 @@ const fallbackJson = JSON.stringify({
           }
           render(data, "live api");
         })
-        .catch(() => render({ cards: [], radar: [] }, "sample data"));
+        .catch(() => render({ cards: [], radar: [] }, "api unavailable"));
     })();
   </script>
 </BaseLayout>
