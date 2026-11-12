@@ -16,14 +16,20 @@ export const projects = [
     discipline: "computational fluid dynamics",
     context: "master's thesis project",
     status: "in development",
-    record: "project overview · results forthcoming",
-    diagram: "mesh",
+    record: "implementation excerpt · results forthcoming",
+    method: "first-order upwind",
+    material: "implementation excerpt",
+    brief: [
+      { label: "problem", value: "2d scalar transport" },
+      { label: "discretization", value: "finite volume / first-order upwind" },
+      { label: "boundaries", value: "periodic in x and y" },
+    ],
     summary:
       "from scalar advection to adaptive meshes. a thesis project exploring how numerical methods and software architecture shape a flow solver.",
     question:
       "how can a small, inspectable advection solver become a foundation for more complex flow problems?",
     scope:
-      "the starting point is scalar advection with a prescribed velocity field. the work centers on finite-volume updates, boundary conditions, and keeping mesh, state, flux, and output responsibilities understandable.",
+      "the current implementation advances a gaussian scalar field on a 2d, single-level periodic grid using constant velocity, first-order upwind fluxes, and a cfl-controlled timestep. it writes amrex plotfiles for inspection. adaptive refinement remains a planned extension.",
     tools: ["c++", "amrex", "finite volume", "paraview"],
     approach: [
       {
@@ -43,7 +49,7 @@ export const projects = [
       },
     ],
     evidence:
-      "this overview describes the research scope. source releases, convergence plots, benchmark timings, and a completed validation study are not yet part of the public portfolio.",
+      "the upwind implementation excerpt shows how face fluxes update the cell averages. its source revision is recorded alongside it. convergence plots, benchmark timings, and a completed validation study are not yet part of the public portfolio.",
     next: "a documented baseline case with its inputs, boundary conditions, and grid-refinement results.",
     source: null,
   },
@@ -56,7 +62,13 @@ export const projects = [
     context: "engineering analysis project",
     status: "writeup in progress",
     record: "project overview · report forthcoming",
-    diagram: "engine",
+    method: "parametric analysis",
+    material: "project overview",
+    brief: [
+      { label: "problem", value: "propulsion trade space" },
+      { label: "approach", value: "thermodynamic model / parameter sweeps" },
+      { label: "tools", value: "matlab" },
+    ],
     summary:
       "a parametric approach to propulsion analysis, with the assumptions kept alongside the trends they produce.",
     question:
@@ -95,7 +107,13 @@ export const projects = [
     context: "engineering analysis project",
     status: "writeup in progress",
     record: "project overview · figures forthcoming",
-    diagram: "mixing",
+    method: "finite differences",
+    material: "project overview",
+    brief: [
+      { label: "problem", value: "mixing-chamber flow" },
+      { label: "discretization", value: "finite differences" },
+      { label: "boundary treatment", value: "immersed boundaries" },
+    ],
     summary:
       "a flow-modeling study examining numerical methods, immersed boundaries, and the context needed to interpret a simulation.",
     question:
@@ -138,7 +156,13 @@ export const projects = [
     context: "independent project",
     status: "source available",
     record: "live site · public source",
-    diagram: "record",
+    method: "git-aware publishing",
+    material: "source repository",
+    brief: [
+      { label: "site", value: "astro / static pages" },
+      { label: "notes", value: "git context / markdown / attachments" },
+      { label: "publication", value: "drafts by default" },
+    ],
     summary:
       "this portfolio and its repository-aware logging workflow: a place to connect engineering work with the decisions behind it.",
     question:

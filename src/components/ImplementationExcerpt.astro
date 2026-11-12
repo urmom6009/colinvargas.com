@@ -1,0 +1,53 @@
+---
+import { solverImplementation } from "../data/solverImplementation";
+interface Props {
+  detailed?: boolean;
+}
+const { detailed = false } = Astro.props;
+---
+
+<figure
+  id={detailed ? "implementation" : undefined}
+  class:list={[
+    "implementation-feature",
+    { "implementation-detailed": detailed },
+  ]}
+>
+  <div class="implementation-heading">
+    <span>from the implementation</span><span>c++ / amrex</span>
+  </div>
+  <h2>the advection baseline.</h2>
+  <p class="implementation-summary">
+    first-order upwind. face fluxes in, updated cell averages out.
+  </p>
+  <div class="source-fragment">
+    <div class="source-file">
+      <span>advance.cpp</span><span>upwindUpdate()</span>
+    </div>
+    <pre
+      tabindex="0"
+      aria-label="C++ excerpt from the actual upwind update"><code>{solverImplementation.code}</code></pre>
+  </div>
+  <dl class="implementation-facts">
+    <div><dt>domain</dt><dd>2d · periodic</dd></div><div>
+      <dt>current solver</dt><dd>single-level</dd>
+    </div>
+  </dl>
+  <figcaption>
+    <span
+      >implementation excerpt · revision {
+        solverImplementation.revision.slice(0, 7)
+      }</span
+    >
+    {detailed && <span class="source-path">{solverImplementation.file}</span>}
+  </figcaption>
+  {
+    detailed && (
+      <p class="implementation-note">
+        this is the finite-volume update in the current solver. adaptive
+        refinement is a planned extension. the excerpt documents the
+        implementation; it does not establish convergence or validation.
+      </p>
+    )
+  }
+</figure>

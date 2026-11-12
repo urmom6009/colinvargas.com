@@ -1,6 +1,5 @@
 ---
 import { projects } from "../data/portfolio";
-import ProjectDiagram from "./ProjectDiagram.astro";
 interface Props {
   limit?: number;
 }
@@ -22,12 +21,22 @@ const { limit = projects.length } = Astro.props;
             <p>{project.summary}</p>
             <span class="project-tools">{project.tools.join(" / ")}</span>
           </div>
-          <div class="project-thumbnail">
+          <dl class="project-method">
             <>
-              <ProjectDiagram kind={project.diagram} />
-              <span>concept / {project.number}</span>
+              <div>
+                <>
+                  <dt>method</dt>
+                  <dd>{project.method}</dd>
+                </>
+              </div>
+              <div>
+                <>
+                  <dt>record</dt>
+                  <dd>{project.material}</dd>
+                </>
+              </div>
             </>
-          </div>
+          </dl>
           <div class="project-end">
             <>
               <span

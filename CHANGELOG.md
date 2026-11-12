@@ -2,6 +2,18 @@
 
 ## Unreleased
 
+### Refine the graphics — November 11, 2026
+
+- Objective: preserve the approved portfolio layout while replacing schematic decoration with a quieter presentation of actual capability.
+- Requirements: remove generic project pictograms and the simulated refinement control; use concrete methods and source-backed implementation detail; retain responsive layouts and publication boundaries.
+- Exclusions: invented simulation results, performance claims, a new solver demonstration presented as thesis work, deployment, and environment changes.
+- Acceptance: Astro check/build, desktop/mobile visual inspection in both themes, functional project filtering/navigation, and no decorative graphics presented as project output.
+- Decision: use an actual implementation excerpt, as selected by the user. inspected the thesis solver at revision `8f1f6c867c39197c2146b21efce41b947fde296d`; the excerpt is from `code/advect_noAMR/src/advance.cpp`, lines 48–57.
+- Result: removed the refinement toggle, glowing field, and generic mesh/engine/flow pictograms. the homepage and solver page now show the actual C++ flux/update excerpt with its source revision. project rows and detail pages present concrete method and available-material summaries. the approved page structure and typography remain intact.
+- Validation: `npm run build` passed with zero errors, warnings, or hints. the rendered excerpt matches the pinned source after dedenting. built-site browser checks passed for 48 page/viewport/theme combinations, project links, keyboard filters, source focus, theme persistence, and content without JavaScript; development smoke checks also passed. no uncaught JavaScript errors occurred.
+- Limits: the C++ source was inspected, not rebuilt or executed in this website task. the feature makes no new convergence, performance, or validation claim. no deployment or publication was performed.
+- Next action: review this local refinement; use documented run artifacts if adding numerical figures later.
+
 ### Portfolio refresh — November 11, 2026
 
 - Objective: make the portfolio engaging and credible for aerospace and engineering teams, based on the existing repository's project descriptions.

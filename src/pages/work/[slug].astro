@@ -1,7 +1,6 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import MeshStudy from "../../components/MeshStudy.astro";
-import ProjectDiagram from "../../components/ProjectDiagram.astro";
+import ImplementationExcerpt from "../../components/ImplementationExcerpt.astro";
 import { projects, type Project } from "../../data/portfolio";
 export function getStaticPaths() {
   return projects.map((project) => ({
@@ -60,23 +59,22 @@ const next =
         }
       </div>
       {
-        project.diagram === "mesh" ? (
-          <MeshStudy />
+        project.slug === "adaptive-cfd-solver" ? (
+          <ImplementationExcerpt detailed />
         ) : (
-          <figure class="project-illustration">
-            <>
-              <div class="figure-heading">
-                <>
-                  <span>{project.discipline}</span>
-                  <span>concept / {project.number}</span>
-                </>
-              </div>
-              <ProjectDiagram kind={project.diagram} />
-              <figcaption>
-                concept illustration · not a measured result
-              </figcaption>
-            </>
-          </figure>
+          <aside class="project-brief" aria-label="project scope and methods">
+            <span class="eyebrow">scope & methods</span>
+            <h2>at a glance.</h2>
+            <dl>
+              {project.brief.map((item: Project["brief"][number]) => (
+                <div>
+                  <dt>{item.label}</dt>
+                  <dd>{item.value}</dd>
+                </div>
+              ))}
+            </dl>
+            <p>{project.record}</p>
+          </aside>
         )
       }
     </section>

@@ -126,10 +126,7 @@ main,
 .status-label,
 .project-tools,
 .project-number,
-.figure-heading,
 figcaption,
-.mesh-controls,
-.mesh-explanation,
 .project-count,
 .project-facts,
 .work-filters,
@@ -329,90 +326,86 @@ figcaption,
 .hero-index a {
   color: var(--ink);
 }
-.mesh-study {
-  background: #172d29;
-  color: #e5ecdc;
-  padding: 22px;
-  border: 1px solid #34524a;
+
+/* Let the implementation carry the visual weight. */
+.implementation-feature {
   min-width: 0;
+  padding: 26px 0;
+  border-top: 1px solid var(--ink);
+  border-bottom: 1px solid var(--line);
 }
-.figure-heading {
+.implementation-heading,
+.source-file,
+.implementation-facts dt,
+.implementation-feature figcaption {
+  font: 10px/1.6 var(--font-mono);
+  color: var(--muted);
+}
+.implementation-heading,
+.source-file {
   display: flex;
   justify-content: space-between;
   gap: 16px;
-  color: inherit;
-  opacity: 0.8;
 }
-.mesh-study > svg {
-  display: block;
-  width: 100%;
-  height: auto;
-  margin: 12px 0 4px;
-  overflow: visible;
+.implementation-feature h2 {
+  font-size: clamp(30px, 3.1vw, 46px);
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+  margin: 24px 0 14px;
 }
-.mesh-base {
-  color: #91b9a6;
-  opacity: 0.48;
+.implementation-summary {
+  max-width: 40ch;
+  color: var(--muted);
+  font-size: 16px;
 }
-.mesh-refined {
-  color: #b8d8bd;
-  transition: opacity 250ms ease;
+.source-fragment {
+  margin: 26px 0;
+  padding: 18px;
+  background: var(--surface);
 }
-[data-mesh-mode="uniform"] .mesh-refined {
-  opacity: 0;
+.source-file {
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--line);
 }
-.mesh-label,
-.mesh-ticks {
-  font: 10px var(--font-mono);
-  fill: #c6d8c9;
+.source-fragment pre {
+  margin: 18px 0 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font: 11px/1.8 var(--font-mono);
+  text-transform: none;
+  color: var(--ink);
 }
-.mesh-ticks {
-  font-size: 12px;
-}
-.mesh-controls {
-  display: flex;
-  gap: 4px;
-  border: 1px solid #527064;
-  padding: 3px;
-  width: fit-content;
-  margin-bottom: 20px;
-}
-.mesh-controls button {
-  border: 0;
-  min-height: 36px;
-  padding: 8px 10px;
-  background: transparent;
-  color: #d4dfd0;
+.source-fragment code {
   font: inherit;
 }
-.mesh-controls button[aria-pressed="true"] {
-  background: #e0e7d6;
-  color: #172d29;
+.source-fragment pre:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 6px;
 }
-.mesh-controls button:focus-visible {
-  outline-color: #e0e7d6;
+.implementation-facts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 24px;
 }
-.mesh-study figcaption {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  color: #d0d9c5;
-  font-size: 0.6rem;
+.implementation-facts dd {
+  margin: 5px 0 0;
+  font-size: 15px;
 }
-.figure-dot {
-  display: block;
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: #cfbc73;
-  flex-shrink: 0;
+.implementation-feature figcaption {
+  display: grid;
+  gap: 6px;
+  font-size: 9px;
 }
-.mesh-explanation {
-  color: #afc7b9;
-  margin-top: 6px;
-  font-size: 0.6rem;
-  min-height: 2.5em;
+.source-path {
+  overflow-wrap: anywhere;
 }
+.implementation-note {
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 20px;
+}
+
 .study-reference {
   display: grid;
   grid-template-columns: 1fr auto;
@@ -493,31 +486,67 @@ figcaption,
   margin-top: 18px;
   font-size: 0.61rem;
 }
-.project-thumbnail {
-  align-self: center;
-  background: var(--surface);
-  color: var(--accent);
-  padding: 10px;
-  border: 1px solid transparent;
-  transition: border-color 180ms;
+
+.project-copy {
+  grid-column: 2;
+  grid-row: 1;
 }
-.project-thumbnail > span {
-  display: block;
-  font: 9px var(--font-mono);
-  text-align: right;
+.project-method {
+  grid-column: 3;
+  grid-row: 1;
+  align-self: center;
+  padding-left: 24px;
+  border-left: 1px solid var(--line);
+}
+.project-method div + div {
+  margin-top: 20px;
+}
+.project-method dt {
+  font: 10px/1.5 var(--font-mono);
   color: var(--muted);
 }
-.project-diagram {
-  display: block;
-  width: 100%;
+.project-method dd {
+  margin: 7px 0 0;
+  font-size: 15px;
+  line-height: 1.4;
 }
-.diagram-highlight {
-  color: var(--accent);
-  stroke-width: 1.4;
+.project-end {
+  grid-column: 4;
+  grid-row: 1;
 }
-.diagram-signal {
-  color: var(--signal);
+
+.project-brief {
+  border-top: 1px solid var(--ink);
+  border-bottom: 1px solid var(--line);
+  padding: 26px 0;
 }
+.project-brief h2 {
+  font-size: 36px;
+  line-height: 1.1;
+  letter-spacing: -0.035em;
+  margin: 22px 0 28px;
+}
+.project-brief dl > div {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  gap: 24px;
+  padding: 17px 0;
+  border-top: 1px solid var(--line);
+}
+.project-brief dt,
+.project-brief > p {
+  font: 10px/1.6 var(--font-mono);
+  color: var(--muted);
+}
+.project-brief dd {
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.4;
+}
+.project-brief > p {
+  margin-top: 28px;
+}
+
 .project-end {
   display: flex;
   flex-direction: column;
@@ -553,9 +582,7 @@ figcaption,
   font-size: 0.6rem;
   color: var(--muted);
 }
-.project-link:hover .project-thumbnail {
-  border-color: var(--accent);
-}
+
 .project-link:hover h3,
 .project-link:hover .project-arrow {
   color: var(--accent);
@@ -847,18 +874,7 @@ figcaption,
   margin-bottom: 28px;
   max-width: 49ch;
 }
-.project-illustration {
-  background: var(--surface);
-  padding: 24px;
-  color: var(--accent);
-}
-.project-illustration .project-diagram {
-  margin: 32px 0;
-}
-.project-illustration figcaption {
-  color: var(--muted);
-  font-size: 0.61rem;
-}
+
 .project-approach {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -1966,12 +1982,7 @@ figcaption,
   .intro-bottom {
     gap: 50px;
   }
-  .mesh-study {
-    padding: 16px;
-  }
-  .figure-heading {
-    font-size: 0.61rem;
-  }
+
   .project-overview {
     gap: 44px;
   }
@@ -2043,20 +2054,11 @@ figcaption,
   .hero-index > a {
     white-space: nowrap;
   }
-  .mesh-controls {
-    width: 100%;
-  }
-  .mesh-controls button {
-    padding-inline: 7px;
-    font-size: 9px;
-    flex: 1;
-  }
+
   .project-link {
     grid-template-columns: 28px minmax(0, 1fr) 110px;
   }
-  .project-thumbnail {
-    display: none;
-  }
+
   .project-copy h3 {
     font-size: 34px;
   }
@@ -2222,19 +2224,7 @@ figcaption,
   .hero-study {
     padding-top: 0;
   }
-  .mesh-study {
-    padding: 18px;
-  }
-  .figure-heading {
-    font-size: 0.6rem;
-  }
-  .mesh-controls {
-    width: fit-content;
-  }
-  .mesh-controls button {
-    padding-inline: 12px;
-    font-size: 10px;
-  }
+
   .study-reference strong {
     font-size: 21px;
   }
@@ -2644,5 +2634,61 @@ figcaption,
   .project-tools,
   .eyebrow {
     font-size: 9px;
+  }
+}
+
+@media (max-width: 900px) {
+  .project-method {
+    grid-column: 2;
+    grid-row: 2;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px 30px;
+    padding-left: 0;
+    border: 0;
+  }
+  .project-method div + div {
+    margin-top: 0;
+  }
+  .project-end {
+    grid-column: 3;
+    grid-row: 1 / 3;
+  }
+  .implementation-heading {
+    font-size: 9px;
+  }
+  .source-fragment {
+    padding: 14px;
+  }
+  .source-fragment pre {
+    font-size: 10px;
+  }
+  .project-brief dl > div {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+}
+@media (max-width: 640px) {
+  .project-end {
+    grid-column: 2;
+    grid-row: 3;
+  }
+  .project-method {
+    gap: 18px 26px;
+  }
+  .project-method dd {
+    font-size: 14px;
+  }
+  .implementation-feature h2 {
+    font-size: 34px;
+  }
+  .implementation-heading {
+    font-size: 10px;
+  }
+  .source-fragment pre {
+    font-size: 11px;
+  }
+  .project-brief dl > div {
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
   }
 }

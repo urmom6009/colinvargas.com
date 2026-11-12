@@ -45,14 +45,15 @@ The aerospace layer supplies the content: equations, solver states, verification
 ## evidence and interactions
 
 - Project titles, tools, scope, and status come from `src/data/portfolio.ts`. do not duplicate them in route-local arrays.
-- Concept diagrams always carry a visible concept label. use real figures with units, setup, and provenance when numerical results become available.
+- Lead with actual implementation or verified artifacts. the solver feature quotes a pinned source revision, with the file and revision recorded; statements remain unchanged apart from leading indentation.
+- Use real figures with units, setup, and provenance when numerical results become available. do not substitute stock geometry, decorative flow lines, or a pretend refinement control for project evidence.
 - Planned methods, unpublished reports, and draft logs are not completed public evidence. current project pages are overviews, with the publication status stated explicitly.
-- The mesh control explains uniform spacing and local refinement. project filters use native buttons with pressed states and an announced count.
-- Without javascript, all project rows and the default mesh remain visible; enhancement-only controls remain hidden.
+- Project rows present the method and material available to inspect. project filters use native buttons with pressed states and an announced count.
+- Without javascript, all project rows and implementation excerpts remain visible; enhancement-only controls remain hidden.
 
 ## motion
 
 - Keep all information visible without requiring a scroll animation.
-- Use small color changes and arrow motion for links, and a short opacity transition for the mesh view.
+- Use small color changes and arrow motion for links. source excerpts and method details remain still and readable.
 - Avoid blur-heavy reveals, hover lifts, and sticky scenes that stretch a short page over several viewports.
 - Preserve reduced-motion behavior and visible keyboard focus.
