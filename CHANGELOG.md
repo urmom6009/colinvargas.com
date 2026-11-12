@@ -1,6 +1,7 @@
 # Changelog
 
 ## Unreleased
+- Filled the public project overviews with verified propulsion and mixing-chamber methods, added education and experience to the printable profile, turned notes into a reading guide, aligned LinkedIn, and replaced illustrative offline systems readings with unavailable states.
 
 ### Move the actual code lines into the cell — November 12, 2026
 

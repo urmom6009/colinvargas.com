@@ -3,7 +3,7 @@ export const profile = {
   name: "colin vargas",
   email: "me@colinvargas.com",
   github: "https://github.com/urmom6009",
-  linkedin: "https://www.linkedin.com/in/colinvargas",
+  linkedin: "https://www.linkedin.com/in/colin-vargas",
   source: "https://github.com/urmom6009/colinvargas.com",
 };
 
@@ -59,43 +59,43 @@ export const projects = [
     title: "scramjet analysis tool",
     category: "propulsion",
     discipline: "propulsion & thermodynamics",
-    context: "engineering analysis project",
+    context: "aircraft propulsion course project · fall 2024",
     status: "writeup in progress",
-    record: "project overview · report forthcoming",
+    record: "course report · not yet published here",
     method: "parametric analysis",
     material: "project overview",
     brief: [
-      { label: "problem", value: "propulsion trade space" },
-      { label: "approach", value: "thermodynamic model / parameter sweeps" },
+      { label: "problem", value: "ramjet / scramjet performance" },
+      { label: "approach", value: "station model / flight-condition sweeps" },
       { label: "tools", value: "matlab" },
     ],
     summary:
-      "a parametric approach to propulsion analysis, with the assumptions kept alongside the trends they produce.",
+      "a matlab model comparing ramjet and scramjet performance as flight and component conditions change.",
     question:
-      "what can a propulsion model reveal about a design trade when its assumptions remain visible?",
+      "where does thermal choking change the trade between thrust, efficiency, and fuel use?",
     scope:
-      "a computational analysis tool for examining scramjet performance trends across a parameter space. the public overview focuses on the modeling problem; the underlying report and plots are still being prepared.",
+      "the model follows flow through the freestream, diffuser, combustor, and nozzle. it varies flight mach number and altitude, diffuser and nozzle behavior, and combustor limits to compare thrust, efficiencies, and thrust-specific fuel consumption.",
     tools: ["matlab", "propulsion", "parametric analysis"],
     approach: [
       {
-        title: "define the model",
+        title: "follow the stations",
         detail:
-          "make the operating conditions and thermodynamic assumptions explicit before interpreting a performance trend.",
+          "calculate pressure, temperature, velocity, and mach number through the diffuser, combustor, and nozzle from stated flight and component inputs.",
       },
       {
-        title: "explore the trade space",
+        title: "check choking cases",
         detail:
-          "vary selected inputs and compare trends within the model's stated limits.",
+          "compare thermally choked and unchoked test cases with expected values, then plot their temperature-entropy paths.",
       },
       {
-        title: "document the interpretation",
+        title: "sweep flight conditions",
         detail:
-          "pair future sweep plots with equations, units, assumptions, and the limits of the comparison.",
+          "track thrust, overall efficiency, and thrust-specific fuel consumption as flight mach number and altitude vary.",
       },
     ],
     evidence:
-      "the methodology and performance plots have not yet been published here. no thrust, efficiency, or design-improvement figures are claimed in this overview.",
-    next: "a model description and representative parameter sweep, with assumptions and units attached.",
+      "the fall 2024 course report documents the matlab model, two choking test cases, temperature-entropy diagrams, and flight-condition sweeps. the report and plots are not yet published on this site; this overview makes no numerical performance claim.",
+    next: "publish a representative sweep with its inputs, units, and model limitations.",
     source: null,
   },
   {
@@ -104,47 +104,48 @@ export const projects = [
     title: "mixing chamber analysis",
     category: "numerics",
     discipline: "numerical flow modeling",
-    context: "engineering analysis project",
+    context: "computational fluid dynamics course project · spring 2025",
     status: "writeup in progress",
-    record: "project overview · figures forthcoming",
+    record: "course report · figures not yet published here",
     method: "finite differences",
     material: "project overview",
     brief: [
-      { label: "problem", value: "mixing-chamber flow" },
+      { label: "problem", value: "2d incompressible thermal mixing" },
       { label: "discretization", value: "finite differences" },
       { label: "boundary treatment", value: "immersed boundaries" },
     ],
     summary:
-      "a flow-modeling study examining numerical methods, immersed boundaries, and the context needed to interpret a simulation.",
+      "a transient mixing-chamber model of velocity and temperature around two rotating paddles, one heated and one cooled.",
     question:
-      "how do the numerical method and the treatment of a boundary affect the flow behavior a model can represent?",
+      "how do rotating immersed boundaries change the flow, thermal mixing, and heat leaving the chamber?",
     scope:
-      "mixing-chamber modeling with a focus on finite-difference methods and immersed-boundary treatment. the report, numerical setup, and visual outputs are not yet available on this site.",
+      "the matlab study uses a staggered finite-difference grid and immersed boundaries to model transient, two-dimensional incompressible flow. it evaluates velocity and temperature fields, time-averaged kinetic energy, and convective heat flow through the outlet across reynolds and prandtl number cases.",
     tools: [
+      "matlab",
       "finite differences",
       "immersed boundaries",
-      "verification & validation",
+      "grid convergence",
     ],
     approach: [
       {
-        title: "describe the physical problem",
+        title: "set the chamber",
         detail:
-          "record the geometry, boundary conditions, and assumptions needed to understand the model.",
+          "define two inlets, one outlet, temperature conditions, and the motion and heating of the paddles.",
       },
       {
-        title: "inspect the discretization",
+        title: "advance the fields",
         detail:
-          "examine how the numerical method and boundary representation influence the computed behavior.",
+          "combine staggered finite differences, immersed-boundary forcing, and a pressure projection with explicit and implicit time integration.",
       },
       {
-        title: "give each figure context",
+        title: "check grid behavior",
         detail:
-          "prepare visual results with their setup and numerical limitations, rather than presenting an unexplained flow image.",
+          "assess grid convergence with richardson extrapolation and the grid convergence index, then inspect velocity and thermal fields over time.",
       },
     ],
     evidence:
-      "this is a scope overview, not a published validation result. the archived report and simulation figures will be needed to assess the numerical findings.",
-    next: "the model setup, representative flow figures, and a description of the verification approach.",
+      "the spring 2025 course report describes the model, numerical methods, grid-convergence assessment, and flow and thermal visualizations. the report and figures are not yet published on this site, so this overview does not present a verified numerical result.",
+    next: "publish the model setup and selected figures with their convergence context.",
     source: null,
   },
   {

@@ -7,11 +7,21 @@ astro portfolio site for `colinvargas.com`.
 - `/` is the live editorial portfolio homepage.
 - `/work` is a filterable project index. `/work/adaptive-cfd-solver`, `/work/scramjet-analysis-tool`, and `/work/compressible-flow-project` explain project scope, approach, and publication status. the last url is retained for the mixing chamber analysis project.
 - `/work/portfolio-and-technical-logs` describes this site and its repository-aware logging workflow, with a link to the public source.
-- `/notes` explains that there are currently no public notes. draft entries remain private and are not rendered into pages.
+- `/notes` is a reading guide to the public project records and open checks. there are no standalone public notes; draft entries are not rendered into pages.
 - `/systems` is the public systems readout. it renders sanitized, read-only telemetry and falls back cleanly if the live API route is unavailable.
 - `/sysadmin` and its four detail urls redirect to their corresponding `/systems` pages for existing bookmarks.
-- `/resume` is a printable, project-based technical profile summarizing focus areas, project experience, and public contact links.
+- `/resume` is a printable technical profile with education, experience, project work, focus areas, and public contact links.
 - `/404` provides a styled fallback for unpublished or missing pages.
+
+## content pass / november 11, 2026
+
+- objective: fill generic project summaries and the notes dead end with sourced public context, add verified background to the technical profile, align contact identity, and remove invented offline telemetry.
+- sources: this repository and style guide; the existing website brief; the owner's current resume, propulsion report, and mixing-chamber report; and the owner's correction that both course projects use MATLAB, with `me@colinvargas.com` and `linkedin.com/in/colin-vargas` as public contact details.
+- requirements: preserve the current shared data model and interactive solver study; keep concise lowercase copy; separate demonstrated solver behavior from planned AMR; describe the incompressible finite-difference mixing chamber accurately.
+- exclusions: no private thesis repository links, draft log, report files, unreviewed figures, or invented metrics are added to the public site.
+- acceptance: `npm test` and `npm run build` pass; `/`, `/work`, all project pages, `/notes`, `/resume`, `/contact`, and `/systems` render; public links agree; offline systems pages display unavailable values.
+- unresolved: public report artifacts can be added after their contents and provenance are reviewed.
+- next action: verify the generated pages and deployment path, then publish the reviewed source.
 
 ## local workflow
 
@@ -44,7 +54,7 @@ the final field view interpolates computed states, beginning with the exact firs
 
 `ImplementationExcerpt.astro`, `CellFluxView.astro`, `AdvectionView.astro`, and `src/scripts/implementationScroll.ts` own the bounded scroll presentation. `src/scripts/codeMorph.ts` measures the source lines, SVG faces, and field location after font loading and on resize, then moves inert, aria-hidden copies of the original text. step metadata is in `src/data/implementationSteps.ts`. passive scroll events schedule one animation-frame update per event cycle; reduced-motion preference changes and short viewports use the static reading layout. keyboard focus on the canonical source opens the reading view and selects the matching explanation.
 
-local astro does not apply the vercel telemetry rewrite. `/systems` labels fallback values as sample data, never as current service health. missing fields in an api response do not inherit sample measurements.
+local astro does not apply the vercel telemetry rewrite. `/systems` shows unavailable indicators when the public api does not answer; it does not substitute sample measurements. missing fields in an api response remain unavailable.
 
 ## sitewide visual system
 

@@ -1,10 +1,36 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+const readingPath = [
+  {
+    title: "start with the advection baseline",
+    detail:
+      "the solver overview shows a pinned upwind update and states where the single-level implementation ends.",
+    href: "/work/adaptive-cfd-solver",
+  },
+  {
+    title: "follow the open checks",
+    detail:
+      "the public site issue tracks adding run data before treating refinement or validation as a finished result.",
+    href: "https://github.com/urmom6009/colinvargas.com/issues/10",
+  },
+  {
+    title: "compare a propulsion model",
+    detail:
+      "the MATLAB ramjet and scramjet report follows component assumptions, thermal choking, and flight-condition sweeps.",
+    href: "/work/scramjet-analysis-tool",
+  },
+  {
+    title: "read a different flow problem",
+    detail:
+      "the MATLAB mixing-chamber study follows incompressible velocity and temperature fields around rotating paddles.",
+    href: "/work/compressible-flow-project",
+  },
+];
 ---
 
 <BaseLayout
   title="field notes — colin vargas"
-  description="A future home for technical notes on numerical methods, engineering decisions, and scientific software. No public entries have been released yet."
+  description="A reading guide to Colin Vargas's solver, propulsion, and thermal mixing records. Draft technical logs remain unpublished."
 >
   <main id="main-content" tabindex="-1">
     <section class="page-intro" aria-labelledby="notes-title">
@@ -14,24 +40,39 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
         the thinking<br />between results<span class="accent-dot">.</span>
       </h1><div class="intro-bottom">
         <p>
-          a place for numerical details, modeling decisions, and the small
-          discoveries that make the next experiment better.
+          start with the project records: what the model does, what was checked,
+          and what still needs a repeatable run.
         </p><p class="intro-note">
-          notes will include the context and artifacts needed to follow the
-          work.
+          draft logs stay private until their inputs, figures, and conclusions
+          can stand on their own.
         </p>
       </div>
     </section>
     <section class="notes-empty" aria-labelledby="notes-status">
       <span class="empty-mark" aria-hidden="true">[ — ]</span><div>
         <span class="eyebrow">publication status</span><h2 id="notes-status">
-          no public notes just yet.
+          no standalone notes just yet.
         </h2><p>
-          the notebook is taking shape. in the meantime, the project overviews
-          describe the questions and approaches behind the work.
+          the project pages and public site issue form the reading path for now.
+          they separate a visible implementation from measured results still to
+          be documented.
         </p><a class="button-link" href="/work"
-          >explore the projects <span aria-hidden="true">↗</span></a
+          >open the project index <span aria-hidden="true">↗</span></a
         >
+      </div>
+    </section>
+    <section class="profile-section" aria-labelledby="reading-path-title">
+      <div class="section-heading">
+        <h2 id="reading-path-title">reading path</h2><span>from method to evidence</span>
+      </div>
+      <div class="profile-projects">
+        {readingPath.map((item, index) => (
+          <article>
+            <span class="eyebrow">0{index + 1}</span>
+            <h3><a href={item.href}>{item.title} <span aria-hidden="true">↗</span></a></h3>
+            <p>{item.detail}</p>
+          </article>
+        ))}
       </div>
     </section>
   </main>
