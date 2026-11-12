@@ -26,35 +26,6 @@ const cells = Array.from(final.field, (value, index) => ({
 ---
 
 <div class="advection-view" data-advection-view>
-  <div class="implementation-step" aria-live="off">
-    <div>
-      <span class="step-number" data-step-number>06 / 07</span><h3
-        data-step-title
-      >
-        {implementationSteps[5].title}
-      </h3><span class="step-value" data-step-value
-        >φ new ≈ {scalarLabel(stepValue("new_fab", budget))}</span
-      >
-    </div>
-    <p id="implementation-step-description" data-step-description>
-      {implementationSteps[5].explanation}
-    </p>
-  </div>
-  <ol class="implementation-ledger" aria-label="cell update steps">
-    {
-      implementationSteps.map((step, index) => (
-        <li data-step-record={step.key}>
-          <span class="record-index">{String(index + 1).padStart(2, "0")}</span>
-          <span class="record-title">{step.shortTitle}</span>
-          <strong class="record-value">
-            {step.key === "new_fab" ? "φ new" : step.key} ≈ {scalarLabel(
-              stepValue(step.key, budget),
-            )}
-          </strong>
-        </li>
-      ))
-    }
-  </ol>
   <div class="physical-stage">
     <CellFluxView initial={frames[0]} />
     <div class="advection-global" data-global-view>
@@ -119,6 +90,35 @@ const cells = Array.from(final.field, (value, index) => ({
       </div>
     </div>
   </div>
+  <div class="implementation-step" aria-live="off">
+    <div>
+      <span class="step-number" data-step-number>06 / 07</span><h3
+        data-step-title
+      >
+        {implementationSteps[5].title}
+      </h3><span class="step-value" data-step-value
+        >φ new ≈ {scalarLabel(stepValue("new_fab", budget))}</span
+      >
+    </div>
+    <p id="implementation-step-description" data-step-description>
+      {implementationSteps[5].explanation}
+    </p>
+  </div>
+  <ol class="implementation-ledger" aria-label="cell update steps">
+    {
+      implementationSteps.map((step, index) => (
+        <li data-step-record={step.key}>
+          <span class="record-index">{String(index + 1).padStart(2, "0")}</span>
+          <span class="record-title">{step.shortTitle}</span>
+          <strong class="record-value">
+            {step.key === "new_fab" ? "φ new" : step.key} ≈ {scalarLabel(
+              stepValue(step.key, budget),
+            )}
+          </strong>
+        </li>
+      ))
+    }
+  </ol>
   <div class="advection-case">
     <span>{n}² / periodic / cfl {referenceCase.cfl}</span><span
       >u = ({referenceCase.velocity.join(", ")})</span

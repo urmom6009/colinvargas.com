@@ -11,8 +11,8 @@ const ease = (start: number, end: number, value: number) => {
 };
 const windows: Record<string, readonly [number, number]> = {
   ...stepMotionWindows,
-  "comment-0": [0.22, 0.35],
-  "comment-7": [0.62, 0.78],
+  "comment-0": [0.18, 0.23],
+  "comment-7": [0.61, 0.64],
 };
 interface LineObject {
   key: string;
@@ -32,10 +32,11 @@ interface LineObject {
 export function createCodeMorph(track: HTMLElement, figure: HTMLElement) {
   const stage = track.querySelector<HTMLElement>(".implementation-stage");
   const pre = track.querySelector<HTMLElement>(".source-fragment pre");
+  const sourcePanel = track.querySelector<HTMLElement>(".source-fragment");
   const cell = track.querySelector<HTMLElement>(".cell-flux-view");
   const field = track.querySelector<HTMLElement>(".advection-field");
   const center = track.querySelector<SVGRectElement>(".target-cell");
-  if (!stage || !pre || !cell || !field || !center) return null;
+  if (!stage || !pre || !sourcePanel || !cell || !field || !center) return null;
   const layer = document.createElement("div");
   layer.className = "code-morph-layer";
   layer.setAttribute("aria-hidden", "true");
@@ -73,6 +74,7 @@ export function createCodeMorph(track: HTMLElement, figure: HTMLElement) {
     const saved = cell.style.transform;
     cell.style.transform = "none";
     const bounds = stage.getBoundingClientRect();
+    const sourceBounds = sourcePanel.getBoundingClientRect();
     const font = getComputedStyle(pre);
     objects.forEach((object) => {
       const source = object.source.getBoundingClientRect();
@@ -88,7 +90,8 @@ export function createCodeMorph(track: HTMLElement, figure: HTMLElement) {
       if (!target) return;
       const destination = target.getBoundingClientRect();
       object.x = source.left - bounds.left;
-      object.y = source.top - bounds.top;
+      // Keep the canonical line in place; its traveling copy emerges below the panel.
+      object.y = sourceBounds.bottom - bounds.top + 4;
       object.width = Math.max(1, source.width);
       object.height = Math.max(1, source.height);
       object.targetX = destination.left + destination.width / 2 - bounds.left;
@@ -140,9 +143,8 @@ export function createCodeMorph(track: HTMLElement, figure: HTMLElement) {
       const sy = 1 - 0.92 * compress;
       const angle = object.angle * ease(0.25, 1, t);
       object.element.style.transform = `translate(${dx}px, ${dy}px) rotate(${angle}deg) scale(${sx}, ${sy})`;
-      // Let the cell grid read clearly before motion, then bring each moving line forward.
-      const sourceGhost = 1 - ease(0.03, 0.17, progress);
-      const lineStrength = sourceGhost + (1 - sourceGhost) * ease(0, 0.12, t);
+      // The source stays readable; only its visual copy travels to the cell.
+      const lineStrength = ease(0, 0.12, t);
       object.element.style.opacity = String(
         (object.key.startsWith("comment") ? 0.65 : 1) *
           lineStrength *
@@ -157,10 +159,6 @@ export function createCodeMorph(track: HTMLElement, figure: HTMLElement) {
     });
     const zoom = ease(0.88, 0.96, progress);
     cell.style.transform = `translate(${zoomX * zoom}px, ${zoomY * zoom}px) scale(${1 + (zoomScale - 1) * zoom})`;
-    figure.style.setProperty(
-      "--source-chrome",
-      String(1 - ease(0.03, 0.17, progress)),
-    );
     figure.style.setProperty(
       "--physical-reveal",
       String(ease(0.02, 0.12, progress)),
