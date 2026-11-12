@@ -1,0 +1,237 @@
+/* The default presentation is two complete views in document flow. */
+.implementation-container {
+  min-width: 0;
+}
+.implementation-stage {
+  margin: 26px 0;
+}
+.implementation-stage > .source-fragment {
+  margin: 0;
+}
+.implementation-scroll-hint {
+  display: none;
+}
+.advection-view {
+  margin-top: 30px;
+}
+.advection-view-heading {
+  margin-bottom: 20px;
+}
+.advection-view-heading h3 {
+  font-size: 24px;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+}
+.advection-view-heading > span {
+  display: block;
+  margin-top: 8px;
+  color: var(--muted);
+  font: 10px/1.5 var(--font-mono);
+}
+.advection-body {
+  display: grid;
+  grid-template-columns: minmax(0, 220px) minmax(0, 1fr);
+  gap: 28px;
+  align-items: center;
+}
+.advection-domain {
+  min-width: 0;
+  padding: 0 0 22px 18px;
+  position: relative;
+}
+.advection-field {
+  position: relative;
+  aspect-ratio: 1;
+  border-left: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  color: var(--accent);
+}
+.advection-field > svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.advection-field > canvas {
+  display: none;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  color: var(--accent);
+}
+.advection-field > canvas[data-ready="true"] {
+  display: block;
+}
+.advection-field:has(canvas[data-ready="true"]) .advection-static {
+  visibility: hidden;
+}
+.axis-y,
+.axis-origin,
+.axis-end {
+  position: absolute;
+  color: var(--muted);
+  font: 10px var(--font-mono);
+}
+.axis-y {
+  top: -5px;
+  left: 0;
+}
+.axis-origin {
+  bottom: 0;
+  left: 18px;
+}
+.axis-end {
+  bottom: 0;
+  right: 0;
+}
+.advection-description strong {
+  display: block;
+  font: 17px/1.4 var(--font-sans);
+  margin-top: 8px;
+}
+.advection-direction {
+  display: block;
+  width: 70px;
+  height: 14px;
+  margin: 12px 0;
+  color: var(--accent);
+}
+.advection-description p {
+  max-width: 26ch;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+.advection-description .eyebrow {
+  font-size: 9px;
+}
+.advection-time {
+  display: block;
+  margin-top: 6px;
+  font: 12px/1.5 var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+.advection-case {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 6px 16px;
+  padding-top: 18px;
+  font: 9px/1.6 var(--font-mono);
+  color: var(--muted);
+}
+.advection-provenance {
+  font: 9px/1.6 var(--font-mono);
+  color: var(--muted);
+  margin-top: 8px;
+}
+
+/* Enhancement only: one short pinned study, released back into normal scrolling. */
+.hero-main:has(.implementation-scroll) {
+  align-items: start;
+}
+.hero-main:has(.implementation-scroll) > .hero-identity {
+  padding-top: 52px;
+}
+.implementation-scroll[data-motion="scroll"] {
+  height: var(--study-height);
+  position: relative;
+}
+.implementation-scroll[data-motion="scroll"] > .implementation-feature {
+  position: sticky;
+  top: var(--study-top, 104px);
+}
+.js .implementation-scroll:not([data-motion="static"]) .implementation-stage {
+  display: grid;
+}
+.js
+  .implementation-scroll:not([data-motion="static"])
+  .implementation-stage
+  > * {
+  grid-area: 1 / 1;
+}
+.js .implementation-scroll:not([data-motion="static"]) .source-fragment {
+  align-self: start;
+  opacity: var(--source-opacity, 1);
+  transform: translateY(var(--source-offset, 0px));
+  z-index: 1;
+}
+.js .implementation-scroll:not([data-motion="static"]) .advection-view {
+  margin-top: 0;
+  opacity: var(--field-opacity, 0);
+  transform: translateY(var(--field-offset, 18px));
+}
+.implementation-scroll[data-motion="scroll"] .implementation-scroll-hint {
+  display: block;
+}
+.implementation-scroll[data-phase="field"] .source-fragment {
+  pointer-events: none;
+}
+.implementation-feature[data-source-focused="true"] .source-fragment {
+  opacity: 1 !important;
+  transform: none !important;
+  pointer-events: auto;
+}
+.implementation-feature[data-source-focused="true"] .advection-view {
+  opacity: 0 !important;
+}
+
+@media (min-width: 901px) and (min-height: 850px) {
+  .hero-main:has(.implementation-scroll[data-motion="scroll"])
+    > .hero-identity {
+    position: sticky;
+    top: 104px;
+  }
+}
+@media (max-width: 900px) {
+  .advection-body {
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+    gap: 16px;
+  }
+  .advection-view-heading h3 {
+    font-size: 22px;
+  }
+  .advection-description p {
+    font-size: 12px;
+  }
+  .advection-description strong {
+    font-size: 15px;
+  }
+}
+@media (max-width: 640px) {
+  .hero-main:has(.implementation-scroll) > .hero-identity {
+    padding-top: 0;
+  }
+  .advection-view-heading h3 {
+    font-size: 22px;
+  }
+  .advection-case {
+    font-size: 8px;
+  }
+}
+@media (prefers-reduced-motion: reduce), print {
+  .implementation-scroll {
+    height: auto !important;
+  }
+  .implementation-scroll > .implementation-feature {
+    position: static !important;
+  }
+  .js .implementation-scroll .implementation-stage {
+    display: block !important;
+  }
+  .js .implementation-scroll .source-fragment,
+  .js .implementation-scroll .advection-view {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .js .implementation-scroll .advection-view {
+    margin-top: 30px !important;
+  }
+  .implementation-scroll .implementation-scroll-hint {
+    display: none !important;
+  }
+  .hero-main:has(.implementation-scroll) > .hero-identity {
+    position: static !important;
+  }
+}

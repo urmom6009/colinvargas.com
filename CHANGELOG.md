@@ -2,6 +2,18 @@
 
 ## Unreleased
 
+### Monogram and code-to-physics scroll study — November 11, 2026
+
+- Objective: refine the top-left logo and let the code excerpt transition into its physical meaning as the reader scrolls, retaining the approved restrained portfolio style.
+- Requirements: a coherent header/favicon mark; a short, reversible scroll transition from the actual C++ excerpt into a computed periodic scalar-advection field; explicit reference-case provenance; normal page navigation and a readable reduced-motion/no-JavaScript presentation.
+- Exclusions: invented thesis results, a new AMR or fluid-momentum claim, deployment, and environment configuration changes.
+- Acceptance: Astro check/build; numerical checks for the reference update; desktop/mobile scroll, keyboard, theme, reduced-motion, and no-JavaScript browser checks; visual review of both transition states.
+- Decisions: use the displayed first-order upwind flux/update for a small browser reference case. identify it as a reference calculation rather than a saved thesis run. keep the detailed project excerpt static.
+- Result: replaced the framed text badge with a balanced two-stroke monogram and matching favicon. the homepage now transitions the exact code excerpt into a computed scalar field as the reader scrolls; reversing scroll restores the code. one short pinned study releases into the project list. the detailed project excerpt remains static.
+- Validation: all five numerical tests passed, and `npm run build` passed with zero errors, warnings, or hints. browser checks passed in 14 viewport/theme combinations (ten animated studies and four compact static fallbacks), including intermediate field movement, source focus, reverse scrolling, normal page release, live reduced-motion changes, no JavaScript, theme updates, project filters, and matching header/favicon paths. no uncaught JavaScript errors occurred. captured a short MP4 of the completed transition.
+- Limits: the field is a separate reference calculation using the displayed update and an illustrative Gaussian initial condition; the C++ thesis binary was not run. reduced motion and insufficient viewport height deliberately show both complete views without animation. nothing was pushed, deployed, or published.
+- Next action: review the local motion preview and refined logo.
+
 ### Refine the graphics — November 11, 2026
 
 - Objective: preserve the approved portfolio layout while replacing schematic decoration with a quieter presentation of actual capability.

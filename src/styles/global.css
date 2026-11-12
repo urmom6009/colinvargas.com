@@ -178,18 +178,18 @@ figcaption,
   white-space: nowrap;
 }
 .brand-mark {
-  width: 37px;
-  height: 37px;
-  border: 1px solid var(--line);
-  display: grid;
-  place-content: center;
-  grid-auto-flow: column;
-  font-size: 22px;
-  line-height: 1;
-  letter-spacing: -2px;
+  width: 42px;
+  height: 36px;
+  display: block;
+  flex: 0 0 auto;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
-.brand-mark > span {
-  color: var(--accent);
+.brand-mark .brand-v {
+  stroke: var(--accent);
 }
 .site-header nav {
   display: flex;

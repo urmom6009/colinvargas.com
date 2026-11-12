@@ -1,4 +1,5 @@
 ---
+import BrandMark from "./BrandMark.astro";
 const path = Astro.url.pathname.replace(/\/$/, "") || "/";
 const links = [
   { href: "/work", label: "work" },
@@ -11,7 +12,7 @@ const links = [
 
 <header class="site-header">
   <a class="brand" href="/" aria-label="colin vargas home">
-    <span class="brand-mark" aria-hidden="true">cv<span>·</span></span>
+    <BrandMark />
     <span>colin vargas</span>
   </a>
   <nav aria-label="primary navigation">

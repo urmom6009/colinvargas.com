@@ -50,10 +50,13 @@ The aerospace layer supplies the content: equations, solver states, verification
 - Planned methods, unpublished reports, and draft logs are not completed public evidence. current project pages are overviews, with the publication status stated explicitly.
 - Project rows present the method and material available to inspect. project filters use native buttons with pressed states and an announced count.
 - Without javascript, all project rows and implementation excerpts remain visible; enhancement-only controls remain hidden.
+- The homepage can connect the source to a computed physical representation. identify the calculation, grid, prescribed velocity, boundary conditions, and time. distinguish a reference case from a saved thesis result; never use an invented shape as numerical output.
+- The monogram is a custom two-stroke `cv` mark, shared visually between the header and favicon. keep its open silhouette, balanced stroke weight, and restrained accent; do not add a badge frame or technical ornament.
 
 ## motion
 
 - Keep all information visible without requiring a scroll animation.
-- Use small color changes and arrow motion for links. source excerpts and method details remain still and readable.
+- Use small color changes and arrow motion for links. the detailed project excerpts stay still. the homepage may transition one excerpt into its numerical meaning through a short, reversible scroll study.
 - Avoid blur-heavy reveals, hover lifts, and sticky scenes that stretch a short page over several viewports.
 - Preserve reduced-motion behavior and visible keyboard focus.
+- With reduced motion or without JavaScript, show the code and a computed final field in normal flow. use the same static layout when the study cannot fit the viewport. keyboard focus must make the source visible even during the field phase.

@@ -26,14 +26,19 @@ use node.js >=22.12.0. the dev server defaults to `http://localhost:4321/`. the 
 before publishing a visual change, check at least:
 
 ```sh
+npm test
 npm run build
 ```
 
-then smoke test `/`, `/work`, `/resume`, `/notes`, the project pages, `/systems`, and a missing route locally. check project filters, the implementation excerpt, theme persistence, keyboard access, and mobile layouts. `npm run preview` serves the built output for a production smoke test.
+then smoke test `/`, `/work`, `/resume`, `/notes`, the project pages, `/systems`, and a missing route locally. check project filters, forward/reverse scrolling through the implementation study, theme persistence, keyboard access, and mobile layouts. with reduced motion or JavaScript disabled, both the code and final reference field remain readable in normal flow. `npm run preview` serves the built output for a production smoke test.
 
 project data lives in `src/data/portfolio.ts`. the homepage, work index, project pages, and technical profile share these records so titles, tooling, and publication status stay consistent. method and available-material summaries replace decorative project icons. add verified artifacts before promoting project results or planned capabilities to demonstrated claims.
 
-the homepage and solver overview show an actual excerpt from `code/advect_noAMR/src/advance.cpp` in `urmom6009/thesis-updated`, pinned to revision `8f1f6c867c39197c2146b21efce41b947fde296d` (lines 48–57). `src/data/solverImplementation.ts` stores the source location and excerpt; only leading indentation is removed. the feature identifies the current implementation as single-level, with adaptive refinement still planned. source inspection establishes what is implemented, not numerical correctness or performance. no solver execution or fabricated plot is presented on the site.
+the homepage and solver overview show an actual excerpt from `code/advect_noAMR/src/advance.cpp` in `urmom6009/thesis-updated`, pinned to revision `8f1f6c867c39197c2146b21efce41b947fde296d` (lines 48–57). `src/data/solverImplementation.ts` stores the source location and excerpt; only leading indentation is removed. the feature identifies the current implementation as single-level, with adaptive refinement still planned. the detailed project excerpt stays static.
+
+on the homepage, the excerpt transitions into a separate reference calculation of that same upwind update. `src/lib/advection.ts` transports a Gaussian scalar on a 64 × 64 unit-square periodic grid with prescribed velocity `(1, 0)`, CFL `0.3`, and final dimensionless time `0.5`. the Gaussian starts at `(0.25, 0.5)` with width `0.075`. the visual interpolates computed states; the initial condition is illustrative, and the field is not a saved thesis run or a claim of thesis validation. the C++ binary is not executed by the website. `npm test` checks both velocity signs/axes, periodic wrapping, mass conservation, bounds, flux signs, and rejection of unstable timesteps.
+
+`ImplementationExcerpt.astro`, `AdvectionView.astro`, and `src/scripts/implementationScroll.ts` own the bounded scroll presentation. it uses passive scroll events with one animation-frame update per event cycle, pauses when the page is still, and respects reduced-motion preference changes. short viewports use the static reading layout. keyboard focus restores the source when it would otherwise have faded.
 
 local astro does not apply the vercel telemetry rewrite. `/systems` labels fallback values as sample data, never as current service health. missing fields in an api response do not inherit sample measurements.
 
@@ -54,10 +59,10 @@ when adding a new route, start by choosing its page role, then map the visual de
 the audience is aerospace and engineering teams. lead with a clear identity and area of focus, then make the work easy to explore.
 
 1. preserve the warm paper, restrained green accents, oversized pp neue montreal type, ibm plex mono labels, and hard horizontal rules.
-2. let actual implementation and verified artifacts carry the visual weight. show the source file and revision for excerpts; use numerical figures only with their run context. avoid simulated dashboards and decorative flow diagrams.
+2. let actual implementation and verified artifacts carry the visual weight. show the source file and revision for excerpts; give reference calculations their case parameters and provenance. avoid decorative flow diagrams or presenting a reference case as a thesis result.
 3. keep selected work ahead of supporting interests and make publication status easy to find.
 4. give each project its question, current scope, approach, and available evidence. distinguish future methods from current capabilities.
-5. keep content in ordinary document flow, readable without javascript and without requiring scroll animations. interactive controls progressively enhance that content.
+5. keep content readable without javascript or required animation. the homepage has one short, reversible pinned study; reduced motion and short viewports show both complete views in ordinary flow.
 6. check desktop and mobile layouts in both themes, with reduced motion and keyboard access. contact and project links should remain easy to find.
 
 ## notes and logs

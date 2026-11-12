@@ -4,6 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "test": "node --experimental-strip-types --test tests/*.test.ts",
     "dev": "astro dev",
     "build": "astro check && astro build",
     "new:log": "node scripts/new-log.mjs",

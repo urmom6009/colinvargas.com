@@ -39,6 +39,7 @@ const canonical = new URL(
     <meta property="og:url" content={canonical} />
     <script is:inline>
       (() => {
+        document.documentElement.classList.add("js");
         const storageKey = "colinvargas-theme";
         const media = window.matchMedia("(prefers-color-scheme: dark)");
         const stored = () => {
