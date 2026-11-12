@@ -43,9 +43,21 @@ astro portfolio site for `colinvargas.com`.
 - exclusions: no changes to the solver excerpt, reference calculation, project claims, or reduced-motion and no-javascript reading paths.
 - acceptance: check prelude timing, line arrivals, cumulative face and step visibility, final-field persistence, reverse scrolling, static fallbacks, and desktop/narrow layouts in a built preview.
 - unresolved: interpret “grid” as the annotated cell grid in the code-to-cell study; keep the 64 × 64 field as the final stage.
-- result: the selected cell grid fades in fully before the first source line moves. the source panel clears during the grid prelude; each statement becomes visible as it moves into the cell, and completed face highlights remain. a six-step value record stays above the cell and remains visible when the computed field takes over. reversing scroll reconstructs the earlier state.
+- result: the selected cell grid fades in fully before the first source line moves. completed face highlights remain, and a six-step value record stays visible when the computed field takes over. reversing scroll reconstructs the earlier state.
 - validation: seven numerical tests and Astro check/build passed with zero diagnostics. built-preview checks at 1280 × 900 and 1800 × 1100 confirmed the grid-only prelude, ordered arrivals, cumulative faces and records, final-field persistence, and reverse scroll. compact, short, and reduced-motion views show the full study in normal flow without horizontal overflow.
 - next action: review the updated motion and readability preview in the open pull request, then publish after approval.
+
+## implementation study layout correction / november 12, 2026
+
+- objective: keep the complete source block visible while the annotated cell grid fades into the space below it.
+- source: the owner's correction to the merged implementation-study motion; the pinned source excerpt and computed reference case remain authoritative.
+- requirements: put the grid and completed-step record below the code, keep the canonical lines readable throughout the animation, retain the ordered line-to-face movement, and preserve reverse scroll and static reading paths.
+- exclusions: no changes to the solver statements, numerical result, project claims, typography system, or other site sections.
+- acceptance: inspect the initial code, grid-only fade, intermediate and final stages, reverse scroll, keyboard inspection, mobile and reduced-motion layouts, and fit at desktop sizes. run tests and a production build.
+- unresolved: shorter viewports may use the existing normal-flow presentation when the stacked animated study cannot fit.
+- result: the source block stays visible throughout. the grid appears directly below it, and moving copies of each source line emerge below the panel as their step begins. completed faces and the step record remain visible; the final field occupies the same lower area. the former reading control now pauses motion for direct inspection.
+- validation: seven numerical tests and Astro check/build passed with zero diagnostics. built-preview checks at 2048 × 1190 and 1800 × 1100 confirmed source visibility, grid-only fade, ordered arrivals, cumulative records, final field, and reverse scroll. code-line selection, keyboard focus, pause/return, both themes, reduced motion, no-javascript, and static fallbacks passed. responsive checks from 320 to 1800px found no horizontal overflow after changing the ledger to two columns at 900px.
+- next action: review the correction in a focused pull request, then publish it.
 
 ## local workflow
 
@@ -70,7 +82,7 @@ project data lives in `src/data/portfolio.ts`. the homepage, work index, project
 
 the homepage and solver overview show an actual excerpt from `code/advect_noAMR/src/advance.cpp` in `urmom6009/thesis-updated`, pinned to revision `8f1f6c867c39197c2146b21efce41b947fde296d` (lines 48–57). `src/data/solverImplementation.ts` stores the source location and excerpt; only leading indentation is removed. the feature identifies the current implementation as single-level, with adaptive refinement still planned. the detailed project excerpt stays static.
 
-on the homepage, each nonempty source line becomes a separate visual object. the four flux statements move, rotate, and compress into their measured cell faces: `Fx_lo` left, `Fx_hi` right, `Fy_lo` bottom, and `Fy_hi` top. `dtdivF` and `new_fab` move into the cell interior before the actual balance and updated average appear. the assembled cell shrinks into its measured location in the 64 × 64 field, dissolving as the computed scalar field appears and advances. reverse scrolling reconstructs the source. the original code remains accessible through the `read code` control or keyboard focus; native line buttons select the corresponding explanation without precise scrolling.
+on the homepage, the source block stays visible and each nonempty line also has a separate moving copy below it. the four flux statements move, rotate, and compress into their measured cell faces: `Fx_lo` left, `Fx_hi` right, `Fy_lo` bottom, and `Fy_hi` top. `dtdivF` and `new_fab` move into the cell interior before the actual balance and updated average appear. the assembled cell shrinks into its measured location in the 64 × 64 field, dissolving as the computed scalar field appears and advances. reverse scrolling reconstructs the cell sequence. the `pause motion` control or keyboard focus opens direct inspection; native line buttons select the corresponding explanation without precise scrolling.
 
 `src/lib/advection.ts` transports an illustrative Gaussian scalar on a 64 × 64 unit-square periodic grid with prescribed velocity `(1, 0.5)`, CFL `0.3`, and final dimensionless time `0.5`. both velocity components are nonzero so all four face fluxes have a visible contribution. the Gaussian starts at `(0.25, 0.5)` with width `0.075`. the cell explanation inspects `(i, j) = (21, 35)` at `t = 0`, with timestep `0.003125`. `inspectCell` computes the displayed fluxes, divergence contribution, and updated average; tests compare its results against the complete field kernel for every cell and both velocity signs.
 

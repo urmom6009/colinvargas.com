@@ -1,6 +1,7 @@
 # Changelog
 
 ## Unreleased
+- Kept the full source excerpt visible while the annotated grid fades in below it; moving line copies enter the cell without covering the code, and short viewports retain the normal-flow study.
 - Revealed the annotated cell grid before the source lines move, kept completed face highlights and a six-step value record through the final field, and preserved reverse-scroll and static reading paths.
 - Raised small navigation, metadata, code, and caption type across the portfolio. narrow screens now show the full implementation study and a readable face-flux readout in normal flow; the desktop scroll sequence remains available.
 - Filled the public project overviews with verified propulsion and mixing-chamber methods, added education and experience to the printable profile, turned notes into a reading guide, aligned LinkedIn, and replaced illustrative offline systems readings with unavailable states.

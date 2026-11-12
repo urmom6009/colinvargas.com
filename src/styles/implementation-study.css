@@ -11,26 +11,37 @@
   display: none;
 }
 .implementation-scroll .implementation-feature {
-  padding: 16px 0;
+  padding: 12px 0;
 }
 .implementation-scroll .implementation-feature figcaption {
+  grid-template-columns: minmax(0, 1fr) auto;
   font-size: 13px;
   line-height: 1.5;
   gap: 3px;
+}
+.implementation-scroll .implementation-feature figcaption > span:first-child {
+  grid-column: 1 / -1;
+}
+.implementation-scroll .implementation-scroll-hint {
+  grid-column: 1;
+}
+.implementation-scroll .motion-read-toggle {
+  grid-column: 2;
+  margin-top: 0;
 }
 .implementation-scroll .implementation-heading {
   font-size: 14px;
 }
 .implementation-scroll .implementation-feature h2 {
   font-size: 34px;
-  margin: 16px 0 8px;
+  margin: 12px 0 6px;
 }
 .implementation-scroll .implementation-summary {
   font-size: 16px;
   line-height: 1.4;
 }
 .implementation-scroll .implementation-stage {
-  margin: 16px 0 12px;
+  margin: 10px 0 8px;
 }
 .implementation-scroll .source-fragment {
   padding: 12px;
@@ -113,7 +124,7 @@
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 4px 14px;
-  margin: 8px 0 10px;
+  margin: 6px 0 8px;
   padding: 0;
   list-style: none;
   font: 14px/1.35 var(--font-mono);
@@ -425,6 +436,9 @@
   }
 }
 @media (max-width: 900px) {
+  .implementation-ledger {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
   .advection-body {
     grid-template-columns: minmax(0, 145px) minmax(0, 1fr);
     gap: 18px;
@@ -438,9 +452,6 @@
   }
 }
 @media (max-width: 640px) {
-  .implementation-ledger {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
   .cell-flux-readout {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -553,16 +564,17 @@
   pointer-events: none;
 }
 
-.js
-  .implementation-scroll[data-motion="scroll"]:not([data-inspecting="true"])
-  .implementation-stage {
-  display: grid;
+.js .implementation-scroll[data-motion="scroll"] .implementation-stage {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
-.js
-  .implementation-scroll[data-motion="scroll"]:not([data-inspecting="true"])
-  .implementation-stage
-  > :not(.code-morph-layer) {
-  grid-area: 1 / 1;
+.js .implementation-scroll[data-motion="scroll"] .source-fragment {
+  position: relative;
+  z-index: 5;
+}
+.js .implementation-scroll[data-motion="scroll"] .advection-view {
+  margin-top: 0;
 }
 .js
   .implementation-scroll[data-motion="scroll"][data-code-objects="ready"]:not(
@@ -572,26 +584,8 @@
   display: block;
 }
 .js
-  .implementation-scroll[data-motion="scroll"][data-code-objects="ready"]:not(
-    [data-inspecting="true"]
-  )
-  .source-fragment
-  pre {
-  opacity: 0;
-  pointer-events: none;
-}
-.js
-  .implementation-scroll[data-motion="scroll"][data-code-objects="ready"]:not(
-    [data-inspecting="true"]
-  )
-  .source-fragment {
-  align-self: start;
-  opacity: var(--source-chrome, 1);
-}
-.js
   .implementation-scroll[data-motion="scroll"]:not([data-inspecting="true"])
   .advection-view {
-  margin-top: 0;
   opacity: var(--physical-reveal, 0);
 }
 .js

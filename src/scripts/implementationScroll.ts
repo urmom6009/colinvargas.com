@@ -63,7 +63,7 @@ export function enhanceImplementationStudies() {
         else delete track.dataset.inspecting;
         readToggle?.setAttribute("aria-pressed", String(reading));
         if (readToggle)
-          readToggle.textContent = reading ? "return to motion" : "read code";
+          readToggle.textContent = reading ? "return to motion" : "pause motion";
       };
       const write = (selector: string, text: string) => {
         const node = track.querySelector<HTMLElement>(selector);
