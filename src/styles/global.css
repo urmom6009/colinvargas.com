@@ -135,9 +135,9 @@ figcaption,
 .intro-note,
 .print-profile {
   font-family: var(--font-mono);
-  font-size: 0.69rem;
+  font-size: 14px;
   font-weight: 400;
-  line-height: 1.6;
+  line-height: 1.5;
 }
 .eyebrow,
 .project-tools {
@@ -174,7 +174,7 @@ figcaption,
   display: flex;
   align-items: center;
   gap: 14px;
-  font-size: 14px;
+  font-size: 16px;
   white-space: nowrap;
 }
 .brand-mark {
@@ -192,7 +192,7 @@ figcaption,
   display: flex;
   align-items: center;
   gap: 30px;
-  font: 12px var(--font-mono);
+  font: 15px/1.5 var(--font-mono);
 }
 .site-header nav a {
   display: flex;
@@ -239,7 +239,7 @@ figcaption,
   padding: 13px 20px;
   color: var(--bg);
   background: var(--ink);
-  font: 12px var(--font-mono);
+  font: 15px/1.5 var(--font-mono);
   transition: background 160ms;
 }
 .button-link:hover {
@@ -251,7 +251,7 @@ figcaption,
   justify-content: space-between;
   gap: 28px;
   padding: 10px 0;
-  font: 12px/1.5 var(--font-mono);
+  font: 15px/1.5 var(--font-mono);
   border-bottom: 1px solid var(--line);
 }
 .text-link:hover {
@@ -335,7 +335,7 @@ figcaption,
 .source-file,
 .implementation-facts dt,
 .implementation-feature figcaption {
-  font: 10px/1.6 var(--font-mono);
+  font: 14px/1.5 var(--font-mono);
   color: var(--muted);
 }
 .implementation-heading,
@@ -368,7 +368,7 @@ figcaption,
   margin: 18px 0 0;
   white-space: pre-wrap;
   overflow-wrap: anywhere;
-  font: 11px/1.8 var(--font-mono);
+  font: 14px/1.6 var(--font-mono);
   text-transform: none;
   color: var(--ink);
 }
@@ -392,13 +392,13 @@ figcaption,
 .implementation-feature figcaption {
   display: grid;
   gap: 6px;
-  font-size: 9px;
+  font-size: 14px;
 }
 .source-path {
   overflow-wrap: anywhere;
 }
 .implementation-note {
-  font-size: 13px;
+  font-size: 14px;
   color: var(--muted);
   margin-top: 20px;
 }
@@ -408,7 +408,7 @@ figcaption,
   grid-template-columns: 1fr auto;
   gap: 6px;
   padding: 17px 0 0;
-  font: 11px/1.5 var(--font-mono);
+  font: 14px/1.5 var(--font-mono);
 }
 .study-reference > span:first-child {
   color: var(--muted);
@@ -481,7 +481,7 @@ figcaption,
 .project-tools {
   display: block;
   margin-top: 18px;
-  font-size: 0.61rem;
+  font-size: 14px;
 }
 
 .project-copy {
@@ -499,7 +499,7 @@ figcaption,
   margin-top: 20px;
 }
 .project-method dt {
-  font: 10px/1.5 var(--font-mono);
+  font: 13px/1.5 var(--font-mono);
   color: var(--muted);
 }
 .project-method dd {
@@ -532,7 +532,7 @@ figcaption,
 }
 .project-brief dt,
 .project-brief > p {
-  font: 10px/1.6 var(--font-mono);
+  font: 13px/1.5 var(--font-mono);
   color: var(--muted);
 }
 .project-brief dd {
@@ -556,7 +556,7 @@ figcaption,
   display: inline-flex;
   align-items: baseline;
   gap: 7px;
-  font-size: 0.61rem;
+  font-size: 14px;
 }
 .status-label::before {
   content: "";
@@ -576,7 +576,7 @@ figcaption,
   transition: transform 180ms;
 }
 .link-label {
-  font-size: 0.6rem;
+  font-size: 13px;
   color: var(--muted);
 }
 
@@ -593,7 +593,7 @@ figcaption,
   align-items: baseline;
   gap: 24px;
   padding: 26px 0;
-  font: 10px var(--font-mono);
+  font: 14px/1.5 var(--font-mono);
   color: var(--muted);
 }
 .index-link strong {
@@ -631,7 +631,7 @@ figcaption,
   border-top: 1px solid var(--line);
 }
 .method-list li > span {
-  font: 11px var(--font-mono);
+  font: 13px/1.5 var(--font-mono);
   color: var(--muted);
   padding-top: 6px;
 }
@@ -703,7 +703,7 @@ figcaption,
   gap: 24px;
   border-top: 1px solid color-mix(in srgb, currentColor 40%, transparent);
   padding-top: 22px;
-  font: 11px/1.5 var(--font-mono);
+  font: 14px/1.5 var(--font-mono);
 }
 .site-ribbon {
   display: grid;
@@ -720,7 +720,7 @@ figcaption,
 }
 .ribbon-copy > span {
   color: var(--muted);
-  font-size: 0.6rem;
+  font-size: 13px;
 }
 .footer-links {
   display: flex;
@@ -740,7 +740,7 @@ figcaption,
   border-top: 1px solid var(--line);
   padding-top: 22px;
   color: var(--muted);
-  font-size: 0.6rem;
+  font-size: 13px;
 }
 .theme-toggle {
   display: flex;
@@ -756,7 +756,7 @@ figcaption,
   border-radius: 2px;
   background: var(--bg);
   color: var(--ink);
-  font: 10px var(--font-mono);
+  font: 13px/1.5 var(--font-mono);
   box-shadow: 0 3px 18px #0001;
 }
 .theme-icon {
@@ -790,7 +790,7 @@ figcaption,
   line-height: 1.35;
 }
 .intro-bottom .intro-note {
-  font-size: 0.72rem;
+  font-size: 14px;
   color: var(--muted);
   max-width: 46ch;
 }
@@ -1002,7 +1002,7 @@ figcaption,
   border-block: 1px solid var(--line);
 }
 .contact-key code {
-  font: 11px/1.7 var(--font-mono);
+  font: 14px/1.6 var(--font-mono);
   overflow-wrap: anywhere;
 }
 .notes-empty {
@@ -1118,7 +1118,7 @@ figcaption,
   padding: 26px;
   border: 1px solid var(--line);
   background: var(--surface);
-  font: 12px/1.5 var(--font-mono);
+  font: 13px/1.5 var(--font-mono);
 }
 .systems-panel,
 .systems-card,
@@ -1129,14 +1129,14 @@ figcaption,
 .systems-storage-list,
 .systems-detail-live-list {
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: 13px;
 }
 .telemetry-notice {
   margin-top: 30px;
   padding: 16px 20px;
   border: 1px solid var(--gold);
   background: color-mix(in srgb, var(--gold) 8%, transparent);
-  font: 12px/1.6 var(--font-mono);
+  font: 13px/1.5 var(--font-mono);
 }
 
 .systems-hero .resume-hero-grid {
@@ -1382,7 +1382,7 @@ figcaption,
   bottom: clamp(28px, 4svh, 40px);
   color: var(--muted);
   font-family: var(--font-mono);
-  font-size: 0.68rem;
+  font-size: 13px;
 }
 
 .systems-snapshot-copy {
@@ -1520,7 +1520,7 @@ figcaption,
 .systems-environment p {
   margin: 0;
   font-family: var(--font-mono);
-  font-size: 0.68rem;
+  font-size: 13px;
 }
 
 .systems-air-bars {
@@ -1549,7 +1549,7 @@ figcaption,
 .systems-boundary-note p {
   margin: 0;
   font-family: var(--font-mono);
-  font-size: 0.7rem;
+  font-size: 13px;
   line-height: 1.45;
 }
 
@@ -1595,14 +1595,14 @@ figcaption,
 .systems-card p {
   color: var(--muted);
   font-family: var(--font-mono);
-  font-size: 0.68rem;
-  line-height: 1.35;
+  font-size: 13px;
+  line-height: 1.5;
 }
 
 .systems-card small {
   color: var(--accent);
   font-family: var(--font-mono);
-  font-size: 0.68rem;
+  font-size: 13px;
 }
 
 .systems-card.tone-good {
@@ -1748,7 +1748,7 @@ figcaption,
   margin: 0;
   color: var(--muted);
   font-family: var(--font-mono);
-  font-size: 0.7rem;
+  font-size: 13px;
 }
 
 .systems-storage-list article {
@@ -1858,7 +1858,7 @@ figcaption,
   bottom: 46px;
   color: var(--muted);
   font-family: var(--font-mono);
-  font-size: 0.72rem;
+  font-size: 13px;
 }
 
 .systems-detail-notes ul {
@@ -1924,7 +1924,7 @@ figcaption,
   font-size: 32px;
 }
 .systems-panel-head {
-  font: 11px/1.5 var(--font-mono);
+  font: 13px/1.5 var(--font-mono);
 }
 .systems-live-card > strong {
   display: block;
@@ -1967,7 +1967,7 @@ figcaption,
     gap: 16px;
   }
   .hero-actions .text-link {
-    font-size: 10px;
+    font-size: 15px;
   }
   .project-link {
     grid-template-columns: 32px minmax(0, 1fr) 180px 110px;
@@ -2046,7 +2046,7 @@ figcaption,
     display: none;
   }
   .hero-index {
-    font-size: 0.61rem;
+    font-size: 13px;
   }
   .hero-index > a {
     white-space: nowrap;
@@ -2161,7 +2161,7 @@ figcaption,
   }
   .brand {
     gap: 10px;
-    font-size: 13px;
+    font-size: 15px;
   }
   .brand-mark {
     width: 30px;
@@ -2170,12 +2170,12 @@ figcaption,
   }
   .site-header nav {
     justify-content: space-between;
-    gap: 14px;
-    font-size: 10px;
+    gap: 6px;
+    font-size: 13px;
     width: 100%;
   }
   .site-header nav a {
-    min-height: 40px;
+    min-height: 44px;
   }
   .site-header nav a[aria-current]::before {
     width: 3px;
@@ -2183,7 +2183,7 @@ figcaption,
     left: -6px;
   }
   .hero-kicker {
-    font-size: 0.58rem;
+    font-size: 13px;
   }
   .portfolio-hero {
     padding-top: 22px;
@@ -2212,10 +2212,10 @@ figcaption,
   .button-link {
     padding-inline: 16px;
     gap: 22px;
-    font-size: 10px;
+    font-size: 13px;
   }
   .hero-actions .text-link {
-    font-size: 10px;
+    font-size: 13px;
     gap: 14px;
   }
   .hero-study {
@@ -2229,7 +2229,7 @@ figcaption,
     display: grid;
     gap: 12px;
     padding-block: 18px;
-    font-size: 0.6rem;
+    font-size: 13px;
   }
   .hero-index > a {
     display: flex;
@@ -2237,7 +2237,7 @@ figcaption,
   }
   .section-heading {
     gap: 20px;
-    font-size: 0.61rem;
+    font-size: 13px;
   }
   .portfolio-section {
     padding: 62px 0;
@@ -2267,13 +2267,13 @@ figcaption,
     margin-top: 10px;
   }
   .project-copy .eyebrow {
-    font-size: 0.58rem;
+    font-size: 13px;
   }
   .project-copy p {
     font-size: 16px;
   }
   .project-tools {
-    font-size: 0.58rem;
+    font-size: 13px;
   }
   .project-end {
     grid-column: 2;
@@ -2346,7 +2346,7 @@ figcaption,
   .contact-plate-bottom {
     display: grid;
     gap: 10px;
-    font-size: 10px;
+    font-size: 13px;
   }
   .site-ribbon {
     grid-template-columns: 1fr;
@@ -2385,7 +2385,7 @@ figcaption,
     font-size: 20px;
   }
   .intro-bottom .intro-note {
-    font-size: 0.65rem;
+    font-size: 14px;
   }
   .filter-bar {
     gap: 20px;
@@ -2400,10 +2400,10 @@ figcaption,
   }
   .work-filters button {
     padding-inline: 10px;
-    font-size: 10px;
+    font-size: 13px;
   }
   .project-count {
-    font-size: 10px;
+    font-size: 13px;
   }
   .page-next {
     padding-block: 48px;
@@ -2528,7 +2528,7 @@ figcaption,
     font-size: 29px;
   }
   .print-profile {
-    font-size: 9px;
+    font-size: 13px;
   }
   .page-scene {
     padding-block: 32px;
@@ -2652,13 +2652,13 @@ figcaption,
     grid-row: 1 / 3;
   }
   .implementation-heading {
-    font-size: 9px;
+    font-size: 13px;
   }
   .source-fragment {
     padding: 14px;
   }
   .source-fragment pre {
-    font-size: 10px;
+    font-size: 13px;
   }
   .project-brief dl > div {
     grid-template-columns: 1fr;
@@ -2680,10 +2680,10 @@ figcaption,
     font-size: 34px;
   }
   .implementation-heading {
-    font-size: 10px;
+    font-size: 13px;
   }
   .source-fragment pre {
-    font-size: 11px;
+    font-size: 13px;
   }
   .project-brief dl > div {
     grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);

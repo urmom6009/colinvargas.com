@@ -23,6 +23,18 @@ astro portfolio site for `colinvargas.com`.
 - unresolved: public report artifacts can be added after their contents and provenance are reviewed.
 - next action: verify the generated pages and deployment path, then publish the reviewed source.
 
+## readability pass / november 12, 2026
+
+- objective: make the small navigation, technical labels, source excerpt, and captions easier to read on the homepage and supporting pages.
+- source: the owner's Safari homepage screenshot and feedback that some text is too small; the existing style guide and CSS are the visual baseline.
+- requirements: raise small text sizes and line heights consistently, preserve the editorial type hierarchy and both themes, and keep code inspection usable with pointer, keyboard, reduced motion, and narrow screens.
+- exclusions: no project copy, numerical behavior, layout redesign, or unpublished artifacts are part of this change.
+- acceptance: run tests and a production build; inspect desktop and narrow layouts for readable labels, code wrapping, nav fit, horizontal overflow, and the scroll study's static fallback.
+- unresolved: the exact preferred reading size was not specified, so use a restrained increase and verify it visually.
+- result: navigation and action labels now use 15px on desktop and 13px on mobile; shared technical labels use 14px, and the homepage source excerpt uses 13–14px. most dense captions and calculated values use 13px. narrow viewports show the complete study in normal flow so wrapped code does not overlap animated line objects, with a separate face-flux readout where SVG labels would scale too small.
+- validation: seven numerical tests and Astro check/build passed with zero diagnostics. browser checks found no horizontal overflow at 320–1800px or on representative secondary pages at 320px. the study uses static mode on narrow, short, reduced-motion, or code-wrapping views; forward and reverse scroll still work when the source fits. code-line selection, project filtering, and theme persistence passed.
+- next action: review the readability preview and publish the focused change.
+
 ## local workflow
 
 ```sh

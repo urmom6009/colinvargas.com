@@ -223,8 +223,20 @@ export function enhanceImplementationStudies() {
           track.style.removeProperty("--study-height");
           if (frames) draw(1);
         };
-        // Short viewports and reduced motion get both complete views in document flow.
-        if (motion.matches || window.innerHeight < 700) {
+        const wrapsSource = Array.from(
+          track.querySelectorAll<HTMLButtonElement>(".code-line-control"),
+        ).some((button) => {
+          const text = document.createRange();
+          text.selectNodeContents(button);
+          return text.getClientRects().length > 1;
+        });
+        // Wrapped source lines need normal flow; the animated copies track one line each.
+        if (
+          motion.matches ||
+          window.innerWidth <= 900 ||
+          window.innerHeight < 700 ||
+          wrapsSource
+        ) {
           showStatic();
           return;
         }
