@@ -13,6 +13,16 @@ astro portfolio site for `colinvargas.com`.
 - `/resume` is a printable technical profile with education, experience, project work, focus areas, and public contact links.
 - `/404` provides a styled fallback for unpublished or missing pages.
 
+## quieter implementation hero / november 13, 2026
+
+- objective: make the homepage code study more refined and significantly less busy, following the owner's feedback on the live animation.
+- source: the published homepage, the pinned implementation excerpt and reference calculation in this repository, and `docs/style-guide.md`. this request replaces the earlier line-to-cell motion direction for the homepage.
+- requirements: keep the canonical C++ source visible and unchanged; retain pointer and keyboard line inspection with the matching face/value explanation; keep the computed reference field and its provenance readable; use one brief entrance that settles into a still state.
+- exclusions: no change to the numerical method or results, project claims, brand mark, secondary-page excerpt, or deployment.
+- acceptance: `npm test` and `npm run build`; inspect desktop and mobile in both themes, keyboard selection, reduced motion, no JavaScript, source fidelity, and horizontal overflow. scrolling should no longer move code copies, auto-cycle lines, or pin a long study.
+- decision: place the source, selected-cell diagram, and final field in normal flow. remove the six-step automatic sequence and duplicate ledger while preserving direct inspection.
+- unresolved: none. next action: simplify the implementation component, client script, and motion styles.
+
 ## content pass / november 11, 2026
 
 - objective: fill generic project summaries and the notes dead end with sourced public context, add verified background to the technical profile, align contact identity, and remove invented offline telemetry.
@@ -87,19 +97,19 @@ npm test
 npm run build
 ```
 
-then smoke test `/`, `/work`, `/resume`, `/notes`, the project pages, `/systems`, and a missing route locally. check project filters, forward/reverse scrolling through all six code statements, selecting code lines by mouse and keyboard, theme persistence, and mobile layouts. with reduced motion or JavaScript disabled, the code, annotated cell, and final reference field remain readable in normal flow. `npm run preview` serves the built output for a production smoke test.
+then smoke test `/`, `/work`, `/resume`, `/notes`, the project pages, `/systems`, and a missing route locally. check project filters, all six code-line selections by mouse and keyboard, theme persistence, and mobile layouts. the homepage study should stay in normal flow as the page scrolls. with reduced motion or JavaScript disabled, the code, annotated cell, and final reference field remain readable. `npm run preview` serves the built output for a production smoke test.
 
 project data lives in `src/data/portfolio.ts`. the homepage, work index, project pages, and technical profile share these records so titles, tooling, and publication status stay consistent. method and available-material summaries replace decorative project icons. add verified artifacts before promoting project results or planned capabilities to demonstrated claims.
 
 the homepage and solver overview show an actual excerpt from `code/advect_noAMR/src/advance.cpp` in `urmom6009/thesis-updated`, pinned to revision `8f1f6c867c39197c2146b21efce41b947fde296d` (lines 48–57). `src/data/solverImplementation.ts` stores the source location and excerpt; only leading indentation is removed. the feature identifies the current implementation as single-level, with adaptive refinement still planned. the detailed project excerpt stays static.
 
-on the homepage, the source block stays visible and each nonempty line also has a separate moving copy below it. the four flux statements move, rotate, and compress into their measured cell faces: `Fx_lo` left, `Fx_hi` right, `Fy_lo` bottom, and `Fy_hi` top. `dtdivF` and `new_fab` move into the cell interior before the actual balance and updated average appear. the assembled cell shrinks into its measured location in the 64 × 64 field, dissolving as the computed scalar field appears and advances. reverse scrolling reconstructs the cell sequence. the `pause motion` control or keyboard focus opens direct inspection; native line buttons select the corresponding explanation without precise scrolling.
+on the homepage, the source, annotated cell, and computed field stay visible in normal flow. the study enters once as a whole, then remains still. native code-line buttons let a reader select any of the four face fluxes, the balance, or the updated average; the matching face and measured value respond without moving the source. the earlier traveling copies, automatic scroll sequence, and duplicate six-step ledger have been removed.
 
 `src/lib/advection.ts` transports an illustrative Gaussian scalar on a 64 × 64 unit-square periodic grid with prescribed velocity `(1, 0.5)`, CFL `0.3`, and final dimensionless time `0.5`. both velocity components are nonzero so all four face fluxes have a visible contribution. the Gaussian starts at `(0.25, 0.5)` with width `0.075`. the cell explanation inspects `(i, j) = (21, 35)` at `t = 0`, with timestep `0.003125`. `inspectCell` computes the displayed fluxes, divergence contribution, and updated average; tests compare its results against the complete field kernel for every cell and both velocity signs.
 
-the final field view interpolates computed states, beginning with the exact first update shown in the cell explanation. this is a separate reference calculation, not a saved thesis run or a claim of thesis validation. the C++ binary is not executed by the website. `npm test` also checks periodic wrapping, mass conservation, bounds, flux signs, nonzero contributions on both axes, and rejection of unstable timesteps.
+the final field view shows the computed state at dimensionless time `0.5`. this is a separate reference calculation, not a saved thesis run or a claim of thesis validation. the C++ binary is not executed by the website. `npm test` also checks periodic wrapping, mass conservation, bounds, flux signs, nonzero contributions on both axes, and rejection of unstable timesteps.
 
-`ImplementationExcerpt.astro`, `CellFluxView.astro`, `AdvectionView.astro`, and `src/scripts/implementationScroll.ts` own the bounded scroll presentation. `src/scripts/codeMorph.ts` measures the source lines, SVG faces, and field location after font loading and on resize, then moves inert, aria-hidden copies of the original text. step metadata is in `src/data/implementationSteps.ts`. passive scroll events schedule one animation-frame update per event cycle; reduced-motion preference changes and short viewports use the static reading layout. keyboard focus on the canonical source opens the reading view and selects the matching explanation.
+`ImplementationExcerpt.astro`, `CellFluxView.astro`, `AdvectionView.astro`, and `src/scripts/implementationScroll.ts` own the homepage study. the client script adds native buttons to the canonical code lines and updates only the selected explanation and face emphasis. step metadata is in `src/data/implementationSteps.ts`. the field is rendered in the static HTML; reduced-motion and no-JavaScript readers receive the full source, cell, and field without the entrance.
 
 local astro does not apply the vercel telemetry rewrite. `/systems` shows unavailable indicators when the public api does not answer; it does not substitute sample measurements. missing fields in an api response remain unavailable.
 
