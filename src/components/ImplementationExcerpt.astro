@@ -32,7 +32,7 @@ const { detailed = false, animate = false } = Astro.props;
     <p class="implementation-summary">
       {
         animate
-          ? "the code takes the shape of the cell."
+          ? "one finite-volume update, from face fluxes to a field."
           : "first-order upwind. face fluxes in, updated cell averages out."
       }
     </p>
@@ -67,21 +67,8 @@ const { detailed = false, animate = false } = Astro.props;
       {
         animate && (
           <span class="implementation-scroll-hint">
-            scroll to assemble the cell <span aria-hidden="true">↓</span>
+            select a code line to inspect the cell
           </span>
-        )
-      }
-      {
-        animate && (
-          <button
-            class="motion-read-toggle"
-            type="button"
-            data-motion-read
-            hidden
-            aria-pressed="false"
-          >
-            pause motion
-          </button>
         )
       }
     </figcaption>
