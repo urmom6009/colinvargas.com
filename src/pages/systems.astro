@@ -1,68 +1,23 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { systemsSections } from "../data/systemsSections";
+import "../styles/systems-refinement.css";
 
 const fallbackPublic = {
-  generated_at: "",
-  headline: "live systems data is unavailable.",
-  subtitle: "the public readout will return when the api responds.",
-  health_score: null,
-  radar: ["website", "minecraft", "services", "storage", "backups"].map(
-    (label) => ({ label, value: null }),
-  ),
-  cards: ["website", "minecraft", "deployments", "storage"].map(
-    (label) => ({
-      label,
-      value: "unavailable",
-      detail: "live status unavailable",
-      tone: "neutral",
-      href: `/systems/${label}`,
-    }),
-  ),
-  services: [],
-  deployments: [],
-  storage: {
-    overall: null,
-    pools: [],
-    redundancy: null,
-    integrity: null,
-  },
-  environment: {
-    weather: { temp: "unavailable", label: "live weather unavailable" },
-    air: { aqi: null, label: "live air data unavailable", bars: [] },
-  },
+  headline: "public systems readout",
+  subtitle: "the available signals are shown with their source and report time.",
 };
+const sections = Object.entries(systemsSections);
 
-const fallbackJson = JSON.stringify(fallbackPublic).replace(/</g, "\\u003c");
-
-const formatGenerated = (value: string) => {
-  if (!value) {
-    return "unavailable";
-  }
-
-  const generated = new Date(value);
-  if (Number.isNaN(generated.getTime())) {
-    return value;
-  }
-
-  return new Intl.DateTimeFormat("en", {
-    month: "short",
-    day: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-    timeZoneName: "short",
-  })
-    .format(generated)
-    .toLowerCase();
-};
 ---
 
 <BaseLayout
   title="systems - colin vargas"
   description="Public systems telemetry for colin vargas infrastructure, with private admin controls kept off the portfolio domain."
 >
-  <main id="main-content" tabindex="-1">
+  <main id="main-content" class="systems-page" tabindex="-1">
     <p class="telemetry-notice" data-telemetry-notice role="status">
-      live public telemetry is unavailable. no current health values are shown.
+      the public feed is unavailable. the four system records below are still available.
     </p>
     <section
       class="resume-hero page-scene systems-hero"
@@ -78,49 +33,67 @@ const formatGenerated = (value: string) => {
         <div>
           <h1 id="systems-title">systems, with the status in context.</h1>
           <p>
-            a read-only view of the homelab. live responses are labeled, and
-            missing telemetry is left unavailable.
+            a read-only view of the homelab. reported signals carry their source
+            and time; missing readings stay unavailable.
           </p>
         </div>
 
-        <aside class="systems-live-card" aria-live="polite">
-          <span>system health</span>
+        <aside class="systems-live-card" data-health-panel aria-live="polite" hidden>
+          <span data-health-label>reported health score</span>
           <strong
             ><span data-health-score>—</span><small data-health-unit></small></strong
           >
-          <p data-status-line>live systems data unavailable.</p>
-
-          <dl class="systems-meta">
-            <div>
-              <dt>source</dt>
-              <dd data-source>api unavailable</dd>
-            </div>
-            <div>
-              <dt>updated</dt>
-              <dd data-generated>
-                {formatGenerated(fallbackPublic.generated_at)}
-              </dd>
-            </div>
-          </dl>
+          <p data-status-line></p>
         </aside>
       </div>
+    </section>
+
+    <section class="resume-section page-scene systems-index-section" aria-labelledby="systems-index-title">
+      <div class="section-heading">
+        <span id="systems-index-title">system records</span>
+        <span>four public surfaces</span>
+      </div>
+      <div class="systems-index">
+        {
+          sections.map(([slug, section], index) => (
+            <a href={`/systems/${slug}`} class="systems-index-row">
+              <span class="systems-index-number">{String(index + 1).padStart(2, "0")}</span>
+              <div>
+                <span class="systems-index-eyebrow">{section.eyebrow}</span>
+                <h2>{section.title}</h2>
+                <p>{section.summary}</p>
+              </div>
+              <strong data-index-status={slug} hidden></strong>
+              <span aria-hidden="true">↗</span>
+            </a>
+          ))
+        }
+      </div>
+      <p class="systems-feed-meta" data-feed-meta hidden>
+        <span data-feed-label>latest public snapshot</span> / systems api / reported <time data-generated>time unreported</time>
+      </p>
+      <p class="systems-public-boundary">
+        this is a read-only surface. restart controls, hostnames, peer names, raw logs, and network internals stay on the private admin side.
+      </p>
     </section>
 
     <section
       class="resume-section page-scene systems-control-section"
       aria-labelledby="systems-control-title"
-      data-scroll-chapter
+      data-live-section
+      hidden
     >
       <div class="section-heading">
-        <span id="systems-control-title">systems board</span>
-        <span>public view</span>
+        <span id="systems-control-title">public readout</span>
+        <span>source / public api</span>
       </div>
 
       <div class="systems-dashboard" data-systems-root>
         <section
           class="systems-panel systems-primary-panel"
           aria-labelledby="systems-summary-title"
-          data-build-step="1"
+          data-summary-panel
+          hidden
         >
           <div class="systems-panel-head">
             <span>public snapshot</span>
@@ -132,6 +105,7 @@ const formatGenerated = (value: string) => {
               class="systems-score-ring"
               style="--score-angle: 0deg"
               data-score-ring
+              hidden
             >
               <span data-health-score>—</span>
               <small>health score</small>
@@ -146,60 +120,24 @@ const formatGenerated = (value: string) => {
             </div>
           </div>
 
-          <dl class="systems-snapshot-stats">
-            <div>
-              <dt>services</dt>
-              <dd data-service-count>unavailable</dd>
-            </div>
-            <div>
-              <dt>source</dt>
-              <dd data-source>api unavailable</dd>
-            </div>
-            <div>
-              <dt>updated</dt>
-              <dd data-generated>
-                {formatGenerated(fallbackPublic.generated_at)}
-              </dd>
-            </div>
-          </dl>
-
           <div
             class="systems-radar"
             data-radar
             aria-label="public systems scorecard"
+            hidden
           >
-            {
-              fallbackPublic.radar.map((item) => (
-                <div class="systems-radar-row">
-                  <span>{item.label}</span>
-                  <div class="systems-radar-track" aria-hidden="true">
-                    <span
-                      class="systems-radar-fill"
-                      style="--value: 0%"
-                    />
-                  </div>
-                  <strong>—</strong>
-                </div>
-              ))
-            }
           </div>
 
-          <div class="systems-environment" data-environment>
-            <div>
+          <div class="systems-environment" data-environment hidden>
+            <div data-weather hidden>
               <span>weather</span>
-              <strong data-weather-temp
-                >{fallbackPublic.environment.weather.temp}</strong
-              >
-              <p data-weather-label>
-                {fallbackPublic.environment.weather.label}
-              </p>
+              <strong data-weather-temp></strong>
+              <p data-weather-label></p>
             </div>
-            <div>
+            <div data-air hidden>
               <span>air</span>
-              <strong
-                ><span data-air-aqi>unavailable</span><span data-air-unit></span></strong
-              >
-              <p data-air-label>{fallbackPublic.environment.air.label}</p>
+              <strong><span data-air-aqi></span><span data-air-unit></span></strong>
+              <p data-air-label></p>
             </div>
           </div>
 
@@ -207,436 +145,363 @@ const formatGenerated = (value: string) => {
             class="systems-air-bars"
             data-air-bars
             aria-label="air quality trend"
+            hidden
           >
-            <p>live air quality trend unavailable.</p>
           </div>
-
-          <div class="systems-boundary-note" data-build-step="6">
-            <span>admin endpoint</span>
-            <p>
-              the admin side is a separate private endpoint. this page does not
-              render restart controls, hostnames, peer names, raw logs, or
-              network internals.
-            </p>
-          </div>
-        </section>
-
-        <section
-          class="systems-card-grid"
-          data-cards
-          aria-label="headline system cards"
-          data-build-step="2"
-        >
-          {
-            fallbackPublic.cards.map((card) => (
-              <a class={`systems-card tone-${card.tone}`} href={card.href}>
-                <span>{card.label}</span>
-                <strong>{card.value}</strong>
-                <p>{card.detail}</p>
-                <small>view readout</small>
-              </a>
-            ))
-          }
         </section>
 
         <section
           class="systems-panel systems-service-panel"
           aria-labelledby="systems-services-title"
-          data-build-step="3"
+          data-services-panel
+          hidden
         >
           <div class="systems-panel-head">
             <span id="systems-services-title">public signals</span>
-            <small data-service-count>unavailable</small>
+            <small data-service-count></small>
           </div>
-
-          <div class="systems-service-list" data-services>
-            <p>live service status unavailable.</p>
-          </div>
+          <div class="systems-service-list" data-services></div>
         </section>
 
         <section
           class="systems-panel systems-deploy-panel"
           aria-labelledby="systems-deploy-title"
-          data-build-step="4"
+          data-deploy-panel
+          hidden
         >
           <div class="systems-panel-head">
             <span id="systems-deploy-title">build trail</span>
             <small>latest visible refs</small>
           </div>
 
-          <div class="systems-timeline" data-deployments>
-            <p>live deployment history unavailable.</p>
-          </div>
+          <div class="systems-timeline" data-deployments></div>
         </section>
 
         <section
           class="systems-panel systems-storage-panel"
           aria-labelledby="systems-storage-title"
-          data-build-step="5"
+          data-storage-panel
+          hidden
         >
           <div class="systems-panel-head">
             <span id="systems-storage-title">storage pool health</span>
-            <small data-storage-summary>unavailable</small>
+            <small data-storage-summary></small>
           </div>
 
-          <div class="systems-storage-score">
+          <div class="systems-storage-score" data-storage-score hidden>
             <strong><span data-storage-overall>—</span><span data-storage-unit></span></strong>
-            <p data-storage-context>live storage data unavailable.</p>
+            <p data-storage-context></p>
           </div>
 
-          <div class="systems-storage-list" data-storage-pools>
-            <p>live pool status unavailable.</p>
-          </div>
+          <div class="systems-storage-list" data-storage-pools></div>
         </section>
       </div>
     </section>
   </main>
 
-  <script
-    is:inline
-    id="systems-fallback-data"
-    type="application/json"
-    set:html={fallbackJson}
-  />
   <script is:inline>
     (() => {
-      const fallbackNode = document.getElementById("systems-fallback-data");
-      const fallback = JSON.parse(fallbackNode?.textContent || "{}");
       const endpoint = "/systems/api/public";
       const refreshMs = 60_000;
-
-      const clamp = (value, min = 0, max = 100) =>
-        Math.min(Math.max(Number(value) || 0, min), max);
-      const metric = (value) =>
-        value !== null &&
-        value !== undefined &&
-        value !== "" &&
-        Number.isFinite(Number(value))
-          ? clamp(value)
-          : null;
-      const lower = (value, fallbackText = "unavailable") =>
-        String(value ?? fallbackText).toLowerCase();
-      const isOnline = (status) =>
-        ["online", "running", "active"].includes(lower(status));
-
+      const staleAfterMs = 15 * 60_000;
+      const query = (selector) => document.querySelector(selector);
+      const show = (selector, visible) => {
+        const node = query(selector);
+        if (node) node.hidden = !visible;
+      };
       const textAll = (selector, value) => {
         document.querySelectorAll(selector).forEach((node) => {
           node.textContent = String(value);
         });
       };
-
-      const make = (tag, className, text) => {
+      const plain = (value, backup = "") =>
+        typeof value === "string" || typeof value === "number"
+          ? String(value).trim()
+          : backup;
+      const present = (value) =>
+        Boolean(plain(value)) &&
+        !["unavailable", "unknown", "—", "null"].includes(plain(value).toLowerCase());
+      const numeric = (value) => {
+        if (typeof value !== "number" && (typeof value !== "string" || !value.trim())) return null;
+        const number = Number(value);
+        return Number.isFinite(number) ? number : null;
+      };
+      const metric = (value) => {
+        const number = numeric(value);
+        return number !== null && number >= 0 && number <= 100 ? number : null;
+      };
+      const make = (tag, className = "", value) => {
         const node = document.createElement(tag);
-        if (className) {
-          node.className = className;
-        }
-        if (text !== undefined && text !== null) {
-          node.textContent = String(text);
-        }
+        if (className) node.className = className;
+        if (value !== undefined) node.textContent = String(value);
         return node;
       };
-      const emptyMessage = (message) => make("p", "", message);
-      const cardHref = (label, fallbackHref) => {
-        if (fallbackHref) {
-          return fallbackHref;
-        }
-        const normalized = lower(label);
-        if (normalized.includes("minecraft")) {
-          return "/systems/minecraft";
-        }
-        if (normalized.includes("deploy")) {
-          return "/systems/deployments";
-        }
-        if (normalized.includes("storage")) {
-          return "/systems/storage";
-        }
-        if (normalized.includes("website") || normalized.includes("web")) {
-          return "/systems/website";
-        }
-        return "/systems";
-      };
-
       const formatGenerated = (value) => {
-        if (!value) {
-          return "unavailable";
-        }
-
-        const generated = new Date(value);
-        if (Number.isNaN(generated.getTime())) {
-          return lower(value);
-        }
-
+        const date = new Date(value);
+        if (!value || Number.isNaN(date.getTime())) return "time unreported";
         return new Intl.DateTimeFormat("en", {
           month: "short",
           day: "numeric",
+          year: "numeric",
           hour: "2-digit",
           minute: "2-digit",
           timeZoneName: "short",
-        })
-          .format(generated)
-          .toLowerCase();
+        }).format(date).toLowerCase();
       };
-
+      const snapshotState = (value) => {
+        if (!value) return "unreported";
+        const time = new Date(value).getTime();
+        if (Number.isNaN(time)) return "unreported";
+        const age = Date.now() - time;
+        if (age > staleAfterMs) return "historical";
+        if (age < -staleAfterMs) return "future";
+        return "recent";
+      };
       const normalize = (incoming) => {
-        const source = incoming && typeof incoming === "object" ? incoming : {};
-        const environment = {
-          weather: {},
-          air: {},
-          ...(source.environment || {}),
-        };
-
+        const data = incoming && typeof incoming === "object" && !Array.isArray(incoming)
+          ? incoming
+          : {};
         return {
-          ...source,
-          radar: Array.isArray(source.radar) ? source.radar : [],
-          cards: Array.isArray(source.cards) ? source.cards : [],
-          services: Array.isArray(source.services) ? source.services : [],
-          deployments: Array.isArray(source.deployments)
-            ? source.deployments
-            : [],
-          storage: {
-            ...(source.storage || {}),
-            pools: Array.isArray(source.storage?.pools)
-              ? source.storage.pools
-              : [],
-          },
-          environment,
+          ...data,
+          cards: Array.isArray(data.cards) ? data.cards : [],
+          radar: Array.isArray(data.radar) ? data.radar : [],
+          services: Array.isArray(data.services) ? data.services : [],
+          deployments: Array.isArray(data.deployments) ? data.deployments : [],
+          storage: data.storage && typeof data.storage === "object" ? data.storage : {},
+          environment: data.environment && typeof data.environment === "object"
+            ? data.environment
+            : {},
         };
       };
-
-      const renderRadar = (radar) => {
-        const target = document.querySelector("[data-radar]");
-        if (!target) {
-          return;
-        }
-
-        const rows = (radar || []).map((item) => {
-            const row = make("div", "systems-radar-row");
-            row.append(make("span", "", lower(item.label)));
-
-            const track = make("div", "systems-radar-track");
-            track.setAttribute("aria-hidden", "true");
-            const fill = make("span", "systems-radar-fill");
-            const value = metric(item.value);
-            fill.style.setProperty("--value", `${value ?? 0}%`);
-            track.append(fill);
-
-            row.append(track, make("strong", "", value === null ? "—" : `${value}%`));
-            return row;
-          });
-        target.replaceChildren(...(rows.length ? rows : [emptyMessage("live scorecard unavailable.")]));
+      const sectionKey = (label) => {
+        const name = plain(label).toLowerCase();
+        if (name.includes("minecraft")) return "minecraft";
+        if (name.includes("deploy")) return "deployments";
+        if (name.includes("storage")) return "storage";
+        if (name.includes("website") || name.includes("web")) return "website";
+        return null;
       };
-
-      const renderCards = (cards) => {
-        const target = document.querySelector("[data-cards]");
-        if (!target) {
-          return;
+      const renderIndex = (cards) => {
+        document.querySelectorAll("[data-index-status]").forEach((node) => {
+          node.hidden = true;
+          node.textContent = "";
+        });
+        for (const card of cards) {
+          const key = sectionKey(card?.label);
+          if (!key || !present(card?.value)) continue;
+          const node = query(`[data-index-status="${key}"]`);
+          if (!node) continue;
+          node.textContent = plain(card.value);
+          node.hidden = false;
         }
-
-        const rows = (cards || []).map((card) => {
-            const tone = ["good", "warn", "bad"].includes(lower(card.tone))
-              ? lower(card.tone)
-              : "neutral";
-            const item = make("a", `systems-card tone-${tone}`);
-            item.href = cardHref(card.label, card.href);
-            item.append(
-              make("span", "", lower(card.label)),
-              make("strong", "", lower(card.value)),
-              make("p", "", lower(card.detail)),
-              make("small", "", "view readout"),
-            );
-            return item;
-          });
-        target.replaceChildren(...(rows.length ? rows : [emptyMessage("live system cards unavailable.")]));
       };
-
-      const renderServices = (services) => {
-        const target = document.querySelector("[data-services]");
-        if (!target) {
-          return;
-        }
-
-        const items = services || [];
-        if (!items.length) {
-          textAll("[data-service-count]", "unavailable");
-          textAll("[data-status-line]", "live systems data unavailable.");
-          target.replaceChildren(emptyMessage("live service status unavailable."));
-          return;
-        }
-
-        const online = items.filter((service) => isOnline(service.status)).length;
-        textAll(
-          "[data-service-count]",
-          `${online}/${items.length} online`,
-        );
-        textAll(
-          "[data-status-line]",
-          `${online} of ${items.length} read-only signals reporting online.`,
-        );
-
-        target.replaceChildren(
-          ...items.map((service) => {
-            const status = lower(service.status);
-            const row = make("article", "systems-service-row");
-            const dot = make("span", `systems-status-dot is-${status}`);
-            const copy = make("div");
-            copy.append(
-              make("strong", "", lower(service.name)),
-              make("small", "", lower(service.net || "public signal")),
-            );
-            const state = make("span", "", status);
-            const meter = make("i");
-            const load = [service.cpu, service.mem]
-              .map(metric)
-              .filter((value) => value !== null);
-            if (load.length) {
-              meter.style.setProperty("--load", `${Math.max(...load)}%`);
-            }
-            row.append(dot, copy, state, meter);
-            return row;
-          }),
-        );
+      const renderRadar = (items) => {
+        const target = query("[data-radar]");
+        if (!target) return;
+        const rows = items.map((item) => {
+          const value = metric(item.value);
+          const row = make("div", "systems-radar-row");
+          row.append(make("span", "", plain(item.label)));
+          const track = make("div", "systems-radar-track");
+          track.setAttribute("aria-hidden", "true");
+          const fill = make("span", "systems-radar-fill");
+          fill.style.setProperty("--value", `${value}%`);
+          track.append(fill);
+          row.append(track, make("strong", "", `${value}%`));
+          return row;
+        });
+        target.replaceChildren(...rows);
+        target.hidden = rows.length === 0;
       };
-
-      const renderDeployments = (deployments) => {
-        const target = document.querySelector("[data-deployments]");
-        if (!target) {
-          return;
-        }
-
-        const rows = (deployments || []).map((deployment) => {
-            const row = make("article");
-            const copy = make("div");
-            copy.append(
-              make("strong", "", lower(deployment.name)),
-              make(
-                "p",
-                "",
-                `${lower(deployment.when)} / ${lower(deployment.duration)}`,
-              ),
-            );
-            row.append(
-              make("span", "", lower(deployment.status)),
-              copy,
-              make("small", "", lower(deployment.ref)),
-            );
-            return row;
-          });
-        target.replaceChildren(...(rows.length ? rows : [emptyMessage("live deployment history unavailable.")]));
+      const renderServices = (items) => {
+        show("[data-services-panel]", items.length > 0);
+        const target = query("[data-services]");
+        if (!target || !items.length) return;
+        const online = items.filter((item) =>
+          ["online", "running", "active"].includes(plain(item.status).toLowerCase()),
+        ).length;
+        textAll("[data-service-count]", `${online}/${items.length} reported online`);
+        target.replaceChildren(...items.map((service) => {
+          const status = plain(service.status).toLowerCase();
+          const stateClass = ["online", "running", "active", "offline", "failed"].includes(status)
+            ? ` is-${status}`
+            : "";
+          const row = make("article", "systems-service-row");
+          const dot = make("span", `systems-status-dot${stateClass}`);
+          dot.setAttribute("aria-hidden", "true");
+          const copy = make("div");
+          copy.append(make("strong", "", plain(service.name)));
+          const state = make("span", "", status);
+          row.append(dot, copy, state);
+          return row;
+        }));
       };
-
-      const renderStorage = (storage) => {
-        const pools = Array.isArray(storage?.pools) ? storage.pools : [];
-        const overall = metric(storage?.overall);
-        textAll("[data-storage-overall]", overall === null ? "—" : overall);
+      const renderDeployments = (items) => {
+        show("[data-deploy-panel]", items.length > 0);
+        const target = query("[data-deployments]");
+        if (!target || !items.length) return;
+        target.replaceChildren(...items.map((deployment) => {
+          const row = make("article");
+          const copy = make("div");
+          copy.append(make("strong", "", plain(deployment.name)));
+          const context = [deployment.when, deployment.duration].filter(present).map((value) => plain(value));
+          if (context.length) copy.append(make("p", "", context.join(" / ")));
+          row.append(make("span", "", plain(deployment.status, "reported")), copy);
+          if (present(deployment.ref)) row.append(make("small", "", plain(deployment.ref)));
+          return row;
+        }));
+      };
+      const renderStorage = (storage, pools, overall) => {
+        const redundancy = present(storage.redundancy) ? plain(storage.redundancy) : "";
+        const integrity = present(storage.integrity) ? plain(storage.integrity) : "";
+        const hasStorage = overall !== null || pools.length > 0 || Boolean(redundancy || integrity);
+        show("[data-storage-panel]", hasStorage);
+        show("[data-storage-score]", overall !== null);
+        if (!hasStorage) return;
+        textAll("[data-storage-summary]", integrity || "public pool status");
+        textAll("[data-storage-overall]", overall === null ? "" : overall);
         textAll("[data-storage-unit]", overall === null ? "" : "%");
-        textAll("[data-storage-context]", storage?.redundancy || storage?.integrity
-          ? `${lower(storage?.redundancy)} / ${lower(storage?.integrity)}`
-          : "live storage data unavailable.");
-        textAll("[data-storage-summary]", lower(storage?.integrity));
-
-        const target = document.querySelector("[data-storage-pools]");
-        if (!target) {
-          return;
-        }
-
-        const rows = pools.map((pool) => {
-            const row = make("article");
-            const copy = make("div");
-            copy.append(
-              make("strong", "", lower(pool.name)),
-              make("span", "", lower(pool.state)),
-            );
+        textAll("[data-storage-context]", [redundancy, integrity].filter(Boolean).join(" / "));
+        const target = query("[data-storage-pools]");
+        if (!target) return;
+        target.replaceChildren(...pools.map((pool) => {
+          const row = make("article");
+          const copy = make("div");
+          copy.append(make("strong", "", plain(pool.name)));
+          if (present(pool.state)) copy.append(make("span", "", plain(pool.state)));
+          const health = metric(pool.health);
+          row.append(copy);
+          if (health !== null) {
             const meter = make("i");
-            const health = metric(pool.health);
-            if (health !== null) {
-              meter.style.setProperty("--health", `${health}%`);
-            }
-            row.append(copy, meter);
-            return row;
-          });
-        target.replaceChildren(...(rows.length ? rows : [emptyMessage("live pool status unavailable.")]));
+            meter.setAttribute("aria-hidden", "true");
+            meter.style.setProperty("--health", `${health}%`);
+            row.append(meter);
+          }
+          return row;
+        }));
       };
-
-      const renderEnvironment = (environment) => {
-        const weather = environment?.weather || {};
-        const air = environment?.air || {};
-        textAll("[data-weather-temp]", lower(weather.temp));
-        textAll("[data-weather-label]", lower(weather.label || weather.source));
-        const aqi = metric(air.aqi);
-        textAll("[data-air-aqi]", aqi === null ? "unavailable" : aqi);
-        textAll("[data-air-unit]", aqi === null ? "" : " aqi");
-        textAll("[data-air-label]", lower(air.label));
-
-        const bars = Array.isArray(air.bars) ? air.bars : [];
-        const target = document.querySelector("[data-air-bars]");
-        if (!target) {
+      const renderEnvironment = (weather, air, bars, aqi) => {
+        const hasWeather = present(weather.temp);
+        show("[data-environment]", hasWeather || aqi !== null);
+        show("[data-weather]", hasWeather);
+        show("[data-air]", aqi !== null);
+        if (hasWeather) {
+          textAll("[data-weather-temp]", plain(weather.temp));
+          textAll("[data-weather-label]", plain(weather.label || weather.source, "public weather reading"));
+        }
+        if (aqi !== null) {
+          textAll("[data-air-aqi]", aqi);
+          textAll("[data-air-unit]", " aqi");
+          textAll("[data-air-label]", plain(air.label, "public air reading"));
+        }
+        const target = query("[data-air-bars]");
+        if (!target) return;
+        target.hidden = bars.length === 0;
+        target.replaceChildren(...bars.map((bar) => {
+          const item = make("span");
+          item.style.setProperty("--bar", `${Math.min(Math.max(bar * 7, 8), 100)}%`);
+          return item;
+        }));
+      };
+      const renderUnavailable = (message) => {
+        const notice = query("[data-telemetry-notice]");
+        if (notice) {
+          notice.hidden = false;
+          notice.textContent = message ||
+            "the public feed is unavailable. the four system records below are still available.";
+        }
+        show("[data-health-panel]", false);
+        show("[data-feed-meta]", false);
+        show("[data-live-section]", false);
+        renderIndex([]);
+      };
+      const render = (incoming) => {
+        const data = normalize(incoming);
+        const score = metric(data.health_score);
+        const radar = data.radar.filter((item) => item && present(item.label) && metric(item.value) !== null);
+        const services = data.services.filter((item) => item && present(item.name) && present(item.status));
+        const deployments = data.deployments.filter((item) => item && present(item.name) && (present(item.status) || present(item.ref)));
+        const storage = data.storage;
+        const pools = (Array.isArray(storage.pools) ? storage.pools : []).filter((pool) => pool && present(pool.name));
+        const overall = metric(storage.overall);
+        const weather = data.environment.weather || {};
+        const air = data.environment.air || {};
+        const airReading = numeric(air.aqi);
+        const aqi = airReading !== null && airReading >= 0 && airReading <= 500 ? airReading : null;
+        const bars = (Array.isArray(air.bars) ? air.bars : [])
+          .map(numeric)
+          .filter((value) => value !== null && value >= 0);
+        const hasCard = data.cards.some((card) => card && sectionKey(card.label) && present(card.value));
+        const hasSummary = score !== null || radar.length > 0 || present(weather.temp) || aqi !== null || bars.length > 0;
+        const hasStorage = overall !== null || pools.length > 0 || present(storage.redundancy) || present(storage.integrity);
+        const hasPanel = hasSummary || services.length > 0 || deployments.length > 0 || hasStorage;
+        if (!hasCard && !hasPanel) {
+          renderUnavailable("the public api responded, but returned no reportable readings. the four system records below are still available.");
           return;
         }
-
-        const columns = bars.map((bar) => {
-            const item = make("span");
-            item.style.setProperty(
-              "--bar",
-              `${clamp(Number(bar) * 7, 8, 100)}%`,
-            );
-            return item;
-          });
-        target.replaceChildren(...(columns.length ? columns : [emptyMessage("live air quality trend unavailable.")]));
+        renderIndex(data.cards);
+        const reported = formatGenerated(data.generated_at);
+        const state = snapshotState(data.generated_at);
+        textAll("[data-generated]", reported);
+        textAll("[data-feed-label]", state === "historical" ? "historical public snapshot" : "latest public snapshot");
+        const generatedNode = query("[data-generated]");
+        if (generatedNode) {
+          if (reported === "time unreported") generatedNode.removeAttribute("datetime");
+          else generatedNode.setAttribute("datetime", new Date(data.generated_at).toISOString());
+        }
+        show("[data-feed-meta]", true);
+        show("[data-live-section]", hasPanel);
+        const notice = query("[data-telemetry-notice]");
+        if (notice) {
+          notice.hidden = state === "recent";
+          notice.textContent = state === "historical"
+            ? "the last public snapshot is older than 15 minutes. current status is unverified."
+            : state === "future"
+              ? "the snapshot time is ahead of this browser's clock. current status is unverified."
+              : "the public api responded, but did not report a snapshot time. current status is unverified.";
+        }
+        show("[data-health-panel]", score !== null);
+        if (score !== null) {
+          textAll("[data-health-label]", state === "historical" ? "historical health score" : "reported health score");
+          textAll("[data-health-score]", score);
+          textAll("[data-health-unit]", "%");
+          textAll("[data-status-line]", services.length
+            ? `${services.filter((item) => ["online", "running", "active"].includes(plain(item.status).toLowerCase())).length} of ${services.length} signals reported online.`
+            : "aggregate public score reported by the api.");
+        }
+        show("[data-summary-panel]", hasSummary);
+        show("[data-score-ring]", score !== null);
+        query("[data-score-ring]")?.style.setProperty("--score-angle", `${(score ?? 0) * 3.6}deg`);
+        textAll("[data-headline]", present(data.headline) ? plain(data.headline) : "public systems readout");
+        textAll("[data-subtitle]", present(data.subtitle) ? plain(data.subtitle) : "the available signals are shown with their source and report time.");
+        renderRadar(radar);
+        renderServices(services);
+        renderDeployments(deployments);
+        renderStorage(storage, pools, overall);
+        renderEnvironment(weather, air, bars, aqi);
       };
-
-      const render = (rawData, sourceLabel) => {
-        const notice = document.querySelector("[data-telemetry-notice]");
-        if (notice)
-          notice.textContent =
-            sourceLabel === "live api"
-              ? "live public telemetry — read-only snapshot from the systems api."
-              : "live public telemetry is unavailable. no current health values are shown.";
-        const data = normalize(rawData);
-        const score = metric(data.health_score);
-        textAll("[data-health-score]", score === null ? "—" : score);
-        textAll("[data-health-unit]", score === null ? "" : "%");
-        textAll("[data-headline]", lower(data.headline));
-        textAll("[data-subtitle]", lower(data.subtitle));
-        textAll("[data-generated]", formatGenerated(data.generated_at));
-        textAll("[data-source]", sourceLabel);
-        document
-          .querySelector("[data-score-ring]")
-          ?.style.setProperty("--score-angle", `${(score ?? 0) * 3.6}deg`);
-        renderRadar(data.radar);
-        renderCards(data.cards);
-        renderServices(data.services);
-        renderDeployments(data.deployments);
-        renderStorage(data.storage);
-        renderEnvironment(data.environment);
-      };
-
       const fetchLive = async () => {
+        const controller = new AbortController();
+        const timeout = window.setTimeout(() => controller.abort(), 8_000);
         try {
           const response = await fetch(endpoint, {
             headers: { accept: "application/json" },
             cache: "no-store",
+            signal: controller.signal,
           });
-
-          if (!response.ok) {
-            throw new Error(`systems api returned ${response.status}`);
-          }
-
+          if (!response.ok) throw new Error(`systems api returned ${response.status}`);
           const data = await response.json();
-          if (
-            !data ||
-            typeof data !== "object" ||
-            !Array.isArray(data.cards) ||
-            !Array.isArray(data.radar)
-          ) {
+          if (!data || typeof data !== "object" || Array.isArray(data)) {
             throw new Error("systems api returned an invalid snapshot");
           }
-          render(data, "live api");
+          render(data);
         } catch {
-          render(fallback, "api unavailable");
+          renderUnavailable();
+        } finally {
+          window.clearTimeout(timeout);
         }
       };
-
-      render(fallback, "api unavailable");
+      renderUnavailable();
       fetchLive();
       window.setInterval(fetchLive, refreshMs);
     })();

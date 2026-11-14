@@ -29,6 +29,11 @@
   grid-column: 2;
   margin-top: 0;
 }
+@media (min-width: 901px) and (max-width: 1400px) {
+  .implementation-scroll .motion-read-toggle {
+    margin-right: 72px;
+  }
+}
 .implementation-scroll .implementation-heading {
   font-size: 14px;
 }
@@ -57,6 +62,40 @@
 }
 .implementation-scroll .implementation-facts-static {
   display: none;
+}
+/* Keep the stacked study inside a browser viewport with a tall toolbar. */
+@media (min-width: 901px) and (max-height: 1100px) {
+  .implementation-scroll .implementation-feature {
+    padding: 8px 0;
+  }
+  .implementation-scroll .implementation-feature h2 {
+    margin: 8px 0 4px;
+  }
+  .implementation-scroll .implementation-stage {
+    margin: 6px 0 4px;
+  }
+  .implementation-scroll .source-fragment {
+    padding: 10px;
+  }
+  .implementation-scroll .source-file {
+    padding-bottom: 6px;
+  }
+  .implementation-scroll .source-fragment pre {
+    margin-top: 6px;
+    line-height: 1.5;
+  }
+  .implementation-scroll .implementation-step {
+    margin-bottom: 4px;
+  }
+  .implementation-scroll .implementation-ledger {
+    margin: 4px 0;
+  }
+  .implementation-scroll .advection-case {
+    padding-top: 8px;
+  }
+  .implementation-scroll .advection-provenance {
+    margin-top: 3px;
+  }
 }
 .code-line-control {
   display: inline;
@@ -211,16 +250,19 @@
   font-variant-numeric: tabular-nums;
 }
 .cell-face[data-active="true"] {
-  color: var(--accent);
+  color: var(--ink);
   opacity: 1;
 }
-.cell-face[data-active="true"] .cell-face-edge {
+.cell-face[data-current="true"] {
+  color: var(--accent);
+}
+.cell-face[data-current="true"] .cell-face-edge {
   stroke-width: 3;
 }
-.cell-face[data-active="true"] .cell-flux-arrow {
+.cell-face[data-current="true"] .cell-flux-arrow {
   stroke-width: 1.7;
 }
-.cell-face[data-active="true"] .flux-name {
+.cell-face[data-current="true"] .flux-name {
   font-weight: 500;
 }
 .cell-old-state text,
@@ -569,6 +611,11 @@
   flex-direction: column;
   gap: 8px;
 }
+@media (min-width: 901px) and (max-height: 1100px) {
+  .js .implementation-scroll[data-motion="scroll"] .implementation-stage {
+    gap: 6px;
+  }
+}
 .js .implementation-scroll[data-motion="scroll"] .source-fragment {
   position: relative;
   z-index: 5;
@@ -625,11 +672,19 @@
 }
 .implementation-scroll[data-motion="scroll"]:not([data-inspecting="true"])
   .cell-face {
-  opacity: var(--face-formed, 0);
+  opacity: calc(var(--face-formed, 0) * 0.72);
+}
+.implementation-scroll[data-motion="scroll"]:not([data-inspecting="true"])
+  .cell-face[data-current="true"] {
+  opacity: max(var(--face-formed, 0), calc(var(--face-preview, 0) * 0.8));
 }
 .implementation-scroll[data-motion="scroll"]:not([data-inspecting="true"])
   .cell-face-edge {
   stroke-dasharray: var(--cell-dashes, none);
+}
+.implementation-scroll[data-motion="scroll"]:not([data-inspecting="true"])
+  .cell-face[data-current="true"] .cell-face-edge {
+  stroke-dasharray: var(--face-preview-dash, none);
 }
 .implementation-scroll[data-motion="scroll"]:not([data-inspecting="true"])
   .cell-new-state {
@@ -691,5 +746,30 @@
   }
   .motion-read-toggle {
     display: none !important;
+  }
+}
+
+/* In a short desktop window, keep the source and cell in view while retaining
+   the full introduction for assistive technology. */
+@media (min-width: 901px) and (max-height: 1010px) {
+  .implementation-scroll[data-motion="scroll"] .implementation-feature h2,
+  .implementation-scroll[data-motion="scroll"] .implementation-summary {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  .implementation-scroll[data-motion="scroll"] .implementation-step p {
+    min-height: 20px;
+  }
+  .implementation-scroll[data-motion="scroll"] .implementation-ledger {
+    row-gap: 2px;
+  }
+  .implementation-scroll[data-motion="scroll"] .implementation-ledger li {
+    padding-top: 2px;
   }
 }

@@ -1,0 +1,308 @@
+.systems-page [hidden] {
+  display: none !important;
+}
+
+.systems-page .telemetry-notice {
+  margin: 28px 0 0;
+  padding: 10px 16px;
+  border: 0;
+  border-left: 2px solid var(--gold);
+  background: transparent;
+  color: var(--muted);
+  font: 14px/1.5 var(--font-mono);
+}
+
+.systems-page .page-scene {
+  padding-block: 42px;
+}
+
+.systems-page .page-scene > .section-heading {
+  margin-bottom: 24px;
+}
+
+.systems-page .resume-hero-grid,
+.systems-page .systems-hero .resume-hero-grid,
+.systems-page .systems-detail-hero .resume-hero-grid {
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 0.42fr);
+  gap: 48px;
+  align-items: end;
+}
+
+.systems-page .resume-hero h1 {
+  max-width: 15ch;
+  margin-bottom: 20px;
+}
+
+.systems-page .resume-hero-grid > div > p {
+  max-width: 50ch;
+  font-size: 18px;
+  line-height: 1.45;
+}
+
+.systems-page .resume-hero-grid > aside {
+  padding: 18px 0 0;
+  border: 0;
+  border-top: 1px solid var(--ink);
+  background: transparent;
+}
+
+.systems-page .systems-live-card strong,
+.systems-page .systems-detail-card strong {
+  margin: 16px 0 10px;
+  font-size: clamp(3.5rem, 6vw, 6rem);
+  line-height: 1;
+}
+
+.systems-page .systems-live-card p,
+.systems-page .systems-detail-card p {
+  color: var(--muted);
+  font: 14px/1.5 var(--font-mono);
+}
+
+.systems-index {
+  border-bottom: 1px solid var(--line);
+}
+
+.systems-index-row {
+  display: grid;
+  grid-template-columns: 38px minmax(0, 1fr) auto 24px;
+  gap: 20px;
+  align-items: center;
+  padding: 22px 0;
+  border-top: 1px solid var(--line);
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.systems-index-row:hover,
+.systems-index-row:focus-visible {
+  color: var(--accent);
+}
+
+.systems-index-number,
+.systems-index-eyebrow,
+.systems-index-row > strong,
+.systems-index-row > span:last-child {
+  font: 14px/1.5 var(--font-mono);
+}
+
+.systems-index-number,
+.systems-index-eyebrow {
+  color: var(--muted);
+}
+
+.systems-index-row h2 {
+  margin: 3px 0 5px;
+  font-size: clamp(27px, 3.2vw, 42px);
+  line-height: 1.05;
+  font-weight: 400;
+}
+
+.systems-index-row p {
+  max-width: 60ch;
+  margin: 0;
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.45;
+}
+
+.systems-index-row > strong {
+  max-width: 19ch;
+  color: var(--accent);
+  font-weight: 400;
+  text-align: right;
+}
+
+.systems-index-row > span:last-child {
+  justify-self: end;
+}
+
+.systems-feed-meta,
+.systems-public-boundary {
+  margin-top: 20px;
+  color: var(--muted);
+  font: 14px/1.5 var(--font-mono);
+}
+
+.systems-public-boundary {
+  max-width: 80ch;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+
+.systems-page .systems-dashboard,
+.systems-page .page-scene .systems-dashboard,
+.systems-page .systems-detail-grid,
+.systems-page .page-scene .systems-detail-grid {
+  position: static;
+  height: auto;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: auto;
+  gap: 0 32px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.systems-page .systems-panel,
+.systems-page .systems-boundary-note {
+  grid-column: auto;
+  grid-row: auto;
+  display: grid;
+  gap: 16px;
+  min-height: 0;
+  padding: 22px 0;
+  border: 0;
+  border-top: 1px solid var(--line);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.systems-page .systems-primary-panel {
+  grid-column: 1 / -1;
+  grid-template-rows: auto;
+}
+
+.systems-page .systems-snapshot-hero {
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 24px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+.systems-page .systems-snapshot-hero:has([data-score-ring][hidden]) {
+  grid-template-columns: 1fr;
+}
+
+.systems-page .systems-score-ring {
+  width: auto;
+  min-width: 115px;
+  aspect-ratio: auto;
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 4px;
+  padding: 12px 0 8px 12px;
+  border-left: 3px solid var(--accent);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.systems-page .systems-score-ring::before {
+  display: none;
+}
+
+.systems-page .systems-score-ring span {
+  font-size: 58px;
+  line-height: 1;
+}
+
+.systems-page .systems-score-ring small {
+  position: static;
+  font-size: 13px;
+}
+
+.systems-page .systems-state-chip {
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.systems-page .systems-radar {
+  gap: 0;
+}
+
+.systems-page .systems-radar-row {
+  padding: 10px 0;
+  border-top: 1px solid var(--line);
+}
+
+.systems-page .systems-environment > div,
+.systems-page .systems-storage-score,
+.systems-page .systems-service-row,
+.systems-page .systems-detail-notes li {
+  min-height: 0;
+  padding: 12px 0;
+  border: 0;
+  border-top: 1px solid var(--line);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.systems-page .systems-service-row {
+  grid-template-columns: 8px minmax(0, 1fr) auto;
+}
+
+.systems-page .systems-storage-score {
+  align-items: baseline;
+}
+
+.systems-page .systems-detail-notes ul {
+  gap: 0;
+}
+
+.systems-page .systems-detail-notes li {
+  margin: 0;
+  font: 15px/1.5 var(--font-sans);
+}
+
+.systems-page .systems-detail-live-list div {
+  padding-block: 12px;
+}
+
+@media (max-width: 900px) {
+  .systems-page .systems-hero .resume-hero-grid,
+  .systems-page .systems-detail-hero .resume-hero-grid,
+  .systems-page .systems-dashboard,
+  .systems-page .page-scene .systems-dashboard,
+  .systems-page .systems-detail-grid,
+  .systems-page .page-scene .systems-detail-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .systems-index-row {
+    grid-template-columns: 30px minmax(0, 1fr) 18px;
+    gap: 12px;
+  }
+
+  .systems-index-row > strong {
+    grid-column: 2;
+    text-align: left;
+  }
+
+  .systems-index-row > span:last-child {
+    grid-column: 3;
+    grid-row: 1;
+  }
+}
+
+@media (max-width: 640px) {
+  .systems-page .page-scene {
+    padding-block: 32px;
+  }
+
+  .systems-index-row {
+    align-items: start;
+    padding-block: 18px;
+  }
+
+  .systems-index-row h2 {
+    font-size: 30px;
+  }
+
+  .systems-index-row p {
+    font-size: 15px;
+  }
+
+  .systems-page .systems-snapshot-hero,
+  .systems-page .systems-environment {
+    grid-template-columns: 1fr;
+  }
+}
