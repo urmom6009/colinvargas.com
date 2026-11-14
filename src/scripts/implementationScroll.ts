@@ -64,7 +64,9 @@ export function enhanceImplementationStudies() {
         button.title = `inspect ${step.title}`;
         button.setAttribute("aria-controls", "upwind-cell-diagram");
         button.setAttribute("aria-describedby", "implementation-step-description");
-        const inspect = () => showStep(key);
+        const inspect = () => {
+          showStep(key);
+        };
         button.addEventListener("focus", inspect);
         button.addEventListener("click", inspect);
         line.replaceChildren(button);
