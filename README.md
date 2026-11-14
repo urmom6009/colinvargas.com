@@ -21,7 +21,10 @@ astro portfolio site for `colinvargas.com`.
 - exclusions: no change to the numerical method or results, project claims, brand mark, secondary-page excerpt, or deployment.
 - acceptance: `npm test` and `npm run build`; inspect desktop and mobile in both themes, keyboard selection, reduced motion, no JavaScript, source fidelity, and horizontal overflow. scrolling should no longer move code copies, auto-cycle lines, or pin a long study.
 - decision: place the source, selected-cell diagram, and final field in normal flow. remove the six-step automatic sequence and duplicate ledger while preserving direct inspection.
-- unresolved: none. next action: simplify the implementation component, client script, and motion styles.
+- result: the pinned source, selected-cell diagram, and final reference field now stay in normal flow. a single 480 ms entrance replaces moving source copies, six automatic scroll stages, the duplicate value ledger, pause control, and canvas animation. selecting one of the six code statements still highlights its matching cell explanation and value.
+- validation: all seven numerical tests pass; Astro check reports 0 errors, warnings, or hints and builds 21 pages; `git diff --check` passes. built markup contains all six code keys, the cell diagram, and the final field. independent source review found no blocking issue.
+- limitation: local preview could not bind a port and the cached browser could not launch in this environment. the Vercel draft preview deployed successfully but requires sign-in, so visual layout, keyboard interaction, themes, and reduced-motion rendering remain unverified.
+- handoff: draft PR #15, `codex/quieter-hero-implementation`, based on public main `a3fcf717`. the older local checkout and its staged/unstaged changes were left untouched. next action: inspect the protected preview, then review the PR before any production merge.
 
 ## content pass / november 11, 2026
 
