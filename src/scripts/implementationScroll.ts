@@ -79,6 +79,10 @@ export function enhanceImplementationStudies() {
             ({ face: stepFace }) => stepFace === face.dataset.face,
           );
           face.dataset.active = String(faceIndex <= index);
+          face.dataset.current = String(
+            !running &&
+              (face.dataset.face === step.face || key === "dtdivF"),
+          );
         });
         lineButtons.forEach(({ key: lineKey, button }) =>
           button.setAttribute("aria-pressed", String(lineKey === key)),
@@ -231,8 +235,11 @@ export function enhanceImplementationStudies() {
       };
 
       const measure = () => {
-        const top = (header?.getBoundingClientRect().height || 84) + 20;
-        track.style.setProperty("--study-top", `${top}px`);
+        const compactIntro = window.innerWidth > 900 && window.innerHeight <= 1010;
+        const preferredTop =
+          (header?.getBoundingClientRect().height || 84) +
+          (compactIntro ? 12 : 20);
+        track.style.setProperty("--study-top", `${preferredTop}px`);
         const showStatic = () => {
           track.dataset.motion = "static";
           manualStep = undefined;
@@ -267,12 +274,22 @@ export function enhanceImplementationStudies() {
         track.dataset.motion = "scroll";
         if (readToggle) readToggle.hidden = false;
         write(".implementation-scroll-hint", "scroll to assemble the cell ↓");
-        morph?.measure();
         const height = figure.getBoundingClientRect().height;
-        if (height + top + 24 > window.innerHeight) {
+        const bottomSpace = 12;
+        const headerHeight = header?.getBoundingClientRect().height || 84;
+        const minimumTop = headerHeight + 8;
+        const availableTop = window.innerHeight - height - bottomSpace;
+        // Fit the full study while keeping its heading beneath the site header.
+        const top = Math.min(
+          preferredTop,
+          Math.max(minimumTop, availableTop),
+        );
+        track.style.setProperty("--study-top", `${top}px`);
+        if (availableTop < minimumTop) {
           showStatic();
           return;
         }
+        morph?.measure();
         frames ??= createTransportFrames();
         distance = Math.max(580, Math.min(900, window.innerHeight * 0.9));
         track.style.setProperty("--study-height", `${height + distance}px`);

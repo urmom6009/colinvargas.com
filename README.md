@@ -59,6 +59,17 @@ astro portfolio site for `colinvargas.com`.
 - validation: seven numerical tests and Astro check/build passed with zero diagnostics. built-preview checks at 2048 × 1190 and 1800 × 1100 confirmed source visibility, grid-only fade, ordered arrivals, cumulative records, final field, and reverse scroll. code-line selection, keyboard focus, pause/return, both themes, reduced motion, no-javascript, and static fallbacks passed. responsive checks from 320 to 1800px found no horizontal overflow after changing the ledger to two columns at 900px.
 - next action: review the correction in a focused pull request, then publish it.
 
+## motion restoration and systems refinement / november 13, 2026
+
+- objective: restore the line-to-cell scroll sequence at the owner's Safari viewport while keeping the full source above the grid, and make the public systems pages easier to understand and inspect.
+- source: the owner's feedback after the stacked study was published; the pinned implementation excerpt, computed reference case, public systems data contract, and existing style guide remain authoritative.
+- requirements: keep the code visible, make the current statement and its physical face distinct from completed steps, retain cumulative records and reverse scroll, and show systems data freshness and unavailable states without invented readings.
+- exclusions: no changes to the solver calculation, unpublished reports, private admin operations, or fabricated systems telemetry.
+- result: compact desktop spacing restores the pinned study at 2048 × 1028 and 1280 × 900 without reducing source type. the grid arrives before the traveling source copies; the current line and face share the accent, and completed faces and the six-step record remain visible. the systems index is now a four-record reading path; reported panels appear only for actual API values, with source and time shown beside the readings. unavailable, empty, and historical responses have distinct notices. private admin details remain outside the public pages.
+- validation: all seven numerical tests and the Astro check/build pass with zero diagnostics. built-preview checks at 2048 × 1028 confirmed source visibility, grid below code, ordered line-to-face motion, reverse scroll, and the final field. mobile 390px checks covered unavailable and mocked dated snapshots on the index and a detail route, with no page errors or horizontal overflow. shorter windows and reduced motion retain static reading paths.
+- limitation: the external systems API returned a proxy 403 from this workspace, so the live production payload could not be inspected; local checks used representative API fixtures. the short desktop treatment keeps the study label visible while hiding the longer introduction visually; that introduction remains available to assistive technology.
+- next action: review the focused pull request and publish the correction.
+
 ## local workflow
 
 ```sh

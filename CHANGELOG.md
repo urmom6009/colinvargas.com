@@ -1,6 +1,8 @@
 # Changelog
 
 ## Unreleased
+- Refined the public systems index and detail pages into a concise read-only record. real API values now carry report times; empty, unavailable, and historical snapshots are labeled separately.
+- Restored the homepage line-to-cell animation at Safari-sized content viewports while keeping the source visible. the moving line and its target face now share the accent; completed faces stay visible in quieter ink.
 - Kept the full source excerpt visible while the annotated grid fades in below it; moving line copies enter the cell without covering the code, and short viewports retain the normal-flow study.
 - Revealed the annotated cell grid before the source lines move, kept completed face highlights and a six-step value record through the final field, and preserved reverse-scroll and static reading paths.
 - Raised small navigation, metadata, code, and caption type across the portfolio. narrow screens now show the full implementation study and a readable face-flux readout in normal flow; the desktop scroll sequence remains available.

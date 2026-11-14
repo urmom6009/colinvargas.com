@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { systemsSections } from "../../data/systemsSections";
+import "../../styles/systems-refinement.css";
 
 export function getStaticPaths() {
   return Object.entries(systemsSections).map(([section, props]) => ({
@@ -20,9 +21,9 @@ const fallbackJson = JSON.stringify({
   title={`${page.title} systems - colin vargas`}
   description={`${page.title} systems readout for the public colin vargas status surface.`}
 >
-  <main id="main-content" tabindex="-1">
+  <main id="main-content" class="systems-page systems-detail-page" tabindex="-1">
     <p class="telemetry-notice" data-telemetry-notice role="status">
-      live public telemetry is unavailable. no current health values are shown.
+      the public feed is unavailable. this record still explains what the readout covers.
     </p>
     <section
       class="resume-hero page-scene systems-detail-hero"
@@ -40,18 +41,18 @@ const fallbackJson = JSON.stringify({
           <p>{page.summary}</p>
         </div>
 
-        <aside class="systems-detail-card">
-          <span>readout</span>
-          <strong data-detail-metric>unavailable</strong>
-          <p data-detail-copy>live readout unavailable.</p>
+        <aside class="systems-detail-card" data-detail-card hidden>
+          <span data-detail-label>reported snapshot</span>
+          <strong data-detail-metric></strong>
+          <p data-detail-copy hidden></p>
           <dl class="systems-meta">
             <div>
-              <dt>signal</dt>
-              <dd><span data-detail-signal>—</span><span data-detail-signal-unit></span></dd>
+              <dt>source</dt>
+              <dd>public systems api</dd>
             </div>
             <div>
-              <dt>source</dt>
-              <dd data-detail-source>api unavailable</dd>
+              <dt>reported</dt>
+              <dd><time data-detail-updated>time unreported</time></dd>
             </div>
           </dl>
         </aside>
@@ -64,31 +65,12 @@ const fallbackJson = JSON.stringify({
       data-scroll-chapter
     >
       <div class="section-heading">
-        <span id="systems-detail-readout">readout</span>
-        <span>{page.title}</span>
+        <span id="systems-detail-readout">scope and boundary</span>
+        <span>public record</span>
       </div>
 
       <div class="systems-detail-grid">
-        <article
-          class="systems-panel systems-detail-primary"
-          data-build-step="1"
-        >
-          <div class="systems-panel-head">
-            <span>current readout</span>
-            <small data-detail-updated>unavailable</small>
-          </div>
-          <div
-            class="systems-detail-gauge"
-            style="--score-angle: 0deg"
-            data-detail-gauge
-          >
-            <span data-detail-signal>—</span>
-            <small>signal score</small>
-          </div>
-          <p>{page.summary}</p>
-        </article>
-
-        <article class="systems-panel systems-detail-notes" data-build-step="2">
+        <article class="systems-panel systems-detail-notes">
           <div class="systems-panel-head">
             <span>boundaries</span>
             <small>public boundary</small>
@@ -98,14 +80,12 @@ const fallbackJson = JSON.stringify({
           </ul>
         </article>
 
-        <article class="systems-panel systems-detail-live" data-build-step="3">
+        <article class="systems-panel systems-detail-live" data-detail-live-panel hidden>
           <div class="systems-panel-head">
-            <span>visible fields</span>
-            <small>live api</small>
+            <span>latest reported fields</span>
+            <small>public api</small>
           </div>
-          <div class="systems-detail-live-list" data-detail-live>
-            <p>live readout unavailable.</p>
-          </div>
+          <div class="systems-detail-live-list" data-detail-live></div>
         </article>
       </div>
     </section>
@@ -119,100 +99,137 @@ const fallbackJson = JSON.stringify({
   />
   <script is:inline>
     (() => {
-      const fallback = JSON.parse(
+      const refreshMs = 60_000;
+      const staleAfterMs = 15 * 60_000;
+      const section = JSON.parse(
         document.getElementById("systems-detail-fallback")?.textContent || "{}",
       );
-      const lower = (value, backup = "unavailable") =>
-        String(value ?? backup).toLowerCase();
-      const setText = (selector, value) => {
-        document.querySelectorAll(selector).forEach((node) => {
-          node.textContent = String(value);
-        });
+      const notice = document.querySelector("[data-telemetry-notice]");
+      const cardNode = document.querySelector("[data-detail-card]");
+      const panel = document.querySelector("[data-detail-live-panel]");
+      const list = document.querySelector("[data-detail-live]");
+      const plain = (value, backup = "") =>
+        typeof value === "string" || typeof value === "number"
+          ? String(value).trim()
+          : backup;
+      const present = (value) =>
+        Boolean(plain(value)) &&
+        !["unavailable", "unknown", "—", "null"].includes(plain(value).toLowerCase());
+      const metric = (value) => {
+        if (typeof value !== "number" && (typeof value !== "string" || !value.trim())) return null;
+        const number = Number(value);
+        return Number.isFinite(number) && number >= 0 && number <= 100 ? number : null;
       };
       const formatGenerated = (value) => {
-        if (!value) return "unavailable";
         const date = new Date(value);
-        if (Number.isNaN(date.getTime())) return lower(value);
+        if (!value || Number.isNaN(date.getTime())) return "time unreported";
         return new Intl.DateTimeFormat("en", {
           month: "short",
           day: "numeric",
+          year: "numeric",
           hour: "2-digit",
           minute: "2-digit",
-        })
-          .format(date)
-          .toLowerCase();
+          timeZoneName: "short",
+        }).format(date).toLowerCase();
       };
-      const clamp = (value) => Math.min(Math.max(Number(value) || 0, 0), 100);
-      const renderLiveList = (items) => {
-        const target = document.querySelector("[data-detail-live]");
-        if (!target) return;
-        target.replaceChildren(
-          ...items.map(([label, value]) => {
-            const row = document.createElement("div");
-            const key = document.createElement("span");
-            const detail = document.createElement("strong");
-            key.textContent = lower(label);
-            detail.textContent = lower(value);
-            row.append(key, detail);
-            return row;
-          }),
-        );
+      const snapshotState = (value) => {
+        if (!value) return "unreported";
+        const time = new Date(value).getTime();
+        if (Number.isNaN(time)) return "unreported";
+        const age = Date.now() - time;
+        if (age > staleAfterMs) return "historical";
+        if (age < -staleAfterMs) return "future";
+        return "recent";
       };
-      const render = (data, source) => {
-        const notice = document.querySelector("[data-telemetry-notice]");
-        if (notice)
-          notice.textContent =
-            source === "live api"
-              ? "live public telemetry — read-only snapshot from the systems api."
-              : "live public telemetry is unavailable. no current health values are shown.";
-        const card = (data.cards || []).find((item) =>
-          lower(item.label).includes(fallback.title),
-        );
-        const radar = (data.radar || []).find(
-          (item) => lower(item.label) === lower(fallback.sourceKey),
-        );
-        const score = radar?.value !== null && radar?.value !== undefined && radar?.value !== "" && Number.isFinite(Number(radar.value))
-          ? clamp(radar.value)
-          : null;
-        const metric = lower(card?.value);
-        const detail = lower(card?.detail, "live readout unavailable.");
-        setText("[data-detail-metric]", metric);
-        setText("[data-detail-copy]", detail);
-        setText("[data-detail-signal]", score === null ? "—" : score);
-        setText("[data-detail-signal-unit]", score === null ? "" : "%");
-        setText("[data-detail-source]", source);
-        setText("[data-detail-updated]", formatGenerated(data.generated_at));
-        document
-          .querySelector("[data-detail-gauge]")
-          ?.style.setProperty("--score-angle", `${(score ?? 0) * 3.6}deg`);
-        renderLiveList([
-          ["status", metric],
-          ["detail", detail],
-          ["signal score", score === null ? "unavailable" : `${score}%`],
-          ["source", source],
-        ]);
+      const renderUnavailable = (message) => {
+        if (notice) {
+          notice.hidden = false;
+          notice.textContent = message ||
+            "the public feed is unavailable. this record still explains what the readout covers.";
+        }
+        if (cardNode) cardNode.hidden = true;
+        if (panel) panel.hidden = true;
       };
-      render({ cards: [], radar: [] }, "api unavailable");
-      fetch("/systems/api/public", {
-        headers: { accept: "application/json" },
-        cache: "no-store",
-      })
-        .then((response) => {
+      const render = (incoming) => {
+        const data = incoming && typeof incoming === "object" && !Array.isArray(incoming)
+          ? incoming
+          : {};
+        const cards = Array.isArray(data.cards) ? data.cards : [];
+        const radar = Array.isArray(data.radar) ? data.radar : [];
+        const card = cards.find((item) => plain(item?.label).toLowerCase().includes(plain(section.title).toLowerCase()));
+        const signal = radar.find((item) => plain(item?.label).toLowerCase() === plain(section.sourceKey).toLowerCase());
+        const score = metric(signal?.value);
+        const value = present(card?.value) ? plain(card.value) : null;
+        if (value === null && score === null) {
+          renderUnavailable(
+            `the public api responded, but returned no reportable reading for ${plain(section.title)}. the scope below remains available.`,
+          );
+          return;
+        }
+        const reported = formatGenerated(data.generated_at);
+        const state = snapshotState(data.generated_at);
+        if (notice) {
+          notice.hidden = state === "recent";
+          notice.textContent = state === "historical"
+            ? "the last public snapshot is older than 15 minutes. current status is unverified."
+            : state === "future"
+              ? "the snapshot time is ahead of this browser's clock. current status is unverified."
+              : "the public api responded, but did not report a snapshot time. current status is unverified.";
+        }
+        if (cardNode) cardNode.hidden = false;
+        if (panel) panel.hidden = false;
+        const label = document.querySelector("[data-detail-label]");
+        if (label) label.textContent = state === "historical" ? "historical snapshot" : "reported snapshot";
+        const metricNode = document.querySelector("[data-detail-metric]");
+        if (metricNode) metricNode.textContent = value || `${score}%`;
+        const detail = present(card?.detail) ? plain(card.detail) : "";
+        const copy = document.querySelector("[data-detail-copy]");
+        if (copy) {
+          copy.hidden = !detail;
+          copy.textContent = detail;
+        }
+        const updated = document.querySelector("[data-detail-updated]");
+        if (updated) {
+          updated.textContent = reported;
+          if (reported === "time unreported") updated.removeAttribute("datetime");
+          else updated.setAttribute("datetime", new Date(data.generated_at).toISOString());
+        }
+        if (!list) return;
+        const fields = [];
+        if (value) fields.push(["status", value]);
+        if (detail) fields.push(["detail", detail]);
+        if (score !== null) fields.push(["signal score", `${score}%`]);
+        list.replaceChildren(...fields.map(([label, reading]) => {
+          const row = document.createElement("div");
+          const key = document.createElement("span");
+          const text = document.createElement("strong");
+          key.textContent = label;
+          text.textContent = reading;
+          row.append(key, text);
+          return row;
+        }));
+      };
+      const fetchLive = async () => {
+        const controller = new AbortController();
+        const timeout = window.setTimeout(() => controller.abort(), 8_000);
+        try {
+          const response = await fetch("/systems/api/public", {
+            headers: { accept: "application/json" },
+            cache: "no-store",
+            signal: controller.signal,
+          });
           if (!response.ok) throw new Error(String(response.status));
-          return response.json();
-        })
-        .then((data) => {
-          if (
-            !data ||
-            typeof data !== "object" ||
-            !Array.isArray(data.cards) ||
-            !Array.isArray(data.radar)
-          ) {
-            throw new Error("systems api returned an invalid snapshot");
-          }
-          render(data, "live api");
-        })
-        .catch(() => render({ cards: [], radar: [] }, "api unavailable"));
+          const data = await response.json();
+          render(data);
+        } catch {
+          renderUnavailable();
+        } finally {
+          window.clearTimeout(timeout);
+        }
+      };
+      renderUnavailable();
+      fetchLive();
+      window.setInterval(fetchLive, refreshMs);
     })();
   </script>
 </BaseLayout>

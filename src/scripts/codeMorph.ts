@@ -155,6 +155,8 @@ export function createCodeMorph(track: HTMLElement, figure: HTMLElement) {
       const face = track.querySelector<SVGGElement>(
         `[data-face="${object.key}"]`,
       );
+      face?.style.setProperty("--face-preview", String(ease(0, 0.18, t)));
+      face?.style.setProperty("--face-preview-dash", t < 0.96 ? "4 3" : "none");
       face?.style.setProperty("--face-formed", String(ease(0.78, 1, t)));
     });
     const zoom = ease(0.88, 0.96, progress);
