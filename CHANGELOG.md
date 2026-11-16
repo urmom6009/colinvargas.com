@@ -1,6 +1,7 @@
 # Changelog
 
 ## Unreleased
+- Calmed the homepage implementation study: replaced the traveling code and long scroll sequence with one brief entrance, kept the source, cell, and final field in normal flow, and retained direct code-line inspection without the duplicate step ledger.
 - Refined the public systems index and detail pages into a concise read-only record. real API values now carry report times; empty, unavailable, and historical snapshots are labeled separately.
 - Restored the homepage line-to-cell animation at Safari-sized content viewports while keeping the source visible. the moving line and its target face now share the accent; completed faces stay visible in quieter ink.
 - Kept the full source excerpt visible while the annotated grid fades in below it; moving line copies enter the cell without covering the code, and short viewports retain the normal-flow study.
