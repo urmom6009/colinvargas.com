@@ -9,8 +9,53 @@ export const profile = {
 
 export const projects = [
   {
-    slug: "adaptive-cfd-solver",
+    slug: "hydrogen-isooctane-equilibrium",
     number: "01",
+    title: "hydrogen–isooctane combustion",
+    category: "propulsion",
+    discipline: "combustion thermochemistry",
+    context: "coauthored MAE 536 course project · fall 2025",
+    status: "case study available",
+    record: "team study · NASA CEA equilibrium analysis",
+    method: "constant-enthalpy, constant-pressure equilibrium",
+    material: "case study",
+    brief: [
+      { label: "fuel", value: "isooctane–hydrogen blends in air" },
+      { label: "reactant temperature", value: "298.15 K" },
+      { label: "outputs", value: "adiabatic temperature and equilibrium gas composition" },
+    ],
+    summary:
+      "a team study of how hydrogen fraction, pressure, and equivalence ratio affect equilibrium temperature and gas composition.",
+    question:
+      "how sensitive are equilibrium predictions to hydrogen addition and the fuel–air ratio?",
+    scope:
+      "our team used NASA CEA to calculate adiabatic, constant-pressure equilibrium for isooctane–hydrogen blends in air. we compared a stoichiometric pressure sweep from 0.01 to 100 atm with equivalence-ratio sweeps from 0.2 to 1.8 at 1 and 100 atm.",
+    tools: ["NASA CEA", "MATLAB", "chemical equilibrium"],
+    approach: [
+      {
+        title: "set the comparison",
+        detail:
+          "hold the reactant temperature at 298.15 K and vary hydrogen from 0 to 100 mole percent of the fuel across 14 blend compositions.",
+      },
+      {
+        title: "compare sensitivities",
+        detail:
+          "use MATLAB to compare trends in adiabatic flame temperature and equilibrium product mole fractions across the sweeps.",
+      },
+      {
+        title: "identify the model limits",
+        detail:
+          "equilibrium gives the thermochemical end state. ignition timing, transient NOₓ formation, and spray evaporation require separate models.",
+      },
+    ],
+    evidence:
+      "in the team’s 100 atm sweep, changing equivalence ratio had a greater effect on the equilibrium CO₂ mole fraction than changing hydrogen fraction over the cases studied. this is a qualitative finding from the December 2025 MAE 536 team report, within the stated equilibrium assumptions.",
+    next: "reproduce a representative sweep with versioned inputs, then compare the equilibrium baseline with a finite-rate model under matched conditions.",
+    source: null,
+  },
+  {
+    slug: "adaptive-cfd-solver",
+    number: "02",
     title: "adaptive cfd solver",
     category: "numerics",
     discipline: "computational fluid dynamics",
@@ -25,7 +70,7 @@ export const projects = [
       { label: "boundaries", value: "periodic in x and y" },
     ],
     summary:
-      "from scalar advection to adaptive meshes. a thesis project exploring how numerical methods and software architecture shape a flow solver.",
+      "a C++/AMReX finite-volume solver for 2D scalar advection, with an inspectable flux update and a computed reference case. adaptive refinement is planned.",
     question:
       "how can a small, inspectable advection solver become a foundation for more complex flow problems?",
     scope:
@@ -51,51 +96,6 @@ export const projects = [
     evidence:
       "the upwind implementation excerpt shows how face fluxes update the cell averages. its source revision is recorded alongside it. convergence plots, benchmark timings, and a completed validation study are not yet part of the public portfolio.",
     next: "a documented baseline case with its inputs, boundary conditions, and grid-refinement results.",
-    source: null,
-  },
-  {
-    slug: "scramjet-analysis-tool",
-    number: "02",
-    title: "scramjet analysis tool",
-    category: "propulsion",
-    discipline: "propulsion & thermodynamics",
-    context: "aircraft propulsion course project · fall 2024",
-    status: "writeup in progress",
-    record: "course report · not yet published here",
-    method: "parametric analysis",
-    material: "project overview",
-    brief: [
-      { label: "problem", value: "ramjet / scramjet performance" },
-      { label: "approach", value: "station model / flight-condition sweeps" },
-      { label: "tools", value: "matlab" },
-    ],
-    summary:
-      "a matlab model comparing ramjet and scramjet performance as flight and component conditions change.",
-    question:
-      "where does thermal choking change the trade between thrust, efficiency, and fuel use?",
-    scope:
-      "the model follows flow through the freestream, diffuser, combustor, and nozzle. it varies flight mach number and altitude, diffuser and nozzle behavior, and combustor limits to compare thrust, efficiencies, and thrust-specific fuel consumption.",
-    tools: ["matlab", "propulsion", "parametric analysis"],
-    approach: [
-      {
-        title: "follow the stations",
-        detail:
-          "calculate pressure, temperature, velocity, and mach number through the diffuser, combustor, and nozzle from stated flight and component inputs.",
-      },
-      {
-        title: "check choking cases",
-        detail:
-          "compare thermally choked and unchoked test cases with expected values, then plot their temperature-entropy paths.",
-      },
-      {
-        title: "sweep flight conditions",
-        detail:
-          "track thrust, overall efficiency, and thrust-specific fuel consumption as flight mach number and altitude vary.",
-      },
-    ],
-    evidence:
-      "the fall 2024 course report documents the matlab model, two choking test cases, temperature-entropy diagrams, and flight-condition sweeps. the report and plots are not yet published on this site; this overview makes no numerical performance claim.",
-    next: "publish a representative sweep with its inputs, units, and model limitations.",
     source: null,
   },
   {
@@ -149,8 +149,53 @@ export const projects = [
     source: null,
   },
   {
-    slug: "portfolio-and-technical-logs",
+    slug: "scramjet-analysis-tool",
     number: "04",
+    title: "scramjet analysis tool",
+    category: "propulsion",
+    discipline: "propulsion & thermodynamics",
+    context: "aircraft propulsion course project · fall 2024",
+    status: "writeup in progress",
+    record: "course report · not yet published here",
+    method: "parametric analysis",
+    material: "project overview",
+    brief: [
+      { label: "problem", value: "ramjet / scramjet performance" },
+      { label: "approach", value: "station model / flight-condition sweeps" },
+      { label: "tools", value: "matlab" },
+    ],
+    summary:
+      "a matlab model comparing ramjet and scramjet performance as flight and component conditions change.",
+    question:
+      "where does thermal choking change the trade between thrust, efficiency, and fuel use?",
+    scope:
+      "the model follows flow through the freestream, diffuser, combustor, and nozzle. it varies flight mach number and altitude, diffuser and nozzle behavior, and combustor limits to compare thrust, efficiencies, and thrust-specific fuel consumption.",
+    tools: ["matlab", "propulsion", "parametric analysis"],
+    approach: [
+      {
+        title: "follow the stations",
+        detail:
+          "calculate pressure, temperature, velocity, and mach number through the diffuser, combustor, and nozzle from stated flight and component inputs.",
+      },
+      {
+        title: "check choking cases",
+        detail:
+          "compare thermally choked and unchoked test cases with expected values, then plot their temperature-entropy paths.",
+      },
+      {
+        title: "sweep flight conditions",
+        detail:
+          "track thrust, overall efficiency, and thrust-specific fuel consumption as flight mach number and altitude vary.",
+      },
+    ],
+    evidence:
+      "the fall 2024 course report documents the matlab model, two choking test cases, temperature-entropy diagrams, and flight-condition sweeps. the report and plots are not yet published on this site; this overview makes no numerical performance claim.",
+    next: "publish a representative sweep with its inputs, units, and model limitations.",
+    source: null,
+  },
+  {
+    slug: "portfolio-and-technical-logs",
+    number: "05",
     title: "the engineering record",
     category: "software",
     discipline: "software & documentation",

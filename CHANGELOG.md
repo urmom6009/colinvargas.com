@@ -1,6 +1,7 @@
 # Changelog
 
 ## Unreleased
+- Focus the public portfolio on fall 2027 PhD research in combustion, CFD, and aviation propulsion. Add a coauthored hydrogen–isooctane equilibrium case study from the MAE 536 report and give advisors direct paths to the research, printable profile, and email. Check the generated routes and links, retain the solver reference case, and keep the underlying course report and raw data private; a reproducible numerical sweep remains an open follow-up.
 - Calmed the homepage implementation study: replaced the traveling code and long scroll sequence with one brief entrance, kept the source, cell, and final field in normal flow, and retained direct code-line inspection without the duplicate step ledger.
 - Refined the public systems index and detail pages into a concise read-only record. real API values now carry report times; empty, unavailable, and historical snapshots are labeled separately.
 - Restored the homepage line-to-cell animation at Safari-sized content viewports while keeping the source visible. the moving line and its target face now share the accent; completed faces stay visible in quieter ink.
