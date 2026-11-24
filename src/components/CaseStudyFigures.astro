@@ -1,0 +1,377 @@
+---
+interface Props {
+  kind: "mixing" | "scramjet" | "winglet";
+  placement: "hero" | "evidence";
+}
+
+const { kind, placement } = Astro.props;
+const figureId = `case-${kind}-${placement}`;
+
+// Mixing-chamber final report, grid series for the reported mean K value.
+const mixingGrid = [
+  { m: 32, value: 5.4703 },
+  { m: 64, value: 5.6781 },
+  { m: 128, value: 5.8110 },
+  { m: 256, value: 5.8609 },
+  { m: 512, value: 5.8802 }
+];
+const gridX = (index: number) => 94 + index * 122;
+const gridY = (value: number) => 245 - ((value - 5.4) / 0.5) * 150;
+const gridLine = mixingGrid.map((entry, index) => `${index === 0 ? "M" : "L"} ${gridX(index)} ${gridY(entry.value)}`).join(" ");
+
+// Processed force-balance measurements at Re = 101,800, nominal angles 10° and 20°.
+const wingletPoints = [
+  { alpha: 10, baseline: 0.5003, winglet: 0.6671 },
+  { alpha: 20, baseline: 0.8495, winglet: 0.9684 }
+];
+const barY = (value: number) => 245 - value * 166;
+const barHeight = (value: number) => value * 166;
+---
+
+{placement === "hero" && (
+  <figure class={`case-figure case-hero-figure case-${kind}`}>
+    <div class="figure-heading">
+      <span>system / {kind === "mixing" ? "thermal mixing" : kind === "scramjet" ? "propulsion model" : "wind tunnel"}</span>
+      <span>explanatory schematic · not to scale</span>
+    </div>
+
+    <div class="diagram-field">
+      {kind === "mixing" && (
+        <svg viewBox="0 0 760 350" role="img" aria-labelledby={`${figureId}-title ${figureId}-desc`}>
+          <title id={`${figureId}-title`}>Thermal mixing chamber geometry</title>
+          <desc id={`${figureId}-desc`}>Two inlets feed a rectangular chamber from the top and bottom walls near the left side. The upper rotating paddle is cooled and the lower paddle is heated. The outlet is centered on the right wall. Dashed lines indicate schematic flow paths.</desc>
+          <defs>
+            <marker id={`${figureId}-arrow`} markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+              <path d="M 0 0 L 8 4 L 0 8 Z" class="arrow-head" />
+            </marker>
+          </defs>
+          <path class="datum" d="M 28 176 H 732" />
+          <path class="wall" d="M 182 67 H 225 M 275 67 H 612 V 155 M 612 197 V 283 H 275 M 225 283 H 182 V 67" />
+          <path class="wall" d="M 225 18 V 67 M 275 18 V 67 M 225 283 V 332 M 275 283 V 332 M 612 155 H 724 M 612 197 H 724" />
+          <path class="flow" d="M 250 23 V 52 M 250 327 V 296 M 649 176 H 704" marker-end={`url(#${figureId}-arrow)`} />
+          <path class="flow-guide" d="M 250 79 C 250 128, 282 157, 352 176 S 480 214, 555 176" />
+          <path class="flow-guide" d="M 250 271 C 250 220, 282 191, 352 176 S 480 139, 555 176" />
+          <g class="paddle cool-paddle" transform="translate(343 126)">
+            <circle r="32" />
+            <path d="M -22 -22 L 22 22 M -22 22 L 22 -22" />
+            <circle r="5" class="hub" />
+          </g>
+          <g class="paddle hot-paddle" transform="translate(343 226)">
+            <circle r="32" />
+            <path d="M -22 -22 L 22 22 M -22 22 L 22 -22" />
+            <circle r="5" class="hub" />
+          </g>
+          <text x="119" y="35">INLET 01</text>
+          <text x="119" y="325">INLET 02</text>
+          <text x="623" y="132">OUTLET</text>
+          <text x="298" y="74" class="cool-label">COOLED</text>
+          <text x="303" y="318" class="hot-label">HEATED</text>
+        </svg>
+      )}
+
+      {kind === "scramjet" && (
+        <svg viewBox="0 0 760 350" role="img" aria-labelledby={`${figureId}-title ${figureId}-desc`}>
+          <title id={`${figureId}-title`}>Modeled ramjet and scramjet flow path</title>
+          <desc id={`${figureId}-desc`}>Freestream flow enters a diffuser, passes through a combustor, expands through a nozzle, and returns to external flow. The geometry explains the model stages rather than representing a built engine.</desc>
+          <defs>
+            <marker id={`${figureId}-arrow`} markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+              <path d="M 0 0 L 8 4 L 0 8 Z" class="arrow-head" />
+            </marker>
+          </defs>
+          <path class="datum" d="M 27 176 H 732" />
+          <path class="wall" d="M 151 83 L 286 135 H 472 L 622 91 M 151 269 L 286 217 H 472 L 622 261" />
+          <path class="station" d="M 286 135 V 217 M 472 135 V 217" />
+          <path class="flow" d="M 41 176 H 132 M 208 176 H 268 M 323 176 H 452 M 509 176 H 599 M 650 176 H 716" marker-end={`url(#${figureId}-arrow)`} />
+          <path class="injector" d="M 360 108 V 135 M 383 108 V 135" />
+          <path class="injector-tip" d="M 356 125 L 360 135 L 364 125 M 379 125 L 383 135 L 387 125" />
+          <text x="29" y="119">FREESTREAM</text>
+          <text x="191" y="78">DIFFUSER</text>
+          <text x="329" y="77">COMBUSTOR</text>
+          <text x="528" y="77">NOZZLE</text>
+          <text x="615" y="298">EXTERNAL FLOW</text>
+          <text x="350" y="94" class="fuel-label">FUEL</text>
+        </svg>
+      )}
+
+      {kind === "winglet" && (
+        <svg viewBox="0 0 760 350" role="img" aria-labelledby={`${figureId}-title ${figureId}-desc`}>
+          <title id={`${figureId}-title`}>Finite wing in a wind-tunnel test section</title>
+          <desc id={`${figureId}-desc`}>Freestream air crosses a test section containing a finite wing with one angled winglet. A force balance connects beneath the wing. The experiment varied winglet angle, length, and mounting position.</desc>
+          <defs>
+            <marker id={`${figureId}-arrow`} markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+              <path d="M 0 0 L 8 4 L 0 8 Z" class="arrow-head" />
+            </marker>
+          </defs>
+          <rect class="tunnel" x="48" y="62" width="664" height="230" />
+          <path class="flow" d="M 76 119 H 212 M 76 176 H 212 M 76 234 H 212" marker-end={`url(#${figureId}-arrow)`} />
+          <path class="wing" d="M 275 152 Q 395 134 563 147 L 563 196 Q 395 214 275 195 Z" />
+          <path class="winglet" d="M 552 153 L 603 87 L 618 93 L 575 194 Z" />
+          <path class="balance" d="M 426 211 V 259 M 405 259 H 447" />
+          <path class="measure" d="M 618 95 L 650 94 M 576 191 L 650 191 M 644 100 V 185" />
+          <path class="measure" d="M 641 105 L 644 96 L 647 105 M 641 181 L 644 190 L 647 181" />
+          <text x="76" y="91">FREESTREAM</text>
+          <text x="271" y="239">FINITE WING</text>
+          <text x="552" y="69">WINGLET</text>
+          <text x="478" y="278">FORCE BALANCE</text>
+          <text x="655" y="148" class="measure-label">LENGTH</text>
+        </svg>
+      )}
+    </div>
+
+    <ul class="figure-key" aria-label="Diagram key">
+      {kind === "mixing" && (
+        <>
+          <li><span>01</span>two inlets</li>
+          <li><span>02</span>heated and cooled paddles</li>
+          <li><span>03</span>centered outlet</li>
+        </>
+      )}
+      {kind === "scramjet" && (
+        <>
+          <li><span>01</span>freestream</li>
+          <li><span>02</span>diffuser</li>
+          <li><span>03</span>combustor</li>
+          <li><span>04</span>nozzle to external flow</li>
+        </>
+      )}
+      {kind === "winglet" && (
+        <>
+          <li><span>01</span>winglet angle</li>
+          <li><span>02</span>winglet length</li>
+          <li><span>03</span>fore-aft mounting position</li>
+        </>
+      )}
+    </ul>
+    <figcaption>
+      {kind === "mixing"
+        ? "geometry reconstructed from the course report. dashed paths indicate the schematic flow direction."
+        : kind === "scramjet"
+          ? "flow stations in the performance model."
+          : "test geometry reconstructed from the course report."}
+    </figcaption>
+  </figure>
+)}
+
+{placement === "evidence" && kind === "mixing" && (
+  <figure class="case-figure case-evidence-figure case-mixing">
+    <div class="figure-heading"><span>evidence / thermal field and grid study</span><span>original result + reported values</span></div>
+    <div class="mixing-evidence">
+      <div class="result-image">
+        <img src="/images/projects/mixing-temperature-sequence.jpg" alt="Nine simulated temperature fields from nondimensional time 1 to 3. Warm structures curl around the lower paddle and cooler material spreads from the upper paddle." width="1120" height="840" loading="lazy" />
+        <small>course report figure 3 · nondimensional temperature, Re = 100, Pr = 2, M = 128</small>
+      </div>
+      <div class="plot-wrap">
+        <svg viewBox="0 0 680 300" role="img" aria-labelledby={`${figureId}-title ${figureId}-desc`}>
+          <title id={`${figureId}-title`}>Reported mean K across five grid sizes</title>
+          <desc id={`${figureId}-desc`}>At M values of 32, 64, 128, 256, and 512, the reported mean K values are 5.4703, 5.6781, 5.8110, 5.8609, and 5.8802. The vertical axis begins at 5.4.</desc>
+          <path class="plot-grid" d="M 76 95 H 615 M 76 170 H 615 M 76 245 H 615" />
+          <path class="plot-axis" d="M 76 85 V 245 H 615" />
+          <text x="18" y="100">5.9</text><text x="18" y="175">5.65</text><text x="18" y="250">5.4</text>
+          <path class="plot-line" d={gridLine} />
+          {mixingGrid.map((entry, index) => (
+            <g>
+              <circle class="plot-point" cx={gridX(index)} cy={gridY(entry.value)} r="6" />
+              <text class="point-value" x={gridX(index)} y={gridY(entry.value) - 17} text-anchor="middle">{entry.value.toFixed(4)}</text>
+              <text x={gridX(index)} y="273" text-anchor="middle">{entry.m}</text>
+            </g>
+          ))}
+          <text x="614" y="290" text-anchor="end">M / grid count</text>
+        </svg>
+      </div>
+    </div>
+    <figcaption>reported K̄ values rise from 5.4703 to 5.8802 as M increases from 32 to 512; the chart axis starts at 5.4 to make the change visible.</figcaption>
+  </figure>
+)}
+
+{placement === "evidence" && kind === "scramjet" && (
+  <figure class="case-figure case-evidence-figure case-scramjet">
+    <div class="figure-heading"><span>evidence / operating-point comparison</span><span>reported model output</span></div>
+    <div class="model-conditions">Mach 5 freestream <span>·</span> 27,400 m altitude <span>·</span> 2,400 K combustor-exit cap</div>
+    <div class="tradeoff">
+      <div class="operating-point">
+        <span class="point-label">maximum modeled thrust</span>
+        <strong>1,970 <small>N</small></strong>
+        <div><span>efficiency</span><b>12%</b></div>
+        <div><span>modeled M₂</span><b>0.41</b></div>
+      </div>
+      <div class="operating-point">
+        <span class="point-label">maximum modeled efficiency</span>
+        <strong>1,876 <small>N</small></strong>
+        <div><span>efficiency</span><b>13%</b></div>
+        <div><span>modeled M₂</span><b>0.40</b></div>
+      </div>
+    </div>
+    <figcaption>two operating points from the report's parameter sweep. thrust and efficiency are model outputs under the stated assumptions.</figcaption>
+  </figure>
+)}
+
+{placement === "evidence" && kind === "winglet" && (
+  <figure class="case-figure case-evidence-figure case-winglet">
+    <div class="figure-heading"><span>evidence / lift at two measured angles</span><span>processed wind-tunnel data</span></div>
+    <div class="winglet-chart">
+      <svg viewBox="0 0 680 322" role="img" aria-labelledby={`${figureId}-title ${figureId}-desc`}>
+        <title id={`${figureId}-title`}>Lift coefficients from force-balance data for a bare wing and a 20-degree winglet</title>
+        <desc id={`${figureId}-desc`}>At Reynolds number 101,800, the bare wing had lift coefficients of 0.5003 at 10 degrees and 0.8495 at 20 degrees. The 20-degree winglet variant had 0.6671 and 0.9684 at those angles. The bars show selected processed measurements.</desc>
+        <path class="plot-grid" d="M 83 79 H 604 M 83 162 H 604 M 83 245 H 604" />
+        <path class="plot-axis" d="M 83 65 V 245 H 604" />
+        <text x="27" y="84">1.0</text><text x="27" y="167">0.5</text><text x="27" y="250">0</text>
+        {wingletPoints.map((entry, index) => {
+          const left = index === 0 ? 177 : 414;
+          return (
+            <g>
+              <rect class="baseline-bar" x={left} y={barY(entry.baseline)} width="54" height={barHeight(entry.baseline)} />
+              <rect class="winglet-bar" x={left + 68} y={barY(entry.winglet)} width="54" height={barHeight(entry.winglet)} />
+              <text class="bar-value" x={left + 27} y={barY(entry.baseline) - 12} text-anchor="middle">{entry.baseline.toFixed(4)}</text>
+              <text class="bar-value" x={left + 95} y={barY(entry.winglet) - 12} text-anchor="middle">{entry.winglet.toFixed(4)}</text>
+              <text x={left + 61} y="276" text-anchor="middle">α = {entry.alpha}°</text>
+            </g>
+          );
+        })}
+        <text x="604" y="306" text-anchor="end">Cₗ / dimensionless</text>
+      </svg>
+      <div class="chart-key"><span><i class="baseline-swatch"></i>bare wing</span><span><i class="winglet-swatch"></i>20° winglet</span></div>
+    </div>
+    <figcaption>Re = 101,800. selected lift coefficients were rechecked against the original force-balance and bias files; no significance claim is made from these two angles.</figcaption>
+  </figure>
+)}
+
+<style>
+  .case-figure {
+    --figure-rule: color-mix(in srgb, var(--ink) 34%, var(--line));
+    margin: 0;
+    border-top: 1px solid var(--figure-rule);
+    border-bottom: 1px solid var(--figure-rule);
+    color: var(--ink);
+  }
+
+  .figure-heading {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.85rem 0;
+    color: var(--muted);
+    font: 0.67rem/1.5 var(--font-mono);
+    letter-spacing: 0.075em;
+    text-transform: uppercase;
+  }
+
+  .figure-heading span:last-child { text-align: right; }
+
+  .diagram-field {
+    background:
+      linear-gradient(to right, var(--case-grid-line) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--case-grid-line) 1px, transparent 1px),
+      var(--surface);
+    background-size: 28px 28px;
+  }
+
+  .diagram-field svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 29rem;
+  }
+
+  svg text {
+    fill: var(--muted);
+    font: 13px var(--font-mono);
+    letter-spacing: 0.045em;
+  }
+
+  svg :is(path, rect, circle) { vector-effect: non-scaling-stroke; }
+  .datum { fill: none; stroke: var(--line); stroke-width: 1; stroke-dasharray: 4 8; }
+  .wall, .tunnel { fill: none; stroke: var(--ink); stroke-width: 1.5; }
+  .flow { fill: none; stroke: var(--accent); stroke-width: 2; }
+  .arrow-head { fill: var(--accent); }
+  .flow-guide { fill: none; stroke: var(--accent); stroke-width: 1; stroke-dasharray: 5 7; opacity: 0.55; }
+  .paddle { fill: none; stroke-width: 1.4; }
+  .hot-paddle { stroke: var(--gold); }
+  .cool-paddle { stroke: var(--accent); }
+  .hub { fill: var(--surface); }
+  .hot-label, .fuel-label { fill: var(--gold); }
+  .cool-label, .measure-label { fill: var(--accent); }
+  .station { fill: none; stroke: var(--line); stroke-width: 1; stroke-dasharray: 5 6; }
+  .injector, .injector-tip { fill: none; stroke: var(--gold); stroke-width: 1.5; }
+  .wing { fill: color-mix(in srgb, var(--ink) 9%, var(--surface)); stroke: var(--ink); stroke-width: 1.5; }
+  .winglet { fill: color-mix(in srgb, var(--accent) 13%, var(--surface)); stroke: var(--accent); stroke-width: 1.8; }
+  .balance { fill: none; stroke: var(--ink); stroke-width: 1.5; }
+  .measure { fill: none; stroke: var(--accent); stroke-width: 1; }
+
+  .figure-key {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 1.4rem;
+    margin: 0;
+    padding: 0.7rem 0;
+    list-style: none;
+    border-bottom: 1px solid var(--line);
+    font: 0.69rem/1.7 var(--font-mono);
+    color: var(--muted);
+  }
+
+  .figure-key li { display: flex; gap: 0.55rem; }
+  .figure-key li span { color: var(--accent); }
+
+  figcaption {
+    padding: 0.85rem 0;
+    color: var(--muted);
+    font: 0.75rem/1.6 var(--font-mono);
+  }
+
+  .mixing-evidence { display: grid; grid-template-columns: 1fr; gap: 2rem; align-items: center; }
+  .result-image { min-width: 0; }
+  .result-image img { display: block; width: 100%; max-width: 1120px; height: auto; margin-inline: auto; background: var(--surface); }
+  .result-image small { display: block; padding-top: 0.45rem; color: var(--muted); font: 0.65rem/1.5 var(--font-mono); }
+  .plot-wrap, .winglet-chart { min-width: 0; }
+  .plot-wrap { width: min(100%, 850px); margin-inline: auto; }
+  .plot-wrap svg, .winglet-chart svg { display: block; width: 100%; height: auto; }
+  .plot-grid { fill: none; stroke: var(--line); stroke-width: 1; stroke-dasharray: 3 5; }
+  .plot-axis { fill: none; stroke: var(--ink); stroke-width: 1; }
+  .plot-line { fill: none; stroke: var(--accent); stroke-width: 2; }
+  .plot-point { fill: var(--accent); stroke: var(--bg); stroke-width: 2; }
+  svg .point-value, svg .bar-value { fill: var(--ink); font-size: 14px; letter-spacing: 0; }
+
+  .model-conditions {
+    padding: 1rem 0;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    font: 0.7rem/1.6 var(--font-mono);
+  }
+  .model-conditions span { color: var(--accent); padding: 0 0.6rem; }
+  .tradeoff { display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
+  .operating-point { display: grid; gap: 0.75rem; padding: clamp(1.25rem, 3vw, 2.4rem) clamp(0.6rem, 2vw, 1.5rem); }
+  .operating-point + .operating-point { border-left: 1px solid var(--line); }
+  .point-label { color: var(--accent); font: 0.68rem/1.4 var(--font-mono); letter-spacing: 0.07em; text-transform: uppercase; }
+  .operating-point strong { font: 400 clamp(2.6rem, 7vw, 5.5rem)/0.9 var(--font-sans); letter-spacing: -0.06em; }
+  .operating-point strong small { font: 400 0.22em var(--font-mono); letter-spacing: 0; }
+  .operating-point div { display: flex; justify-content: space-between; gap: 1rem; padding-top: 0.45rem; border-top: 1px solid var(--line); font: 0.7rem/1.4 var(--font-mono); }
+  .operating-point div span { color: var(--muted); }
+  .operating-point div b { font-weight: 400; }
+
+  .baseline-bar { fill: color-mix(in srgb, var(--ink) 32%, var(--bg)); }
+  .winglet-bar { fill: var(--accent); }
+  .chart-key { display: flex; justify-content: center; flex-wrap: wrap; gap: 0.65rem 1.6rem; padding: 0.25rem 0 0.7rem; color: var(--muted); font: 0.68rem/1.5 var(--font-mono); }
+  .chart-key span { display: inline-flex; align-items: center; gap: 0.45rem; }
+  .chart-key i { display: inline-block; width: 1rem; height: 0.65rem; }
+  .baseline-swatch { background: color-mix(in srgb, var(--ink) 32%, var(--bg)); }
+  .winglet-swatch { background: var(--accent); }
+
+  @media (max-width: 760px) {
+    .mixing-evidence { gap: 0.8rem; }
+    .result-image { overflow-x: auto; }
+    .result-image img { min-width: 700px; }
+  }
+
+  @media (max-width: 520px) {
+    .figure-heading { flex-direction: column; gap: 0.1rem; }
+    .figure-heading span:last-child { text-align: left; }
+    .diagram-field { overflow-x: auto; }
+    .diagram-field svg { min-width: 520px; }
+    .figure-key { display: grid; grid-template-columns: 1fr 1fr; gap: 0.2rem 0.6rem; }
+    .tradeoff { grid-template-columns: 1fr; }
+    .operating-point + .operating-point { border-left: 0; border-top: 1px solid var(--line); }
+    .model-conditions span { padding: 0 0.25rem; }
+    .plot-wrap svg { min-width: 420px; }
+    .plot-wrap { overflow-x: auto; }
+  }
+</style>

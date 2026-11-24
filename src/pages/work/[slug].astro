@@ -1,6 +1,8 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import CaseStudy from "../../components/CaseStudy.astro";
 import ImplementationExcerpt from "../../components/ImplementationExcerpt.astro";
+import { caseStudies } from "../../data/caseStudies";
 import { projects, type Project } from "../../data/portfolio";
 export function getStaticPaths() {
   return projects.map((project) => ({
@@ -12,6 +14,7 @@ interface Props {
   project: Project;
 }
 const { project } = Astro.props;
+const caseStudy = caseStudies[project.slug];
 const next =
   projects[
     (projects.findIndex((item) => item.slug === project.slug) + 1) %
@@ -23,7 +26,11 @@ const next =
   title={`${project.title} — colin vargas`}
   description={project.summary}
 >
-  <main id="main-content" tabindex="-1" class="project-detail">
+  <main id="main-content" tabindex="-1" class={caseStudy ? `case-study-main case-study--${caseStudy.kind}` : "project-detail"}>
+    {caseStudy ? (
+      <CaseStudy project={project} study={caseStudy} next={next} />
+    ) : (
+      <>
     <section class="page-intro project-intro" aria-labelledby="project-title">
       <div class="section-heading">
         <a href="/work">← all work</a><span
@@ -126,5 +133,7 @@ const next =
         >{next.title}</strong
       ><span aria-hidden="true">↗</span></a
     >
+      </>
+    )}
   </main>
 </BaseLayout>
