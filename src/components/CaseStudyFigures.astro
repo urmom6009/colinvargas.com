@@ -144,10 +144,10 @@ const barHeight = (value: number) => value * 166;
     </ul>
     <figcaption>
       {kind === "mixing"
-        ? "geometry reconstructed from the course report. dashed paths indicate the schematic flow direction."
+        ? "this is the chamber i modeled in my report. the dashed lines show the general flow direction."
         : kind === "scramjet"
-          ? "flow stations in the performance model."
-          : "test geometry reconstructed from the course report."}
+          ? "these are the stations where i calculated pressure, temperature, velocity, and Mach."
+          : "this is how the wing and force balance were set up in the tunnel."}
     </figcaption>
   </figure>
 )}
@@ -179,7 +179,7 @@ const barHeight = (value: number) => value * 166;
         </svg>
       </div>
     </div>
-    <figcaption>reported K̄ values rise from 5.4703 to 5.8802 as M increases from 32 to 512; the chart axis starts at 5.4 to make the change visible.</figcaption>
+    <figcaption>mean kinetic energy goes from 5.4703 on the coarsest grid to 5.8802 on the finest. the axis starts at 5.4 so you can see what changes from one grid to the next.</figcaption>
   </figure>
 )}
 
@@ -201,7 +201,7 @@ const barHeight = (value: number) => value * 166;
         <div><span>modeled M₂</span><b>0.40</b></div>
       </div>
     </div>
-    <figcaption>two operating points from the report's parameter sweep. thrust and efficiency are model outputs under the stated assumptions.</figcaption>
+    <figcaption>these are the best points for thrust and efficiency in my model sweep, with the flight conditions and component efficiencies held fixed.</figcaption>
   </figure>
 )}
 
@@ -231,7 +231,7 @@ const barHeight = (value: number) => value * 166;
       </svg>
       <div class="chart-key"><span><i class="baseline-swatch"></i>bare wing</span><span><i class="winglet-swatch"></i>20° winglet</span></div>
     </div>
-    <figcaption>Re = 101,800. selected lift coefficients were rechecked against the original force-balance and bias files; no significance claim is made from these two angles.</figcaption>
+    <figcaption>these two lift comparisons at Re = 101,800 were checked against the original force-balance and bias files. i’d want repeat runs before drawing a broader conclusion.</figcaption>
   </figure>
 )}
 

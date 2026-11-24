@@ -26,14 +26,14 @@ const { detailed = false, animate = false } = Astro.props;
     ]}
   >
     <div class="implementation-heading">
-      <span>from the implementation</span><span>c++ / amrex</span>
+      <span>from my solver</span><span>C++ / AMReX</span>
     </div>
-    <h2>the advection baseline.</h2>
+    <h2>how one cell changes</h2>
     <p class="implementation-summary">
       {
         animate
-          ? "one finite-volume update, from face fluxes to a field."
-          : "first-order upwind. face fluxes in, updated cell averages out."
+          ? "here’s what happens to the scalar when i run one finite-volume update."
+          : "i use first-order upwind fluxes to work out what enters and leaves each cell."
       }
     </p>
     <div class="implementation-stage">
@@ -67,7 +67,7 @@ const { detailed = false, animate = false } = Astro.props;
       {
         animate && (
           <span class="implementation-scroll-hint">
-            select a code line to inspect the cell
+            pick a line to see what it does
           </span>
         )
       }
@@ -75,9 +75,8 @@ const { detailed = false, animate = false } = Astro.props;
     {
       detailed && (
         <p class="implementation-note">
-          this is the finite-volume update in the current solver. adaptive
-          refinement is a planned extension. the excerpt documents the
-          implementation; it does not establish convergence or validation.
+          this is the update from my single-grid solver. i want to run a grid
+          study on this version before i add refinement.
         </p>
       )
     }

@@ -4,90 +4,83 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
 <BaseLayout
   title="about — colin vargas"
-  description="Colin Vargas is an aerospace engineering graduate working across numerical methods, propulsion, aircraft systems, and scientific software."
+  description="I’m Colin Vargas, an aerospace engineering graduate from ASU. I’m interested in what happens when you put more of the physics into a flow or combustion model."
 >
   <main id="main-content" tabindex="-1">
     <section class="page-intro" aria-labelledby="about-title">
       <div class="section-heading">
-        <span>about colin</span><span>aerospace engineering</span>
+        <span>Houston → Arizona</span>
       </div><h1 id="about-title">
-        drawn to the<br />hard questions<span class="accent-dot">.</span>
+        hey, i’m colin<span class="accent-dot">.</span>
       </h1><div class="intro-bottom">
         <p>
-          i studied aerospace engineering at arizona state university, with a
-          minor in french and additional graduate study in 2025–2026. the work
-          has moved between aircraft systems, propulsion models, and numerical
-          software.
+          i grew up in Houston and came to Arizona to study aerospace at ASU.
+          i minored in French and took graduate courses in 2025–2026.
+          airplanes got me into engineering, and now i’m especially interested
+          in what happens when you put more of the physics into a flow model.
         </p><p class="intro-note">
-          current focus / a single-level amrex advection solver, with adaptive
-          refinement still ahead.
+          right now i’m working on scalar advection in AMReX. i want to get
+          the single-grid case right before i add adaptive refinement.
         </p>
       </div>
     </section>
     <section class="about-story" aria-labelledby="thinking-title">
-      <span class="eyebrow">how i think about the work</span><div>
-        <h2 id="thinking-title">understand it.<br />then build on it.</h2><p>
-          the most interesting questions usually sit between the physics and the
-          implementation. what does a discretization assume? what does a
-          boundary condition change? what would a simple case tell us before a
-          larger simulation?
+      <span class="eyebrow">what got me into modeling</span><div>
+        <h2 id="thinking-title">what did the model leave out?</h2><p>
+          i like tracking a result back to the choice that produced it. was
+          it the physics, a boundary condition, or just how i discretized an
+          equation? a small case makes that a lot easier to figure out.
         </p><p>
-          honeywell's in-service investigations taught me to organize case
-          evidence and communicate uncertainty without losing the next action.
-          leading aerodynamics work for the asu solar devils brought cfd into
-          contact with geometry, packaging, procurement, and schedule. the
-          solver brings those habits back to a smaller numerical problem.
+          at Honeywell i helped sort through case notes and emulator output
+          for aircraft already in service. with the ASU Solar Devils, i got to
+          see what happens when an aeroshell design has to fit the car, meet
+          the rules, and be ready in time to build.
         </p><a class="text-link" href="/work"
-          >explore the projects <span aria-hidden="true">↗</span></a
+          >see my projects <span aria-hidden="true">↗</span></a
         >
       </div>
     </section>
     <section class="portfolio-section" aria-labelledby="principles-title">
       <div class="section-heading">
-        <h2 id="principles-title">working principles</h2><span
-          >the habits behind the projects</span
-        >
+        <h2 id="principles-title">a few things i’ve learned</h2>
       </div><ol class="project-approach">
         <li>
-          <span class="eyebrow">01 / small cases</span><h3>
-            keep the first test simple.
+          <h3>
+            check one thing at a time
           </h3><p>
-            a tractable case makes it easier to separate the numerical behavior
-            from implementation mistakes.
+            a problem with a known solution gives me somewhere to look when
+            the code does something weird.
           </p>
         </li><li>
-          <span class="eyebrow">02 / clear assumptions</span><h3>
-            show what the model assumes.
+          <h3>
+            pay attention to the odd result
           </h3><p>
-            an answer becomes more useful when its physical and numerical limits
-            are visible.
+            in the winglet lab, some of the drag values made me go back to
+            how the forces were measured and reduced.
           </p>
         </li><li>
-          <span class="eyebrow">03 / useful records</span><h3>
-            make the reasoning reusable.
+          <h3>
+            save the setup with the plot
           </h3><p>
-            the setup, inputs, figures, and code context matter as much as the
-            final plot.
+            i want to be able to rerun the case without guessing which values
+            i used the first time.
           </p>
         </li>
       </ol>
     </section>
     <section class="beyond-grid about-beyond">
-      <h2>curiosity doesn't<br />stop at the desk.</h2><div>
+      <h2>outside of school</h2><div>
         <p>
-          i also spend time learning to fly and building out homelab systems.
-          they offer a different way to think about reliability,
-          instrumentation, and how a system behaves in practice.
+          i’m learning to fly. i also run a homelab, which started with making
+          things work and turned into wondering how i’d know when they stopped.
         </p><a class="text-link" href="/systems"
-          >the systems side <span aria-hidden="true">↗</span></a
+          >my homelab status page <span aria-hidden="true">↗</span></a
         >
       </div>
     </section>
     <section class="page-next">
-      <span class="eyebrow"
-        >bring a question, a project, or an engineering problem</span
-      ><a href="/contact"
-        >let's compare notes. <span aria-hidden="true">↗</span></a
+      <span class="eyebrow">research and projects</span><a href="/contact"
+        >get in touch <span aria-hidden="true">↗</span></a
       >
     </section>
   </main>

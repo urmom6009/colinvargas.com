@@ -22,7 +22,7 @@ const { project, study, next } = Astro.props;
     <div class="case-hero-copy">
       <h1 id="project-title">{project.title}<span class="accent-dot">.</span></h1>
       <p class="case-lead">{study.lead}</p>
-      <a class="case-downlink" href="#case-evidence">view results <span aria-hidden="true">↓</span></a>
+      <a class="case-downlink" href="#case-evidence">skip to the results <span aria-hidden="true">↓</span></a>
     </div>
 
     <aside class="case-context" aria-label="project context">
@@ -46,7 +46,7 @@ const { project, study, next } = Astro.props;
 </section>
 
 <section class="case-method case-study-scene" aria-labelledby="case-method-title">
-  <h2 id="case-method-title">method</h2>
+  <h2 id="case-method-title">how i did it</h2>
   <ol class="case-method-list">
     {study.method.map((step) => (
       <li>
@@ -76,7 +76,7 @@ const { project, study, next } = Astro.props;
     ))}
   </div>
   <div class="case-interpretation">
-    <span>interpretation</span>
+    <span>what i took from it</span>
     <p>{study.evidence.interpretation}</p>
     <small>{study.evidence.source}</small>
   </div>
@@ -90,7 +90,7 @@ const { project, study, next } = Astro.props;
       <p>{study.technical.explanation}</p>
     </div>
     <div class="case-prose">
-      <p class="case-mini-label">analysis note / adapted from my report</p>
+      <p class="case-mini-label">my notes on this part</p>
       <p>{study.technical.note}</p>
       <small>{study.technical.source}</small>
     </div>
@@ -112,12 +112,12 @@ const { project, study, next } = Astro.props;
 <section class="case-end case-study-scene" aria-labelledby="case-end-title">
   <div class="case-end-grid">
     <div>
-      <h2 id="case-end-title">limits and next steps</h2>
+      <h2 id="case-end-title">what i’d check next</h2>
       <p>{study.boundary}</p>
       <p>{project.next}</p>
     </div>
     <nav aria-label="case study next steps">
-      <a href="/contact">ask about this work <span aria-hidden="true">↗</span></a>
+      <a href="/contact">ask me about this project <span aria-hidden="true">↗</span></a>
       <a href={`/work/${next.slug}`}>next project · {next.title} <span aria-hidden="true">↗</span></a>
     </nav>
   </div>

@@ -25,77 +25,77 @@ export const projects = [
       { label: "outputs", value: "adiabatic temperature and equilibrium gas composition" },
     ],
     summary:
-      "a team study of how hydrogen fraction, pressure, and equivalence ratio affect equilibrium temperature and gas composition.",
+      "my group used NASA CEA to see what changes when you add hydrogen to isooctane and vary the fuel–air ratio.",
     question:
-      "how sensitive are equilibrium predictions to hydrogen addition and the fuel–air ratio?",
+      "how much of the change comes from the hydrogen, and how much comes from the fuel–air ratio?",
     scope:
-      "our team used NASA CEA to calculate adiabatic, constant-pressure equilibrium for isooctane–hydrogen blends in air. we compared a stoichiometric pressure sweep from 0.01 to 100 atm with equivalence-ratio sweeps from 0.2 to 1.8 at 1 and 100 atm.",
+      "we wanted to see how hydrogen changes the equilibrium products and flame temperature. in NASA CEA, we ran a stoichiometric pressure sweep from 0.01 to 100 atm, then swept equivalence ratio from 0.2 to 1.8 at 1 and 100 atm. both calculations held enthalpy and pressure constant within each case.",
     tools: ["NASA CEA", "MATLAB", "chemical equilibrium"],
     approach: [
       {
-        title: "set the comparison",
+        title: "pick the blends",
         detail:
-          "hold the reactant temperature at 298.15 K and vary hydrogen from 0 to 100 mole percent of the fuel across 14 blend compositions.",
+          "we started the reactants at 298.15 K and ran 14 compositions from pure isooctane to pure hydrogen.",
       },
       {
-        title: "compare sensitivities",
+        title: "compare what comes out",
         detail:
-          "use MATLAB to compare trends in adiabatic flame temperature and equilibrium product mole fractions across the sweeps.",
+          "we compared adiabatic flame temperature and equilibrium product mole fractions in MATLAB.",
       },
       {
-        title: "identify the model limits",
+        title: "keep the equilibrium assumption in view",
         detail:
-          "equilibrium gives the thermochemical end state. ignition timing, transient NOₓ formation, and spray evaporation require separate models.",
+          "equilibrium tells us where the chemistry ends up. i’m interested in how it gets there, which takes a model for things like ignition, NOₓ formation over time, or spray evaporation.",
       },
     ],
     evidence:
-      "in the team’s 100 atm sweep, changing equivalence ratio had a greater effect on the equilibrium CO₂ mole fraction than changing hydrogen fraction over the cases studied. this is a qualitative finding from the December 2025 MAE 536 team report, within the stated equilibrium assumptions.",
-    next: "reproduce a representative sweep with versioned inputs, then compare the equilibrium baseline with a finite-rate model under matched conditions.",
+      "one thing that stood out in our December 2025 report was the 100 atm sweep. across the cases we ran, changing equivalence ratio had a bigger effect on the equilibrium CO₂ mole fraction than changing how much hydrogen was in the fuel.",
+    next: "i’d like to rerun one sweep with the input files alongside the plot, then see what a finite-rate model predicts under the same conditions.",
     source: null,
   },
   {
     slug: "adaptive-cfd-solver",
     number: "02",
-    title: "adaptive cfd solver",
+    title: "building an AMReX solver",
     category: "numerics",
     discipline: "computational fluid dynamics",
     context: "master's thesis project",
     status: "in development",
-    record: "implementation excerpt · results forthcoming",
+    record: "C++ update and reference calculation",
     method: "first-order upwind",
-    material: "implementation excerpt",
+    material: "C++ excerpt",
     brief: [
       { label: "problem", value: "2d scalar transport" },
       { label: "discretization", value: "finite volume / first-order upwind" },
       { label: "boundaries", value: "periodic in x and y" },
     ],
     summary:
-      "a C++/AMReX finite-volume solver for 2D scalar advection, with an inspectable flux update and a computed reference case. adaptive refinement is planned.",
+      "i’m building a C++ solver in AMReX. so far it moves a scalar around a periodic grid, which gives me a small case to check before adding refinement.",
     question:
-      "how can a small, inspectable advection solver become a foundation for more complex flow problems?",
+      "can i move a Gaussian across the grid and account for every bit of scalar along the way?",
     scope:
-      "the current implementation advances a gaussian scalar field on a 2d, single-level periodic grid using constant velocity, first-order upwind fluxes, and a cfl-controlled timestep. it writes amrex plotfiles for inspection. adaptive refinement remains a planned extension.",
-    tools: ["c++", "amrex", "finite volume", "paraview"],
+      "i started with a Gaussian on a 2D periodic grid, a constant velocity, and first-order upwind fluxes. i set the timestep from the CFL condition and write AMReX plotfiles so i can look at the field in ParaView.",
+    tools: ["C++", "AMReX", "finite volume", "ParaView"],
     approach: [
       {
-        title: "establish the baseline",
+        title: "start on one grid",
         detail:
-          "start with first-order upwind advection on a uniform mesh so the update and its numerical diffusion can be examined.",
+          "first-order upwind is simple enough that i can trace the update face by face and see where the profile starts to smear.",
       },
       {
-        title: "check the numerical behavior",
+        title: "see what changes with grid size",
         detail:
-          "use controlled cases and grid studies to investigate stability and convergence. verification figures are not yet published here.",
+          "the exact periodic solution is the original field translated by the prescribed velocity. that gives me a reference for the grid and timestep checks i want to publish.",
       },
       {
-        title: "extend with a reference in hand",
+        title: "add refinement after the checks",
         detail:
-          "adaptive refinement and higher-order methods form the research direction. they are planned extensions, not claimed capabilities of the current public record.",
+          "once i have a baseline i can rerun, i can compare refinement and higher-order methods against it.",
       },
     ],
     evidence:
-      "the upwind implementation excerpt shows how face fluxes update the cell averages. its source revision is recorded alongside it. convergence plots, benchmark timings, and a completed validation study are not yet part of the public portfolio.",
-    next: "a documented baseline case with its inputs, boundary conditions, and grid-refinement results.",
+      "the C++ excerpt is from my solver. on the homepage, you can click through the same update in a separate reference calculation and see how much scalar enters or leaves one cell.",
+    next: "i want to share one AMReX run with the input file, boundary conditions, mass error, and a grid-convergence plot.",
     source: null,
   },
   {
@@ -115,13 +115,13 @@ export const projects = [
       { label: "boundary treatment", value: "immersed boundaries" },
     ],
     summary:
-      "a transient mixing-chamber model of velocity and temperature around two rotating paddles, one heated and one cooled.",
+      "i put a hot paddle and a cold paddle in a MATLAB flow model. then i checked how much the results changed on five different grids.",
     question:
       "how do rotating immersed boundaries change the flow, thermal mixing, and heat leaving the chamber?",
     scope:
       "the matlab study uses a staggered finite-difference grid and immersed boundaries to model transient, two-dimensional incompressible flow. it evaluates velocity and temperature fields, time-averaged kinetic energy, and convective heat flow through the outlet across reynolds and prandtl number cases.",
     tools: [
-      "matlab",
+      "MATLAB",
       "finite differences",
       "immersed boundaries",
       "grid convergence",
@@ -145,7 +145,7 @@ export const projects = [
     ],
     evidence:
       "the case study includes the simulated temperature sequence and the grid-convergence results from the spring 2025 course report.",
-    next: "test the spatial convergence separately from time-step and immersed-boundary errors.",
+    next: "i’d rerun the test with a smaller timestep and check how much of the grid error comes from the way i enforce the paddle boundaries.",
     source: null,
   },
   {
@@ -165,12 +165,12 @@ export const projects = [
       { label: "tools", value: "matlab" },
     ],
     summary:
-      "a matlab model comparing ramjet and scramjet performance as flight and component conditions change.",
+      "i wrote a MATLAB tool to see how flight conditions and engine settings trade thrust against efficiency.",
     question:
       "where does thermal choking change the trade between thrust, efficiency, and fuel use?",
     scope:
       "the model follows flow through the freestream, diffuser, combustor, and nozzle. it varies flight mach number and altitude, diffuser and nozzle behavior, and combustor limits to compare thrust, efficiencies, and thrust-specific fuel consumption.",
-    tools: ["matlab", "propulsion", "parametric analysis"],
+    tools: ["MATLAB", "propulsion", "parametric analysis"],
     approach: [
       {
         title: "follow the stations",
@@ -190,7 +190,7 @@ export const projects = [
     ],
     evidence:
       "the case study compares two operating points from the fall 2024 course report and documents the assumptions behind them.",
-    next: "check the station model against an independently documented benchmark case.",
+    next: "i’d like to run the same station model on a benchmark with published inputs and results.",
     source: null,
   },
   {
@@ -201,7 +201,7 @@ export const projects = [
     discipline: "experimental aerodynamics",
     context: "aerodynamics course report · group lab measurements",
     status: "case study available",
-    record: "processed lift comparison and measurement audit",
+    record: "lift comparison and measurement checks",
     method: "wind-tunnel force reduction",
     material: "illustrated case study",
     brief: [
@@ -210,7 +210,7 @@ export const projects = [
       { label: "measurement", value: "normal and axial balance forces" },
     ],
     summary:
-      "a wind-tunnel comparison of nine winglet configurations, with force-balance data reduction and a closer look at unreliable drag readings.",
+      "i worked through the force-balance data from our winglet lab. the lift comparison was useful, and some of the drag readings sent me back to the setup.",
     question:
       "how do winglet angle, length, and mounting position change the measured response of a finite wing?",
     scope:
@@ -223,19 +223,19 @@ export const projects = [
     ],
     evidence:
       "the case study compares processed lift coefficients for the bare wing and 20° winglet at two angles. the drag readings limit the conclusions.",
-    next: "repeat the drag measurements with a fixture tare and uncertainty bounds for the comparison.",
+    next: "i’d repeat the drag measurements with a fixture tare and enough repeat runs to put uncertainty bounds on the comparison.",
     source: null,
   },
   {
     slug: "portfolio-and-technical-logs",
     number: "06",
-    title: "the engineering record",
+    title: "how i built this site",
     category: "software",
     discipline: "software & documentation",
     context: "independent project",
     status: "source available",
     record: "live site · public source",
-    method: "git-aware publishing",
+    method: "static site and Git-linked notes",
     material: "source repository",
     brief: [
       { label: "site", value: "astro / static pages" },
@@ -243,32 +243,32 @@ export const projects = [
       { label: "publication", value: "drafts by default" },
     ],
     summary:
-      "this portfolio and its repository-aware logging workflow: a place to connect engineering work with the decisions behind it.",
+      "i built this site so i’d have somewhere to put the setup and code next to the plots.",
     question:
-      "how can engineering notes retain the context of the code and experiments they describe?",
+      "how do i come back to a plot six months later and know which version of the code made it?",
     scope:
-      "an astro portfolio with a node.js log generator. the script records repository, branch, and commit context, creates a markdown note and attachment directory, and keeps new entries in draft until they are ready to share.",
-    tools: ["astro", "typescript", "node.js", "git", "vercel"],
+      "the site is built with Astro. i have a Node.js script that starts a Markdown note and records the repo, branch, and commit so i can find the code again.",
+    tools: ["Astro", "TypeScript", "Node.js", "Git", "Vercel"],
     approach: [
       {
-        title: "capture context at the source",
+        title: "start the note in the repo",
         detail:
-          "the log generator reads git metadata from the working repository and includes it in the note's frontmatter.",
+          "the script grabs Git metadata from the folder i’m working in and puts it at the top of the note.",
       },
       {
-        title: "keep a deliberate publication step",
+        title: "give myself room to work things out",
         detail:
-          "new notes default to draft. internal paths and unfinished material are kept out of the public pages.",
+          "notes start as drafts, so i can get the setup and figures in order before sharing them.",
       },
       {
-        title: "make the site easy to inspect",
+        title: "keep the pages simple",
         detail:
-          "static pages, shared project data, local fonts, accessible interactions, and a source repository keep the portfolio straightforward to maintain.",
+          "the project list and detail pages use the same data, so i only have to update the description in one place.",
       },
     ],
     evidence:
-      "the site and source are public. the repository includes the astro application, the log-generation script, and the content schema. draft entries are not public case studies.",
-    next: "publish a technical note when its setup, artifacts, and conclusions are ready to share.",
+      "the source repo has the Astro pages, the note script, and the fields i save for each note.",
+    next: "i want to use the notes setup for the single-grid advection run.",
     source: "https://github.com/urmom6009/colinvargas.com",
   },
 ] as const;

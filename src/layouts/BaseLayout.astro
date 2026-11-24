@@ -8,7 +8,7 @@ interface Props {
 }
 const {
   title = "colin vargas — aerospace engineering & scientific software",
-  description = "Aerospace engineering portfolio of Colin Vargas. Projects in computational fluid dynamics, propulsion analysis, and scientific software, with scope and publication status.",
+  description = "I’m Colin Vargas. Here’s what I’ve built in CFD, combustion, and aviation propulsion.",
 } = Astro.props;
 const canonical = new URL(
   Astro.url.pathname.replace(/\/+$/, "") || "/",
@@ -83,7 +83,7 @@ const canonical = new URL(
     <footer class="site-ribbon" aria-label="site footer">
       <div class="ribbon-copy">
         <a href="/">colin vargas<span class="accent-dot">.</span></a><span
-          >aerospace / software / systems</span
+          >aerospace engineering</span
         >
       </div>
       <div class="footer-links">
@@ -94,10 +94,10 @@ const canonical = new URL(
         >
       </div>
       <div class="footer-bottom">
-        <span>built with curiosity. documented with care.</span><a
+        <a
           href={profile.source}
-          >site source <span aria-hidden="true">↗</span></a
-        ><span>america/phoenix</span>
+          >site code <span aria-hidden="true">↗</span></a
+        ><span>Arizona</span>
       </div>
     </footer>
     <button

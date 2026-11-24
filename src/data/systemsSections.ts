@@ -1,50 +1,47 @@
 export const systemsSections = {
   website: {
     title: "website",
-    eyebrow: "edge and uptime",
-    headline: "portfolio edge, watched from the outside.",
-    summary: "reachability, response shape, and deploy status for the main site.",
+    eyebrow: "uptime",
+    headline: "is my site responding?",
+    summary: "i check whether the portfolio loads from outside my network.",
     sourceKey: "Website",
     notes: [
-      "vercel remains the public website edge.",
-      "the readout can show reachability and broad response health.",
-      "restart controls and provider internals stay off this domain."
+      "i host this portfolio on Vercel.",
+      "i use this check to see whether the site responds from outside my network.",
+      "the time on a reading tells you when the check last reported."
     ]
   },
   minecraft: {
     title: "minecraft",
     eyebrow: "relay and players",
-    headline: "game server status without exposing the backend.",
-    summary: "player-facing status for the minecraft relay, without backend routing details.",
+    headline: "my Minecraft relay",
+    summary: "whether my relay is up and how many people are on.",
     sourceKey: "Minecraft",
     notes: [
-      "the public card shows status and player count only.",
-      "wireguard, peer names, and host routing stay private.",
-      "server actions belong on the private admin endpoint."
+      "i publish online status and the player count when they’re available.",
+      "i manage the relay from my private dashboard."
     ]
   },
   deployments: {
     title: "deployments",
-    eyebrow: "build trail",
-    headline: "recent builds with enough context to trust the surface.",
-    summary: "latest visible refs for the portfolio and the read-only systems api.",
+    eyebrow: "builds",
+    headline: "what i’ve deployed recently",
+    summary: "recent builds for the portfolio and my status API.",
     sourceKey: "Services",
     notes: [
-      "the timeline favors readable refs over raw logs.",
-      "failed checks should appear here without leaking secrets.",
-      "deploy controls stay behind the private admin endpoint."
+      "i keep the branch or commit with a build so i can tell what went out.",
+      "this list shows the build status as the API reports it."
     ]
   },
   storage: {
     title: "storage",
     eyebrow: "pool health",
-    headline: "storage health, summarized without raw host internals.",
-    summary: "pool state, integrity, and broad capacity signal without raw paths.",
+    headline: "how my storage is doing",
+    summary: "ZFS pool health and a rough sense of how much space is in use.",
     sourceKey: "Storage",
     notes: [
-      "public storage details stay coarse on purpose.",
-      "pool status is useful; filesystem internals are not.",
-      "deeper zfs output belongs on the private admin endpoint."
+      "i check ZFS pool status and storage use here.",
+      "i use the private dashboard when i need the host or filesystem details."
     ]
   }
 };

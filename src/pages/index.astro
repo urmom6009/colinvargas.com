@@ -7,13 +7,13 @@ import { profile } from "../data/portfolio";
 
 <BaseLayout
   title="Colin Vargas — computational combustion, CFD & aviation propulsion"
-  description="Research portfolio of Colin Vargas, an aerospace engineering graduate interested in computational combustion, spray evaporation, and CFD for aviation propulsion. Seeking fall 2027 PhD research opportunities."
+  description="I’m Colin Vargas. I’m looking for a Fall 2027 PhD group working on combustion, CFD, or aviation propulsion. Here’s what I’ve built and what I want to study next."
 >
   <main id="main-content" tabindex="-1" class="portfolio-home">
     <section class="portfolio-hero" aria-labelledby="hero-title">
       <div class="hero-kicker">
         <span>aerospace engineering</span><span
-          >seeking fall 2027 PhD research opportunities</span
+          >looking for a fall 2027 PhD group</span
         >
       </div>
       <div class="hero-main">
@@ -25,9 +25,10 @@ import { profile } from "../data/portfolio";
             computational combustion<br />and aviation propulsion.
           </p>
           <p class="hero-bio">
-            i’m an aerospace engineering graduate interested in how spray
-            evaporation, turbulent mixing, and finite-rate chemistry shape
-            predictions for gas-turbine combustors.
+            i love airplanes, and i keep coming back to what goes on inside
+            the combustor. when do things like spray evaporation, turbulent
+            mixing, and finite-rate chemistry actually change the answer you
+            get from a simulation?
           </p>
           <div class="hero-actions">
             <a class="button-link" href="/work/hydrogen-isooctane-equilibrium"
@@ -43,7 +44,7 @@ import { profile } from "../data/portfolio";
           <ImplementationExcerpt animate />
           <a class="study-reference" href="/work/adaptive-cfd-solver"
             ><span>finite-volume advection</span><strong
-              >read the solver overview</strong
+              >see what i’ve built so far</strong
             ><span aria-hidden="true">↗</span></a
           >
         </div>
@@ -52,7 +53,7 @@ import { profile } from "../data/portfolio";
         <span
           ><i aria-hidden="true"></i> C++ / AMReX / MATLAB / NASA CEA</span
         ><a href="#selected-work"
-          >01 — selected work <span aria-hidden="true">↓</span></a
+          >jump to projects <span aria-hidden="true">↓</span></a
         >
       </div>
     </section>
@@ -62,21 +63,21 @@ import { profile } from "../data/portfolio";
       aria-labelledby="work-title"
     >
       <div class="section-heading">
-        <span>01 / selected work</span><a href="/work"
+        <span>projects</span><a href="/work"
           >all projects <span aria-hidden="true">↗</span></a
         >
       </div>
       <div class="section-intro">
-        <h2 id="work-title">selected research<br />and coursework.</h2><p>
-          fuel-blend thermochemistry, finite-volume advection, thermal mixing,
-          propulsion performance, and wind-tunnel measurements.
+        <h2 id="work-title">what i’ve worked on</h2><p>
+          the fuel-blend study is closest to what i want to study next. the
+          advection solver and mixing chamber show how i build and check models.
         </p>
       </div>
       <ProjectList limit={5} />
       <a class="index-link" href="/work/portfolio-and-technical-logs"
-        ><span>also in the workshop</span><strong
-          >this site & the engineering record</strong
-        ><span>astro / git / technical documentation</span><span
+        ><span>software</span><strong
+          >how i built this site</strong
+        ><span>Astro / Git / project notes</span><span
           aria-hidden="true">↗</span
         ></a
       >
@@ -85,43 +86,39 @@ import { profile } from "../data/portfolio";
       class="portfolio-section method-section"
       aria-labelledby="method-title"
     >
-      <div class="section-heading">
-        <span>02 / approach</span><span
-          >from a physical question to a useful record</span
-        >
-      </div>
       <div class="method-grid">
         <div class="method-lead">
-          <h2 id="method-title">a result needs<br />a reason.</h2><p>
-            the interesting part is how a model connects to the physics, where
-            its assumptions hold, and what would make the answer more
-            trustworthy.
+          <h2 id="method-title">how i check my work</h2><p>
+            when a plot looks right, i still want to know what made it look
+            that way. the mixing chamber was a good example. the temperature
+            field looked plausible, but kinetic energy was still changing
+            with the grid.
           </p><a class="text-link" href="/about"
-            >how i approach the work <span aria-hidden="true">↗</span></a
+            >more about me <span aria-hidden="true">↗</span></a
           >
         </div>
         <ol class="method-list">
           <li>
             <span>01</span><div>
-              <h3>start with the physics.</h3><p>
-                define the question, the assumptions, and the boundary
-                conditions before adding complexity.
+              <h3>start with the assumptions</h3><p>
+                i write down what i’m leaving out and what i expect at the
+                boundaries before i touch the solver.
               </p>
             </div>
           </li>
           <li>
             <span>02</span><div>
-              <h3>give the model a test.</h3><p>
-                use small cases and numerical checks to understand what the
-                method is actually doing.
+              <h3>run a case i can check</h3><p>
+                with periodic advection, i know where the scalar should end
+                up and how much of it should still be there.
               </p>
             </div>
           </li>
           <li>
             <span>03</span><div>
-              <h3>leave something to inspect.</h3><p>
-                keep the setup, code context, and limitations alongside a figure
-                so the reasoning can be reopened.
+              <h3>write down how i got there</h3><p>
+                i want to be able to come back to a plot and find the input,
+                the code revision, and the checks that went with it.
               </p>
             </div>
           </li>
@@ -132,38 +129,29 @@ import { profile } from "../data/portfolio";
       class="portfolio-section beyond-section"
       aria-labelledby="beyond-title"
     >
-      <div class="section-heading">
-        <span>03 / beyond the solver</span><span
-          >the curiosity carries over</span
-        >
-      </div>
       <div class="beyond-grid">
-        <h2 id="beyond-title">same curiosity.<br />different systems.</h2><div>
+        <h2 id="beyond-title">flying and my homelab</h2><div>
           <p>
-            outside aerospace, i spend time with homelab systems and learning to
-            fly. both keep the connection between theory and real-world behavior
-            close.
+            i’m learning to fly, and i like tinkering with the server i run at
+            home. you can see how the site, Minecraft relay, and storage are
+            doing on my status page.
           </p><a class="text-link" href="/systems"
-            >explore the systems dashboard <span aria-hidden="true">↗</span></a
-          ><a class="text-link" href="/resume"
-            >view the technical profile <span aria-hidden="true">↗</span></a
+            >check my homelab <span aria-hidden="true">↗</span></a
           >
         </div>
       </div>
     </section>
     <section class="contact-plate" aria-labelledby="contact-title">
       <div class="section-heading">
-        <span>research inquiries</span><a href="/resume">technical profile ↗</a>
+        <span>fall 2027 PhD</span><a href="/resume">technical profile ↗</a>
       </div>
       <a class="contact-statement" href={`mailto:${profile.email}`}
         ><h2 id="contact-title">
-          let's talk<br />research<span class="accent-dot">.</span>
+          i’d love to hear<br />what you’re working on<span class="accent-dot">.</span>
         </h2><span aria-hidden="true">↗</span></a
       >
       <div class="contact-plate-bottom">
-        <a href={`mailto:${profile.email}`}>{profile.email}</a><span
-          >computational combustion / CFD / propulsion</span
-        >
+        <a href={`mailto:${profile.email}`}>{profile.email}</a>
       </div>
     </section>
   </main>

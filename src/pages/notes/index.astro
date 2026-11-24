@@ -2,27 +2,27 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 const readingPath = [
   {
-    title: "start with the advection baseline",
+    title: "how my advection update works",
     detail:
-      "the solver overview shows a pinned upwind update and states where the single-level implementation ends.",
-    href: "/work/adaptive-cfd-solver",
+      "pick a line in the C++ update on the homepage and see what it does to one finite-volume cell.",
+    href: "/",
   },
   {
-    title: "follow the open checks",
+    title: "what i still need to check in AMReX",
     detail:
-      "the public site issue tracks adding run data before treating refinement or validation as a finished result.",
+      "i’m tracking the run data and checks i want to add to the solver write-up.",
     href: "https://github.com/urmom6009/colinvargas.com/issues/10",
   },
   {
-    title: "compare a propulsion model",
+    title: "what changed at the diffuser exit",
     detail:
-      "the MATLAB ramjet and scramjet report follows component assumptions, thermal choking, and flight-condition sweeps.",
+      "a change of 0.01 Mach separated the best thrust and best efficiency in my sweep.",
     href: "/work/scramjet-analysis-tool",
   },
   {
-    title: "read a different flow problem",
+    title: "what changed when i refined the mixing grid",
     detail:
-      "the MATLAB mixing-chamber study follows incompressible velocity and temperature fields around rotating paddles.",
+      "i compared heat flow at the outlet and kinetic energy across five grids. one was a lot more sensitive to resolution.",
     href: "/work/compressible-flow-project",
   },
 ];
@@ -30,45 +30,41 @@ const readingPath = [
 
 <BaseLayout
   title="field notes — colin vargas"
-  description="A reading guide to Colin Vargas's solver, propulsion, and thermal mixing records. Draft technical logs remain unpublished."
+  description="Notes from my AMReX solver, propulsion model, and thermal mixing projects."
 >
   <main id="main-content" tabindex="-1">
     <section class="page-intro" aria-labelledby="notes-title">
       <div class="section-heading">
-        <span>field notes</span><span>the engineering notebook</span>
+        <span>notes</span>
       </div><h1 id="notes-title">
-        the thinking<br />between results<span class="accent-dot">.</span>
+        notes from<br />my projects<span class="accent-dot">.</span>
       </h1><div class="intro-bottom">
         <p>
-          start with the project records: what the model does, what was checked,
-          and what still needs a repeatable run.
-        </p><p class="intro-note">
-          draft logs stay private until their inputs, figures, and conclusions
-          can stand on their own.
+          i keep coming back to the parts of a project where the result
+          surprised me or i had to figure out why it changed. i’ve linked a
+          few of those parts below.
         </p>
       </div>
     </section>
     <section class="notes-empty" aria-labelledby="notes-status">
       <span class="empty-mark" aria-hidden="true">[ — ]</span><div>
-        <span class="eyebrow">publication status</span><h2 id="notes-status">
-          no standalone notes just yet.
+        <h2 id="notes-status">
+          what i’m working through now
         </h2><p>
-          the project pages and public site issue form the reading path for now.
-          they separate a visible implementation from measured results still to
-          be documented.
-        </p><a class="button-link" href="/work"
-          >open the project index <span aria-hidden="true">↗</span></a
+          i want the single-grid advection case written up with the inputs and
+          checks together. the C++ update is up on the solver page now.
+        </p><a class="button-link" href="/work/adaptive-cfd-solver"
+          >see the solver <span aria-hidden="true">↗</span></a
         >
       </div>
     </section>
     <section class="profile-section" aria-labelledby="reading-path-title">
       <div class="section-heading">
-        <h2 id="reading-path-title">reading path</h2><span>from method to evidence</span>
+        <h2 id="reading-path-title">a few places to start</h2>
       </div>
       <div class="profile-projects">
-        {readingPath.map((item, index) => (
+        {readingPath.map((item) => (
           <article>
-            <span class="eyebrow">0{index + 1}</span>
             <h3><a href={item.href}>{item.title} <span aria-hidden="true">↗</span></a></h3>
             <p>{item.detail}</p>
           </article>

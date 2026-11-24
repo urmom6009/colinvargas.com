@@ -4,39 +4,39 @@ export const implementationSteps = [
   {
     key: "Fx_lo",
     title: "left face · x flux in",
-    explanation: "the left neighbour supplies scalar to this cell.",
+    explanation: "scalar comes in from the cell on the left.",
     face: "Fx_lo",
   },
   {
     key: "Fx_hi",
     title: "right face · x flux out",
-    explanation: "the current cell supplies scalar to its right neighbour.",
+    explanation: "some of this cell’s scalar moves into the cell on the right.",
     face: "Fx_hi",
   },
   {
     key: "Fy_lo",
     title: "bottom face · y flux in",
-    explanation: "the lower neighbour supplies scalar through the bottom face.",
+    explanation: "scalar comes in from the cell below.",
     face: "Fy_lo",
   },
   {
     key: "Fy_hi",
     title: "top face · y flux out",
-    explanation: "the current cell supplies scalar through its top face.",
+    explanation: "scalar leaves through the top face.",
     face: "Fy_hi",
   },
   {
     key: "dtdivF",
     title: "balance the four faces",
     explanation:
-      "more scalar enters than leaves, so the net outward contribution is negative.",
+      "more scalar comes in than goes out. that’s why the outward balance is negative.",
     face: "all",
   },
   {
     key: "new_fab",
     title: "update the cell average",
     explanation:
-      "subtracting the negative balance increases the scalar in this cell.",
+      "the update subtracts a negative number, so the cell average goes up.",
     face: "all",
   },
 ] as const;

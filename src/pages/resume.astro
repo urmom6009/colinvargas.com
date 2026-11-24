@@ -4,45 +4,45 @@ import { projects, profile } from "../data/portfolio";
 const experience = [
   {
     role: "in-service engineering intern",
-    organization: "honeywell aerospace / may–aug 2024",
+    organization: "Honeywell Aerospace / may–aug 2024",
     detail:
-      "organized case data, emulator outputs, and documentation for gas-turbine and avionics investigations; tracked ownership and follow-up across 23 open cases.",
+      "i pulled together case notes and emulator output for gas-turbine and avionics investigations, and kept track of who was following up on 23 open cases.",
   },
   {
     role: "aerodynamics team lead",
-    organization: "asu solar devils / 2023–2025",
+    organization: "ASU Solar Devils / 2023–2025",
     detail:
-      "led a 10-student subteam through aeroshell geometry, ansys cfd, design reviews, procurement, and vehicle integration.",
+      "i led a 10-student team through the aeroshell design, Ansys CFD, design reviews, procurement, and fitting the shell to the car.",
   },
   {
     role: "grader and instructional assistant",
-    organization: "arizona state university / 2025–2026",
+    organization: "Arizona State University / 2025–2026",
     detail:
-      "reviewed numerical integration, interpolation, and linear algebra work for method selection and correctness.",
+      "i reviewed students’ work in numerical integration, interpolation, and linear algebra, including whether they’d picked a method that made sense for the problem.",
   },
 ];
 const capabilities = [
   {
     title: "computational methods",
     detail:
-      "finite-volume and finite-difference methods, scalar advection, grid-convergence checks, and verification workflows.",
+      "i’ve used finite volumes for advection and finite differences for thermal mixing, and checked how results change as the grid gets finer.",
   },
   {
     title: "scientific software",
     detail:
-      "c++, single-level amrex solver development, numerical program structure, and git-based engineering documentation.",
+      "i write C++ for my single-grid AMReX solver and keep notes tied to the Git revision i ran.",
   },
   {
     title: "combustion & propulsion",
     detail:
-      "NASA CEA equilibrium calculations, MATLAB propulsion models, and parametric studies with explicit model assumptions.",
+      "i’ve used NASA CEA for fuel blends and MATLAB to see how flight and engine inputs change predicted thrust and efficiency.",
   },
 ];
 ---
 
 <BaseLayout
   title="technical profile — colin vargas"
-  description="Printable technical profile for Colin Vargas, an aerospace engineering graduate working in combustion, CFD, and aviation propulsion."
+  description="My education, projects, and engineering experience, in a format you can print or save as a PDF."
 >
   <main id="main-content" tabindex="-1" class="technical-profile">
     <section class="page-intro" aria-labelledby="resume-title">
@@ -57,8 +57,8 @@ const capabilities = [
         colin vargas<span class="accent-dot">.</span>
       </h1><div class="intro-bottom">
         <p>
-          aerospace engineering graduate seeking fall 2027 PhD research
-          opportunities in combustion modeling, CFD, and aviation propulsion.
+          i studied aerospace engineering at ASU. i’m looking for a fall
+          2027 PhD group working on combustion, CFD, or aviation propulsion.
         </p><div class="project-facts">
           <a href={`mailto:${profile.email}`}>{profile.email}</a><a
             href={profile.github}>github / urmom6009 ↗</a
@@ -67,7 +67,7 @@ const capabilities = [
       </div>
     </section>
     <section class="profile-section" aria-labelledby="capabilities-title">
-      <h2 id="capabilities-title" class="eyebrow">technical focus</h2><div
+      <h2 id="capabilities-title" class="eyebrow">what i work with</h2><div
         class="profile-capabilities"
       >
         {
@@ -86,7 +86,7 @@ const capabilities = [
       <h2 id="education-title" class="eyebrow">education</h2>
       <div class="profile-projects">
         <article>
-          <h3>arizona state university</h3>
+          <h3>Arizona State University</h3>
           <span class="eyebrow">b.s.e. aerospace engineering (aeronautics) / may 2025</span>
           <p>minor in french. additional graduate study in aerospace engineering, 2025–2026.</p>
         </article>
@@ -94,7 +94,7 @@ const capabilities = [
     </section>
     <section class="profile-section" aria-labelledby="experience-title">
       <div class="section-heading">
-        <h2 id="experience-title">experience</h2><span>engineering, leadership, and technical review</span>
+        <h2 id="experience-title">experience</h2>
       </div>
       <div class="profile-projects">
         {experience.map((item) => (
@@ -108,9 +108,7 @@ const capabilities = [
     </section>
     <section class="profile-section" aria-labelledby="profile-projects-title">
       <div class="section-heading">
-        <h2 id="profile-projects-title">project experience</h2><span
-          >scope & publication status included</span
-        >
+        <h2 id="profile-projects-title">projects</h2>
       </div><div class="profile-projects">
         {
           projects.map((project) => (
@@ -137,10 +135,7 @@ const capabilities = [
       </div>
     </section>
     <section class="profile-section profile-note">
-      <span class="eyebrow">about this profile</span><p>
-        this is a project-based summary. individual project pages distinguish
-        the current scope from planned extensions and unpublished results.
-      </p><a class="text-link" href="/contact"
+      <a class="text-link" href="/contact"
         >get in touch <span aria-hidden="true">↗</span></a
       >
     </section>
