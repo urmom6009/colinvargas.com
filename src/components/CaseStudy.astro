@@ -1,0 +1,124 @@
+---
+import type { CaseStudy as Study } from "../data/caseStudies";
+import type { Project } from "../data/portfolio";
+import CaseStudyFigures from "./CaseStudyFigures.astro";
+import "../styles/case-study.css";
+
+interface Props {
+  project: Project;
+  study: Study;
+  next: Project;
+}
+const { project, study, next } = Astro.props;
+---
+
+<section class="case-hero case-study-scene" aria-labelledby="project-title">
+  <div class="section-heading case-kicker">
+    <a href="/work">← all work</a>
+    <span>{project.discipline}</span>
+  </div>
+
+  <div class="case-hero-grid">
+    <div class="case-hero-copy">
+      <h1 id="project-title">{project.title}<span class="accent-dot">.</span></h1>
+      <p class="case-lead">{study.lead}</p>
+      <a class="case-downlink" href="#case-evidence">view results <span aria-hidden="true">↓</span></a>
+    </div>
+
+    <aside class="case-context" aria-label="project context">
+      <div><span>context</span><p>{project.context}</p></div>
+      <div><span>my role</span><p>{study.role}</p></div>
+      <div><span>tools</span><p>{project.tools.join(" / ")}</p></div>
+    </aside>
+  </div>
+
+  <CaseStudyFigures kind={study.kind} placement="hero" />
+</section>
+
+<section class="case-question case-study-scene" aria-labelledby="case-question-title">
+  <div class="case-question-grid">
+    <h2 id="case-question-title">{study.question}</h2>
+    <div>
+      <p class="case-mini-label">what i did</p>
+      <p>{study.contribution}</p>
+    </div>
+  </div>
+</section>
+
+<section class="case-method case-study-scene" aria-labelledby="case-method-title">
+  <h2 id="case-method-title">method</h2>
+  <ol class="case-method-list">
+    {study.method.map((step) => (
+      <li>
+        <span class="case-step-label">{step.label}</span>
+        <h3>{step.title}</h3>
+        <p>{step.detail}</p>
+      </li>
+    ))}
+  </ol>
+</section>
+
+<section class="case-evidence case-study-scene" id="case-evidence" aria-labelledby="case-evidence-title">
+  <div class="case-evidence-intro">
+    <h2 id="case-evidence-title">{study.evidence.title}</h2>
+    <p>{study.evidence.lead}</p>
+  </div>
+
+  <CaseStudyFigures kind={study.kind} placement="evidence" />
+
+  <div class="case-observations" role="group" aria-label="selected observations">
+    {study.evidence.observations.map((observation) => (
+      <div>
+        <strong>{observation.value}</strong>
+        <span>{observation.label}</span>
+        <p>{observation.detail}</p>
+      </div>
+    ))}
+  </div>
+  <div class="case-interpretation">
+    <span>interpretation</span>
+    <p>{study.evidence.interpretation}</p>
+    <small>{study.evidence.source}</small>
+  </div>
+</section>
+
+<section class="case-technical case-study-scene" aria-labelledby="case-technical-title">
+  <div class="case-technical-grid">
+    <div>
+      <h2 id="case-technical-title">{study.technical.title}</h2>
+      <p class="case-expression">{study.technical.expression}</p>
+      <p>{study.technical.explanation}</p>
+    </div>
+    <div class="case-prose">
+      <p class="case-mini-label">analysis note / adapted from my report</p>
+      <p>{study.technical.note}</p>
+      <small>{study.technical.source}</small>
+    </div>
+  </div>
+</section>
+
+<section class="case-lessons case-study-scene" aria-labelledby="case-lessons-title">
+  <h2 id="case-lessons-title">what i learned</h2>
+  <div class="case-lessons-grid">
+    {study.lessons.map((lesson) => (
+      <div>
+        <h3>{lesson.title}</h3>
+        <p>{lesson.detail}</p>
+      </div>
+    ))}
+  </div>
+</section>
+
+<section class="case-end case-study-scene" aria-labelledby="case-end-title">
+  <div class="case-end-grid">
+    <div>
+      <h2 id="case-end-title">limits and next steps</h2>
+      <p>{study.boundary}</p>
+      <p>{project.next}</p>
+    </div>
+    <nav aria-label="case study next steps">
+      <a href="/contact">ask about this work <span aria-hidden="true">↗</span></a>
+      <a href={`/work/${next.slug}`}>next project · {next.title} <span aria-hidden="true">↗</span></a>
+    </nav>
+  </div>
+</section>

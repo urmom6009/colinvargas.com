@@ -5,7 +5,7 @@ astro portfolio site for `colinvargas.com`.
 ## site structure
 
 - `/` is the live editorial portfolio homepage.
-- `/work` is a filterable project index. `/work/adaptive-cfd-solver`, `/work/scramjet-analysis-tool`, and `/work/compressible-flow-project` explain project scope, approach, and publication status. the last url is retained for the mixing chamber analysis project.
+- `/work` is a filterable project index. `/work/scramjet-analysis-tool`, `/work/compressible-flow-project`, and `/work/winglet-wind-tunnel` are illustrated case studies with methods, results, and limits. `/work/compressible-flow-project` retains the original URL for the incompressible mixing-chamber project. `/work/adaptive-cfd-solver` and `/work/hydrogen-isooctane-equilibrium` cover the solver baseline and combustion equilibrium study.
 - `/work/portfolio-and-technical-logs` describes this site and its repository-aware logging workflow, with a link to the public source.
 - `/notes` is a reading guide to the public project records and open checks. there are no standalone public notes; draft entries are not rendered into pages.
 - `/systems` is the public systems readout. it renders sanitized, read-only telemetry and falls back cleanly if the live API route is unavailable.
