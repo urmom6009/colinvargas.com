@@ -4,8 +4,8 @@ import { systemsSections } from "../data/systemsSections";
 import "../styles/systems-refinement.css";
 
 const fallbackPublic = {
-  headline: "public systems readout",
-  subtitle: "the available signals are shown with their source and report time.",
+  headline: "latest status",
+  subtitle: "these are the readings my status API last sent.",
 };
 const sections = Object.entries(systemsSections);
 
@@ -13,11 +13,11 @@ const sections = Object.entries(systemsSections);
 
 <BaseLayout
   title="systems - colin vargas"
-  description="Public systems telemetry for colin vargas infrastructure, with private admin controls kept off the portfolio domain."
+  description="A read-only status page for my site, Minecraft relay, builds, and home storage."
 >
   <main id="main-content" class="systems-page" tabindex="-1">
     <p class="telemetry-notice" data-telemetry-notice role="status">
-      the public feed is unavailable. the four system records below are still available.
+      i can’t get a status reading right now. you can still see what i track below.
     </p>
     <section
       class="resume-hero page-scene systems-hero"
@@ -31,10 +31,11 @@ const sections = Object.entries(systemsSections);
 
       <div class="resume-hero-grid">
         <div>
-          <h1 id="systems-title">systems, with the status in context.</h1>
+          <h1 id="systems-title">my homelab</h1>
           <p>
-            a read-only view of the homelab. reported signals carry their source
-            and time; missing readings stay unavailable.
+            i use this to check whether the site and Minecraft relay are up,
+            what i last deployed, and how my storage is doing. the timestamps
+            tell you when each set of readings came in.
           </p>
         </div>
 
@@ -50,8 +51,7 @@ const sections = Object.entries(systemsSections);
 
     <section class="resume-section page-scene systems-index-section" aria-labelledby="systems-index-title">
       <div class="section-heading">
-        <span id="systems-index-title">system records</span>
-        <span>four public surfaces</span>
+        <span id="systems-index-title">what i track</span>
       </div>
       <div class="systems-index">
         {
@@ -70,10 +70,10 @@ const sections = Object.entries(systemsSections);
         }
       </div>
       <p class="systems-feed-meta" data-feed-meta hidden>
-        <span data-feed-label>latest public snapshot</span> / systems api / reported <time data-generated>time unreported</time>
+        <span data-feed-label>last reading</span> / systems API / <time data-generated>time unreported</time>
       </p>
       <p class="systems-public-boundary">
-        this is a read-only surface. restart controls, hostnames, peer names, raw logs, and network internals stay on the private admin side.
+        this page is read-only. i handle restarts and logs from my private dashboard.
       </p>
     </section>
 
@@ -84,8 +84,8 @@ const sections = Object.entries(systemsSections);
       hidden
     >
       <div class="section-heading">
-        <span id="systems-control-title">public readout</span>
-        <span>source / public api</span>
+        <span id="systems-control-title">latest readings</span>
+        <span>source / status API</span>
       </div>
 
       <div class="systems-dashboard" data-systems-root>
@@ -96,8 +96,7 @@ const sections = Object.entries(systemsSections);
           hidden
         >
           <div class="systems-panel-head">
-            <span>public snapshot</span>
-            <small>sanitized telemetry</small>
+            <span>status overview</span>
           </div>
 
           <div class="systems-snapshot-hero">
@@ -112,7 +111,6 @@ const sections = Object.entries(systemsSections);
             </div>
 
             <div class="systems-snapshot-copy">
-              <span class="systems-state-chip">read-only signal</span>
               <h2 id="systems-summary-title" data-headline>
                 {fallbackPublic.headline}
               </h2>
@@ -157,7 +155,7 @@ const sections = Object.entries(systemsSections);
           hidden
         >
           <div class="systems-panel-head">
-            <span id="systems-services-title">public signals</span>
+            <span id="systems-services-title">services</span>
             <small data-service-count></small>
           </div>
           <div class="systems-service-list" data-services></div>
@@ -170,8 +168,7 @@ const sections = Object.entries(systemsSections);
           hidden
         >
           <div class="systems-panel-head">
-            <span id="systems-deploy-title">build trail</span>
-            <small>latest visible refs</small>
+            <span id="systems-deploy-title">recent builds</span>
           </div>
 
           <div class="systems-timeline" data-deployments></div>
@@ -408,7 +405,7 @@ const sections = Object.entries(systemsSections);
         if (notice) {
           notice.hidden = false;
           notice.textContent = message ||
-            "the public feed is unavailable. the four system records below are still available.";
+            "i can’t get a status reading right now. you can still see what i track below.";
         }
         show("[data-health-panel]", false);
         show("[data-feed-meta]", false);
@@ -436,14 +433,14 @@ const sections = Object.entries(systemsSections);
         const hasStorage = overall !== null || pools.length > 0 || present(storage.redundancy) || present(storage.integrity);
         const hasPanel = hasSummary || services.length > 0 || deployments.length > 0 || hasStorage;
         if (!hasCard && !hasPanel) {
-          renderUnavailable("the public api responded, but returned no reportable readings. the four system records below are still available.");
+          renderUnavailable("the API answered without any readings to show.");
           return;
         }
         renderIndex(data.cards);
         const reported = formatGenerated(data.generated_at);
         const state = snapshotState(data.generated_at);
         textAll("[data-generated]", reported);
-        textAll("[data-feed-label]", state === "historical" ? "historical public snapshot" : "latest public snapshot");
+        textAll("[data-feed-label]", state === "historical" ? "older reading" : "last reading");
         const generatedNode = query("[data-generated]");
         if (generatedNode) {
           if (reported === "time unreported") generatedNode.removeAttribute("datetime");
@@ -455,10 +452,10 @@ const sections = Object.entries(systemsSections);
         if (notice) {
           notice.hidden = state === "recent";
           notice.textContent = state === "historical"
-            ? "the last public snapshot is older than 15 minutes. current status is unverified."
+            ? "these readings are over 15 minutes old. check the timestamp before relying on them."
             : state === "future"
-              ? "the snapshot time is ahead of this browser's clock. current status is unverified."
-              : "the public api responded, but did not report a snapshot time. current status is unverified.";
+              ? "the feed time is ahead of your browser’s clock, so i can’t tell how fresh these readings are."
+              : "the API sent readings without a timestamp, so i can’t tell when they were taken.";
         }
         show("[data-health-panel]", score !== null);
         if (score !== null) {
@@ -466,14 +463,14 @@ const sections = Object.entries(systemsSections);
           textAll("[data-health-score]", score);
           textAll("[data-health-unit]", "%");
           textAll("[data-status-line]", services.length
-            ? `${services.filter((item) => ["online", "running", "active"].includes(plain(item.status).toLowerCase())).length} of ${services.length} signals reported online.`
-            : "aggregate public score reported by the api.");
+            ? `${services.filter((item) => ["online", "running", "active"].includes(plain(item.status).toLowerCase())).length} of ${services.length} services reported online.`
+            : "overall score from the status API.");
         }
         show("[data-summary-panel]", hasSummary);
         show("[data-score-ring]", score !== null);
         query("[data-score-ring]")?.style.setProperty("--score-angle", `${(score ?? 0) * 3.6}deg`);
         textAll("[data-headline]", present(data.headline) ? plain(data.headline) : "public systems readout");
-        textAll("[data-subtitle]", present(data.subtitle) ? plain(data.subtitle) : "the available signals are shown with their source and report time.");
+        textAll("[data-subtitle]", present(data.subtitle) ? plain(data.subtitle) : "these are the readings my status API last sent.");
         renderRadar(radar);
         renderServices(services);
         renderDeployments(deployments);

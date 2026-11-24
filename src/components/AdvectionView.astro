@@ -30,7 +30,7 @@ const cells = Array.from(final.field, (value, index) => ({
     <CellFluxView initial={frames[0]} />
     <div class="advection-global" data-global-view>
       <div class="advection-view-heading">
-        <h3>repeat across the grid.</h3><span>64 × 64 cell averages / φ</span>
+        <h3>what that does across the grid</h3><span>64 × 64 cell averages / φ</span>
       </div>
       <div
         class="advection-body"
@@ -76,7 +76,7 @@ const cells = Array.from(final.field, (value, index) => ({
               stroke="currentColor"
               stroke-width="1"></path></svg
           >
-          <p>the same face balance updates every cell, at every timestep.</p>
+          <p>i apply the same balance to every cell at each timestep.</p>
           <span class="eyebrow">reference time</span>
           <span class="advection-time"
             >t = <span data-reference-time>{final.time.toFixed(3)}</span></span
@@ -105,6 +105,6 @@ const cells = Array.from(final.field, (value, index) => ({
     >
   </div>
   <p class="advection-provenance">
-    reference calculation · illustrative Gaussian
+    browser reference calculation · Gaussian initial field
   </p>
 </div>

@@ -1,6 +1,7 @@
 # Changelog
 
 ## Unreleased
+- Rewrite the public portfolio in Colin’s voice, from the homepage and case studies to notes, contact, and systems messages. Keep technical facts, attribution, routes, and data behavior intact. Check the generated pages, project navigation, solver demo, and systems fallback before publishing.
 - Publish detailed case studies for the thermal mixing chamber, ramjet and scramjet model, and winglet wind-tunnel analysis using the existing unpublished drafts and course evidence. Preserve the recruiting homepage and existing project URLs. Check result provenance, desktop and narrow-width rendering, project navigation, and report privacy. The winglet drag data and publication of the full source reports remain open.
 - Focus the public portfolio on fall 2027 PhD research in combustion, CFD, and aviation propulsion. Add a coauthored hydrogen–isooctane equilibrium case study from the MAE 536 report and give advisors direct paths to the research, printable profile, and email. Check the generated routes and links, retain the solver reference case, and keep the underlying course report and raw data private; a reproducible numerical sweep remains an open follow-up.
 - Calmed the homepage implementation study: replaced the traveling code and long scroll sequence with one brief entrance, kept the source, cell, and final field in normal flow, and retained direct code-line inspection without the duplicate step ledger.

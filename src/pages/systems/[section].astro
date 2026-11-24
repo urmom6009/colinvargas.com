@@ -19,11 +19,11 @@ const fallbackJson = JSON.stringify({
 
 <BaseLayout
   title={`${page.title} systems - colin vargas`}
-  description={`${page.title} systems readout for the public colin vargas status surface.`}
+  description={page.summary}
 >
   <main id="main-content" class="systems-page systems-detail-page" tabindex="-1">
     <p class="telemetry-notice" data-telemetry-notice role="status">
-      the public feed is unavailable. this record still explains what the readout covers.
+      i can’t get a status reading right now.
     </p>
     <section
       class="resume-hero page-scene systems-detail-hero"
@@ -42,7 +42,7 @@ const fallbackJson = JSON.stringify({
         </div>
 
         <aside class="systems-detail-card" data-detail-card hidden>
-          <span data-detail-label>reported snapshot</span>
+          <span data-detail-label>last reading</span>
           <strong data-detail-metric></strong>
           <p data-detail-copy hidden></p>
           <dl class="systems-meta">
@@ -65,15 +65,13 @@ const fallbackJson = JSON.stringify({
       data-scroll-chapter
     >
       <div class="section-heading">
-        <span id="systems-detail-readout">scope and boundary</span>
-        <span>public record</span>
+        <span id="systems-detail-readout">what i check</span>
       </div>
 
       <div class="systems-detail-grid">
         <article class="systems-panel systems-detail-notes">
           <div class="systems-panel-head">
-            <span>boundaries</span>
-            <small>public boundary</small>
+            <span>about this check</span>
           </div>
           <ul>
             {page.notes.map((note) => <li>{note}</li>)}
@@ -82,8 +80,8 @@ const fallbackJson = JSON.stringify({
 
         <article class="systems-panel systems-detail-live" data-detail-live-panel hidden>
           <div class="systems-panel-head">
-            <span>latest reported fields</span>
-            <small>public api</small>
+            <span>latest readings</span>
+            <small>status API</small>
           </div>
           <div class="systems-detail-live-list" data-detail-live></div>
         </article>
@@ -145,7 +143,7 @@ const fallbackJson = JSON.stringify({
         if (notice) {
           notice.hidden = false;
           notice.textContent = message ||
-            "the public feed is unavailable. this record still explains what the readout covers.";
+            "i can’t get a status reading right now.";
         }
         if (cardNode) cardNode.hidden = true;
         if (panel) panel.hidden = true;
@@ -162,7 +160,7 @@ const fallbackJson = JSON.stringify({
         const value = present(card?.value) ? plain(card.value) : null;
         if (value === null && score === null) {
           renderUnavailable(
-            `the public api responded, but returned no reportable reading for ${plain(section.title)}. the scope below remains available.`,
+            `the API answered without a reading for ${plain(section.title)}.`,
           );
           return;
         }
@@ -171,15 +169,15 @@ const fallbackJson = JSON.stringify({
         if (notice) {
           notice.hidden = state === "recent";
           notice.textContent = state === "historical"
-            ? "the last public snapshot is older than 15 minutes. current status is unverified."
+            ? "this reading is over 15 minutes old. check the timestamp before relying on it."
             : state === "future"
-              ? "the snapshot time is ahead of this browser's clock. current status is unverified."
-              : "the public api responded, but did not report a snapshot time. current status is unverified.";
+              ? "the feed time is ahead of your browser’s clock, so i can’t tell how fresh this reading is."
+              : "the API sent this reading without a timestamp.";
         }
         if (cardNode) cardNode.hidden = false;
         if (panel) panel.hidden = false;
         const label = document.querySelector("[data-detail-label]");
-        if (label) label.textContent = state === "historical" ? "historical snapshot" : "reported snapshot";
+        if (label) label.textContent = state === "historical" ? "older reading" : "last reading";
         const metricNode = document.querySelector("[data-detail-metric]");
         if (metricNode) metricNode.textContent = value || `${score}%`;
         const detail = present(card?.detail) ? plain(card.detail) : "";
