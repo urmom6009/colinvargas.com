@@ -1,69 +1,64 @@
 ---
-// Pixel bounds of the nine fields in the original MATLAB report figure, in time order.
-const image = "/images/projects/mixing-temperature-sequence.jpg";
-const views = [93, 345, 597].flatMap((y) =>
-  [146, 460, 775].map((x) => `${x} ${y} 160 120`),
-);
-const firstTime = 1;
-const interval = 0.25;
-const initialTime = 2.5;
-const initialView = views[(initialTime - firstTime) / interval];
+const media = "/media/mixing-chamber";
 ---
 
-<figure class="thermal-figure" data-thermal-sequence>
+<figure id="mixing-chamber" class="thermal-figure" data-thermal-sequence>
   <div class="plot-plate">
     <div class="plot-heading">
       <h2>thermal mixing chamber</h2>
       <span>Re = 100 · Pr = 2</span>
     </div>
-    <div class="plot" role="img" aria-label="Simulated temperature in a chamber spanning x = 0 to 4 and y = 0 to 3. Black is coolest (0) and white is hottest (3). The upper paddle cools the flow and the lower paddle heats it.">
+    <div class="plot">
       <div class="y-scale" aria-hidden="true"><span>3</span><span>2</span><span>1</span><span>0</span></div>
-      <svg class="field" data-field data-views={JSON.stringify(views)} viewBox={initialView} preserveAspectRatio="none" aria-hidden="true">
-        <image href={image} width="1120" height="840" />
-      </svg>
+      <div class="field">
+        <video controls playsinline muted preload="none"
+          width="796" height="596" src={`${media}/temperature.mp4`}
+          poster={`${media}/temperature-poster.webp`}
+          aria-label="Temperature in the mixing chamber from simulation time 0 to 5. The upper paddle cools the flow and the lower paddle heats it. Black is coolest and white is hottest.">
+          <a href={`${media}/temperature.mp4`}>open the temperature movie</a>
+        </video>
+        <canvas width="796" height="596" data-velocity={`${media}/velocity.bin`} hidden aria-hidden="true"></canvas>
+      </div>
       <div class="temperature-scale" aria-hidden="true">
         <span class="scale-title">T</span>
-        <svg viewBox="325 94 5 119" preserveAspectRatio="none"><image href={image} width="1120" height="840" /></svg>
+        <svg viewBox="0 0 4 596" preserveAspectRatio="none">
+          <image href={`${media}/temperature-scale.webp`} width="596" height="4" transform="translate(0 596) rotate(-90)" />
+        </svg>
         <div><span>3</span><span>2</span><span>1</span><span>0</span></div>
       </div>
       <div class="x-scale" aria-hidden="true"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span></div>
       <span class="x-label" aria-hidden="true">x</span><span class="y-label" aria-hidden="true">y</span>
     </div>
-    <div class="time-readout">
-      <span>sample time</span>
-      <input type="range" aria-label="Nondimensional sample time" min={firstTime} max="3" step={interval} value={initialTime} hidden />
-      <span class="sample-value">t = <span data-time>{initialTime.toFixed(2)}</span></span>
+    <div class="time-readout" data-controls hidden>
+      <button type="button" data-play aria-label="Play simulation from the start">play</button>
+      <input type="range" aria-label="Simulation time" min="0" step="1" value="0" />
+      <span class="sample-value" data-time></span>
     </div>
+    <label class="overlay-control" hidden>
+      <input type="checkbox" checked aria-describedby="velocity-note" />
+      velocity arrows
+    </label>
+    <p class="figure-note" id="velocity-note" hidden>
+      arrows estimate direction and speed from the colors in my u and v movies.
+      each component’s scale runs from −1.5 to +1.5.
+    </p>
+    <p class="figure-note" data-media-status role="status" hidden></p>
   </div>
   <figcaption>
-    <span>nondimensional temperature · CFD report, fig. 3</span>
+    <span>nondimensional temperature · 0 ≤ t ≤ 5</span>
     <a href="/work/compressible-flow-project#case-evidence">see the study <span aria-hidden="true">↗</span></a>
   </figcaption>
 </figure>
 
 <script>
-  for (const figure of document.querySelectorAll("[data-thermal-sequence]")) {
-    const input = figure.querySelector("input");
-    const field = figure.querySelector<SVGSVGElement>("[data-field]");
-    const time = figure.querySelector("[data-time]");
-    if (!input || !field?.dataset.views || !time) continue;
-
-    const views: string[] = JSON.parse(field.dataset.views);
-    const update = () => {
-      const t = input.valueAsNumber;
-      const index = Math.round((t - Number(input.min)) / Number(input.step));
-      field.setAttribute("viewBox", views[index]);
-      time.textContent = t.toFixed(2);
-    };
-    input.addEventListener("input", update);
-    update();
-    input.hidden = false;
-  }
+  import { enhanceMixingPlayer } from "../scripts/mixingPlayer";
+  document.querySelectorAll<HTMLElement>("[data-thermal-sequence]").forEach(enhanceMixingPlayer);
 </script>
 
 <style>
   .thermal-figure {
     min-width: 0;
+    container-type: inline-size;
     font: 13px/1.45 var(--font-mono);
   }
   .plot-plate {
@@ -104,11 +99,23 @@ const initialView = views[(initialTime - firstTime) / interval];
     font-variant-numeric: tabular-nums;
   }
   .field {
+    position: relative;
+    min-width: 0;
+    align-self: start;
+    background: #202923;
     display: block;
     width: 100%;
-    aspect-ratio: 4/3;
+    aspect-ratio: 796 / 596;
     overflow: hidden;
   }
+  .field video,
+  .field canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .field canvas { pointer-events: none; }
   .y-scale, .temperature-scale > div {
     display: flex;
     flex-direction: column;
@@ -154,24 +161,48 @@ const initialView = views[(initialTime - firstTime) / interval];
   }
   .time-readout {
     align-items: center;
+    gap: 8px 14px;
+    padding-top: 8px;
     border-top: 1px solid var(--plot-rule);
-    padding-top: 10px;
+  }
+  .time-readout button {
+    min-width: 6ch;
+    min-height: 36px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    font: inherit;
+    text-align: left;
+    color: var(--plot-ink);
   }
   .time-readout input {
     flex: 1;
-    min-width: 54px;
-    height: 32px;
+    min-width: 44px;
+    height: 36px;
     margin: 0;
-    accent-color: #cedac8;
-    cursor: pointer;
   }
-  .time-readout input:focus-visible {
+  .plot-plate input { accent-color: #cedac8; cursor: pointer; }
+  .plot-plate :is(input, button):focus-visible {
     outline: 2px solid #cedac8;
     outline-offset: 2px;
   }
   .sample-value {
     color: var(--plot-ink);
     font-variant-numeric: tabular-nums;
+  }
+  .overlay-control {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 32px;
+    cursor: pointer;
+  }
+  .overlay-control input { margin: 0; width: 16px; height: 16px; }
+  .figure-note {
+    color: var(--plot-muted);
+    max-width: 60ch;
+    margin: 2px 0 0;
+    font: 13px/1.45 var(--font-sans);
   }
   figcaption {
     color: var(--muted);
@@ -184,6 +215,11 @@ const initialView = views[(initialTime - firstTime) / interval];
   }
   figcaption a:hover {
     color: var(--accent);
+  }
+  @container (max-width: 380px) {
+    .time-readout { display: grid; grid-template-columns: auto 1fr; gap: 0 8px; }
+    .time-readout input { grid-row: 2; grid-column: 1 / -1; width: 100%; }
+    .sample-value { grid-row: 1; grid-column: 2; text-align: right; }
   }
   @media (max-width: 380px) {
     .plot-plate { padding: 14px; }

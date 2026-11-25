@@ -4,7 +4,7 @@ astro portfolio site for `colinvargas.com`.
 
 ## site structure
 
-- `/` pairs Colin’s research interests with nine temperature fields from his mixing-chamber report. a manual time control selects a reported frame. the project index and inspectable solver follow in normal reading order.
+- `/` pairs Colin’s research interests with the full mixing-chamber simulation, from t = 0 to 5. play or scrub the temperature movie and toggle velocity arrows. the project index and inspectable solver follow in normal reading order.
 - `/work` is a filterable project index. `/work/scramjet-analysis-tool`, `/work/compressible-flow-project`, and `/work/winglet-wind-tunnel` are illustrated case studies with methods, results, and limits. `/work/compressible-flow-project` retains the original URL for the incompressible mixing-chamber project. `/work/adaptive-cfd-solver` and `/work/hydrogen-isooctane-equilibrium` cover the solver baseline and combustion equilibrium study.
 - `/work/portfolio-and-technical-logs` describes this site and its repository-aware logging workflow, with a link to the public source.
 - `/notes` is a reading guide to the public project records and open checks. there are no standalone public notes; draft entries are not rendered into pages.
@@ -12,6 +12,12 @@ astro portfolio site for `colinvargas.com`.
 - `/sysadmin` and its four detail urls redirect to their corresponding `/systems` pages for existing bookmarks.
 - `/resume` is a printable technical profile with education, experience, project work, focus areas, and public contact links.
 - `/404` provides a styled fallback for unpublished or missing pages.
+
+### mixing-chamber movie
+
+The homepage displays 151 samples from the three synchronized MATLAB exports at 30 frames per second. For output frame `j`, the source frame is `round(j × 1563 / 150)`. The field crop is 796 × 596 pixels at (134, 108) in each 1120 × 840 source. `src/data/mixingTimes.json` contains the simulation time printed in each sampled frame. The poster uses frame 75 (t = 2.56231). The original nine-panel report figure is available in the case study.
+
+The transparent overlay samples the rendered horizontal and vertical velocity fields at the centers of a 16 × 12 grid. Each component is estimated against its movie’s colorbar, which clips at ±1.5. The full grid uses 26 image pixels per velocity unit. Narrow plots use every other sample in both directions and double the arrow scale. Dots mark speeds below about 0.092. To recover the overlay again, run `python scripts/recover-mixing-velocity.py u_Film_128_FINAL.mp4 v_Film_128_FINAL.mp4` with NumPy and FFmpeg installed.
 
 ## quieter implementation hero / november 13, 2026
 
@@ -100,7 +106,7 @@ npm test
 npm run build
 ```
 
-then smoke test `/`, `/work`, `/resume`, `/notes`, the project pages, `/systems`, and a missing route locally. check the nine sample times against the original figure, project filters, all six code-line selections by mouse and keyboard, theme persistence, and mobile layouts. the homepage study should stay in normal flow as the page scrolls. with reduced motion or JavaScript disabled, the code, annotated cell, and final reference field remain readable. `npm run preview` serves the built output for a production smoke test.
+then smoke test `/`, `/work`, `/resume`, `/notes`, the project pages, `/systems`, and a missing route locally. check thermal playback and seeking, the velocity toggle and matched simulation times, project filters, all six code-line selections by mouse and keyboard, theme persistence, and mobile layouts. the homepage study should stay in normal flow as the page scrolls. with reduced motion or JavaScript disabled, the code, annotated cell, and final reference field remain readable. `npm run preview` serves the built output for a production smoke test.
 
 project data lives in `src/data/portfolio.ts`. the homepage, work index, project pages, and technical profile share these records so titles, tooling, and publication status stay consistent. method and available-material summaries replace decorative project icons. add verified artifacts before promoting project results or planned capabilities to demonstrated claims.
 
