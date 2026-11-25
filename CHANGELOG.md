@@ -1,6 +1,7 @@
 # Changelog
 
 ## Unreleased
+- Autoplay and loop the muted homepage temperature movie with pause and frame seeking. Remove the velocity overlay and its data. Verify playback across a loop boundary.
 - Use Colin’s synchronized temperature and velocity movies for the homepage mixing-chamber study. Match the simulation timestamps and color scales at 151 frames. Verified keyboard seeking, pause and replay, mobile controls, missing-media states, and native playback with JavaScript disabled.
 - Reconcile the 14 website branches on `main`. Keep the Fall 2027 research focus, Colin’s voice, illustrated case studies, and six-line solver inspection. Lead the homepage with the mixing-chamber report figure and give the projects a compact index. Integrate the cloud setup and validation commands and the Astro 7 dependency update. A clean install passed all seven numerical tests and built 23 pages with zero diagnostics. Chromium checks covered the report frames, solver, filters, themes, redirects, narrow screens, and JavaScript-disabled reading paths.
 - Rewrite the public portfolio in Colin’s voice, from the homepage and case studies to notes, contact, and systems messages. Keep technical facts, attribution, routes, and data behavior intact. Check the generated pages, project navigation, solver demo, and systems fallback before publishing.

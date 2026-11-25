@@ -37,7 +37,7 @@ The aerospace layer supplies the content: equations, solver states, verification
 
 ## page patterns
 
-- Homepage sections are editorial plates: one large idea, one technical surface, one clear reason to exist. pair the introduction with the mixing-chamber movie and optional velocity arrows. follow it with a compact project index, the inspectable solver, and supporting interests.
+- Homepage sections are editorial plates: one large idea, one technical surface, one clear reason to exist. pair the introduction with the looping mixing-chamber temperature movie. follow it with a compact project index, the inspectable solver, and supporting interests.
 - Secondary pages use `page-intro`, readable overviews, and ruled action/index rows. retain `page-scene` only for the existing systems readouts; all content stays in normal document flow.
 - Systems pages may be denser, but they should still use restrained labels, clear boundaries, and public-safe summaries.
 - New routes should start with the record being exposed: project, note, system, or contact path. Do not start with generic portfolio filler.
