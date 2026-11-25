@@ -8,9 +8,11 @@ export function enhanceMixingPlayer(figure: HTMLElement) {
   const video = figure.querySelector("video")!;
   const controls = figure.querySelector<HTMLElement>("[data-controls]")!;
   const play = controls.querySelector("button")!;
+  const playLabel = play.querySelector<HTMLElement>("[data-play-label]")!;
   const slider = controls.querySelector("input")!;
   const time = controls.querySelector<HTMLElement>("[data-time]")!;
   const status = figure.querySelector<HTMLElement>("[data-media-status]")!;
+  const fallback = figure.querySelector<HTMLImageElement>("[data-poster-fallback]")!;
   let preview = true;
   let currentFrame = posterFrame;
   let pendingSeek: number | undefined;
@@ -18,9 +20,10 @@ export function enhanceMixingPlayer(figure: HTMLElement) {
   function showFrame(frame: number) {
     currentFrame = Math.min(lastFrame, Math.max(0, frame));
     const t = simulationTimes[currentFrame];
-    time.textContent = (preview ? "preview · " : "") + "t = " + t.toFixed(2);
+    time.textContent = "t = " + (video.paused ? String(t) : t.toFixed(2));
     slider.value = String(currentFrame);
-    slider.setAttribute("aria-valuetext", (preview ? "Preview, " : "") + "t = " + t.toFixed(3));
+    slider.style.setProperty("--played", (100 * currentFrame / lastFrame) + "%");
+    slider.setAttribute("aria-valuetext", "simulation time " + t + " of 5");
   }
 
   function fromVideo(seconds: number) {
@@ -53,19 +56,31 @@ export function enhanceMixingPlayer(figure: HTMLElement) {
   }
 
   function playbackLabel() {
-    play.textContent = video.paused ? "play" : "pause";
-    play.setAttribute("aria-label", preview ? "Play simulation from the start" : play.textContent + " simulation");
+    const restart = !preview && currentFrame === lastFrame && video.paused;
+    playLabel.textContent = restart ? "replay" : video.paused ? "play" : "pause";
+    play.toggleAttribute("data-playing", !video.paused);
+    play.setAttribute("aria-label", playLabel.textContent + " simulation");
   }
 
   video.addEventListener("play", () => {
+    if (video.paused || video.error) return;
     preview = false;
+    video.hidden = false;
+    fallback.hidden = true;
     showFrame(Math.floor(video.currentTime * fps));
     playbackLabel();
   });
   video.addEventListener("playing", () => statusMessage());
-  video.addEventListener("pause", playbackLabel);
+  video.addEventListener("pause", () => {
+    showFrame(currentFrame);
+    playbackLabel();
+  });
   play.addEventListener("click", () => {
     if (!video.paused) { video.pause(); return; }
+    if (currentFrame === lastFrame && !preview) {
+      pendingSeek = 0;
+      seekToSelection();
+    }
     video.play().catch((error: DOMException) => {
       if (!video.error && error.name !== "AbortError") statusMessage("playback paused. press play to try again.");
     });
@@ -80,15 +95,23 @@ export function enhanceMixingPlayer(figure: HTMLElement) {
 
   video.addEventListener("loadedmetadata", seekToSelection);
   video.addEventListener("seeked", () => {
-    if (preview || pendingSeek !== undefined || video.seeking) return;
+    if (pendingSeek !== undefined || video.seeking || video.error) return;
+    const frame = Math.floor(video.currentTime * fps);
+    // Some hosts only allow a seek to zero. Retain the matched still in that case.
+    if (preview && frame !== posterFrame) return;
+    preview = false;
     video.removeAttribute("poster");
-    showFrame(Math.floor(video.currentTime * fps));
+    video.hidden = false;
+    fallback.hidden = true;
+    showFrame(frame);
     playbackLabel();
   });
   slider.addEventListener("input", () => {
     preview = false;
     video.pause();
     pendingSeek = slider.valueAsNumber;
+    showFrame(pendingSeek);
+    playbackLabel();
     if (video.readyState < HTMLMediaElement.HAVE_METADATA) {
       video.preload = "auto";
     } else {
@@ -98,8 +121,9 @@ export function enhanceMixingPlayer(figure: HTMLElement) {
 
   function mediaError() {
     controls.hidden = true;
-    video.controls = true;
-    statusMessage("the simulation movie could not be loaded.");
+    video.hidden = true;
+    fallback.hidden = false;
+    statusMessage("the movie couldn’t load. this frame shows the chamber at t = 2.56.");
   }
   video.addEventListener("error", mediaError);
 
@@ -114,7 +138,15 @@ export function enhanceMixingPlayer(figure: HTMLElement) {
   reducedMotion.addEventListener("change", pauseForReducedMotion);
 
   slider.max = String(lastFrame);
-  preview = video.paused && video.currentTime === 0;
+  preview = reducedMotion.matches || (video.paused && video.currentTime === 0);
+  if (reducedMotion.matches) {
+    // Interrupting native autoplay can expose the unheated first frame. Keep the
+    // known still visible until its matching movie frame is ready to present.
+    fallback.hidden = false;
+    video.hidden = true;
+    pendingSeek = posterFrame;
+    seekToSelection();
+  }
   showFrame(preview ? posterFrame : Math.floor(video.currentTime * fps));
   playbackLabel();
   video.controls = false;

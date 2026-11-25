@@ -22,17 +22,21 @@ const { project, study, next } = Astro.props;
     <div class="case-hero-copy">
       <h1 id="project-title">{project.title}<span class="accent-dot">.</span></h1>
       <p class="case-lead">{study.lead}</p>
-      <a class="case-downlink" href="#case-evidence">skip to the results <span aria-hidden="true">↓</span></a>
+      <nav class="case-index" aria-label="jump to a section of this study">
+        <a href="#case-method">method</a>
+        <a href="#case-evidence">results</a>
+        <a href="#case-end">next checks</a>
+      </nav>
     </div>
 
-    <aside class="case-context" aria-label="project context">
-      <div><span>context</span><p>{project.context}</p></div>
-      <div><span>my role</span><p>{study.role}</p></div>
-      <div><span>tools</span><p>{project.tools.join(" / ")}</p></div>
-    </aside>
+    <CaseStudyFigures kind={study.kind} placement="hero" />
   </div>
 
-  <CaseStudyFigures kind={study.kind} placement="hero" />
+  <dl class="case-context" aria-label="project context">
+    <div><dt>context</dt><dd>{project.context}</dd></div>
+    <div><dt>my role</dt><dd>{study.role}</dd></div>
+    <div><dt>tools</dt><dd>{project.tools.join(" / ")}</dd></div>
+  </dl>
 </section>
 
 <section class="case-question case-study-scene" aria-labelledby="case-question-title">
@@ -45,7 +49,7 @@ const { project, study, next } = Astro.props;
   </div>
 </section>
 
-<section class="case-method case-study-scene" aria-labelledby="case-method-title">
+<section id="case-method" class="case-method case-study-scene" aria-labelledby="case-method-title">
   <h2 id="case-method-title">how i did it</h2>
   <ol class="case-method-list">
     {study.method.map((step) => (
@@ -109,7 +113,7 @@ const { project, study, next } = Astro.props;
   </div>
 </section>
 
-<section class="case-end case-study-scene" aria-labelledby="case-end-title">
+<section id="case-end" class="case-end case-study-scene" aria-labelledby="case-end-title">
   <div class="case-end-grid">
     <div>
       <h2 id="case-end-title">what i’d check next</h2>

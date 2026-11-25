@@ -1,60 +1,179 @@
 ---
-import { projects } from "../data/portfolio";
+import { projects, type Project } from "../data/portfolio";
+import { solverImplementation } from "../data/solverImplementation";
 interface Props {
-  limit?: number;
+  featured?: boolean;
 }
-const { limit = projects.length } = Astro.props;
+const { featured = false } = Astro.props;
+const entries: readonly Project[] = featured ? projects.slice(0, 3) : projects;
+const Heading = featured ? "h3" : "h2";
+const solverLine = solverImplementation.code.split("\n").at(-1);
 ---
 
 <div class="project-list" id="project-list">
   {
-    projects.slice(0, limit).map((project) => (
+    entries.map((project) => (
       <article class="project-row" data-category={project.category}>
-        <a class="project-link" href={`/work/${project.slug}`}>
-          <span class="project-number">
-            {project.number}
-            <span aria-hidden="true"> /</span>
-          </span>
-          <div class="project-copy">
-            <span class="eyebrow">{project.discipline}</span>
-            <h3>{project.title}</h3>
-            <p>{project.summary}</p>
-            <span class="project-tools">{project.tools.join(" / ")}</span>
-          </div>
-          <dl class="project-method">
-            <>
-              <div>
-                <>
-                  <dt>method</dt>
-                  <dd>{project.method}</dd>
-                </>
-              </div>
-              <div>
-                <>
-                  <dt>record</dt>
-                  <dd>{project.material}</dd>
-                </>
-              </div>
-            </>
-          </dl>
-          <div class="project-end">
-            <>
-              <span
-                class:list={[
-                  "status-label",
-                  { "status-published": project.source },
-                ]}
-              >
-                {project.status}
-              </span>
-              <span class="project-arrow" aria-hidden="true">
-                ↗
-              </span>
-              <span class="link-label">view project</span>
-            </>
+        <a class="project-link" href={`/work/${project.slug}`} aria-labelledby={`title-${project.slug}`}>
+          {project.slug === "hydrogen-isooctane-equilibrium" && (
+            <div class="project-art fuel-art" aria-hidden="true">
+              <span class="art-label">fuel blend</span>
+              <span class="fuel-formula">C<sub>8</sub>H<sub>18</sub> <i>/</i> H<sub>2</sub></span>
+              <span class="art-label">NASA CEA · 14 compositions</span>
+            </div>
+          )}
+          {project.slug === "adaptive-cfd-solver" && (
+            <div class="project-art solver-art" aria-hidden="true">
+              <span class="art-label">// advance.cpp</span>
+              <code>{solverLine}</code>
+              <span class="art-label">C++ · finite volume</span>
+            </div>
+          )}
+          {project.slug === "compressible-flow-project" && (
+            <div class="project-art thermal-art" aria-hidden="true">
+              <img src="/media/mixing-chamber/temperature-poster.webp" width="796" height="596" alt="" loading="lazy" decoding="async" />
+            </div>
+          )}
+          <div class="project-card-copy">
+            <p class="eyebrow">{project.discipline}</p>
+            <Heading class="project-title" id={`title-${project.slug}`}>{project.title}</Heading>
+            <p class="project-description">{project.summary}</p>
+            <div class="project-record">
+              <span>{featured ? project.record : project.status}</span>
+              <span class="card-arrow" aria-hidden="true">↗</span>
+            </div>
           </div>
         </a>
       </article>
     ))
   }
 </div>
+
+<style>
+  .project-list {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+  }
+  .project-row {
+    display: flex;
+    min-width: 0;
+  }
+  .project-link {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--panel);
+    transition: border-color 160ms, background-color 160ms;
+  }
+  .project-link:hover,
+  .project-link:focus-visible {
+    background: var(--surface);
+    border-color: var(--accent);
+  }
+  .project-link:focus-visible {
+    outline-offset: 3px;
+  }
+  .project-art {
+    min-height: 142px;
+    aspect-ratio: 2.35;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 6px;
+    padding: 14px 18px;
+    overflow: hidden;
+    border-radius: calc(var(--radius) - 1px) calc(var(--radius) - 1px) 0 0;
+    background: #1c2a24;
+    color: #e6efdf;
+  }
+  .fuel-art {
+    background: #263328;
+  }
+  .art-label {
+    font: 11px/1.3 var(--font-mono);
+    color: #bacfba;
+  }
+  .fuel-formula {
+    font-size: clamp(31px, 4vw, 52px);
+    line-height: 1;
+    letter-spacing: -0.025em;
+  }
+  .fuel-formula sub {
+    font-size: 0.5em;
+  }
+  .fuel-formula i {
+    font-style: normal;
+    color: #a9cbb0;
+  }
+  .solver-art code {
+    font: 13px/1.5 var(--font-mono);
+    overflow-wrap: anywhere;
+    color: #c6edbd;
+  }
+  .thermal-art {
+    padding: 0;
+    background: #20252d;
+  }
+  .thermal-art img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 48%;
+  }
+  .project-card-copy {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    padding: clamp(15px, 1.9vw, 23px);
+  }
+  .eyebrow,
+  .project-record {
+    font: 12px/1.45 var(--font-mono);
+    color: var(--muted);
+  }
+  .project-title {
+    margin: 10px 0;
+    font-size: clamp(24px, 2.8vw, 34px);
+    line-height: 1.02;
+    letter-spacing: -0.035em;
+    text-wrap: pretty;
+  }
+  .project-description {
+    color: var(--muted);
+    font-size: 16px;
+    margin-bottom: 19px;
+  }
+  .project-record {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: auto;
+    padding-top: 10px;
+    border-top: 1px solid var(--line);
+  }
+  .card-arrow {
+    font: 22px/1 var(--font-sans);
+    color: var(--accent);
+    transition: transform 160ms;
+  }
+  .project-link:is(:hover, :focus-visible) .card-arrow {
+    transform: translate(2px, -2px);
+  }
+  @media (max-width: 900px) {
+    .project-list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (max-width: 580px) {
+    .project-list {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

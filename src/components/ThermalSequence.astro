@@ -1,21 +1,24 @@
 ---
 const media = "/media/mixing-chamber";
+const poster = `${media}/temperature-poster.webp`;
 ---
 
 <figure id="mixing-chamber" class="thermal-figure" data-thermal-sequence>
+  <div class="plot-heading">
+    <h2>thermal mixing chamber</h2>
+    <span>Re = 100 · Pr = 2</span>
+  </div>
   <div class="plot-plate">
-    <div class="plot-heading">
-      <h2>thermal mixing chamber</h2>
-      <span>Re = 100 · Pr = 2</span>
-    </div>
     <div class="plot">
       <div class="y-scale" aria-hidden="true"><span>3</span><span>2</span><span>1</span><span>0</span></div>
       <video class="field" autoplay loop muted playsinline controls preload="auto"
         width="796" height="596" src={`${media}/temperature.mp4`}
-        poster={`${media}/temperature-poster.webp`}
+        poster={poster}
         aria-label="Temperature in the mixing chamber from simulation time 0 to 5. The upper paddle cools the flow and the lower paddle heats it. Black is coolest and white is hottest.">
         <a href={`${media}/temperature.mp4`}>open the temperature movie</a>
       </video>
+      <img class="field" data-poster-fallback src={poster} width="796" height="596" hidden
+        alt="Temperature at simulation time 2.56. The cold upper paddle and hot lower paddle shed contrasting trails into the chamber." />
       <div class="temperature-scale" aria-hidden="true">
         <span class="scale-title">T</span>
         <svg viewBox="0 0 4 596" preserveAspectRatio="none">
@@ -26,16 +29,18 @@ const media = "/media/mixing-chamber";
       <div class="x-scale" aria-hidden="true"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span></div>
       <span class="x-label" aria-hidden="true">x</span><span class="y-label" aria-hidden="true">y</span>
     </div>
-    <div class="time-readout" data-controls hidden>
-      <button type="button" data-play aria-label="Play simulation from the start">play</button>
+    <div class="time-readout" data-controls role="group" aria-label="Temperature movie playback" hidden>
+      <button type="button" data-play aria-label="Play simulation from the start">
+        <span class="play-glyph" aria-hidden="true"></span><span data-play-label>play</span>
+      </button>
       <input type="range" aria-label="Simulation time" min="0" step="1" value="0" />
       <span class="sample-value" data-time></span>
     </div>
     <p class="figure-note" data-media-status role="status" hidden></p>
   </div>
   <figcaption>
-    <span>nondimensional temperature · 0 ≤ t ≤ 5</span>
-    <a href="/work/compressible-flow-project#case-evidence">see the study <span aria-hidden="true">↗</span></a>
+    <span>nondimensional temperature <span class="time-range">· 0 ≤ t ≤ 5</span></span>
+    <a href="/work/compressible-flow-project#case-evidence">read the study <span aria-hidden="true">→</span></a>
   </figcaption>
 </figure>
 
@@ -50,52 +55,55 @@ const media = "/media/mixing-chamber";
     container-type: inline-size;
     font: 13px/1.45 var(--font-mono);
   }
-  .plot-plate {
-    --plot-ink: #edf0e5;
-    --plot-muted: #bdc4b7;
-    --plot-rule: #525d52;
-    padding: clamp(16px, 2vw, 30px);
-    color: var(--plot-ink);
-    background: #202923;
-    border: 1px solid var(--plot-rule);
-    color-scheme: dark;
-  }
-  .plot-heading, .time-readout, figcaption {
+  .plot-heading, figcaption {
     display: flex;
-    justify-content: space-between;
     align-items: baseline;
-    gap: 8px 16px;
+    justify-content: space-between;
     flex-wrap: wrap;
+    gap: 6px 16px;
   }
   .plot-heading {
-    padding-bottom: 14px;
-    border-bottom: 1px solid var(--plot-rule);
+    padding: 15px 0 14px;
+    border-top: 1px solid var(--ink);
   }
   h2 {
-    font: 400 clamp(23px, 2.1vw, 32px)/1.05 var(--font-sans);
+    font: 400 clamp(24px, 5.5cqi, 34px)/1.03 var(--font-sans);
     letter-spacing: -0.035em;
   }
-  .plot-heading > span, .plot, .time-readout {
-    color: var(--plot-muted);
+  .plot-heading > span, figcaption {
+    color: var(--muted);
+  }
+  .plot-heading > span {
+    white-space: nowrap;
+  }
+  .plot-plate {
+    --plate: #171e19;
+    --paper: #f0f2e9;
+    --sage: #c0d4b6;
+    --quiet: #b3bdb1;
+    --rule: #536054;
+    background: var(--plate);
+    color: var(--paper);
+    border: 1px solid var(--rule);
+    color-scheme: dark;
   }
   .plot {
     position: relative;
     display: grid;
-    grid-template-columns: 14px minmax(0, 1fr) 24px;
-    grid-template-rows: auto auto;
-    gap: 6px 9px;
-    padding: 22px 0 18px;
+    grid-template-columns: 12px minmax(0, 1fr) 25px;
+    gap: 6px 8px;
+    padding: 26px clamp(12px, 3.6cqi, 24px) 14px;
+    color: var(--quiet);
     font-variant-numeric: tabular-nums;
   }
   .field {
+    display: block;
     min-width: 0;
+    width: 100%;
     height: auto;
     align-self: start;
-    background: #202923;
-    display: block;
-    width: 100%;
     aspect-ratio: 796 / 596;
-    overflow: hidden;
+    background: var(--plate);
   }
   .y-scale, .temperature-scale > div {
     display: flex;
@@ -107,95 +115,130 @@ const media = "/media/mixing-chamber";
     align-items: end;
   }
   .temperature-scale {
-    display: flex;
     position: relative;
-    justify-content: space-between;
+    display: flex;
+    justify-content: end;
   }
   .temperature-scale > svg {
-    height: 100%;
-    width: 8px;
     position: absolute;
-    overflow: hidden;
-  }
-  .temperature-scale > div {
-    margin-left: auto;
+    top: 0;
+    left: 0;
+    width: 6px;
+    height: 100%;
   }
   .scale-title, .y-label {
     position: absolute;
     line-height: 1;
+    color: var(--paper);
   }
-  .scale-title {
-    top: -17px;
-    left: 0;
-  }
-  .y-label {
-    top: 4px;
-    left: 5px;
-  }
+  .scale-title { left: 0; top: -18px; }
+  .y-label { left: calc(clamp(12px, 3.6cqi, 24px) + 4px); top: 8px; }
   .x-scale {
-    display: flex;
     grid-column: 2;
+    display: flex;
     justify-content: space-between;
   }
   .x-label {
-    align-self: start;
+    color: var(--paper);
   }
   .time-readout {
+    display: grid;
+    grid-template-columns: auto minmax(40px, 1fr) auto;
     align-items: center;
-    gap: 8px 14px;
-    padding-top: 8px;
-    border-top: 1px solid var(--plot-rule);
+    gap: clamp(10px, 3cqi, 20px);
+    padding: 5px clamp(12px, 3.6cqi, 24px);
+    border-top: 1px solid var(--rule);
   }
   .time-readout button {
-    min-width: 6ch;
-    min-height: 36px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 7ch;
+    min-height: 44px;
     padding: 0;
     border: 0;
     background: transparent;
+    color: var(--paper);
     font: inherit;
-    text-align: left;
-    color: var(--plot-ink);
   }
+  .play-glyph {
+    display: inline-block;
+    flex: 0 0 12px;
+    height: 12px;
+    background: var(--sage);
+    clip-path: polygon(15% 0, 100% 50%, 15% 100%);
+  }
+  .time-readout button[data-playing] .play-glyph {
+    background: linear-gradient(to right, var(--sage) 0 34%, transparent 34% 64%, var(--sage) 64%);
+    clip-path: inset(0 1px);
+  }
+  .time-readout button:hover { color: var(--sage); }
   .time-readout input {
-    flex: 1;
-    min-width: 44px;
-    height: 36px;
+    appearance: none;
+    width: 100%;
+    min-width: 0;
+    height: 44px;
     margin: 0;
+    background: transparent;
+    cursor: pointer;
+    accent-color: var(--sage);
   }
-  .plot-plate input { accent-color: #cedac8; cursor: pointer; }
+  .time-readout input::-webkit-slider-runnable-track {
+    height: 3px;
+    background: linear-gradient(to right, var(--sage) var(--played), var(--rule) var(--played));
+  }
+  .time-readout input::-moz-range-track { height: 3px; background: var(--rule); }
+  .time-readout input::-moz-range-progress { height: 3px; background: var(--sage); }
+  .time-readout input::-webkit-slider-thumb {
+    appearance: none;
+    width: 13px;
+    height: 13px;
+    margin-top: -5px;
+    border: 2px solid var(--plate);
+    border-radius: 50%;
+    background: var(--sage);
+  }
+  .time-readout input::-moz-range-thumb {
+    width: 9px;
+    height: 9px;
+    border: 2px solid var(--plate);
+    border-radius: 50%;
+    background: var(--sage);
+  }
   .plot-plate :is(input, button):focus-visible {
-    outline: 2px solid #cedac8;
-    outline-offset: 2px;
+    outline: 2px solid var(--sage);
+    outline-offset: 1px;
   }
   .sample-value {
-    color: var(--plot-ink);
     font-variant-numeric: tabular-nums;
+    white-space: nowrap;
   }
   .figure-note {
-    color: var(--plot-muted);
-    max-width: 60ch;
-    margin: 2px 0 0;
-    font: 13px/1.45 var(--font-sans);
+    color: var(--quiet);
+    padding: 8px 14px;
+    font: 14px/1.45 var(--font-sans);
   }
-  figcaption {
-    color: var(--muted);
-    margin-top: 10px;
-  }
+  figcaption { padding: 9px 0 0; }
+  .time-range { white-space: nowrap; }
   figcaption a {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    min-height: 32px;
     color: var(--ink);
     text-decoration: underline;
-    text-underline-offset: 3px;
+    text-underline-offset: 4px;
+    text-decoration-color: var(--line);
   }
-  figcaption a:hover {
-    color: var(--accent);
+  figcaption a:hover { color: var(--accent); text-decoration-color: currentColor; }
+  @container (max-width: 360px) {
+    .plot-heading { display: grid; }
+    .time-readout { column-gap: 8px; }
+    .time-readout button { min-width: 6ch; }
+    figcaption { align-items: start; }
   }
-  @container (max-width: 380px) {
-    .time-readout { display: grid; grid-template-columns: auto 1fr; gap: 0 8px; }
-    .time-readout input { grid-row: 2; grid-column: 1 / -1; width: 100%; }
-    .sample-value { grid-row: 1; grid-column: 2; text-align: right; }
-  }
-  @media (max-width: 380px) {
-    .plot-plate { padding: 14px; }
-    .time-readout { gap: 8px; }
+  @media (forced-colors: active) {
+    .time-readout input { appearance: auto; }
+    .play-glyph { display: none; }
   }
 </style>

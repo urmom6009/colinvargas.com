@@ -4,8 +4,8 @@ astro portfolio site for `colinvargas.com`.
 
 ## site structure
 
-- `/` pairs Colin’s research interests with the full mixing-chamber simulation, from t = 0 to 5. the muted temperature movie plays automatically on a loop, with controls to pause or scrub. the project index and inspectable solver follow in normal reading order.
-- `/work` is a filterable project index. `/work/scramjet-analysis-tool`, `/work/compressible-flow-project`, and `/work/winglet-wind-tunnel` are illustrated case studies with methods, results, and limits. `/work/compressible-flow-project` retains the original URL for the incompressible mixing-chamber project. `/work/adaptive-cfd-solver` and `/work/hydrogen-isooctane-equilibrium` cover the solver baseline and combustion equilibrium study.
+- `/` pairs Colin’s research interests with the full mixing-chamber simulation, from t = 0 to 5. the muted temperature movie plays automatically on a loop, with controls to pause or scrub. three featured projects and the inspectable solver follow in normal reading order.
+- `/work` is a filterable project index with shareable links such as `/work?category=propulsion`. `/work/scramjet-analysis-tool`, `/work/compressible-flow-project`, and `/work/winglet-wind-tunnel` are illustrated case studies with methods, results, and limits. `/work/compressible-flow-project` retains the original URL for the incompressible mixing-chamber project. `/work/adaptive-cfd-solver` and `/work/hydrogen-isooctane-equilibrium` cover the solver baseline and combustion equilibrium study.
 - `/work/portfolio-and-technical-logs` describes this site and its repository-aware logging workflow, with a link to the public source.
 - `/notes` is a reading guide to the public project records and open checks. there are no standalone public notes; draft entries are not rendered into pages.
 - `/systems` is the public systems readout. it renders sanitized, read-only telemetry and falls back cleanly if the live API route is unavailable.
@@ -17,7 +17,7 @@ astro portfolio site for `colinvargas.com`.
 
 The homepage displays 151 samples from the MATLAB temperature movie at 30 frames per second. For output frame `j`, the source frame is `round(j × 1563 / 150)`. The field crop is 796 × 596 pixels at (134, 108) in the 1120 × 840 source. `src/data/mixingTimes.json` contains the simulation time printed in each sampled frame. The poster uses frame 75 (t = 2.56231). The original nine-panel report figure is available in the case study.
 
-The enhanced player starts paused for visitors who request reduced motion. They can start it with the play control. With JavaScript disabled, the browser provides native video controls.
+The enhanced player starts paused at the representative poster frame for visitors who request reduced motion. They can start playback with the play control. With JavaScript disabled, the browser provides native video controls.
 
 ## quieter implementation hero / november 13, 2026
 
@@ -112,7 +112,7 @@ project data lives in `src/data/portfolio.ts`. the homepage, work index, project
 
 the homepage and solver overview show an actual excerpt from `code/advect_noAMR/src/advance.cpp` in `urmom6009/thesis-updated`, pinned to revision `8f1f6c867c39197c2146b21efce41b947fde296d` (lines 48–57). `src/data/solverImplementation.ts` stores the source location and excerpt; only leading indentation is removed. the feature identifies the current implementation as single-level, with adaptive refinement still planned. the detailed project excerpt stays static.
 
-on the homepage, the source, annotated cell, and computed field stay visible in normal flow. the study enters once as a whole, then remains still. native code-line buttons let a reader select any of the four face fluxes, the balance, or the updated average; the cell diagram highlights the selected face or balance and shows one computed value. open “calculation details” for the four fluxes, timestep, and numerical update. the earlier traveling copies, automatic scroll sequence, and duplicate six-step ledger have been removed.
+on the homepage, the source, annotated cell, and computed field stay visible in normal flow. the study enters once as a whole, then remains still. native code-line buttons let a reader select any of the four face fluxes, the balance, or the updated average. the cell diagram highlights the selection and shows one computed value. open “calculation details” for the four fluxes, timestep, and numerical update. compare start and final snapshots of the reference field on the same scale, with or without JavaScript.
 
 `src/lib/advection.ts` transports an illustrative Gaussian scalar on a 64 × 64 unit-square periodic grid with prescribed velocity `(1, 0.5)`, CFL `0.3`, and final dimensionless time `0.5`. both velocity components are nonzero so all four face fluxes have a visible contribution. the Gaussian starts at `(0.25, 0.5)` with width `0.075`. the cell explanation inspects `(i, j) = (21, 35)` at `t = 0`, with timestep `0.003125`. `inspectCell` computes the displayed fluxes, divergence contribution, and updated average; tests compare its results against the complete field kernel for every cell and both velocity signs.
 

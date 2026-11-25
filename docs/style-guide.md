@@ -25,7 +25,7 @@ The aerospace layer supplies the content: equations, solver states, verification
 - Warm paper and ink remain the base system.
 - Teal is the primary technical accent. Red is signal/limit/attention. Gold is secondary measurement or trajectory.
 - Use stronger color sparingly for high-impact editorial moments. The page should feel printed and deliberate, not themed or loud.
-- Favor hard horizontal rules, square plates, and open rows over soft cards, heavy shadows, or decorative blobs.
+- Favor horizontal rules and open rows. A slight corner radius can frame interactive project links and plots.
 - Keep one strong field or statement plate per page at most. The rest of the page should rely on type, rules, and evidence.
 
 ## copy voice
@@ -37,7 +37,7 @@ The aerospace layer supplies the content: equations, solver states, verification
 
 ## page patterns
 
-- Homepage sections are editorial plates: one large idea, one technical surface, one clear reason to exist. pair the introduction with the looping mixing-chamber temperature movie. follow it with a compact project index, the inspectable solver, and supporting interests.
+- Pair the homepage introduction with the looping mixing-chamber temperature movie. Follow it with three featured projects, the inspectable solver, and supporting interests.
 - Secondary pages use `page-intro`, readable overviews, and ruled action/index rows. retain `page-scene` only for the existing systems readouts; all content stays in normal document flow.
 - Systems pages may be denser, but they should still use restrained labels, clear boundaries, and public-safe summaries.
 - New routes should start with the record being exposed: project, note, system, or contact path. Do not start with generic portfolio filler.
@@ -48,7 +48,7 @@ The aerospace layer supplies the content: equations, solver states, verification
 - Lead with actual implementation or verified artifacts. the solver feature quotes a pinned source revision, with the file and revision recorded; statements remain unchanged apart from leading indentation.
 - Use real figures with units, setup, and provenance when numerical results become available. do not substitute stock geometry, decorative flow lines, or a pretend refinement control for project evidence.
 - State the publication status on each project. use illustrated case studies for reviewed figures and results, and overviews for work in progress. keep draft logs and unpublished reports private.
-- Project rows present the method and material available to inspect. project filters use native buttons with pressed states and an announced count.
+- Project cards lead with the title, discipline, and a short description. Use published research material for any preview. Project filters use native buttons with pressed states, an announced count, and a shareable category URL.
 - Without javascript, all project rows and implementation excerpts remain visible; enhancement-only controls remain hidden.
 - The homepage can connect the source to a computed physical representation. identify the calculation, grid, prescribed velocity, boundary conditions, and time. distinguish a reference case from a saved thesis result; never use an invented shape as numerical output.
 - The brand mark is a small abstract pair of offset solid planes, shared between the header and favicon. keep its clear negative space and restrained accent; do not add letterforms, a badge frame, or technical ornament.

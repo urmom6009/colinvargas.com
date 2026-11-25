@@ -22,7 +22,7 @@ const canonical = new URL(
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#f4f1ea" />
+    <meta name="theme-color" content="#f6f4ee" />
     <link rel="canonical" href={canonical} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link
@@ -54,7 +54,7 @@ const canonical = new URL(
           document.documentElement.style.colorScheme = theme;
           document
             .querySelector('meta[name="theme-color"]')
-            ?.setAttribute("content", theme === "dark" ? "#141815" : "#f4f1ea");
+            ?.setAttribute("content", theme === "dark" ? "#141815" : "#f6f4ee");
         };
         const preferred = () =>
           ["light", "dark"].includes(stored())

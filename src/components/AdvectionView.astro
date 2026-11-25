@@ -1,78 +1,77 @@
 ---
 import { createTransportFrames, referenceCase } from "../lib/advection";
 import CellFluxView from "./CellFluxView.astro";
+
 const frames = createTransportFrames();
+const initial = frames[0];
 const final = frames[frames.length - 1];
 const n = referenceCase.resolution;
-const cells = Array.from(final.field, (value, index) => ({
-  x: index % n,
-  y: n - 1 - Math.floor(index / n),
-  value,
-})).filter((cell) => cell.value > 0.002);
+const views = [
+  {
+    key: "start",
+    frame: initial,
+    note: "the Gaussian pulse starts left of center, at (0.25, 0.50).",
+  },
+  {
+    key: "final",
+    frame: final,
+    note: "the pulse moves up and right. the first-order upwind update spreads it and lowers the peak.",
+  },
+].map(({ key, frame, note }) => {
+  // Both snapshots use the same 8-bit opacity scale. Group equal shades so the
+  // static figure needs only one SVG path per shade instead of one node per cell.
+  const shades = new Map<number, string[]>();
+  frame.field.forEach((value, index) => {
+    const shade = Math.round(value * 255);
+    if (!shade) return;
+    if (!shades.has(shade)) shades.set(shade, []);
+    const x = index % n;
+    const y = n - 1 - Math.floor(index / n);
+    shades.get(shade)!.push(`M${x} ${y}h1v1h-1z`);
+  });
+  return { key, time: frame.time.toFixed(2), note, shades, peak: Math.max(...frame.field).toFixed(3) };
+});
 ---
 
 <div class="advection-view" data-advection-view>
-  <CellFluxView initial={frames[0]} />
-  <div class="advection-global" data-global-view>
+  <CellFluxView initial={initial} />
+  <section class="advection-global" data-global-view aria-labelledby="reference-field-title">
     <div class="advection-view-heading">
-      <h3>what that does across the grid</h3><span>64 × 64 cell averages / φ</span>
+      <h3 id="reference-field-title">transport across the grid</h3>
+      <span>{n} × {n} periodic grid</span>
     </div>
-    <div
-      class="advection-body"
-      role="img"
-      aria-label="A computed Gaussian scalar profile transported right and upward on a 64 by 64 periodic grid, with numerical diffusion from first-order upwind."
-    >
-      <div class="advection-domain">
-        <div class="advection-field">
-          <svg
-            viewBox={`0 0 ${n} ${n}`}
-            aria-hidden="true"
-            class="advection-static"
-            shape-rendering="crispEdges"
-          >
-            {
-              cells.map((cell) => (
-                <rect
-                  x={cell.x}
-                  y={cell.y}
-                  width="1"
-                  height="1"
-                  fill="currentColor"
-                  fill-opacity={cell.value.toFixed(4)}
-                />
-              ))
-            }
-          </svg>
+    <fieldset class="advection-comparison">
+      <legend class="field-reader-only">compare the scalar field at two times</legend>
+      {views.map(({ key, time }) => (
+        <>
+          <input type="radio" class="field-choice" name="advection-time" value={key}
+            id={`advection-time-${key}`} aria-controls={`advection-frame-${key}`} checked={key === "final"} />
+          <label for={`advection-time-${key}`}>{key} <span>t = {time}</span></label>
+        </>
+      ))}
+      {views.map(({ key, time, shades, peak, note }) => (
+        <div class="advection-frame" data-reference-frame={key} id={`advection-frame-${key}`}>
+          <div class="field-chart">
+            <svg class="advection-static" viewBox={`0 0 ${n} ${n}`} role="img"
+              aria-label={`Scalar field at t = ${time} on the unit square. Both axes run from zero to one. Stronger color indicates a higher cell average.`}
+              shape-rendering="crispEdges">
+              {Array.from(shades, ([shade, cells]) => (
+                <path fill="currentColor" fill-opacity={shade / 255} d={cells.join("")} />
+              ))}
+            </svg>
+            <span class="field-y-axis" aria-hidden="true">y ↑</span>
+            <div class="field-scale" aria-hidden="true"><span>φ = 1</span><i></i><span>0</span></div>
+            <div class="field-axis" aria-hidden="true"><span>0</span><span>x → 1</span></div>
+          </div>
+          <div class="field-reading">
+            <span>peak φ = {peak}</span>
+            <p>{note}</p>
+          </div>
         </div>
-        <span class="axis-y">y</span><span class="axis-origin">0</span><span
-          class="axis-end">1 / x</span
-        >
-      </div>
-      <div class="advection-description">
-        <span class="eyebrow">prescribed velocity</span>
-        <strong>u = ({referenceCase.velocity.join(", ")})</strong>
-        <svg
-          class="advection-direction"
-          viewBox="0 0 100 50"
-          aria-hidden="true"
-          ><path
-            d="M4 45 L84 5 M74 5 L84 5 L78 14"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="1"></path></svg
-        >
-        <p>i apply the same balance to every cell at each timestep.</p>
-        <span class="eyebrow">reference time</span>
-        <span class="advection-time"
-          >t = <span data-reference-time>{final.time.toFixed(3)}</span></span
-        >
-      </div>
-    </div>
-    <div class="advection-case">
-      <span>periodic boundaries / CFL {referenceCase.cfl}</span>
-    </div>
+      ))}
+    </fieldset>
     <p class="advection-provenance">
-      reference calculation · Gaussian initial field
+      reference calculation <span>u = ({referenceCase.velocity.join(", ")}) · CFL {referenceCase.cfl}</span>
     </p>
-  </div>
+  </section>
 </div>

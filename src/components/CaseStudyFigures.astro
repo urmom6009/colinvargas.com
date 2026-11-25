@@ -31,7 +31,7 @@ const barHeight = (value: number) => value * 166;
 {placement === "hero" && (
   <figure class={`case-figure case-hero-figure case-${kind}`}>
     <div class="figure-heading">
-      <span>system / {kind === "mixing" ? "thermal mixing" : kind === "scramjet" ? "propulsion model" : "wind tunnel"}</span>
+      <span>{kind === "mixing" ? "thermal mixing" : kind === "scramjet" ? "propulsion model" : "wind tunnel"}</span>
       <span>explanatory schematic · not to scale</span>
     </div>
 
@@ -48,7 +48,11 @@ const barHeight = (value: number) => value * 166;
           <path class="datum" d="M 28 176 H 732" />
           <path class="wall" d="M 182 67 H 225 M 275 67 H 612 V 155 M 612 197 V 283 H 275 M 225 283 H 182 V 67" />
           <path class="wall" d="M 225 18 V 67 M 275 18 V 67 M 225 283 V 332 M 275 283 V 332 M 612 155 H 724 M 612 197 H 724" />
-          <path class="flow" d="M 250 23 V 52 M 250 327 V 296 M 649 176 H 704" marker-end={`url(#${figureId}-arrow)`} />
+          <g marker-end={`url(#${figureId}-arrow)`}>
+            <path class="flow" d="M 250 23 V 52" />
+            <path class="flow" d="M 250 327 V 296" />
+            <path class="flow" d="M 649 176 H 704" />
+          </g>
           <path class="flow-guide" d="M 250 79 C 250 128, 282 157, 352 176 S 480 214, 555 176" />
           <path class="flow-guide" d="M 250 271 C 250 220, 282 191, 352 176 S 480 139, 555 176" />
           <g class="paddle cool-paddle" transform="translate(343 126)">
@@ -64,7 +68,7 @@ const barHeight = (value: number) => value * 166;
           <text x="119" y="35">INLET 01</text>
           <text x="119" y="325">INLET 02</text>
           <text x="623" y="132">OUTLET</text>
-          <text x="298" y="74" class="cool-label">COOLED</text>
+          <text x="317" y="53" class="cool-label">COOLED</text>
           <text x="303" y="318" class="hot-label">HEATED</text>
         </svg>
       )}
@@ -121,24 +125,24 @@ const barHeight = (value: number) => value * 166;
     <ul class="figure-key" aria-label="Diagram key">
       {kind === "mixing" && (
         <>
-          <li><span>01</span>two inlets</li>
-          <li><span>02</span>heated and cooled paddles</li>
-          <li><span>03</span>centered outlet</li>
+          <li>two inlets</li>
+          <li>heated and cooled paddles</li>
+          <li>centered outlet</li>
         </>
       )}
       {kind === "scramjet" && (
         <>
-          <li><span>01</span>freestream</li>
-          <li><span>02</span>diffuser</li>
-          <li><span>03</span>combustor</li>
-          <li><span>04</span>nozzle to external flow</li>
+          <li>freestream</li>
+          <li>diffuser</li>
+          <li>combustor</li>
+          <li>nozzle to external flow</li>
         </>
       )}
       {kind === "winglet" && (
         <>
-          <li><span>01</span>winglet angle</li>
-          <li><span>02</span>winglet length</li>
-          <li><span>03</span>fore-aft mounting position</li>
+          <li>winglet angle</li>
+          <li>winglet length</li>
+          <li>fore-aft mounting position</li>
         </>
       )}
     </ul>
@@ -154,10 +158,12 @@ const barHeight = (value: number) => value * 166;
 
 {placement === "evidence" && kind === "mixing" && (
   <figure class="case-figure case-evidence-figure case-mixing">
-    <div class="figure-heading"><span>evidence / thermal field and grid study</span><span>original result + reported values</span></div>
+    <div class="figure-heading"><span>thermal field and grid study</span><span>original result + reported values</span></div>
     <div class="mixing-evidence">
       <div class="result-image">
-        <img src="/images/projects/mixing-temperature-sequence.jpg" alt="Nine simulated temperature fields from nondimensional time 1 to 3. Warm structures curl around the lower paddle and cooler material spreads from the upper paddle." width="1120" height="840" loading="lazy" />
+        <a href="/images/projects/mixing-temperature-sequence.jpg" aria-label="open the full-resolution temperature sequence">
+          <img src="/images/projects/mixing-temperature-sequence.jpg" alt="Nine simulated temperature fields from nondimensional time 1 to 3. Warm structures curl around the lower paddle and cooler material spreads from the upper paddle." width="1120" height="840" loading="lazy" />
+        </a>
         <small>course report figure 3 · nondimensional temperature, Re = 100, Pr = 2, M = 128</small>
         <a class="text-link" href="/#mixing-chamber">watch the full simulation <span aria-hidden="true">↗</span></a>
       </div>
@@ -180,13 +186,22 @@ const barHeight = (value: number) => value * 166;
         </svg>
       </div>
     </div>
+    <details class="figure-data">
+      <summary>grid values</summary>
+      <table aria-label="mean kinetic energy by grid count">
+        <thead><tr><th scope="col">grid count M</th><th scope="col">mean kinetic energy</th></tr></thead>
+        <tbody>{mixingGrid.map((entry) => (
+          <tr><th scope="row">{entry.m}</th><td>{entry.value.toFixed(4)}</td></tr>
+        ))}</tbody>
+      </table>
+    </details>
     <figcaption>mean kinetic energy goes from 5.4703 on the coarsest grid to 5.8802 on the finest. the axis starts at 5.4 so you can see what changes from one grid to the next.</figcaption>
   </figure>
 )}
 
 {placement === "evidence" && kind === "scramjet" && (
   <figure class="case-figure case-evidence-figure case-scramjet">
-    <div class="figure-heading"><span>evidence / operating-point comparison</span><span>reported model output</span></div>
+    <div class="figure-heading"><span>operating-point comparison</span><span>reported model output</span></div>
     <div class="model-conditions">Mach 5 freestream <span>·</span> 27,400 m altitude <span>·</span> 2,400 K combustor-exit cap</div>
     <div class="tradeoff">
       <div class="operating-point">
@@ -197,8 +212,8 @@ const barHeight = (value: number) => value * 166;
       </div>
       <div class="operating-point">
         <span class="point-label">maximum modeled efficiency</span>
-        <strong>1,876 <small>N</small></strong>
-        <div><span>efficiency</span><b>13%</b></div>
+        <strong>13<small>%</small></strong>
+        <div><span>thrust</span><b>1,876 N</b></div>
         <div><span>modeled M₂</span><b>0.40</b></div>
       </div>
     </div>
@@ -208,7 +223,7 @@ const barHeight = (value: number) => value * 166;
 
 {placement === "evidence" && kind === "winglet" && (
   <figure class="case-figure case-evidence-figure case-winglet">
-    <div class="figure-heading"><span>evidence / lift at two measured angles</span><span>processed wind-tunnel data</span></div>
+    <div class="figure-heading"><span>lift at two measured angles</span><span>processed wind-tunnel data</span></div>
     <div class="winglet-chart">
       <svg viewBox="0 0 680 322" role="img" aria-labelledby={`${figureId}-title ${figureId}-desc`}>
         <title id={`${figureId}-title`}>Lift coefficients from force-balance data for a bare wing and a 20-degree winglet</title>
@@ -232,6 +247,15 @@ const barHeight = (value: number) => value * 166;
       </svg>
       <div class="chart-key"><span><i class="baseline-swatch"></i>bare wing</span><span><i class="winglet-swatch"></i>20° winglet</span></div>
     </div>
+    <details class="figure-data">
+      <summary>lift measurements</summary>
+      <table aria-label="measured lift coefficients by angle of attack">
+        <thead><tr><th scope="col">angle of attack</th><th scope="col">bare wing Cₗ</th><th scope="col">20° winglet Cₗ</th></tr></thead>
+        <tbody>{wingletPoints.map((entry) => (
+          <tr><th scope="row">{entry.alpha}°</th><td>{entry.baseline.toFixed(4)}</td><td>{entry.winglet.toFixed(4)}</td></tr>
+        ))}</tbody>
+      </table>
+    </details>
     <figcaption>these two lift comparisons at Re = 101,800 were checked against the original force-balance and bias files. i’d want repeat runs before drawing a broader conclusion.</figcaption>
   </figure>
 )}
@@ -251,26 +275,29 @@ const barHeight = (value: number) => value * 166;
     gap: 1rem;
     padding: 0.85rem 0;
     color: var(--muted);
-    font: 0.67rem/1.5 var(--font-mono);
-    letter-spacing: 0.075em;
-    text-transform: uppercase;
+    font: 0.8125rem/1.5 var(--font-mono);
   }
 
+  .figure-heading span:first-child { color: var(--ink); font-weight: 500; }
   .figure-heading span:last-child { text-align: right; }
 
   .diagram-field {
-    background:
-      linear-gradient(to right, var(--case-grid-line) 1px, transparent 1px),
-      linear-gradient(to bottom, var(--case-grid-line) 1px, transparent 1px),
-      var(--surface);
-    background-size: 28px 28px;
+    --surface: #13241e;
+    --ink: #f1efdf;
+    --muted: #d1ddd0;
+    --accent: #a9ddbc;
+    --gold: #ebc681;
+    --line: #596b5f;
+    background: var(--surface);
+    padding: clamp(8px, 1.5vw, 24px) 0;
+    border: 1px solid var(--line);
   }
 
   .diagram-field svg {
     display: block;
     width: 100%;
     height: auto;
-    max-height: 29rem;
+    max-height: 28rem;
   }
 
   svg text {
@@ -306,25 +333,27 @@ const barHeight = (value: number) => value * 166;
     padding: 0.7rem 0;
     list-style: none;
     border-bottom: 1px solid var(--line);
-    font: 0.69rem/1.7 var(--font-mono);
+    font: 0.8125rem/1.6 var(--font-mono);
     color: var(--muted);
   }
 
-  .figure-key li { display: flex; gap: 0.55rem; }
-  .figure-key li span { color: var(--accent); }
+  .figure-key li { min-width: 0; }
+  .figure-key li + li::before { content: "·"; color: var(--soft); margin-right: 0.65rem; }
 
   figcaption {
     padding: 0.85rem 0;
     color: var(--muted);
-    font: 0.75rem/1.6 var(--font-mono);
+    font: 1rem/1.45 var(--font-sans);
   }
 
   .mixing-evidence { display: grid; grid-template-columns: 1fr; gap: 2rem; align-items: center; }
   .result-image { min-width: 0; }
+  .result-image > a:first-child { display: block; cursor: zoom-in; }
   .result-image img { display: block; width: 100%; max-width: 1120px; height: auto; margin-inline: auto; background: var(--surface); }
-  .result-image small { display: block; padding-top: 0.45rem; color: var(--muted); font: 0.65rem/1.5 var(--font-mono); }
+  .result-image small { display: block; padding-top: 0.45rem; color: var(--muted); font: 0.8125rem/1.5 var(--font-mono); }
   .plot-wrap, .winglet-chart { min-width: 0; }
   .plot-wrap { width: min(100%, 850px); margin-inline: auto; }
+  .winglet-chart { max-width: 900px; margin-inline: auto; }
   .plot-wrap svg, .winglet-chart svg { display: block; width: 100%; height: auto; }
   .plot-grid { fill: none; stroke: var(--line); stroke-width: 1; stroke-dasharray: 3 5; }
   .plot-axis { fill: none; stroke: var(--ink); stroke-width: 1; }
@@ -336,43 +365,50 @@ const barHeight = (value: number) => value * 166;
     padding: 1rem 0;
     border-top: 1px solid var(--line);
     color: var(--muted);
-    font: 0.7rem/1.6 var(--font-mono);
+    font: 0.8125rem/1.6 var(--font-mono);
   }
   .model-conditions span { color: var(--accent); padding: 0 0.6rem; }
   .tradeoff { display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
   .operating-point { display: grid; gap: 0.75rem; padding: clamp(1.25rem, 3vw, 2.4rem) clamp(0.6rem, 2vw, 1.5rem); }
   .operating-point + .operating-point { border-left: 1px solid var(--line); }
-  .point-label { color: var(--accent); font: 0.68rem/1.4 var(--font-mono); letter-spacing: 0.07em; text-transform: uppercase; }
+  .point-label { color: var(--accent); font: 0.8125rem/1.4 var(--font-mono); letter-spacing: 0.07em; text-transform: uppercase; }
   .operating-point strong { font: 400 clamp(2.6rem, 7vw, 5.5rem)/0.9 var(--font-sans); letter-spacing: -0.06em; }
   .operating-point strong small { font: 400 0.22em var(--font-mono); letter-spacing: 0; }
-  .operating-point div { display: flex; justify-content: space-between; gap: 1rem; padding-top: 0.45rem; border-top: 1px solid var(--line); font: 0.7rem/1.4 var(--font-mono); }
+  .operating-point div { display: flex; justify-content: space-between; gap: 1rem; padding-top: 0.45rem; border-top: 1px solid var(--line); font: 0.8125rem/1.4 var(--font-mono); }
   .operating-point div span { color: var(--muted); }
   .operating-point div b { font-weight: 400; }
 
   .baseline-bar { fill: color-mix(in srgb, var(--ink) 32%, var(--bg)); }
   .winglet-bar { fill: var(--accent); }
-  .chart-key { display: flex; justify-content: center; flex-wrap: wrap; gap: 0.65rem 1.6rem; padding: 0.25rem 0 0.7rem; color: var(--muted); font: 0.68rem/1.5 var(--font-mono); }
+  .chart-key { display: flex; justify-content: center; flex-wrap: wrap; gap: 0.65rem 1.6rem; padding: 0.25rem 0 0.7rem; color: var(--muted); font: 0.8125rem/1.5 var(--font-mono); }
   .chart-key span { display: inline-flex; align-items: center; gap: 0.45rem; }
   .chart-key i { display: inline-block; width: 1rem; height: 0.65rem; }
   .baseline-swatch { background: color-mix(in srgb, var(--ink) 32%, var(--bg)); }
   .winglet-swatch { background: var(--accent); }
 
-  @media (max-width: 760px) {
-    .mixing-evidence { gap: 0.8rem; }
-    .result-image { overflow-x: auto; }
-    .result-image img { min-width: 700px; }
+  .figure-data {
+    border-block: 1px solid var(--line);
+    color: var(--ink);
+    font: 0.875rem/1.45 var(--font-mono);
+  }
+  .figure-data summary { width: fit-content; padding: 0.8rem 0; color: var(--accent); cursor: pointer; }
+  .figure-data table { width: 100%; max-width: 48rem; margin-bottom: 1rem; border-collapse: collapse; }
+  .figure-data :is(td, th) { padding: 0.55rem 0.5rem; border-top: 1px solid var(--line); text-align: right; }
+  .figure-data th:first-child { padding-left: 0; text-align: left; }
+  .figure-data th { font-weight: 400; }
+  .figure-data thead { color: var(--muted); }
+
+  @media (min-width: 1000px) {
+    .mixing-evidence { grid-template-columns: 1.1fr 1fr; }
   }
 
-  @media (max-width: 520px) {
-    .figure-heading { flex-direction: column; gap: 0.1rem; }
+  @media (max-width: 640px) {
+    .mixing-evidence { gap: 1rem; }
+    .figure-heading { flex-wrap: wrap; column-gap: 1rem; row-gap: 0.15rem; }
     .figure-heading span:last-child { text-align: left; }
-    .diagram-field { overflow-x: auto; }
-    .diagram-field svg { min-width: 520px; }
-    .figure-key { display: grid; grid-template-columns: 1fr 1fr; gap: 0.2rem 0.6rem; }
+    .figure-key { column-gap: 0.65rem; }
     .tradeoff { grid-template-columns: 1fr; }
     .operating-point + .operating-point { border-left: 0; border-top: 1px solid var(--line); }
     .model-conditions span { padding: 0 0.25rem; }
-    .plot-wrap svg { min-width: 420px; }
-    .plot-wrap { overflow-x: auto; }
   }
 </style>

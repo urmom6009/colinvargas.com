@@ -2,6 +2,7 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import ProjectList from "../../components/ProjectList.astro";
 import { projects } from "../../data/portfolio";
+
 const filters = [
   { value: "all", label: "all work" },
   { value: "numerics", label: "numerical methods" },
@@ -16,78 +17,130 @@ const filters = [
   description="The models I’ve built and the data I’ve worked with, from fuel blends and advection to wind-tunnel measurements."
 >
   <main id="main-content" tabindex="-1">
-    <section class="page-intro" aria-labelledby="work-title">
-      <h1 id="work-title">
-        my projects<span class="accent-dot">.</span>
-      </h1>
-      <div class="intro-bottom">
-        <p>
-          some of these started with equations and some started with data.
-          i’m usually trying to figure out which part of the setup made the
-          result move, whether that’s the fuel blend or the way we mounted a wing.
-        </p><p class="intro-note">
-          here for combustion? <a class="text-link" href="/work/hydrogen-isooctane-equilibrium">start with the fuel blends ↗</a>
-        </p>
-      </div>
-    </section>
-    <section class="work-index" aria-labelledby="project-index-title">
-      <div class="filter-bar">
-        <h2 id="project-index-title" class="eyebrow">browse the work</h2><div
-          class="work-filters"
-          data-work-filters
-          hidden
-          role="group"
-          aria-label="filter projects"
-        >
-          {
-            filters.map((filter) => (
-              <button
-                type="button"
-                data-filter={filter.value}
-                aria-pressed={filter.value === "all"}
-                aria-controls="project-list"
-              >
-                {filter.label}
-              </button>
-            ))
-          }
-        </div><span class="project-count" data-project-count aria-live="polite"
-          >{projects.length} projects</span
-        >
+    <header class="work-intro">
+      <h1>my projects<span class="accent-dot">.</span></h1>
+      <p>
+        some of these started with equations and some started with data.
+        i’m usually trying to figure out which part of the setup made the
+        result move, whether that’s the fuel blend or the way we mounted a wing.
+      </p>
+    </header>
+    <section aria-label="project index">
+      <div class="filter-bar" hidden>
+        <div class="work-filters" data-work-filters role="group" aria-label="filter projects">
+          {filters.map(({ value, label }) => (
+            <button
+              type="button"
+              data-filter={value}
+              aria-pressed={value === "all"}
+              aria-controls="project-list"
+            >{label}</button>
+          ))}
+        </div>
+        <p class="project-count" data-project-count role="status">{projects.length} projects</p>
       </div>
       <ProjectList />
     </section>
     <section class="page-next">
-      <span class="eyebrow">questions about a project?</span
-      ><a href="/contact"
-        >get in touch <span aria-hidden="true">↗</span></a
-      >
+      <p class="eyebrow">questions about a project?</p>
+      <a href="/contact">get in touch <span aria-hidden="true">↗</span></a>
     </section>
   </main>
 </BaseLayout>
+
 <script>
-  const filters = document.querySelector<HTMLElement>("[data-work-filters]");
-  if (filters) {
-    filters.hidden = false;
-    const rows = document.querySelectorAll<HTMLElement>(".project-row");
-    filters.querySelectorAll<HTMLButtonElement>("button").forEach((button) => {
+  const filterBar = document.querySelector<HTMLElement>(".filter-bar");
+  const output = document.querySelector("[data-project-count]");
+  if (filterBar && output) {
+    const buttons = [...filterBar.querySelectorAll<HTMLButtonElement>("[data-filter]")];
+    const projects = document.querySelectorAll<HTMLElement>("#project-list [data-category]");
+
+    const applyFilter = () => {
+      const requested = new URLSearchParams(window.location.search).get("category");
+      const selected = buttons.find((button) => button.dataset.filter === requested) ?? buttons[0];
+      const category = selected.dataset.filter;
+      const visible = [...projects].filter((project) => {
+        project.hidden = category !== "all" && project.dataset.category !== category;
+        return !project.hidden;
+      }).length;
+
+      buttons.forEach((button) => button.setAttribute("aria-pressed", String(button === selected)));
+      output.textContent = `${visible} ${visible === 1 ? "project" : "projects"}`;
+    };
+
+    for (const button of buttons) {
       button.addEventListener("click", () => {
-        filters
-          .querySelectorAll("button")
-          .forEach((item) =>
-            item.setAttribute("aria-pressed", String(item === button)),
-          );
-        let count = 0;
-        rows.forEach((row) => {
-          row.hidden =
-            button.dataset.filter !== "all" &&
-            row.dataset.category !== button.dataset.filter;
-          if (!row.hidden) count++;
-        });
-        const output = document.querySelector("[data-project-count]");
-        if (output)
-          output.textContent = `${count} ${count === 1 ? "project" : "projects"}`;
+        if (button.getAttribute("aria-pressed") === "true") return;
+        const url = new URL(window.location.href);
+        const category = button.dataset.filter;
+        if (category === "all") url.searchParams.delete("category");
+        else if (category) url.searchParams.set("category", category);
+        window.history.pushState(null, "", url);
+        applyFilter();
       });
-    });
+    }
+
+    applyFilter();
+    filterBar.hidden = false;
+    window.addEventListener("popstate", applyFilter);
   }
 </script>
+
+<style>
+  .work-intro {
+    display: grid;
+    gap: 18px;
+    padding-block: clamp(38px, 7vw, 84px) clamp(24px, 4vw, 44px);
+  }
+  .work-intro h1 {
+    font-size: clamp(58px, 10vw, 116px);
+    letter-spacing: -0.058em;
+    line-height: 0.9;
+  }
+  .work-intro p {
+    max-width: 45ch;
+    font-size: clamp(17px, 2.25vw, 23px);
+    color: var(--muted);
+    line-height: 1.35;
+  }
+  .filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px 28px;
+    padding-block: 14px;
+    border-top: 1px solid var(--line);
+    margin-bottom: 12px;
+    font: 13px/1.5 var(--font-mono);
+  }
+  .work-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .work-filters button {
+    min-height: 42px;
+    padding-inline: 12px;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    background: transparent;
+  }
+  .work-filters button:hover {
+    border-color: var(--accent);
+  }
+  .work-filters button:focus-visible {
+    outline-offset: 2px;
+  }
+  .work-filters button[aria-pressed="true"] {
+    border-color: var(--ink);
+    background: var(--ink);
+    color: var(--bg);
+  }
+  .project-count {
+    color: var(--muted);
+  }
+  .page-next {
+    padding-block: clamp(42px, 7vw, 74px);
+  }
+</style>
