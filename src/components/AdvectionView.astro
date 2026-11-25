@@ -1,23 +1,9 @@
 ---
 import { createTransportFrames, referenceCase } from "../lib/advection";
 import CellFluxView from "./CellFluxView.astro";
-import {
-  implementationSteps,
-  scalarLabel,
-  stepValue,
-} from "../data/implementationSteps";
-import { inspectCell, referenceCell } from "../lib/advection";
 const frames = createTransportFrames();
 const final = frames[frames.length - 1];
 const n = referenceCase.resolution;
-const budget = inspectCell(
-  frames[0].field,
-  n,
-  referenceCase.velocity,
-  referenceCell.dt,
-  referenceCell.i,
-  referenceCell.j,
-);
 const cells = Array.from(final.field, (value, index) => ({
   x: index % n,
   y: n - 1 - Math.floor(index / n),
@@ -26,23 +12,7 @@ const cells = Array.from(final.field, (value, index) => ({
 ---
 
 <div class="advection-view" data-advection-view>
-  <div class="advection-cell">
-    <CellFluxView initial={frames[0]} />
-    <div class="implementation-step" aria-live="off">
-      <div>
-        <span class="step-number" data-step-number>06 / 06</span><h3
-          data-step-title
-        >
-          {implementationSteps[5].title}
-        </h3><span class="step-value" data-step-value
-          >φ new ≈ {scalarLabel(stepValue("new_fab", budget))}</span
-        >
-      </div>
-      <p id="implementation-step-description" data-step-description>
-        {implementationSteps[5].explanation}
-      </p>
-    </div>
-  </div>
+  <CellFluxView initial={frames[0]} />
   <div class="advection-global" data-global-view>
     <div class="advection-view-heading">
       <h3>what that does across the grid</h3><span>64 × 64 cell averages / φ</span>

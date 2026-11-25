@@ -3,41 +3,41 @@ import type { CellBudget } from "../lib/advection";
 export const implementationSteps = [
   {
     key: "Fx_lo",
-    title: "left face · x flux in",
+    title: "left face flux",
     explanation: "scalar comes in from the cell on the left.",
     face: "Fx_lo",
   },
   {
     key: "Fx_hi",
-    title: "right face · x flux out",
+    title: "right face flux",
     explanation: "some of this cell’s scalar moves into the cell on the right.",
     face: "Fx_hi",
   },
   {
     key: "Fy_lo",
-    title: "bottom face · y flux in",
+    title: "bottom face flux",
     explanation: "scalar comes in from the cell below.",
     face: "Fy_lo",
   },
   {
     key: "Fy_hi",
-    title: "top face · y flux out",
+    title: "top face flux",
     explanation: "scalar leaves through the top face.",
     face: "Fy_hi",
   },
   {
     key: "dtdivF",
-    title: "balance the four faces",
+    title: "timestep × flux divergence",
     explanation:
-      "more scalar comes in than goes out. that’s why the outward balance is negative.",
+      "the negative sign means more scalar enters than leaves.",
     face: "all",
   },
   {
     key: "new_fab",
-    title: "update the cell average",
+    title: "updated cell average",
     explanation:
-      "the update subtracts a negative number, so the cell average goes up.",
-    face: "all",
+      "net inflow raises the average over this step.",
+    face: "cell",
   },
 ] as const;
 

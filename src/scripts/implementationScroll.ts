@@ -1,10 +1,4 @@
-import { gaussianField, inspectCell, referenceCase, referenceCell } from "../lib/advection";
-import {
-  implementationSteps,
-  scalarLabel,
-  stepValue,
-  type ImplementationStep,
-} from "../data/implementationSteps";
+import { implementationSteps, type ImplementationStep } from "../data/implementationSteps";
 
 // Keep the source and the computed views still. A reader chooses the relationship
 // to inspect instead of having scroll position choose it for them.
@@ -14,41 +8,21 @@ export function enhanceImplementationStudies() {
     .forEach((track) => {
       if (track.dataset.codeControls === "ready") return;
 
-      const budget = inspectCell(
-        gaussianField(referenceCase.resolution),
-        referenceCase.resolution,
-        referenceCase.velocity,
-        referenceCell.dt,
-        referenceCell.i,
-        referenceCell.j,
-      );
       const lineButtons: {
         key: ImplementationStep;
         button: HTMLButtonElement;
       }[] = [];
-      const write = (selector: string, value: string) => {
-        const node = track.querySelector<HTMLElement>(selector);
-        if (node) node.textContent = value;
-      };
-
       const showStep = (key: ImplementationStep) => {
-        const index = implementationSteps.findIndex((step) => step.key === key);
-        const step = implementationSteps[index];
+        const step = implementationSteps.find((item) => item.key === key)!;
         track.dataset.activeLine = key;
+        track.querySelectorAll<HTMLElement>("[data-cell-step]").forEach((reading) => {
+          reading.hidden = reading.dataset.cellStep !== key;
+        });
         track.querySelectorAll<SVGGElement>("[data-face]").forEach((face) => {
-          face.dataset.current = String(
-            face.dataset.face === step.face || key === "dtdivF",
-          );
+          face.dataset.current = String(face.dataset.face === step.face || step.face === "all");
         });
         lineButtons.forEach(({ key: lineKey, button }) =>
           button.setAttribute("aria-pressed", String(lineKey === key)),
-        );
-        write("[data-step-number]", `${String(index + 1).padStart(2, "0")} / 06`);
-        write("[data-step-title]", step.title);
-        write("[data-step-description]", step.explanation);
-        write(
-          "[data-step-value]",
-          `${key === "new_fab" ? "φ new" : key} ≈ ${scalarLabel(stepValue(key, budget))}`,
         );
       };
 
@@ -63,7 +37,7 @@ export function enhanceImplementationStudies() {
         button.textContent = line.textContent;
         button.title = `inspect ${step.title}`;
         button.setAttribute("aria-controls", "upwind-cell-diagram");
-        button.setAttribute("aria-describedby", "implementation-step-description");
+        button.setAttribute("aria-describedby", `cell-reading-${key}`);
         const inspect = () => {
           showStep(key);
         };

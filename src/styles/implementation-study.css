@@ -79,156 +79,92 @@
 .advection-view {
   margin-top: 14px;
 }
-.implementation-step {
-  margin-top: 18px;
-  padding-top: 10px;
-  border-top: 1px solid var(--line);
-}
-.implementation-step > div {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 5px 10px;
-  align-items: baseline;
-}
-.implementation-step h3 {
-  font-size: 16px;
-  line-height: 1.4;
-}
-.step-number,
-.step-value {
-  font: 13px/1.5 var(--font-mono);
-}
-.step-number {
-  color: var(--muted);
-}
-.step-value {
-  color: var(--accent);
-  margin-left: auto;
-  font-variant-numeric: tabular-nums;
-}
-.implementation-step p {
-  min-height: 31px;
-  margin-top: 5px;
-  font-size: 14px;
-  line-height: 1.4;
-  color: var(--muted);
-}
-.cell-context,
-.cell-calculation {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 5px 14px;
-  color: var(--muted);
-  font: 13px/1.5 var(--font-mono);
-  font-variant-numeric: tabular-nums;
+.cell-result {
+  display: grid;
+  grid-template-columns: clamp(76px, 25%, 120px) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(16px, 2vw, 28px);
+  padding-block: 16px 20px;
 }
 .cell-flux-diagram {
   display: block;
   width: 100%;
   height: auto;
-  max-height: 190px;
 }
-.cell-flux-readout {
-  display: none;
-  margin: 12px 0;
-  font: 13px/1.5 var(--font-mono);
-  font-variant-numeric: tabular-nums;
-}
-.cell-flux-readout > div {
-  min-width: 0;
-  padding-top: 7px;
-  border-top: 1px solid var(--line);
-}
-.cell-flux-readout dt {
-  color: var(--muted);
-}
-.cell-flux-readout dd {
-  margin: 3px 0 0;
-}
-.neighbor-cell {
-  fill: var(--accent);
+.cell-grid {
+  fill: none;
   stroke: var(--line);
-  stroke-width: 0.6;
+  stroke-width: 0.75;
 }
 .target-cell {
-  fill: transparent;
-  stroke: var(--ink);
-  stroke-width: 1;
-}
-.cell-face {
-  color: var(--muted);
-  opacity: 0.48;
-  transition: color 180ms ease, opacity 180ms ease;
-}
-.cell-face-edge,
-.cell-flux-arrow {
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1;
-}
-.cell-face text {
-  fill: currentColor;
-  font: 13px/1 var(--font-mono);
-}
-.cell-face .flux-value {
-  font-size: 14px;
-  font-variant-numeric: tabular-nums;
-}
-.cell-face[data-active="true"] {
-  color: var(--ink);
-  opacity: 1;
-}
-.cell-face[data-current="true"] {
-  color: var(--accent);
-}
-.cell-face[data-current="true"] .cell-face-edge {
-  stroke-width: 3;
-}
-.cell-face[data-current="true"] .cell-flux-arrow {
-  stroke-width: 1.7;
-}
-.cell-face[data-current="true"] .flux-name {
-  font-weight: 500;
-}
-.cell-old-state text,
-.cell-new-state text {
-  fill: var(--muted);
-  font: 13px var(--font-mono);
-}
-.cell-old-state .cell-scalar,
-.cell-new-state .cell-scalar {
-  font: 20px var(--font-sans);
-  fill: var(--ink);
-  font-variant-numeric: tabular-nums;
-}
-.cell-new-state {
-  display: none;
-}
-[data-active-line="new_fab"] .cell-old-state {
-  display: none;
-}
-[data-active-line="new_fab"] .cell-new-state {
-  display: block;
-}
-[data-active-line="new_fab"] .cell-new-state .cell-scalar {
-  fill: var(--accent);
+  fill: var(--surface);
+  stroke: var(--muted);
 }
 [data-active-line="new_fab"] .target-cell {
   fill: var(--accent);
-  fill-opacity: 0.08;
+  fill-opacity: 0.12;
   stroke: var(--accent);
   stroke-width: 2;
 }
-[data-active-line="dtdivF"] .cell-calculation > span:last-child,
-[data-active-line="new_fab"] .cell-calculation > span:last-child {
+.cell-face {
+  display: none;
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2;
+}
+.cell-face[data-current="true"] {
+  display: inline;
+}
+.cell-reading h3 {
+  font-size: 16px;
+  line-height: 1.35;
+}
+.step-value {
+  display: block;
+  margin-block: 4px 6px;
+  color: var(--accent);
+  font: 400 clamp(32px, 3vw, 44px)/1.1 var(--font-sans);
+  font-variant-numeric: tabular-nums;
+}
+.cell-reading p {
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.45;
+  max-width: 32ch;
+}
+.cell-details {
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font: 13px/1.55 var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+.cell-details summary {
+  width: fit-content;
+  padding-block: 10px;
+  color: var(--ink);
+  cursor: pointer;
+}
+.cell-details summary:hover {
   color: var(--accent);
 }
-.cell-calculation {
-  padding-top: 5px;
+.cell-details summary:focus-visible {
+  outline-offset: 1px;
 }
-.cell-calculation > span:last-child {
+.cell-details dl {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px 16px;
+  margin-block: 12px;
+}
+.cell-details dd {
+  margin: 0;
   color: var(--ink);
+}
+.cell-equation {
+  display: grid;
+  gap: 2px;
+  padding-block: 10px;
+  border-top: 1px solid var(--line);
 }
 .advection-global {
   margin-top: 20px;
@@ -393,17 +329,7 @@
     gap: 18px;
   }
 }
-@media (max-width: 1179px) {
-  .cell-flux-readout {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 8px;
-  }
-}
 @media (max-width: 640px) {
-  .cell-flux-readout {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
   .implementation-scroll .implementation-feature h2 {
     font-size: 40px;
     margin: 16px 0 10px;
@@ -415,13 +341,6 @@
     margin: 12px 0 10px;
   }
   .implementation-scroll .source-fragment pre {
-    font-size: 13px;
-  }
-  .implementation-step h3 {
-    font-size: 15px;
-  }
-  .step-number,
-  .step-value {
     font-size: 13px;
   }
   .advection-body {
@@ -440,8 +359,7 @@
   .js .implementation-scroll > .implementation-feature {
     animation: none;
   }
-  .code-line-control,
-  .cell-face {
+  .code-line-control {
     transition: none;
   }
 }
