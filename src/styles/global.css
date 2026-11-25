@@ -189,6 +189,7 @@ figcaption,
   fill: var(--accent);
 }
 .site-header nav {
+  margin-left: auto;
   display: flex;
   align-items: center;
   gap: 30px;
@@ -263,13 +264,14 @@ figcaption,
 }
 .hero-kicker {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
-  gap: 20px;
+  gap: 4px 20px;
   color: var(--muted);
 }
 .hero-main {
   display: grid;
-  grid-template-columns: 1.07fr 0.93fr;
+  grid-template-columns: minmax(0, 1.07fr) minmax(0, 0.93fr);
   gap: clamp(32px, 5vw, 80px);
   align-items: center;
   padding: 52px 0 54px;
@@ -300,10 +302,6 @@ figcaption,
   gap: 18px 28px;
   margin-top: 28px;
 }
-.hero-study {
-  padding-top: 28px;
-  min-width: 0;
-}
 .hero-index {
   display: flex;
   justify-content: space-between;
@@ -312,16 +310,21 @@ figcaption,
   border-block: 1px solid var(--line);
   color: var(--muted);
 }
-.hero-index i {
-  display: inline-block;
-  width: 6px;
-  height: 6px;
-  background: var(--accent);
-  margin-right: 8px;
-  border-radius: 50%;
-}
 .hero-index a {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
   color: var(--ink);
+}
+.hero-index a:hover {
+  color: var(--accent);
+}
+.selected-work .section-intro {
+  margin-top: 0;
+}
+.selected-work > .text-link,
+.solver-study > .text-link {
+  margin-top: 20px;
 }
 
 /* Let the implementation carry the visual weight. */
@@ -403,27 +406,6 @@ figcaption,
   margin-top: 20px;
 }
 
-.study-reference {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 6px;
-  padding: 17px 0 0;
-  font: 14px/1.5 var(--font-mono);
-}
-.study-reference > span:first-child {
-  color: var(--muted);
-}
-.study-reference strong {
-  grid-row: 2;
-  font: 22px var(--font-sans);
-  letter-spacing: -0.02em;
-}
-.study-reference > span:last-child {
-  grid-column: 2;
-  grid-row: 1 / 3;
-  align-self: center;
-  font-size: 24px;
-}
 .portfolio-section {
   padding: 100px 0;
   border-bottom: 1px solid var(--line);
@@ -436,7 +418,6 @@ figcaption,
   margin: 42px 0 56px;
 }
 .section-intro h2,
-.method-lead h2,
 .beyond-grid h2,
 .about-story h2 {
   font-size: clamp(42px, 5.35vw, 82px);
@@ -587,64 +568,6 @@ figcaption,
 .project-link:hover .project-arrow {
   transform: translate(3px, -3px);
 }
-.index-link {
-  display: grid;
-  grid-template-columns: 1fr 1.6fr 1.2fr auto;
-  align-items: baseline;
-  gap: 24px;
-  padding: 26px 0;
-  font: 14px/1.5 var(--font-mono);
-  color: var(--muted);
-}
-.index-link strong {
-  color: var(--ink);
-  font: 20px var(--font-sans);
-}
-.index-link > span:last-child {
-  font-size: 22px;
-  color: var(--ink);
-}
-.index-link:hover strong {
-  color: var(--accent);
-}
-.method-grid {
-  display: grid;
-  grid-template-columns: 1.05fr 0.95fr;
-  gap: 100px;
-  margin-top: 52px;
-}
-.method-lead p {
-  max-width: 42ch;
-  color: var(--muted);
-  margin: 28px 0;
-}
-.method-list {
-  padding: 0;
-  margin: 0;
-  list-style: none;
-}
-.method-list li {
-  display: grid;
-  grid-template-columns: 36px 1fr;
-  gap: 24px;
-  padding: 26px 0;
-  border-top: 1px solid var(--line);
-}
-.method-list li > span {
-  font: 13px/1.5 var(--font-mono);
-  color: var(--muted);
-  padding-top: 6px;
-}
-.method-list h3 {
-  font-size: 28px;
-  line-height: 1.1;
-  letter-spacing: -0.025em;
-}
-.method-list p {
-  color: var(--muted);
-  font-size: 16px;
-  margin-top: 14px;
-}
 .beyond-grid {
   display: grid;
   grid-template-columns: 1.1fr 0.9fr;
@@ -743,27 +666,24 @@ figcaption,
   font-size: 13px;
 }
 .theme-toggle {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 9px;
-  position: fixed;
-  right: 18px;
-  bottom: 18px;
-  z-index: 25;
-  min-height: 42px;
-  padding: 8px 14px;
-  border: 1px solid var(--line);
-  border-radius: 2px;
-  background: var(--bg);
-  color: var(--ink);
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 0 0 18px;
+  border: 0;
+  border-left: 1px solid var(--line);
+  background: transparent;
+  color: var(--muted);
   font: 13px/1.5 var(--font-mono);
-  box-shadow: 0 3px 18px #0001;
 }
 .theme-icon {
   font: 20px/1 var(--font-sans);
 }
+.theme-toggle[aria-pressed="true"] .theme-icon,
 .theme-toggle:hover {
-  border-color: var(--accent);
+  color: var(--accent);
 }
 
 /* Interior pages use the same type and ruled rows as the homepage. */
@@ -1974,7 +1894,6 @@ figcaption,
     gap: 20px;
   }
   .section-intro,
-  .method-grid,
   .beyond-grid,
   .intro-bottom {
     gap: 50px;
@@ -1985,12 +1904,6 @@ figcaption,
   }
   .filter-bar {
     flex-wrap: wrap;
-  }
-  .index-link {
-    grid-template-columns: 1fr 1.8fr auto;
-  }
-  .index-link > span:nth-last-child(2) {
-    display: none;
   }
   .systems-dashboard {
     grid-template-columns: minmax(280px, 0.85fr) minmax(0, 1fr);
@@ -2028,10 +1941,13 @@ figcaption,
   }
 }
 @media (max-width: 900px) {
+  .site-header nav {
+    gap: 18px;
+  }
   .hero-main {
     grid-template-columns: 1fr 0.9fr;
     gap: 28px;
-    align-items: end;
+    align-items: center;
   }
   .hero-identity h1 {
     font-size: 14vw;
@@ -2041,9 +1957,6 @@ figcaption,
   }
   .hero-description {
     font-size: 24px;
-  }
-  .hero-kicker > span:last-child {
-    display: none;
   }
   .hero-index {
     font-size: 13px;
@@ -2069,15 +1982,8 @@ figcaption,
   .section-intro p {
     font-size: 15px;
   }
-  .method-grid,
   .beyond-grid {
     gap: 40px;
-  }
-  .method-list h3 {
-    font-size: 24px;
-  }
-  .method-list li {
-    gap: 12px;
   }
   .page-intro h1 {
     margin-top: 50px;
@@ -2154,9 +2060,9 @@ figcaption,
   }
   .site-header {
     display: grid;
-    grid-template-columns: 1fr;
-    gap: 8px;
-    padding: 12px 20px 0;
+    grid-template-columns: 1fr auto;
+    gap: 0 8px;
+    padding: 4px 20px 0;
     min-height: 0;
   }
   .brand {
@@ -2169,6 +2075,8 @@ figcaption,
     font-size: 19px;
   }
   .site-header nav {
+    grid-row: 2;
+    grid-column: 1 / -1;
     justify-content: space-between;
     gap: 6px;
     font-size: 13px;
@@ -2218,22 +2126,10 @@ figcaption,
     font-size: 13px;
     gap: 14px;
   }
-  .hero-study {
-    padding-top: 0;
-  }
-
-  .study-reference strong {
-    font-size: 21px;
-  }
   .hero-index {
-    display: grid;
     gap: 12px;
-    padding-block: 18px;
+    padding-block: 16px;
     font-size: 13px;
-  }
-  .hero-index > a {
-    display: flex;
-    justify-content: space-between;
   }
   .section-heading {
     gap: 20px;
@@ -2248,7 +2144,6 @@ figcaption,
     gap: 22px;
   }
   .section-intro h2,
-  .method-lead h2,
   .beyond-grid h2,
   .about-story h2 {
     font-size: 46px;
@@ -2291,30 +2186,9 @@ figcaption,
   .link-label {
     margin-left: auto;
   }
-  .index-link {
-    grid-template-columns: 1fr auto;
-    gap: 12px;
-  }
-  .index-link > span:first-child {
-    grid-column: 1 / -1;
-  }
-  .index-link strong {
-    font-size: 18px;
-  }
-  .method-grid,
   .beyond-grid {
     grid-template-columns: 1fr;
     gap: 36px;
-  }
-  .method-grid {
-    margin-top: 32px;
-  }
-  .method-list li {
-    gap: 18px;
-    padding-block: 24px;
-  }
-  .method-lead p {
-    margin-block: 24px 18px;
   }
   .beyond-section .beyond-grid {
     margin-top: 32px;
@@ -2366,8 +2240,10 @@ figcaption,
     grid-column: 1 / -1;
   }
   .theme-toggle {
-    right: 12px;
-    bottom: 12px;
+    grid-row: 1;
+    grid-column: 2;
+    padding-left: 8px;
+    border-left: 0;
   }
   .page-intro {
     padding-top: 24px;

@@ -26,85 +26,83 @@ const cells = Array.from(final.field, (value, index) => ({
 ---
 
 <div class="advection-view" data-advection-view>
-  <div class="physical-stage">
+  <div class="advection-cell">
     <CellFluxView initial={frames[0]} />
-    <div class="advection-global" data-global-view>
-      <div class="advection-view-heading">
-        <h3>what that does across the grid</h3><span>64 × 64 cell averages / φ</span>
+    <div class="implementation-step" aria-live="off">
+      <div>
+        <span class="step-number" data-step-number>06 / 06</span><h3
+          data-step-title
+        >
+          {implementationSteps[5].title}
+        </h3><span class="step-value" data-step-value
+          >φ new ≈ {scalarLabel(stepValue("new_fab", budget))}</span
+        >
       </div>
-      <div
-        class="advection-body"
-        role="img"
-        aria-label="A computed Gaussian scalar profile transported right and upward on a 64 by 64 periodic grid, with numerical diffusion from first-order upwind."
-      >
-        <div class="advection-domain">
-          <div class="advection-field">
-            <svg
-              viewBox={`0 0 ${n} ${n}`}
-              aria-hidden="true"
-              class="advection-static"
-              shape-rendering="crispEdges"
-            >
-              {
-                cells.map((cell) => (
-                  <rect
-                    x={cell.x}
-                    y={cell.y}
-                    width="1"
-                    height="1"
-                    fill="currentColor"
-                    fill-opacity={cell.value.toFixed(4)}
-                  />
-                ))
-              }
-            </svg>
-          </div>
-          <span class="axis-y">y</span><span class="axis-origin">0</span><span
-            class="axis-end">1 / x</span
-          >
-        </div>
-        <div class="advection-description">
-          <span class="eyebrow">prescribed velocity</span>
-          <strong>u = ({referenceCase.velocity.join(", ")})</strong>
-          <svg
-            class="advection-direction"
-            viewBox="0 0 100 50"
-            aria-hidden="true"
-            ><path
-              d="M4 45 L84 5 M74 5 L84 5 L78 14"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1"></path></svg
-          >
-          <p>i apply the same balance to every cell at each timestep.</p>
-          <span class="eyebrow">reference time</span>
-          <span class="advection-time"
-            >t = <span data-reference-time>{final.time.toFixed(3)}</span></span
-          >
-        </div>
-      </div>
+      <p id="implementation-step-description" data-step-description>
+        {implementationSteps[5].explanation}
+      </p>
     </div>
   </div>
-  <div class="implementation-step" aria-live="off">
-    <div>
-      <span class="step-number" data-step-number>06 / 06</span><h3
-        data-step-title
-      >
-        {implementationSteps[5].title}
-      </h3><span class="step-value" data-step-value
-        >φ new ≈ {scalarLabel(stepValue("new_fab", budget))}</span
-      >
+  <div class="advection-global" data-global-view>
+    <div class="advection-view-heading">
+      <h3>what that does across the grid</h3><span>64 × 64 cell averages / φ</span>
     </div>
-    <p id="implementation-step-description" data-step-description>
-      {implementationSteps[5].explanation}
+    <div
+      class="advection-body"
+      role="img"
+      aria-label="A computed Gaussian scalar profile transported right and upward on a 64 by 64 periodic grid, with numerical diffusion from first-order upwind."
+    >
+      <div class="advection-domain">
+        <div class="advection-field">
+          <svg
+            viewBox={`0 0 ${n} ${n}`}
+            aria-hidden="true"
+            class="advection-static"
+            shape-rendering="crispEdges"
+          >
+            {
+              cells.map((cell) => (
+                <rect
+                  x={cell.x}
+                  y={cell.y}
+                  width="1"
+                  height="1"
+                  fill="currentColor"
+                  fill-opacity={cell.value.toFixed(4)}
+                />
+              ))
+            }
+          </svg>
+        </div>
+        <span class="axis-y">y</span><span class="axis-origin">0</span><span
+          class="axis-end">1 / x</span
+        >
+      </div>
+      <div class="advection-description">
+        <span class="eyebrow">prescribed velocity</span>
+        <strong>u = ({referenceCase.velocity.join(", ")})</strong>
+        <svg
+          class="advection-direction"
+          viewBox="0 0 100 50"
+          aria-hidden="true"
+          ><path
+            d="M4 45 L84 5 M74 5 L84 5 L78 14"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1"></path></svg
+        >
+        <p>i apply the same balance to every cell at each timestep.</p>
+        <span class="eyebrow">reference time</span>
+        <span class="advection-time"
+          >t = <span data-reference-time>{final.time.toFixed(3)}</span></span
+        >
+      </div>
+    </div>
+    <div class="advection-case">
+      <span>periodic boundaries / CFL {referenceCase.cfl}</span>
+    </div>
+    <p class="advection-provenance">
+      reference calculation · Gaussian initial field
     </p>
   </div>
-  <div class="advection-case">
-    <span>{n}² / periodic / cfl {referenceCase.cfl}</span><span
-      >u = ({referenceCase.velocity.join(", ")})</span
-    >
-  </div>
-  <p class="advection-provenance">
-    browser reference calculation · Gaussian initial field
-  </p>
 </div>

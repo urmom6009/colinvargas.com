@@ -4,7 +4,7 @@ astro portfolio site for `colinvargas.com`.
 
 ## site structure
 
-- `/` is the live editorial portfolio homepage.
+- `/` pairs Colin’s research interests with nine temperature fields from his mixing-chamber report. a manual time control selects a reported frame. the project index and inspectable solver follow in normal reading order.
 - `/work` is a filterable project index. `/work/scramjet-analysis-tool`, `/work/compressible-flow-project`, and `/work/winglet-wind-tunnel` are illustrated case studies with methods, results, and limits. `/work/compressible-flow-project` retains the original URL for the incompressible mixing-chamber project. `/work/adaptive-cfd-solver` and `/work/hydrogen-isooctane-equilibrium` cover the solver baseline and combustion equilibrium study.
 - `/work/portfolio-and-technical-logs` describes this site and its repository-aware logging workflow, with a link to the public source.
 - `/notes` is a reading guide to the public project records and open checks. there are no standalone public notes; draft entries are not rendered into pages.
@@ -100,7 +100,7 @@ npm test
 npm run build
 ```
 
-then smoke test `/`, `/work`, `/resume`, `/notes`, the project pages, `/systems`, and a missing route locally. check project filters, all six code-line selections by mouse and keyboard, theme persistence, and mobile layouts. the homepage study should stay in normal flow as the page scrolls. with reduced motion or JavaScript disabled, the code, annotated cell, and final reference field remain readable. `npm run preview` serves the built output for a production smoke test.
+then smoke test `/`, `/work`, `/resume`, `/notes`, the project pages, `/systems`, and a missing route locally. check the nine sample times against the original figure, project filters, all six code-line selections by mouse and keyboard, theme persistence, and mobile layouts. the homepage study should stay in normal flow as the page scrolls. with reduced motion or JavaScript disabled, the code, annotated cell, and final reference field remain readable. `npm run preview` serves the built output for a production smoke test.
 
 project data lives in `src/data/portfolio.ts`. the homepage, work index, project pages, and technical profile share these records so titles, tooling, and publication status stay consistent. method and available-material summaries replace decorative project icons. add verified artifacts before promoting project results or planned capabilities to demonstrated claims.
 
@@ -136,7 +136,7 @@ the audience is aerospace and engineering teams. lead with a clear identity and 
 2. let actual implementation and verified artifacts carry the visual weight. show the source file and revision for excerpts; give reference calculations their case parameters and provenance. avoid decorative flow diagrams or presenting a reference case as a thesis result.
 3. keep selected work ahead of supporting interests and make publication status easy to find.
 4. give each project its question, current scope, approach, and available evidence. distinguish future methods from current capabilities.
-5. keep content readable without javascript or required animation. the homepage has one short, reversible pinned study; reduced motion and short viewports show both complete views in ordinary flow.
+5. keep content readable without javascript or required animation. the thermal sequence opens on a labeled report frame; the source, cell, and final solver field remain in ordinary flow at all widths.
 6. check desktop and mobile layouts in both themes, with reduced motion and keyboard access. contact and project links should remain easy to find.
 
 ## notes and logs

@@ -44,6 +44,7 @@ const { detailed = false, animate = false } = Astro.props;
         <pre
           tabindex="0"
           aria-label="C++ excerpt from the actual upwind update"><code>{animate ? solverImplementation.code.split("\n").map((line, index, lines) => <><span data-code-line={index} data-code-key={codeStep(line)}>{line}</span>{index < lines.length - 1 ? "\n" : ""}</>) : solverImplementation.code}</code></pre>
+        {animate && <span class="implementation-scroll-hint">pick a line to inspect its contribution</span>}
       </div>
       {animate && <AdvectionView />}
     </div>
@@ -64,13 +65,6 @@ const { detailed = false, animate = false } = Astro.props;
         }</span
       >
       {detailed && <span class="source-path">{solverImplementation.file}</span>}
-      {
-        animate && (
-          <span class="implementation-scroll-hint">
-            pick a line to see what it does
-          </span>
-        )
-      }
     </figcaption>
     {
       detailed && (

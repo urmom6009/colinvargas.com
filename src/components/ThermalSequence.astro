@@ -1,0 +1,192 @@
+---
+// Pixel bounds of the nine fields in the original MATLAB report figure, in time order.
+const image = "/images/projects/mixing-temperature-sequence.jpg";
+const views = [93, 345, 597].flatMap((y) =>
+  [146, 460, 775].map((x) => `${x} ${y} 160 120`),
+);
+const firstTime = 1;
+const interval = 0.25;
+const initialTime = 2.5;
+const initialView = views[(initialTime - firstTime) / interval];
+---
+
+<figure class="thermal-figure" data-thermal-sequence>
+  <div class="plot-plate">
+    <div class="plot-heading">
+      <h2>thermal mixing chamber</h2>
+      <span>Re = 100 · Pr = 2</span>
+    </div>
+    <div class="plot" role="img" aria-label="Simulated temperature in a chamber spanning x = 0 to 4 and y = 0 to 3. Black is coolest (0) and white is hottest (3). The upper paddle cools the flow and the lower paddle heats it.">
+      <div class="y-scale" aria-hidden="true"><span>3</span><span>2</span><span>1</span><span>0</span></div>
+      <svg class="field" data-field data-views={JSON.stringify(views)} viewBox={initialView} preserveAspectRatio="none" aria-hidden="true">
+        <image href={image} width="1120" height="840" />
+      </svg>
+      <div class="temperature-scale" aria-hidden="true">
+        <span class="scale-title">T</span>
+        <svg viewBox="325 94 5 119" preserveAspectRatio="none"><image href={image} width="1120" height="840" /></svg>
+        <div><span>3</span><span>2</span><span>1</span><span>0</span></div>
+      </div>
+      <div class="x-scale" aria-hidden="true"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span></div>
+      <span class="x-label" aria-hidden="true">x</span><span class="y-label" aria-hidden="true">y</span>
+    </div>
+    <div class="time-readout">
+      <span>sample time</span>
+      <input type="range" aria-label="Nondimensional sample time" min={firstTime} max="3" step={interval} value={initialTime} hidden />
+      <span class="sample-value">t = <span data-time>{initialTime.toFixed(2)}</span></span>
+    </div>
+  </div>
+  <figcaption>
+    <span>nondimensional temperature · CFD report, fig. 3</span>
+    <a href="/work/compressible-flow-project#case-evidence">see the study <span aria-hidden="true">↗</span></a>
+  </figcaption>
+</figure>
+
+<script>
+  for (const figure of document.querySelectorAll("[data-thermal-sequence]")) {
+    const input = figure.querySelector("input");
+    const field = figure.querySelector<SVGSVGElement>("[data-field]");
+    const time = figure.querySelector("[data-time]");
+    if (!input || !field?.dataset.views || !time) continue;
+
+    const views: string[] = JSON.parse(field.dataset.views);
+    const update = () => {
+      const t = input.valueAsNumber;
+      const index = Math.round((t - Number(input.min)) / Number(input.step));
+      field.setAttribute("viewBox", views[index]);
+      time.textContent = t.toFixed(2);
+    };
+    input.addEventListener("input", update);
+    update();
+    input.hidden = false;
+  }
+</script>
+
+<style>
+  .thermal-figure {
+    min-width: 0;
+    font: 13px/1.45 var(--font-mono);
+  }
+  .plot-plate {
+    --plot-ink: #edf0e5;
+    --plot-muted: #bdc4b7;
+    --plot-rule: #525d52;
+    padding: clamp(16px, 2vw, 30px);
+    color: var(--plot-ink);
+    background: #202923;
+    border: 1px solid var(--plot-rule);
+    color-scheme: dark;
+  }
+  .plot-heading, .time-readout, figcaption {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 8px 16px;
+    flex-wrap: wrap;
+  }
+  .plot-heading {
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--plot-rule);
+  }
+  h2 {
+    font: 400 clamp(23px, 2.1vw, 32px)/1.05 var(--font-sans);
+    letter-spacing: -0.035em;
+  }
+  .plot-heading > span, .plot, .time-readout {
+    color: var(--plot-muted);
+  }
+  .plot {
+    position: relative;
+    display: grid;
+    grid-template-columns: 14px minmax(0, 1fr) 24px;
+    grid-template-rows: auto auto;
+    gap: 6px 9px;
+    padding: 22px 0 18px;
+    font-variant-numeric: tabular-nums;
+  }
+  .field {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4/3;
+    overflow: hidden;
+  }
+  .y-scale, .temperature-scale > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    line-height: 1;
+  }
+  .y-scale {
+    align-items: end;
+  }
+  .temperature-scale {
+    display: flex;
+    position: relative;
+    justify-content: space-between;
+  }
+  .temperature-scale > svg {
+    height: 100%;
+    width: 8px;
+    position: absolute;
+    overflow: hidden;
+  }
+  .temperature-scale > div {
+    margin-left: auto;
+  }
+  .scale-title, .y-label {
+    position: absolute;
+    line-height: 1;
+  }
+  .scale-title {
+    top: -17px;
+    left: 0;
+  }
+  .y-label {
+    top: 4px;
+    left: 5px;
+  }
+  .x-scale {
+    display: flex;
+    grid-column: 2;
+    justify-content: space-between;
+  }
+  .x-label {
+    align-self: start;
+  }
+  .time-readout {
+    align-items: center;
+    border-top: 1px solid var(--plot-rule);
+    padding-top: 10px;
+  }
+  .time-readout input {
+    flex: 1;
+    min-width: 54px;
+    height: 32px;
+    margin: 0;
+    accent-color: #cedac8;
+    cursor: pointer;
+  }
+  .time-readout input:focus-visible {
+    outline: 2px solid #cedac8;
+    outline-offset: 2px;
+  }
+  .sample-value {
+    color: var(--plot-ink);
+    font-variant-numeric: tabular-nums;
+  }
+  figcaption {
+    color: var(--muted);
+    margin-top: 10px;
+  }
+  figcaption a {
+    color: var(--ink);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  figcaption a:hover {
+    color: var(--accent);
+  }
+  @media (max-width: 380px) {
+    .plot-plate { padding: 14px; }
+    .time-readout { gap: 8px; }
+  }
+</style>

@@ -37,7 +37,7 @@ The aerospace layer supplies the content: equations, solver states, verification
 
 ## page patterns
 
-- Homepage sections are editorial plates: one large idea, one technical surface, one clear reason to exist. selected work follows the identity section, before approach and supporting interests.
+- Homepage sections are editorial plates: one large idea, one technical surface, one clear reason to exist. pair the introduction with the report’s thermal sequence. follow it with a compact project index, the inspectable solver, and supporting interests.
 - Secondary pages use `page-intro`, readable overviews, and ruled action/index rows. retain `page-scene` only for the existing systems readouts; all content stays in normal document flow.
 - Systems pages may be denser, but they should still use restrained labels, clear boundaries, and public-safe summaries.
 - New routes should start with the record being exposed: project, note, system, or contact path. Do not start with generic portfolio filler.
@@ -47,7 +47,7 @@ The aerospace layer supplies the content: equations, solver states, verification
 - Project titles, tools, scope, and status come from `src/data/portfolio.ts`. do not duplicate them in route-local arrays.
 - Lead with actual implementation or verified artifacts. the solver feature quotes a pinned source revision, with the file and revision recorded; statements remain unchanged apart from leading indentation.
 - Use real figures with units, setup, and provenance when numerical results become available. do not substitute stock geometry, decorative flow lines, or a pretend refinement control for project evidence.
-- Planned methods, unpublished reports, and draft logs are not completed public evidence. current project pages are overviews, with the publication status stated explicitly.
+- State the publication status on each project. use illustrated case studies for reviewed figures and results, and overviews for work in progress. keep draft logs and unpublished reports private.
 - Project rows present the method and material available to inspect. project filters use native buttons with pressed states and an announced count.
 - Without javascript, all project rows and implementation excerpts remain visible; enhancement-only controls remain hidden.
 - The homepage can connect the source to a computed physical representation. identify the calculation, grid, prescribed velocity, boundary conditions, and time. distinguish a reference case from a saved thesis result; never use an invented shape as numerical output.
