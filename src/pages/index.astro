@@ -28,9 +28,17 @@ import "../styles/home.css";
         </div>
       </div>
       <ThermalSequence />
-      <div class="home-hero-foot">
-        <p><span class="research-dot" aria-hidden="true"></span> looking for a fall 2027 PhD group</p>
-        <a href="#solver-study">inside my solver <span aria-hidden="true">↓</span></a>
+      <div class="home-research">
+        <div class="home-hero-foot">
+          <p><span class="research-dot" aria-hidden="true"></span> looking for a fall 2027 PhD group</p>
+          <a href={`mailto:${profile.email}`}>get in touch <span aria-hidden="true">↗</span></a>
+        </div>
+        <section class="home-solver" id="solver-study" aria-label="inside my finite-volume solver">
+          <ImplementationExcerpt animate />
+          <a class="text-link" href="/work/adaptive-cfd-solver#implementation">
+            more about my solver <span aria-hidden="true">↗</span>
+          </a>
+        </section>
       </div>
     </section>
 
@@ -40,13 +48,6 @@ import "../styles/home.css";
         <a class="text-link" href="/work">all projects <span aria-hidden="true">↗</span></a>
       </div>
       <ProjectList featured />
-    </section>
-
-    <section class="home-section home-solver" id="solver-study" aria-label="inside my finite-volume solver">
-      <ImplementationExcerpt animate />
-      <a class="text-link" href="/work/adaptive-cfd-solver#implementation">
-        more about my solver <span aria-hidden="true">↗</span>
-      </a>
     </section>
 
     <section class="home-section home-extras" aria-labelledby="beyond-title">

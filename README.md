@@ -4,7 +4,7 @@ astro portfolio site for `colinvargas.com`.
 
 ## site structure
 
-- `/` pairs Colin’s research interests with the full mixing-chamber simulation, from t = 0 to 5. the muted temperature movie plays automatically on a loop, with controls to pause or scrub. three featured projects and the inspectable solver follow in normal reading order.
+- `/` pairs Colin’s research interests with the full mixing-chamber simulation, from t = 0 to 5. the muted temperature movie plays automatically on a loop, with controls to pause or scrub. the PhD callout and inspectable solver share a panel above the other featured projects.
 - `/work` is a filterable project index with shareable links such as `/work?category=propulsion`. `/work/scramjet-analysis-tool`, `/work/compressible-flow-project`, and `/work/winglet-wind-tunnel` are illustrated case studies with methods, results, and limits. `/work/compressible-flow-project` retains the original URL for the incompressible mixing-chamber project. `/work/adaptive-cfd-solver` and `/work/hydrogen-isooctane-equilibrium` cover the solver baseline and combustion equilibrium study.
 - `/work/portfolio-and-technical-logs` describes this site and its repository-aware logging workflow, with a link to the public source.
 - `/notes` is a reading guide to the public project records and open checks. there are no standalone public notes; draft entries are not rendered into pages.

@@ -1,6 +1,7 @@
 # Changelog
 
 ## Unreleased
+- Moved the solver below the PhD callout and ahead of the other featured work. Marked the inspected cell in the initial field. Updated the systems dashboard and detail pages to render public service, deployment, and storage readings from the same snapshot. Verified the layouts and rendering with the public API contract.
 - Refreshed the portfolio around the original simulation and solver. Added featured project cards, shareable project filters, case-study section links and data tables, and a start/final solver comparison. Verified mobile and desktop layouts, keyboard interaction, and static reading paths.
 - Simplified the homepage solver cell to show one selected quantity and its location. The four face fluxes and update equation are available in an expandable calculation. Verified all six selections, keyboard access, and the static view.
 - Autoplay and loop the muted homepage temperature movie with pause and frame seeking. Remove the velocity overlay and its data. Verify playback across a loop boundary.

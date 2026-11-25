@@ -36,19 +36,25 @@
 }
 .home-actions .button-link,
 .home-actions .text-link,
-.home-section .text-link {
+.home-section .text-link,
+.home-solver .text-link {
   gap: 14px;
   font-size: 13px;
 }
-.home-hero-foot {
+.home-research {
   grid-column: 1 / -1;
+  min-width: 0;
+  border-block: 1px solid var(--line);
+}
+.home-hero-foot {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: 1px 16px;
-  padding: 4px 0;
-  border-block: 1px solid var(--line);
+  padding: 5px clamp(16px, 3vw, 32px);
+  border-bottom: 1px solid var(--line);
+  background: color-mix(in srgb, var(--surface) 90%, var(--accent));
 }
 .home-hero-foot p {
   display: flex;
@@ -91,6 +97,13 @@
   font-size: clamp(36px, 5.3vw, 72px);
   letter-spacing: -0.046em;
   line-height: 0.96;
+}
+.home-solver {
+  padding: clamp(20px, 3vw, 32px);
+  background: var(--panel);
+}
+.home-solver .implementation-summary {
+  max-width: 58ch;
 }
 .home-solver > .text-link {
   margin-top: 16px;

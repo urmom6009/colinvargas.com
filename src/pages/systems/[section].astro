@@ -11,17 +11,13 @@ export function getStaticPaths() {
 }
 
 const page = Astro.props;
-const fallbackJson = JSON.stringify({
-  title: page.title,
-  sourceKey: page.sourceKey,
-}).replace(/</g, "\\u003c");
 ---
 
 <BaseLayout
   title={`${page.title} systems - colin vargas`}
   description={page.summary}
 >
-  <main id="main-content" class="systems-page systems-detail-page" tabindex="-1">
+  <main id="main-content" class="systems-page systems-detail-page" data-systems-section={page.section} tabindex="-1">
     <p class="telemetry-notice" data-telemetry-notice role="status">
       i can’t get a status reading right now.
     </p>
@@ -89,145 +85,7 @@ const fallbackJson = JSON.stringify({
     </section>
   </main>
 
-  <script
-    is:inline
-    id="systems-detail-fallback"
-    type="application/json"
-    set:html={fallbackJson}
-  />
-  <script is:inline>
-    (() => {
-      const refreshMs = 60_000;
-      const staleAfterMs = 15 * 60_000;
-      const section = JSON.parse(
-        document.getElementById("systems-detail-fallback")?.textContent || "{}",
-      );
-      const notice = document.querySelector("[data-telemetry-notice]");
-      const cardNode = document.querySelector("[data-detail-card]");
-      const panel = document.querySelector("[data-detail-live-panel]");
-      const list = document.querySelector("[data-detail-live]");
-      const plain = (value, backup = "") =>
-        typeof value === "string" || typeof value === "number"
-          ? String(value).trim()
-          : backup;
-      const present = (value) =>
-        Boolean(plain(value)) &&
-        !["unavailable", "unknown", "—", "null"].includes(plain(value).toLowerCase());
-      const metric = (value) => {
-        if (typeof value !== "number" && (typeof value !== "string" || !value.trim())) return null;
-        const number = Number(value);
-        return Number.isFinite(number) && number >= 0 && number <= 100 ? number : null;
-      };
-      const formatGenerated = (value) => {
-        const date = new Date(value);
-        if (!value || Number.isNaN(date.getTime())) return "time unreported";
-        return new Intl.DateTimeFormat("en", {
-          month: "short",
-          day: "numeric",
-          year: "numeric",
-          hour: "2-digit",
-          minute: "2-digit",
-          timeZoneName: "short",
-        }).format(date).toLowerCase();
-      };
-      const snapshotState = (value) => {
-        if (!value) return "unreported";
-        const time = new Date(value).getTime();
-        if (Number.isNaN(time)) return "unreported";
-        const age = Date.now() - time;
-        if (age > staleAfterMs) return "historical";
-        if (age < -staleAfterMs) return "future";
-        return "recent";
-      };
-      const renderUnavailable = (message) => {
-        if (notice) {
-          notice.hidden = false;
-          notice.textContent = message ||
-            "i can’t get a status reading right now.";
-        }
-        if (cardNode) cardNode.hidden = true;
-        if (panel) panel.hidden = true;
-      };
-      const render = (incoming) => {
-        const data = incoming && typeof incoming === "object" && !Array.isArray(incoming)
-          ? incoming
-          : {};
-        const cards = Array.isArray(data.cards) ? data.cards : [];
-        const radar = Array.isArray(data.radar) ? data.radar : [];
-        const card = cards.find((item) => plain(item?.label).toLowerCase().includes(plain(section.title).toLowerCase()));
-        const signal = radar.find((item) => plain(item?.label).toLowerCase() === plain(section.sourceKey).toLowerCase());
-        const score = metric(signal?.value);
-        const value = present(card?.value) ? plain(card.value) : null;
-        if (value === null && score === null) {
-          renderUnavailable(
-            `the API answered without a reading for ${plain(section.title)}.`,
-          );
-          return;
-        }
-        const reported = formatGenerated(data.generated_at);
-        const state = snapshotState(data.generated_at);
-        if (notice) {
-          notice.hidden = state === "recent";
-          notice.textContent = state === "historical"
-            ? "this reading is over 15 minutes old. check the timestamp before relying on it."
-            : state === "future"
-              ? "the feed time is ahead of your browser’s clock, so i can’t tell how fresh this reading is."
-              : "the API sent this reading without a timestamp.";
-        }
-        if (cardNode) cardNode.hidden = false;
-        if (panel) panel.hidden = false;
-        const label = document.querySelector("[data-detail-label]");
-        if (label) label.textContent = state === "historical" ? "older reading" : "last reading";
-        const metricNode = document.querySelector("[data-detail-metric]");
-        if (metricNode) metricNode.textContent = value || `${score}%`;
-        const detail = present(card?.detail) ? plain(card.detail) : "";
-        const copy = document.querySelector("[data-detail-copy]");
-        if (copy) {
-          copy.hidden = !detail;
-          copy.textContent = detail;
-        }
-        const updated = document.querySelector("[data-detail-updated]");
-        if (updated) {
-          updated.textContent = reported;
-          if (reported === "time unreported") updated.removeAttribute("datetime");
-          else updated.setAttribute("datetime", new Date(data.generated_at).toISOString());
-        }
-        if (!list) return;
-        const fields = [];
-        if (value) fields.push(["status", value]);
-        if (detail) fields.push(["detail", detail]);
-        if (score !== null) fields.push(["signal score", `${score}%`]);
-        list.replaceChildren(...fields.map(([label, reading]) => {
-          const row = document.createElement("div");
-          const key = document.createElement("span");
-          const text = document.createElement("strong");
-          key.textContent = label;
-          text.textContent = reading;
-          row.append(key, text);
-          return row;
-        }));
-      };
-      const fetchLive = async () => {
-        const controller = new AbortController();
-        const timeout = window.setTimeout(() => controller.abort(), 8_000);
-        try {
-          const response = await fetch("/systems/api/public", {
-            headers: { accept: "application/json" },
-            cache: "no-store",
-            signal: controller.signal,
-          });
-          if (!response.ok) throw new Error(String(response.status));
-          const data = await response.json();
-          render(data);
-        } catch {
-          renderUnavailable();
-        } finally {
-          window.clearTimeout(timeout);
-        }
-      };
-      renderUnavailable();
-      fetchLive();
-      window.setInterval(fetchLive, refreshMs);
-    })();
+  <script>
+    import "../../scripts/systemsDetail.js";
   </script>
 </BaseLayout>

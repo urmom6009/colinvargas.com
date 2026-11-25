@@ -37,7 +37,7 @@ The aerospace layer supplies the content: equations, solver states, verification
 
 ## page patterns
 
-- Pair the homepage introduction with the looping mixing-chamber temperature movie. Follow it with three featured projects, the inspectable solver, and supporting interests.
+- Pair the homepage introduction with the looping mixing-chamber temperature movie. Keep the PhD callout and inspectable solver together, followed by the other featured projects and supporting interests.
 - Secondary pages use `page-intro`, readable overviews, and ruled action/index rows. retain `page-scene` only for the existing systems readouts; all content stays in normal document flow.
 - Systems pages may be denser, but they should still use restrained labels, clear boundaries, and public-safe summaries.
 - New routes should start with the record being exposed: project, note, system, or contact path. Do not start with generic portfolio filler.

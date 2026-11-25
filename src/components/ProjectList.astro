@@ -5,12 +5,14 @@ interface Props {
   featured?: boolean;
 }
 const { featured = false } = Astro.props;
-const entries: readonly Project[] = featured ? projects.slice(0, 3) : projects;
+const entries: readonly Project[] = featured
+  ? projects.filter(({ slug }) => slug === "hydrogen-isooctane-equilibrium" || slug === "compressible-flow-project")
+  : projects;
 const Heading = featured ? "h3" : "h2";
 const solverLine = solverImplementation.code.split("\n").at(-1);
 ---
 
-<div class="project-list" id="project-list">
+<div class:list={["project-list", { "project-list-featured": featured }]} id="project-list">
   {
     entries.map((project) => (
       <article class="project-row" data-category={project.category}>
@@ -54,6 +56,9 @@ const solverLine = solverImplementation.code.split("\n").at(-1);
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 16px;
+  }
+  .project-list-featured {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   .project-row {
     display: flex;

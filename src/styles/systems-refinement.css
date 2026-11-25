@@ -306,3 +306,35 @@
     grid-template-columns: 1fr;
   }
 }
+
+.systems-page [data-detail-metric],
+.systems-index-row > strong,
+.systems-detail-live-list div > *,
+.systems-service-row > *,
+.systems-timeline article > *,
+.systems-storage-list article > * {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.systems-health-reasons {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
+  gap: 16px 24px;
+}
+.systems-health-reasons > div {
+  border-top: 1px solid var(--line);
+  padding-block: 12px;
+  overflow-wrap: anywhere;
+}
+.systems-health-reasons dt {
+  font: 14px/1.4 var(--font-mono);
+  color: var(--muted);
+}
+.systems-health-reasons dd {
+  margin: 4px 0 0;
+}
+.systems-health-reasons p {
+  color: var(--muted);
+  font-size: 14px;
+}

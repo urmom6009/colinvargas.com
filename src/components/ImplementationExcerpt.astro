@@ -32,7 +32,7 @@ const { detailed = false, animate = false } = Astro.props;
     <p class="implementation-summary">
       {
         animate
-          ? "here’s what happens to the scalar when i run one finite-volume update."
+          ? "i’m building a single-grid AMReX solver. this is how one update accounts for what flows into and out of a cell."
           : "i use first-order upwind fluxes to work out what enters and leaves each cell."
       }
     </p>

@@ -1,11 +1,12 @@
 ---
-import { createTransportFrames, referenceCase } from "../lib/advection";
+import { createTransportFrames, referenceCase, referenceCell } from "../lib/advection";
 import CellFluxView from "./CellFluxView.astro";
 
 const frames = createTransportFrames();
 const initial = frames[0];
 const final = frames[frames.length - 1];
 const n = referenceCase.resolution;
+const cellPlotY = n - 1 - referenceCell.j;
 const views = [
   {
     key: "start",
@@ -58,6 +59,12 @@ const views = [
               {Array.from(shades, ([shade, cells]) => (
                 <path fill="currentColor" fill-opacity={shade / 255} d={cells.join("")} />
               ))}
+              {key === "start" && (
+                <g class="inspected-field-cell" aria-hidden="true">
+                  <path d={`M${referenceCell.i + 1} ${cellPlotY}l3 -3h3`} />
+                  <rect x={referenceCell.i} y={cellPlotY} width="1" height="1" />
+                </g>
+              )}
             </svg>
             <span class="field-y-axis" aria-hidden="true">y ↑</span>
             <div class="field-scale" aria-hidden="true"><span>φ = 1</span><i></i><span>0</span></div>
@@ -65,6 +72,9 @@ const views = [
           </div>
           <div class="field-reading">
             <span>peak φ = {peak}</span>
+            {key === "start" && (
+              <span class="field-cell-key">inspected cell ({referenceCell.i}, {referenceCell.j})</span>
+            )}
             <p>{note}</p>
           </div>
         </div>

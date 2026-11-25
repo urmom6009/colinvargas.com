@@ -295,6 +295,27 @@
 .field-reading > span {
   color: var(--ink);
 }
+.inspected-field-cell {
+  fill: none;
+  stroke: var(--ink);
+  shape-rendering: geometricPrecision;
+}
+.inspected-field-cell > * {
+  vector-effect: non-scaling-stroke;
+  stroke-width: 1.25px;
+}
+.field-cell-key {
+  display: flex;
+  align-items: baseline;
+  gap: 0.45em;
+  margin-top: 4px;
+}
+.field-cell-key::before {
+  content: "";
+  width: 0.55em;
+  height: 0.55em;
+  border: 1.25px solid currentColor;
+}
 .field-reading p {
   color: var(--muted);
   font-size: 15px;
