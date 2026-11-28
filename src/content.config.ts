@@ -9,7 +9,7 @@ const logs = defineCollection({
     date: z.coerce.date(),
     project: z.string(),
     repo: z.string(),
-    repoPath: z.string(),
+    repoPath: z.string().optional(),
     remote: z.string().optional(),
     branch: z.string().optional(),
     commit: z.string().optional(),
