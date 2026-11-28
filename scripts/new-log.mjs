@@ -4,6 +4,7 @@ import { execFileSync, spawnSync } from "node:child_process";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { canonicalRemoteIdentity } from "./log-metadata.mjs";
 
 const scriptPath = fileURLToPath(import.meta.url);
 const portfolioRoot = path.resolve(path.dirname(scriptPath), "..");
@@ -76,14 +77,15 @@ const repoPackage = readJson(path.join(gitRoot, "package.json"));
 const repoName = repoPackage?.name || path.basename(gitRoot);
 const repoTitle = titleCase(repoName.replace(/^@[^/]+\//, ""));
 const remoteUrl = shell("git", ["config", "--get", "remote.origin.url"], gitRoot);
+const remoteIdentity = canonicalRemoteIdentity(remoteUrl);
 const currentBranch = shell("git", ["branch", "--show-current"], gitRoot);
 const currentCommit = shell("git", ["rev-parse", "--short", "HEAD"], gitRoot);
 const date = today();
 const title = titleArgs.length > 0 ? titleArgs.join(" ") : `${repoTitle} Log`;
 const slug = `${date}-${slugify(title) || "log"}`;
-const logsDir = path.join(portfolioRoot, "src", "content", "logs");
-const attachmentDir = path.join(portfolioRoot, "public", "attachments", "logs", slug);
-const notePath = path.join(logsDir, `${slug}.md`);
+const draftDir = path.join(portfolioRoot, ".log-drafts", slug);
+const attachmentDir = path.join(draftDir, "attachments");
+const notePath = path.join(draftDir, `${slug}.md`);
 const publicAttachmentPath = `/attachments/logs/${slug}/`;
 
 if (existsSync(notePath)) {
@@ -91,7 +93,7 @@ if (existsSync(notePath)) {
   process.exit(1);
 }
 
-mkdirSync(logsDir, { recursive: true });
+mkdirSync(draftDir, { recursive: true });
 mkdirSync(attachmentDir, { recursive: true });
 
 const frontmatter = [
@@ -100,8 +102,7 @@ const frontmatter = [
   `date: ${date}`,
   `project: ${yamlString(repoTitle)}`,
   `repo: ${yamlString(repoName)}`,
-  `repoPath: ${yamlString(gitRoot)}`,
-  remoteUrl ? `remote: ${yamlString(remoteUrl)}` : null,
+  remoteIdentity ? `remote: ${yamlString(remoteIdentity)}` : null,
   currentBranch ? `branch: ${yamlString(currentBranch)}` : null,
   currentCommit ? `commit: ${yamlString(currentCommit)}` : null,
   "tags: []",
@@ -124,7 +125,7 @@ const body = [
   "",
   "## Artifacts",
   "",
-  `- Add files to \`${attachmentDir}\` and reference them from \`${publicAttachmentPath}\`.`,
+  `- Add files to \`attachments/\`; after review, move them to \`public${publicAttachmentPath}\` and reference them from \`${publicAttachmentPath}\`.`,
   ""
 ];
 
@@ -132,6 +133,7 @@ writeFileSync(notePath, `${frontmatter.join("\n")}\n${body.join("\n")}`, "utf8")
 
 console.log(`Created ${notePath}`);
 console.log(`Attachments ${attachmentDir}`);
+console.log("Review the draft before moving it into tracked content.");
 
 if (!noEdit) {
   const editor = process.env.VISUAL || process.env.EDITOR || "nvim";

@@ -159,13 +159,15 @@ the log generator can also be called from any git repository:
 portfolio-log "amrex build notes"
 ```
 
-the global wrapper above lives at `/Users/colinvargas/.local/bin/portfolio-log`. the underlying repo script is:
+the global wrapper above lives at `~/.local/bin/portfolio-log`. the underlying repo script is:
 
 ```sh
-node /Users/colinvargas/dev/colinvargas.com/scripts/new-log.mjs "amrex build notes"
+node /path/to/colinvargas.com/scripts/new-log.mjs "amrex build notes"
 ```
 
-it infers the current repository name, remote, branch, and commit; creates a markdown file in `src/content/logs/`; creates a matching attachment folder in `public/attachments/logs/`; prepopulates frontmatter; and opens the file in `$VISUAL`, `$EDITOR`, or `nvim`.
+it infers the current repository name, canonical remote identity, branch, and commit; creates an ignored draft and attachment folder under `.log-drafts/`; prepopulates frontmatter; and opens the file in `$VISUAL`, `$EDITOR`, or `nvim`. credential-bearing and unsupported remotes are omitted, and local repository paths are not recorded.
+
+review the generated markdown and attachments before moving them into `src/content/logs/` and `public/attachments/logs/`. only files explicitly moved out of `.log-drafts/` can enter source control.
 
 use `--no-edit` to create the file without opening an editor.
 

@@ -3,8 +3,7 @@ title: "input.txt integration"
 date: 2026-06-11
 project: "Thesis - advect_noAMR"
 repo: "thesis-updated"
-repoPath: "/Users/colinvargas/Documents/school/Masters/thesis-updated"
-remote: "git@github.com:urmom6009/thesis-updated.git"
+remote: "github.com/urmom6009/thesis-updated"
 branch: "main"
 commit: "b5ef5a5"
 tags: ["thesis", "no-amr", "advection", "nit-picking"]
@@ -25,4 +24,4 @@ attachments: []
 
 ## Artifacts
 
-- Add files to `/Users/colinvargas/dev/colinvargas.com/public/attachments/logs/2026-06-11-input-txt-integration` and reference them from `/attachments/logs/2026-06-11-input-txt-integration/`.
+- Add files to `public/attachments/logs/2026-06-11-input-txt-integration/` and reference them from `/attachments/logs/2026-06-11-input-txt-integration/`.
